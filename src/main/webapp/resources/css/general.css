@@ -1,0 +1,21 @@
+body {
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    color: #524C4C;
+    font-family: Inter, serif;
+    border: 0;
+    height: 100vh !important;
+}
+
+ul, li {
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    font-family: Inter, serif;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    color: #524C4C;
+}

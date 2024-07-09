@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" lang="en">
+<h:head>
+    <title>Login</title>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    </f:facet>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&amp;display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" type="text/css" href="#{resource['css/general.css']}" />
+    <style type="text/css">
+        div.background {
+            background: rgba(253, 248, 232, 0.48);
+            height: 100vh !important;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            margin: 0;
+        }
+
+        img {
+            height: 600px;
+            width: 400px;
+            object-fit: cover;
+        }
+
+        div#combination{
+            display: flex;
+            width: fit-content;
+            border-radius: 15px;
+            height: fit-content;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: white;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            width: 750px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            height: 600px;
+            justify-content: center;
+            justify-items: center;
+            display: flex;
+        }
+
+        .ui-float-label {
+            margin-top: 2em;
+        }
+
+        body .ui-inputfield {
+            width: calc(100% - 25px);
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+            background: #e9e6e6;
+        }
+
+        .ui-button {
+            background: #ADA239 !important;
+            border: 1px solid #ADA239 !important;
+        }
+
+        .ui-button:hover {
+            background-color: #d8d6a3 !important;
+            border: 1px solid #d8d6a3 !important;
+            transform: scale(1.2);
+        }
+
+        div.loginBtn {
+            margin-left: 9.5rem;
+        }
+
+        .header {
+            font-family: "Just Me Again Down Here", cursive;
+            font-weight: 400;
+            font-style: normal;
+            font-size: xxx-large;
+        }
+
+        h3 {
+            color: #524C4C;
+            font-weight: bold;
+            font-family: Inter, serif !important;
+            margin-left: 8rem;
+            font-size: 28px;
+        }
+
+        .ui-inputfield.ui-state-focus {
+            border-color: #ADA239 !important;
+            box-shadow: 0 0 0 .2em #e3ddb2 !important;
+        }
+
+        .below-form {
+            display: inline-flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+
+    </style>
+
+
+</h:head>
+
+<h:body>
+    <div class="background">
+        <div id="combination">
+            <h:graphicImage alt="calc" name="bg-calculator.jpg" library="images" styleClass="loginImage"/>
+            <div class="glass-card">
+
+                <h:form>
+                    <h1 class="header">PCR Management System</h1>
+                    <h3>Login</h3>
+                    <span class="ui-float-label">
+                    <p:inputText id="username" value="#{loginBean.username}"/>
+                    <p:outputLabel for="@previous" value="Username or Email"/>
+                </span>
+
+                    <span class="ui-float-label">
+                    <p:password id="password" value="#{loginBean.password}" toggleable="true" redisplay="true"/>
+                    <p:outputLabel for="password" value="Password"/>
+                </span>
+
+                    <div class="below-form">
+
+                    <div class="fP">
+                        <p>Forgot Password?</p>
+                    </div>
+
+                    <div class="loginBtn">
+                        <p:commandButton value="Login" action="#{loginBean.login()}" update="@form"/>
+                    </div>
+
+                    </div>
+
+
+                    <p:messages globalOnly="true"/>
+                </h:form>
+            </div>
+        </div>
+
+    </div>
+
+</h:body>
+</html>
