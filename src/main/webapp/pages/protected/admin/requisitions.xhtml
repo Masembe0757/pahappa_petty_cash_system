@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+
+    <ui:define name="title">Requisitions</ui:define>
+    <ui:define name="pageTitle">Requisitions</ui:define>
+
+    <ui:define name="content">
+        <h:head>
+            <style>
+                .first-layer-top {
+                    display: flex;
+                    justify-content: space-between;
+                    width: calc(100% - 25px);
+                }
+
+                ul.navList{
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .navListItem{
+                    margin-left: 3rem;
+                }
+
+                div.btn-sect{
+                }
+
+                .second-layer-top {
+                    display: inline-flex;
+                    justify-content: space-between;
+                    width: calc(100% - 25px);
+                    align-items: center;
+                }
+
+                input#searchForm\:search.ui-inputfield {
+                    width: 840px !important;
+                }
+
+
+
+            </style>
+        </h:head>
+
+        <div class="first-layer-top">
+            <div class="navigation">
+                <h:form>
+                    <ul class="navList">
+                        <li class="">
+                            <h:link
+                                    styleClass="listLink">
+                                <h:outputText value="Requisitions"/>
+                            </h:link>
+                        </li>
+                        <li class="navListItem">
+                            <h:link
+                                    styleClass="listLink">
+                                <h:outputText value="Drafts"/>
+                            </h:link>
+                        </li>
+                        <li class="navListItem">
+                            <h:link
+                                    styleClass="listLink">
+                                <h:outputText value="Accountability"/>
+                            </h:link>
+                        </li>
+                    </ul>
+                </h:form>
+
+            </div>
+            <div class="btn-sect">
+
+                <p:commandButton value="Create Requisition" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
+
+                <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
+                    <h:panelGrid>
+                        <!-- Budget Line Dropdown -->
+                        <h:outputLabel for="budgetLine" value="Budget Line:"/>
+                        <p:selectOneMenu id="budgetLine" value="#{registerBean.selectedBudgetLine}" required="true"
+                                         requiredMessage="Budget Line is required!">
+                            <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{registerBean.budgetLines}" var="budgetLine"
+                                           itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
+                        </p:selectOneMenu>
+                        <h:message id="budgetLineMessage" for="budgetLine"/>
+
+                        <!-- Description -->
+                        <h:outputLabel for="description" value="Description:"/>
+                        <p:inputTextarea id="description" value="#{registerBean.description}" rows="4" cols="50"
+                                         required="true" requiredMessage="Description is required!"/>
+                        <h:message id="descriptionMessage" for="description"/>
+
+
+                        <h:outputLabel for="dateNeeded" value="Date needed:"/>
+                        <p:calendar id="dateNeeded" value="#{registerBean.dateOfBirth}" pattern="dd/MM/yyyy"
+                                    required="true" showOn="button" navigator="true"
+                                    styleClass="custom-calendar"
+                                    requiredMessage="Date Needed is required!"/>
+
+
+                        <h:outputLabel for="amount" value="Amount:"/>
+                        <p:inputText id="amount" value="#{registerBean.email}" required="true"
+                                     requiredMessage="Amount is required!">
+                        </p:inputText>
+
+                    </h:panelGrid>
+
+                    <p:commandButton value="Save" action="#{registerBean.register()}"
+                                     oncomplete="PF('dlg').hide();"/>
+                </p:dialog>
+            </div>
+        </div>
+
+        <div class="second-layer-top">
+            <h:form id="searchForm">
+                <p:inputText id="search" value="#{Req.search}"
+                             icon="pi pi-search"
+                             placeholder="Search By name">
+                    <p:ajax event="keyup" update=""
+                            listener="#{Req.searchNames()}"/>
+                </p:inputText>
+
+                <h:outputLabel for="filter" value="Filter By:"/>
+                <p:selectOneMenu id="filter" value="#{Req.gender}">
+
+                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
+                </p:selectOneMenu>
+
+                <p:selectOneMenu value="#{Req.gender}">
+
+                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
+                </p:selectOneMenu>
+            </h:form>
+        </div>
+        
+        <div>
+            <h:form id="requsitionForm">
+                <p:dataTable id="requsitionTable" var="requisition" value="#{requisitionBean.filteredrequisitions}" rowIndexVar="rowIndex"
+                             emptyMessage="No requisitions available">
+                    <p:column headerText="No.">
+                        <h:outputText value="#{rowIndex + 1}"/>
+                    </p:column>
+                    <p:column headerText="User">
+                        <h:outputText value="#{requisition.User}"/>
+                    </p:column>
+                    <p:column headerText="Budget Line">
+                        <h:outputText value="#{requisition.budgetLine}"/>
+                    </p:column>
+                    <p:column headerText="Reference Number">
+                        <h:outputText value="#{requisition.Refernce}"/>
+                    </p:column>
+                    <p:column headerText="Status">
+                        <h:outputText value="#{requisition.status}"/>
+                    </p:column>
+                    <p:column headerText="Paid">
+                        <h:outputText value="#{requisition.paid}"/>
+                    </p:column>
+                    <p:column headerText="Actions">
+
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
