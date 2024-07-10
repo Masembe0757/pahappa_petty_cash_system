@@ -22,7 +22,7 @@ public class AuthFilter implements Filter {
 
         if (session == null || session.getAttribute("currentUser") == null) {
             // User is not logged in, redirect to login page
-            res.sendRedirect(req.getContextPath() + "/pages/login/login.xhtml");
+            res.sendRedirect(req.getContextPath() + "/pages/login.xhtml");
         } else {
             // User is logged in, proceed with the request
             chain.doFilter(request, response);

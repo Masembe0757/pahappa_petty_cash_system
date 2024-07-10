@@ -17,6 +17,14 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/applicationContext.xml</param-value>
   </context-param>
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>org.pahappa.pettycashapp.systems.petty_cash_app.services.AuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/pages/protected/*</url-pattern>
+  </filter-mapping>
 
   <context-param>
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
