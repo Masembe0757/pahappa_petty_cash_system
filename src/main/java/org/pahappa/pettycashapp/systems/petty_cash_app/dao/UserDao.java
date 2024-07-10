@@ -7,6 +7,8 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public class UserDao {
 
@@ -162,6 +164,48 @@ public class UserDao {
 
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(budgetLine);
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void updateUser(User user) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(user);
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void updateRequesition(Requisition requisition) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(requisition);
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void updateBudgetLIne(BudgetLine budgetLine) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             session.saveOrUpdate(budgetLine);
             trs.commit();

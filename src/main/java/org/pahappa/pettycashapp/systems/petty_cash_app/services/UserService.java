@@ -205,6 +205,85 @@ public class UserService {
             userDao.saveBudgetLine(budgetLine);
         }
         return error_message;
+
+    }
+
+    public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email) {
+        String error_message = "";
+            User returnedUser = userDao.returnUser(userName);
+            if (returnedUser!=null) {
+                //update validation
+
+                if( userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
+                    error_message ="First name field has digits or special characters  in it";
+
+                }
+                else if(userService.hasDigits(lastName) || userService.hasSpecialCharacters(lastName)){
+                    error_message ="Last name field has digits or special characters in it";
+
+                }else  if(!userService.isValidEmail(email)){
+                    error_message = "Email provided is of incorrect format";
+                } else if (!password1.equals(password2)) {
+                    error_message = "Passwords do not match";
+                } else {
+                    if (!userService.isValidPassword(password1)) {
+                        error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters";
+                    } else {
+
+                            //Sending email with credentials
+                          //  UserService.getUserService().EmailSender(email, userName, password1,firstName,lastName);
+                            // Encrypting the password with BCrypt
+                            String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
+                            returnedUser.setFirstName(firstName);
+                            returnedUser.setLastName(lastName);
+                            returnedUser.setPassword(encodedPassword);
+                            returnedUser.setEmail(email);
+                            userDao.updateUser(returnedUser);
+
+                    }
+                }
+            }
+            else {
+                error_message = "User not registered in the database";
+            }
+
+        return  error_message;
+    }
+
+    public String updateRequistion(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
+        String error_message = "";
+        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
+        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
+        if(!requisition.getStatus().equals("draft")){
+            error_message ="Requistion can not be edited";
+        } else if (description.length()<50) {
+            error_message="Please provide more description";
+        } else if (amount>budgetLine.getAmountDelegated()) {
+            error_message="Amount specified is greater than amount on budget line";
+        }else {
+            requisition.setAmount(amount);
+            requisition.setDateNeeded(dateNeeded);
+            requisition.setDescription(description);
+            requisition.setBudgetLine(budgetLine);
+            userDao.updateRequesition(requisition);
+        }
+        return error_message;
+    }
+    public String updateBudgetLine(int budgetLineId, int amount,String name, Date startDate,Date endDate,int categoryId){
+        String error_message = "";
+        BudgetLine budgetLine = userDao.returnBudgetLineofId(budgetLineId);
+        if(userService.hasDigits(name)){
+            error_message = "Name can not contain digits";
+        }else {
+            Category category = userDao.getCategoryOfId(categoryId);
+            budgetLine.setName(name);
+            budgetLine.setAmountDelegated(amount);
+            budgetLine.setStartDate(startDate);
+            budgetLine.setEndDate(endDate);
+            budgetLine.setCategory(category);
+            userDao.updateBudgetLIne(budgetLine);
+        }
+        return error_message;
     }
 
 }
