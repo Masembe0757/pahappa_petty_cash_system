@@ -70,7 +70,7 @@ public class LoginBean {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/protected/home/home.xhtml";
+                    
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password", null));
