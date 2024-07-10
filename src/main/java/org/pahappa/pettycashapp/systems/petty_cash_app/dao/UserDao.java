@@ -9,13 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDao {
-    //initialising a singleton
-    private static UserDao userDao = new UserDao();
-    private UserDao(){};
-
-    public static UserDao getUserDao() {
-        return userDao;
-    }
 
 
     public  void saveUser(User user){
@@ -33,12 +26,12 @@ public class UserDao {
     }
 
     public User returnUser(String userName) {
-        User user = null;
+        User user = new User();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from User where user_name = :userName");
+            Query qry = session.createQuery("from User where userName = :userName");
             qry.setParameter("userName", userName);
             user = (User) qry.uniqueResult();
             trs.commit();

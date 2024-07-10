@@ -3,9 +3,25 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
               http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
               version="2.3">
-    <!-- Configuration here
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
-     -->
+
+    <managed-bean>
+        <managed-bean-name>loginBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.LoginBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>DisplyBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.DisplayBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>SaveBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.SaveBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+
 </faces-config>

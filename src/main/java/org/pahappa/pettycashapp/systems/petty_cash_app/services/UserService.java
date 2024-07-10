@@ -11,15 +11,11 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
     @Autowired
-
     UserDao userDao;
+    @Autowired
+    UserService userService;
 
-    //initialising a singleton
-    private static UserService userService = new UserService();
-    private UserService(){};
-    public static UserService getUserService() {
-        return userService;
-    }
+
 
     private  boolean isValidEmail(String email) {
         final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -85,23 +81,23 @@ public class UserService {
         }
         return hasDigits;
     }
-    public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email) {
+    public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email) {
         String error_message= "";
 
-        if(firstName.isEmpty() || UserService.getUserService().hasDigits(firstName) || UserService.getUserService().hasSpecialCharacters(firstName) ){
+        if(firstName.isEmpty() || userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
             error_message = "First name field  has digits or special characters in it";
         }
-        else if(UserService.getUserService().hasDigits(lastName) || UserService.getUserService().hasSpecialCharacters(lastName)){
+        else if(userService.hasDigits(lastName) || userService.hasSpecialCharacters(lastName)){
             error_message = "Last name field has digits or special characters  in it";
-        } else if ( userName.length() < 6 || UserService.getUserService().hasSpecialCharacters(userName) ) {
+        } else if ( userName.length() < 6 || userService.hasSpecialCharacters(userName) ) {
             error_message = "User name field has special characters less than 6 or has special characters";
 
         } else if (Character.isDigit(userName.charAt(0))) {
             error_message = "User name field  can not start with a digit";
 
-        } else if (UserService.getUserService().onlyDigits(userName, userName.length())) {
+        } else if (userService.onlyDigits(userName, userName.length())) {
             error_message = "User name field can not contain only digits";
-        } else  if(!UserService.getUserService().isValidEmail(email)){
+        } else  if(!userService.isValidEmail(email)){
             error_message = "Email provided is of incorrect format";
         }else if (!password1.equals(password2)) {
             error_message = "Passwords do not match";
@@ -110,7 +106,7 @@ public class UserService {
             if (returnedUser!= null) {
                 error_message ="User name already taken please enter new user name";
             } else {
-                if(!UserService.getUserService().isValidPassword(password1)){
+                if(!userService.isValidPassword(password1)){
                     error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters ";
                 }else {
                         //Sending email with credentials
@@ -134,7 +130,8 @@ public class UserService {
     }
 
     public static void main(String[] args) {
-        UserService.getUserService().saveUser("sendi","joseph","cipher45","ttttBBBB45,","ttttBBBB45,","sendi@gmail.com");
+
+         // UserService.saveUser("sendi","joseph","cipher45","ttttBBBB45,","ttttBBBB45,","sendi@gmail.com");
     }
 
 }

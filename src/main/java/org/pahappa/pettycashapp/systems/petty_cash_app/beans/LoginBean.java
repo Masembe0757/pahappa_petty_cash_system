@@ -1,20 +1,22 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.Base64;
-@ManagedBean
+
 @RequestScoped
-public class loginBean {
-    public loginBean(){}
+@Component
+public class LoginBean {
+    @Autowired
+    UserDao userDao;
+    public LoginBean(){}
 
     private String username;
     private String password;
@@ -52,15 +54,15 @@ public class loginBean {
         admin.setPassword(Base64.getEncoder().encodeToString("manager".getBytes()));
         admin.setEmail("manager@gmail.com");
         admin.setRole(1);
-        User user = UserDao.getUserDao().returnUser(admin.getUserName());
+        User user = userDao.returnUser(admin.getUserName());
         if(user==null){
-            UserDao.getUserDao().createAdmin(admin);
+            userDao.createAdmin(admin);
         }
     }
 
 
     public String login(String userName, String passWord) {
-        User user = UserDao.getUserDao().returnUser(userName);
+        User user = userDao.returnUser(userName);
         if (user != null) {
             String decodedPassword = new String(Base64.getDecoder().decode(user.getPassword()));
             if(decodedPassword.equals(passWord)){
