@@ -13,10 +13,10 @@ public class BudgetLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private  String amountDelegated;
+    private int amountDelegated;
     private Date startDate;
     private Date endDate;
-    private String status;
+    private String status ="draft";
     private final Date dateCreated = new Date();
     @ManyToOne
     private Category category;
@@ -61,11 +61,12 @@ public class BudgetLine {
     public void setId(int id) {
         this.id = id;
     }
-    public String getAmountDelegated() {
+
+    public int getAmountDelegated() {
         return amountDelegated;
     }
 
-    public void setAmountDelegated(String amountDelegated) {
+    public void setAmountDelegated(int amountDelegated) {
         this.amountDelegated = amountDelegated;
     }
 

@@ -11,7 +11,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-    private Date reviewedDate;
+    private Date reviewedDate = new Date();
 
     @ManyToOne
     private User user;
