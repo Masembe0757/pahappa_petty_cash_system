@@ -16,10 +16,20 @@ public class BudgetLine {
     private int amountDelegated;
     private Date startDate;
     private Date endDate;
-    private String status ="draft";
+    private String status ="drafted";
     private final Date dateCreated = new Date();
     @ManyToOne
     private Category category;
+    @OneToOne
+    private Rejection rejection;
+
+    public Rejection getRejection() {
+        return rejection;
+    }
+
+    public void setRejection(Rejection rejection) {
+        this.rejection = rejection;
+    }
 
     public Category getCategory() {
         return category;

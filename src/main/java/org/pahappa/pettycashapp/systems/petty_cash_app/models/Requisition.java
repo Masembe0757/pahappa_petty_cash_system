@@ -11,7 +11,7 @@ public class Requisition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private  int amount;
-    private  String status="draft";
+    private  String status="drafted";
     private String description;
     private final Date dateCreated = new Date();
     private Date dateNeeded;
@@ -25,6 +25,16 @@ public class Requisition {
 
     @OneToOne
     private Review review;
+    @OneToOne
+    private Rejection rejection;
+
+    public Rejection getRejection() {
+        return rejection;
+    }
+
+    public void setRejection(Rejection rejection) {
+        this.rejection = rejection;
+    }
 
     @OneToOne
     Accountability accountability;

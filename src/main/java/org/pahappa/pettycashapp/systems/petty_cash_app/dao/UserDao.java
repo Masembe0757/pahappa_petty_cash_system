@@ -7,7 +7,9 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public class UserDao {
@@ -214,5 +216,230 @@ public class UserDao {
         catch (Exception e){
             SessionConfiguration.shutdown();
         }
+    }
+
+    public void approveBudgetLine(int budgetLineId,String status) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE BudgetLine set status = :status where id = :budgetLineId");
+            qry.setParameter("status", status);
+            qry.setParameter("budgetLineId",budgetLineId);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+
+    }
+
+    public void stageRequisition(int requisitonId, String staged) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Requisition set status = :staged where id = :requisitonId");
+            qry.setParameter("requisitonId", requisitonId);
+            qry.setParameter("staged",staged);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void approveRequisition(int requisitonId, String approved) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Requisition set status = :approved where id = :requisitonId");
+            qry.setParameter("requisitonId", requisitonId);
+            qry.setParameter("approved",approved);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void saveRejection(Rejection rejection) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(rejection);
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void fulfillRequisition(int requisitionId, String fulfilled) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Requisition set status = :fulfilled where id = :requisitionId");
+            qry.setParameter("requisitionId", requisitionId);
+            qry.setParameter("fulfilled",fulfilled);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public List<Requisition> getapprovedRequisitions(String status) {
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where status = :status");
+            qry.setParameter("status", status);
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
+    }
+    public List<Requisition> getStagedRequisitions(String status) {
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where status = :status");
+            qry.setParameter("status", status);
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
+    }
+
+    public List<Requisition> getFulfilledRequisitions(String fulfilled) {
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where status = :fulfilled");
+            qry.setParameter("fulfilled", fulfilled);
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
+    }
+
+    public List<Requisition> getDraftedRequisitions(String drafted) {
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where status = :drafted");
+            qry.setParameter("drafted", drafted);
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
+    }
+
+    public List<Category> getDraftedCategories(String drafted) {
+        List<Category> categories = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Category where status = :drafted");
+            qry.setParameter("drafted", drafted);
+            categories = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return categories;
+    }
+
+    public List<Category> getApprovedCategories(String approved) {
+        List<Category> categories = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Category where status = :approved");
+            qry.setParameter("approved", approved);
+            categories = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return categories;
+    }
+
+    public List<BudgetLine> getDraftedBudgetLines(String drafted) {
+        List<BudgetLine> budgetLines = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from BudgetLine where status = :drafted");
+            qry.setParameter("drafted", drafted);
+            budgetLines = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return budgetLines;
+    }
+    public List<BudgetLine> getApprovedBudgetLines(String approved) {
+        List<BudgetLine> budgetLines = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from BudgetLine where status = :approved");
+            qry.setParameter("approved", approved);
+            budgetLines = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return budgetLines;
     }
 }

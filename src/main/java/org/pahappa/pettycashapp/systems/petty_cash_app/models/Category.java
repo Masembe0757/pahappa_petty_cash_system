@@ -12,6 +12,34 @@ public class Category {
     private int id;
     private String name;
     private String description;
+    private String status = "drafted";
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @OneToOne
+    private Rejection rejection;
+
+    public Rejection getRejection() {
+        return rejection;
+    }
+
+    public void setRejection(Rejection rejection) {
+        this.rejection = rejection;
+    }
+
+    public List<BudgetLine> getBudgetLines() {
+        return budgetLines;
+    }
+
+    public void setBudgetLines(List<BudgetLine> budgetLines) {
+        this.budgetLines = budgetLines;
+    }
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     private List<BudgetLine> budgetLines = new ArrayList<>();
