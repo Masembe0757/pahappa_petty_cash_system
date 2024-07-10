@@ -47,6 +47,19 @@
     </dependency>
 
 
+    <!-- LOGGING DEPENDENCIES -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+
+
     <!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-api -->
     <dependency>
       <groupId>com.sun.faces</groupId>
