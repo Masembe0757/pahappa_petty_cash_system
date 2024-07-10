@@ -67,6 +67,12 @@
                         <h:outputText value="Expired Budget Lines"/>
                      </h:link>
                   </li>
+                  <li class="navListItem">
+                     <h:link
+                             styleClass="listLink">
+                        <h:outputText value="Budget Line Categories"/>
+                     </h:link>
+                  </li>
                </ul>
             </h:form>
 
@@ -77,6 +83,11 @@
 
             <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
                <h:panelGrid>
+                  <h:outputLabel for="name" value="Name:"/>
+                  <p:inputText id="name" value="#{registerBean.email}" required="true"
+                               requiredMessage="Name is required!">
+                  </p:inputText>
+
                   <!-- Budget Line Dropdown -->
                   <h:outputLabel for="category" value="Category:"/>
                   <p:selectOneMenu id="category" value="#{registerBean.selectedBudgetLine}" required="true"
@@ -103,13 +114,27 @@
 
                   <h:outputLabel for="amount" value="Amount:"/>
                   <p:inputText id="amount" value="#{registerBean.email}" required="true"
-                               requiredMessage="Amount is required!">
-                  </p:inputText>
+                               requiredMessage="Amount is required!"/>
 
                </h:panelGrid>
 
                <p:commandButton value="Save" action="#{registerBean.register()}"
                                 oncomplete="PF('dlg').hide();"/>
+            </p:dialog>
+
+            <p:commandButton value="Create Category" oncomplete="PF('Catdlg').show();" process="@this" update="Catdlg"/>
+            <p:dialog>
+               <h:panelGrid>
+                  <h:outputLabel for="categoryName" value="Category Name :"/>
+                  <p:inputText id="categoryName" value="#{registerBean.email}" required="true"
+                               requiredMessage="Name is required!"/>
+
+                  <h:outputLabel for="description" value="Description:"/>
+                  <p:inputTextarea id="description" value="#{registerBean.description}" rows="4" cols="50"
+                                   required="true" requiredMessage="Description is required!"/>
+                  <h:message id="descriptionMessage" for="description"/>
+
+               </h:panelGrid>
             </p:dialog>
          </div>
       </div>
