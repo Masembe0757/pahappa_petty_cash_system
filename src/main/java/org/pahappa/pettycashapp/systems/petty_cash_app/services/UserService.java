@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
     @Autowired
+
     UserDao userDao;
 
     //initialising a singleton
