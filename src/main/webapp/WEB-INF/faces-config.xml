@@ -13,7 +13,7 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>DisplyBean</managed-bean-name>
+        <managed-bean-name>DisplayBean</managed-bean-name>
         <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.DisplayBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
