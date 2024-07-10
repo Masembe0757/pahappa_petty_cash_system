@@ -11,7 +11,7 @@ public class Requisition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private  int amount;
-    private  String status;
+    private  String status="draft";
     private String description;
     private final Date dateCreated = new Date();
     private Date dateNeeded;

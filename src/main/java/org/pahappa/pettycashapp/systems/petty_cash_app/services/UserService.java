@@ -1,12 +1,14 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -81,6 +83,11 @@ public class UserService {
         }
         return hasDigits;
     }
+    public  String generateReferenceNumber() {
+        UUID uuid = UUID.randomUUID();
+        String referenceNumber = uuid.toString().replace("-", "ref_petty").toUpperCase();
+        return referenceNumber;
+    }
     public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email) {
         String error_message= "";
 
@@ -128,10 +135,76 @@ public class UserService {
         return  error_message;
 
     }
+    public String makeRequisition(int amount,Date dateNeeded,String description,int budgetLineId,int userId){
+        String error_message ="";
+        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
+        if(budgetLine.getAmountDelegated()<amount){
+            error_message="Amount specified is more than what is on budget line";
+        } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
+            error_message="Date needed is a past date";
+        } else if (description.length()<50) {
+            error_message = "Please provide more description";
+        } else {
+            Requisition requisition = new Requisition();
+            requisition.setAmount(amount);
+            requisition.setReferenceNumber(userService.generateReferenceNumber());
+            requisition.setDateNeeded(dateNeeded);
+            requisition.setDescription(description);
+            requisition.setBudgetLine(budgetLine);
+            userDao.saveRequisition(requisition);
+        }
+        return error_message;
+    }
+    public String provideAccountability(String description,int amount,int requisitionId){
+        String error_message ="";
+        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
+        if(amount > requisition.getAmount()){
+            error_message = "Amount accounted greater than amount requisitioned";
+        } else if (description.length()<50) {
+            error_message = "Please provide more description";
+        } else {
+            Accountability accountability = new Accountability();
+            accountability.setAmount(amount);
+            accountability.setDescription(description);
+            accountability.setRequisition(requisition);
+            accountability.setReferenceNumber(userService.generateReferenceNumber());
+            userDao.saveAccountability(accountability);
+        }
 
-    public static void main(String[] args) {
+        return error_message;
+    }
+    public String makeReview(String description,int requistionId,String userName){
+        String error_message = "";
+        if(description.length()<50){
+            error_message = "Please provide more description";
+        }else {
+            User user = userDao.returnUser(userName);
+            Requisition requisition = userDao.getRequisitionOfId(requistionId);
+            Review review = new Review();
+            review.setUser(user);
+            review.setDescription(description);
+            review.setRequisition(requisition);
+            userDao.makeReview(review);
+        }
 
-         // UserService.saveUser("sendi","joseph","cipher45","ttttBBBB45,","ttttBBBB45,","sendi@gmail.com");
+        return error_message;
+    }
+
+    public String makeBudgetLine(int amount,String name, Date startDate,Date endDate,int categoryId){
+        String error_message = "";
+        if(userService.hasDigits(name)){
+            error_message = " Name can not contain didgits";
+        }else {
+            BudgetLine budgetLine= new BudgetLine();
+            Category category = userDao.getCategoryOfId(categoryId);
+            budgetLine.setAmountDelegated(amount);
+            budgetLine.setCategory(category);
+            budgetLine.setEndDate(endDate);
+            budgetLine.setStartDate(startDate);
+            budgetLine.setName(name);
+            userDao.saveBudgetLine(budgetLine);
+        }
+        return error_message;
     }
 
 }
