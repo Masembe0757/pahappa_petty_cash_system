@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+
+   <ui:define name="title">budgetLines</ui:define>
+   <ui:define name="pageTitle">budgetLines</ui:define>
+
+   <ui:define name="content">
+      <h:head>
+         <style>
+            .first-layer-top {
+               display: flex;
+               justify-content: space-between;
+               width: calc(100% - 25px);
+            }
+
+            ul.navList{
+               display: flex;
+               justify-content: center;
+            }
+
+            .navListItem{
+               margin-left: 3rem;
+            }
+
+            div.btn-sect{
+            }
+
+            .second-layer-top {
+               display: inline-flex;
+               justify-content: space-between;
+               width: calc(100% - 25px);
+               align-items: center;
+            }
+
+            input#searchForm\:search.ui-inputfield {
+               width: 840px !important;
+            }
+
+
+
+         </style>
+      </h:head>
+
+      <div class="first-layer-top">
+         <div class="navigation">
+            <h:form>
+               <ul class="navList">
+                  <li class="">
+                     <h:link
+                             styleClass="listLink">
+                        <h:outputText value="Current Budget Lines"/>
+                     </h:link>
+                  </li>
+                  <li class="navListItem">
+                     <h:link
+                             styleClass="listLink">
+                        <h:outputText value="Drafts"/>
+                     </h:link>
+                  </li>
+                  <li class="navListItem">
+                     <h:link
+                             styleClass="listLink">
+                        <h:outputText value="Expired Budget Lines"/>
+                     </h:link>
+                  </li>
+               </ul>
+            </h:form>
+
+         </div>
+         <div class="btn-sect">
+
+            <p:commandButton value="Create budget Line" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
+
+            <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
+               <h:panelGrid>
+                  <!-- Budget Line Dropdown -->
+                  <h:outputLabel for="category" value="Category:"/>
+                  <p:selectOneMenu id="category" value="#{registerBean.selectedBudgetLine}" required="true"
+                                   requiredMessage="Category is required!">
+                     <f:selectItem itemLabel="Select a Category" itemValue="" noSelectionOption="true"/>
+                     <f:selectItems value="#{registerBean.budgetLines}" var="category"
+                                    itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
+                  </p:selectOneMenu>
+                  <h:message id="categoryMessage" for="category"/>
+
+
+                  <h:outputLabel for="startDate" value="Start Date:"/>
+                  <p:calendar id="startDate" value="#{registerBean.dateOfBirth}" pattern="dd/MM/yyyy"
+                              required="true" showOn="button" navigator="true"
+                              styleClass="custom-calendar"
+                              requiredMessage="Start Date is required!"/>
+
+                  <h:outputLabel for="endDate" value="End Date:"/>
+                  <p:calendar id="endDate" value="#{registerBean.dateOfBirth}" pattern="dd/MM/yyyy"
+                              required="true" showOn="button" navigator="true"
+                              styleClass="custom-calendar"
+                              requiredMessage="End Date is required!"/>
+
+
+                  <h:outputLabel for="amount" value="Amount:"/>
+                  <p:inputText id="amount" value="#{registerBean.email}" required="true"
+                               requiredMessage="Amount is required!">
+                  </p:inputText>
+
+               </h:panelGrid>
+
+               <p:commandButton value="Save" action="#{registerBean.register()}"
+                                oncomplete="PF('dlg').hide();"/>
+            </p:dialog>
+         </div>
+      </div>
+
+      <div class="second-layer-top">
+         <h3>Total Currebt Budget: shs 1,536,367</h3>
+
+         <h:form id="searchForm">
+
+            <h:outputLabel for="filter" value="Filter By:"/>
+            <p:selectOneMenu id="filter" value="#{Req.gender}">
+
+               <p:ajax update="" listener="#{Req.filterDependants()}"/>
+            </p:selectOneMenu>
+
+         </h:form>
+      </div>
+
+      <div>
+         <h:form id="budgetLineForm">
+            <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.filteredbudgetLines}" rowIndexVar="rowIndex"
+                         emptyMessage="No budgetLines available">
+               <p:column headerText="No.">
+                  <h:outputText value="#{rowIndex + 1}"/>
+               </p:column>
+               <p:column headerText="Category">
+                  <h:outputText value="#{budgetLine.User}"/>
+               </p:column>
+               <p:column headerText="Start Date">
+                  <h:outputText value="#{budgetLine.budgetLine}"/>
+               </p:column>
+               <p:column headerText="End Date">
+                  <h:outputText value="#{budgetLine.Refernce}"/>
+               </p:column>
+               <p:column headerText="Intial Amount">
+                  <h:outputText value="#{budgetLine.status}"/>
+               </p:column>
+               <p:column headerText="Balance">
+                  <h:outputText value="#{budgetLine.paid}"/>
+               </p:column>
+               <p:column headerText="Status">
+                  <h:outputText value="#{budgetLine.paid}"/>
+               </p:column>
+               <p:column headerText="Actions">
+
+               </p:column>
+            </p:dataTable>
+         </h:form>
+
+      </div>
+
+   </ui:define>
+
+</ui:composition>

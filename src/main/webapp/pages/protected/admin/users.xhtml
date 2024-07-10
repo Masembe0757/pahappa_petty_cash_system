@@ -1,0 +1,211 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+
+    <ui:define name="title">Requisitions</ui:define>
+    <ui:define name="pageTitle">Requisitions</ui:define>
+
+    <ui:define name="content">
+        <h:head>
+            <style>
+                .first-layer-top {
+                    display: inline-flex;
+                }
+
+                ul.navList{
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .navListItem{
+                    margin-left: 3rem;
+                }
+
+                div.btn-sect{
+                }
+
+                .second-layer-top {
+                    display: inline-flex;
+                    justify-content: space-between;
+                    width: calc(100% - 25px);
+                    align-items: center;
+                }
+
+                input#searchForm\:search.ui-inputfield {
+                    width: 840px !important;
+                }
+
+
+
+            </style>
+        </h:head>
+
+        <div class="first-layer-top">
+
+            <div class="btn-sect">
+
+                <h:form class="actns">
+                    <p:commandButton oncomplete="PF('dlg').show();" process="@this" update="dlg" styleClass="btn1"
+                                     icon="pi pi-user-plus"
+                                     value="Add New"/>
+                    <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
+                        <h:panelGrid>
+                            <h:outputLabel for="u_n" value="User Name:"/>
+                            <p:inputText id="u_n" value="#{registerBean.username}" required="true"
+                                         requiredMessage="Username is required!">
+<!--                                <f:validator validatorId="usernameValidator"/>-->
+<!--                                <f:ajax event="keyup" execute="@this" render="usernameMessage"/>-->
+                            </p:inputText>
+                            <h:message id="usernameMessage" for="u_n"/>
+
+                            <h:outputLabel for="f_n" value="First Name:"/>
+                            <p:inputText id="f_n" value="#{registerBean.firstname}" required="true"
+                                         requiredMessage="First name is required!">
+<!--                                <f:validator validatorId="nameValidator"/>-->
+<!--                                <f:ajax event="keyup" execute="@this" render="firstnameMessage"/>-->
+                            </p:inputText>
+                            <h:message id="firstnameMessage" for="f_n"/>
+
+                            <h:outputLabel for="l_n" value="Last Name:"/>
+                            <p:inputText id="l_n" value="#{registerBean.lastname}" required="true"
+                                         requiredMessage="Last name is required!">
+<!--                                <f:validator validatorId="nameValidator"/>-->
+<!--                                <f:ajax event="keyup" execute="@this" render="lastnameMessage"/>-->
+                            </p:inputText>
+                            <h:message id="lastnameMessage" for="l_n"/>
+
+
+                            <h:outputLabel for="u_email" value="Email:"/>
+                            <p:inputText id="u_email" value="#{registerBean.email}" required="true"
+                                         requiredMessage="Email is required!">
+<!--                                <f:validator validatorId="emailValidator"/>-->
+<!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
+                            </p:inputText>
+                            <h:message id="emailMessage" for="u_email"/>
+
+                            <h:outputLabel for="role_" value="Role:"/>
+                            <p:selectOneMenu id="role_" value="#{registerBean.selectedrole}" required="true"
+                                             requiredMessage="Role is required!">
+                                <f:selectItem itemLabel="Select a Role" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{registerBean.roles}" var="role"
+                                               itemLabel="#{role.name}" itemValue="#{role.id}"/>
+                            </p:selectOneMenu>
+                            <h:message id="roleMessage" for="role"/>
+                        </h:panelGrid>
+
+                        <p:commandButton value="Save" action="#{registerBean.register()}"
+                                         oncomplete="PF('dlg').hide();"/>
+                    </p:dialog>
+
+
+                    <p:commandButton action="#{userBean.deleteAll()}" styleClass="ui-button-danger mr-2"
+                                     icon="pi pi-user-minus" value="Delete All" update=":userForm:userTable"/>
+                </h:form>
+            </div>
+        </div>
+
+        <div class="second-layer-top">
+            <h:form id="searchForm">
+                <p:inputText id="search" value="#{Req.search}"
+                             icon="pi pi-search"
+                             placeholder="Search By name">
+                    <p:ajax event="keyup" update=""
+                            listener="#{Req.searchNames()}"/>
+                </p:inputText>
+
+                <h:outputLabel for="filter" value="Filter By Roles:"/>
+                <p:selectOneMenu id="filter" value="#{Req.gender}">
+
+                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
+                </p:selectOneMenu>
+
+            </h:form>
+        </div>
+
+        <div>
+            <h:form id="userForm">
+                <p:dataTable id="userTable" var="user" value="#{userBean.filteredUsers}" rowIndexVar="rowIndex"
+                             emptyMessage="No users available">
+                    <p:column headerText="No.">
+                        <h:outputText value="#{rowIndex + 1}"/>
+                    </p:column>
+                    <p:column headerText="Username">
+                        <h:outputText value="#{user.username}"/>
+                    </p:column>
+                    <p:column headerText="First Name">
+                        <h:outputText value="#{user.firstname}"/>
+                    </p:column>
+                    <p:column headerText="Last Name">
+                        <h:outputText value="#{user.lastname}"/>
+                    </p:column>
+                    <p:column headerText="Email">
+                        <h:outputText value="#{user.email}"/>
+                    </p:column>
+                    <p:column headerText="Role">
+                        <h:outputText value="#{user.role}"/>
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <p:commandButton icon="pi pi-user-edit" oncomplete="PF('userDialog').show();"
+                                         process="@this"
+                                         update="userDialog"
+                                         actionListener="#{userBean.selectUserForUpdate(user)}"/>
+
+                        <p:dialog id="userDialog" widgetVar="userDialog" header="Update User" modal="true"
+                                  dynamic="true" width="625px" resizable="false" responsive="true">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputLabel for="username" value="Username: "/>
+                                <p:inputText id="username" value="#{userBean.selectedUser.username}"
+                                             placeholder="Username"/>
+
+                                <h:outputLabel for="firstname" value="First Name: "/>
+                                <p:inputText id="firstname" value="#{userBean.selectedUser.firstname}"
+                                             placeholder="First Name"/>
+
+                                <h:outputLabel for="lastname" value="Last Name: "/>
+                                <p:inputText id="lastname" value="#{userBean.selectedUser.lastname}"
+                                             placeholder="Last Name"/>
+
+                                <h:outputLabel for="email" value="Email: "/>
+                                <p:inputText id="email" value="#{userBean.selectedUser.email}"
+                                             placeholder="Email"/>
+
+
+                                <h:outputLabel for="role" value="Role: "/>
+                                <p:calendar id="role"
+                                            value="#{userBean.selectedUser.role}"
+                                            placeholder="Role"
+                                />
+                            </h:panelGrid>
+                            <p:commandButton value="Save" action="#{userBean.update(userBean.selectedUser)}"
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('userDialog').hide()"
+                                             update=":userForm:userTable"/>
+                        </p:dialog>
+
+                        <p:growl id="message" showDetail="true"/>
+
+                        <p:commandButton action="#{userBean.delete(user)}" update="message :userForm:userTable"
+                                         styleClass="delete" icon="pi pi-trash">
+                            <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                       icon="pi pi-info-circle"/>
+                        </p:commandButton>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                         width="350">
+                            <p:commandButton value="No" type="button"
+                                             styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                        </p:confirmDialog>
+                        
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
