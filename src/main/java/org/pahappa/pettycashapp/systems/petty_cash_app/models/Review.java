@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 @Component
 public class Review {
+    public Review(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

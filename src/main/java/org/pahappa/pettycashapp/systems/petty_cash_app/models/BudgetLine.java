@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Component
 public class BudgetLine {
+    public BudgetLine(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

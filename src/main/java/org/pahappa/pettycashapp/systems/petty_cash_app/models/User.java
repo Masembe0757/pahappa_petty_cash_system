@@ -7,6 +7,7 @@ import java.util.Objects;
 @Entity
 @Component
 public class User {
+    public User(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,6 +16,16 @@ public class User {
     private String lastName;
     private String password;
     private String email;
+    @Column(columnDefinition = "int default 0")
+    private int role;
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private List<Requisition> requisitions = new ArrayList<>();

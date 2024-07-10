@@ -6,6 +6,7 @@ import java.util.Date;
 @Entity
 @Component
 public class Accountability {
+    public Accountability(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

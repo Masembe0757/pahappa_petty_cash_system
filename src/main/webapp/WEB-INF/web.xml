@@ -5,6 +5,14 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
   <display-name>Archetype Created Web Application</display-name>
+  <!--
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  -->
+  <listener>
+    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+  </listener>
 
   <context-param>
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
@@ -16,9 +24,8 @@
     <param-value>Production</param-value>
   </context-param>
 
-  <listener>
-    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-  </listener>
+
+
 
 
   <!-- Use the font awesome -->
@@ -30,6 +37,14 @@
   <context-param>
     <param-name>facelets.FACELETS_SKIP_COMMENTS</param-name>
     <param-value>true</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.faces.CONFIG_FILES</param-name>
+    <param-value>/WEB-INF/faces-config.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+    <param-value>resources.application</param-value>
   </context-param>
 
   <servlet>

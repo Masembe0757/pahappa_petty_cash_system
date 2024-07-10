@@ -6,6 +6,7 @@ import java.util.List;
 @Entity
 @Component
 public class Category {
+    public Category(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

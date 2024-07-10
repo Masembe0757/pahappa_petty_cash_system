@@ -139,7 +139,7 @@
                     </div>
 
                     <div class="loginBtn">
-                        <p:commandButton value="Login" action="#{loginBean.login()}" update="@form"/>
+                        <p:commandButton value="Login" action="#{loginBean.login(loginBean.username,loginBean.password)}" update="@form"/>
                     </div>
 
                     </div>
