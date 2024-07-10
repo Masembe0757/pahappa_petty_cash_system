@@ -14,6 +14,7 @@ import java.util.Base64;
 @RequestScoped
 @Component
 public class LoginBean {
+
     @Autowired
     UserDao userDao;
     public LoginBean(){}
