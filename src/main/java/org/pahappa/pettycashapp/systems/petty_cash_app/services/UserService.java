@@ -354,6 +354,4 @@ public class UserService {
     public  List<BudgetLine> getApprovedBudgetLines(){
         return userDao.getApprovedBudgetLines("approved");
     }
-
-
 }

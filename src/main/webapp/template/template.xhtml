@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" lang="en">
+<h:head>
+    <title><ui:insert name="pageTitle">Default Title</ui:insert></title>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </f:facet>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="#{resource['css/general.css']}"/>
+
+    <style type="text/css">
+        body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .background {
+            background: rgba(253, 248, 232, 0.48);
+            height: 100vh !important;
+            margin: 0;
+        }
+
+        .sideAndBody {
+            display: inline-flex;
+        }
+
+        .top-bar {
+            height: 65px;
+            width: 100%;
+            background: white;
+            margin: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 230px;
+            height: 100vh;
+            background: white;
+            margin: 0;
+        }
+
+        .mainBody {
+            width: calc(100% - 230px);
+            margin: 2em;
+        }
+
+        h1.header {
+            font-family: "Just Me Again Down Here", cursive !important;
+            font-weight: 400;
+            font-style: normal;
+            margin-left: 3rem;
+            margin-top: inherit;
+        }
+
+        h3.pageTitle {
+            margin-left: 27rem;
+            font-family: Arial, sans-serif !important;
+            color: #524C4C !important;
+        }
+
+        /* Style links */
+        a {
+            color: #524C4C !important;
+            text-decoration: none !important;
+        }
+
+        a:hover {
+            color: #ADA239 !important;
+            text-decoration: none !important;
+        }
+
+        /* Style lists */
+        ul.listType {
+            margin-bottom: 1em;
+            padding-left: 30px;
+            margin-top: 2em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+            list-style: none;
+            display: block;
+        }
+
+        i {
+            font-size: 1.3rem;
+            margin-right: 1.5em;
+        }
+
+        li.listItem {
+            list-style: none;
+            padding: 15px;
+            text-decoration: none;
+        }
+
+        /* Style headers */
+        h1, h2, h3, h4, h5, h6, body{
+            color: #524C4C !important;
+            font-family: Arial, sans-serif;
+        }
+
+        h2.admin {
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-left: 112px;
+        }
+
+        .ui-inputfield.ui-state-focus {
+            border-color: #ADA239 !important;
+            box-shadow: 0 0 0 .2em #e3ddb2 !important;
+        }
+
+        .ui-inputfield.ui-state-hover {
+            border-color: #ADA239 !important;
+        }
+
+        body .ui-inputfield {
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .ui-button {
+            background: #ADA239 !important;
+            border: 1px solid #ADA239 !important;
+        }
+
+        .ui-button:hover {
+            background-color: #d8d6a3 !important;
+            border: 1px solid #d8d6a3 !important;
+            transform: scale(1.2);
+        }
+
+
+    </style>
+
+</h:head>
+<h:body>
+    <div class="background">
+        <div class="top-bar">
+            <h1 class="header">PCR Management System</h1>
+            <h3 class="pageTitle"><ui:insert name="pageTitle">Default Page Title</ui:insert></h3>
+        </div>
+        <div class="sideAndBody">
+            <div class="sidebar">
+                <h2 class="admin">ADMIN</h2>
+                <h:form>
+                    <ul class="listType">
+                        <li class="listItem">
+                            <h:link outcome="/pages/protected/admin/dashboard.xhtml"
+                                    styleClass="listLink">
+                                <i class="pi pi-home"></i>
+                                <h:outputText value="Dashboard"/>
+                            </h:link>
+                        </li>
+                        <li class="listItem">
+                            <h:link outcome="/pages/protected/admin/requisitions.xhtml"
+                                    styleClass="listLink">
+                                <i class="pi pi-users"></i>
+                                <h:outputText value="Requisitions"/>
+                            </h:link>
+                        </li>
+                        <li class="listItem">
+                            <h:link outcome="/pages/protected/admin/budgetLines.xhtml"
+                                    styleClass="listLink">
+                                <i class="pi pi-sitemap"></i>
+                                <h:outputText value="Budget Lines"/>
+                            </h:link>
+                        </li>
+                        <li class="listItem">
+                            <h:link
+                                    styleClass="listLink">
+                                <i class="pi pi-cog"></i>
+                                <h:outputText value="Reviews"/>
+                            </h:link>
+                        </li>
+                        <li class="listItem">
+                            <h:link outcome="/pages/protected/admin/users.xhtml"
+                                    styleClass="listLink">
+                                <i class="pi pi-cog"></i>
+                                <h:outputText value="Users"/>
+                            </h:link>
+                        </li>
+                        <li class="listItem">
+                            <h:link
+                                    styleClass="listLink">
+                                <i class="pi pi-cog"></i>
+                                <h:outputText value="Settings"/>
+                            </h:link>
+                        </li>
+                        <li class="listItem">
+                            <h:commandLink action="#{loginBean.logout()}" styleClass="listLink">
+                                <i class="pi pi-sign-out"></i>
+                                <h:outputText value="Logout"/>
+                            </h:commandLink>
+                        </li>
+                    </ul>
+                </h:form>
+            </div>
+            <div class="mainBody">
+                <ui:insert name="content"/>
+            </div>
+        </div>
+
+    </div>
+</h:body>
+</html>
