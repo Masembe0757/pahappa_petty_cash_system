@@ -50,21 +50,22 @@
                 <h:form>
                     <ul class="navList">
                         <li class="">
-                            <h:link
+                            <h:link outcome="/pages/protected/admin/requisitions.xhtml"
                                     styleClass="listLink">
                                 <h:outputText value="Requisitions"/>
                             </h:link>
                         </li>
                         <li class="navListItem">
-                            <h:link
+                            <h:link outcome="/pages/protected/admin/requisitionDrafts.xhtml"
                                     styleClass="listLink">
                                 <h:outputText value="Drafts"/>
                             </h:link>
                         </li>
                         <li class="navListItem">
-                            <h:link
+                            <h:link  outcome="/pages/protected/admin/accountability.xhtml"
                                     styleClass="listLink">
                                 <h:outputText value="Accountability"/>
+                                outcome
                             </h:link>
                         </li>
                     </ul>
@@ -75,45 +76,47 @@
 
                 <p:commandButton value="Create Requisition" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
 
+
                 <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
+                    <p:messages globalOnly="true" closable="true" />
                     <h:panelGrid>
                         <!-- Budget Line Dropdown -->
                         <h:outputLabel for="budgetLine" value="Budget Line:"/>
-                        <p:selectOneMenu id="budgetLine" value="#{registerBean.selectedBudgetLine}" required="true"
+                        <p:selectOneMenu id="budgetLine" value="#{saveBean.budgetLineId}" required="true"
                                          requiredMessage="Budget Line is required!">
                             <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{registerBean.budgetLines}" var="budgetLine"
+                            <f:selectItems value="#{saveBean.budgetLines()}" var="budgetLine"
                                            itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
                         </p:selectOneMenu>
-                        <h:message id="budgetLineMessage" for="budgetLine"/>
 
                         <!-- Description -->
                         <h:outputLabel for="description" value="Description:"/>
-                        <p:inputTextarea id="description" value="#{registerBean.description}" rows="4" cols="50"
+                        <p:inputTextarea id="description" value="#{saveBean.description}" rows="4" cols="50"
                                          required="true" requiredMessage="Description is required!"/>
-                        <h:message id="descriptionMessage" for="description"/>
 
 
                         <h:outputLabel for="dateNeeded" value="Date needed:"/>
-                        <p:calendar id="dateNeeded" value="#{registerBean.dateOfBirth}" pattern="dd/MM/yyyy"
+                        <p:calendar id="dateNeeded" value="#{saveBean.dateNeeded}" pattern="dd/MM/yyyy"
                                     required="true" showOn="button" navigator="true"
                                     styleClass="custom-calendar"
                                     requiredMessage="Date Needed is required!"/>
 
-
                         <h:outputLabel for="amount" value="Amount:"/>
-                        <p:inputText id="amount" value="#{registerBean.email}" required="true"
+                        <p:inputText id="amount" value="#{saveBean.amount}" required="true"
                                      requiredMessage="Amount is required!">
                         </p:inputText>
 
                     </h:panelGrid>
 
-                    <p:commandButton value="Save" action="#{registerBean.register()}"
-                                     oncomplete="PF('dlg').hide();"/>
+                    <p:commandButton value="Save" action="#{saveBean.makeRequistion(saveBean.amount,saveBean.dateNeeded,saveBean.description,saveBean.budgetLineId)}"
+                                     update=":requisitionForm:requisitionTable"
+                                     oncomplete=" PF('dlg').show();"/>
                 </p:dialog>
             </div>
         </div>
 
+
+<!--
         <div class="second-layer-top">
             <h:form id="searchForm">
                 <p:inputText id="search" value="#{Req.search}"
@@ -135,32 +138,36 @@
                 </p:selectOneMenu>
             </h:form>
         </div>
-        
+        -->
+
         <div>
-            <h:form id="requsitionForm">
-                <p:dataTable id="requsitionTable" var="requisition" value="#{requisitionBean.filteredrequisitions}" rowIndexVar="rowIndex"
-                             emptyMessage="No requisitions available">
-                    <p:column headerText="No.">
-                        <h:outputText value="#{rowIndex + 1}"/>
+            <h:form id="requisitionForm">
+                <p:dataTable id="requisitionTable" var="requisition" value="#{saveBean.getAllRequisitions()}" emptyMessage="No requisitions available">
+                    <p:column headerText="Reference Number">
+                        <h:outputText value="#{requisition.referenceNumber}"/>
                     </p:column>
                     <p:column headerText="User">
-                        <h:outputText value="#{requisition.User}"/>
+                        <h:outputText value="#{requisition.user.firstName } #{requisition.user.firstName}"/>
                     </p:column>
                     <p:column headerText="Budget Line">
-                        <h:outputText value="#{requisition.budgetLine}"/>
+                        <h:outputText value="#{requisition.budgetLine.name}"/>
                     </p:column>
-                    <p:column headerText="Reference Number">
-                        <h:outputText value="#{requisition.Refernce}"/>
+                    <p:column headerText="Amount">
+                        <h:outputText value="#{requisition.amount}"/>
+                    </p:column>
+
+                    <p:column headerText="Date created">
+                        <h:outputText value="#{requisition.dateCreated}"/>
+                    </p:column>
+                    <p:column headerText="Date needed">
+                        <h:outputText value="#{requisition.dateNeeded}"/>
                     </p:column>
                     <p:column headerText="Status">
                         <h:outputText value="#{requisition.status}"/>
                     </p:column>
-                    <p:column headerText="Paid">
-                        <h:outputText value="#{requisition.paid}"/>
-                    </p:column>
-                    <p:column headerText="Actions">
 
-                    </p:column>
+                    <p:growl id="message" showDetail="true"/>
+
                 </p:dataTable>
             </h:form>
 

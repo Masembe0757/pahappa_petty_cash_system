@@ -4,6 +4,8 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,11 +16,18 @@ public class UserService {
     UserDao userDao;
     @Autowired
     UserService userService;
+    private User getCurrentUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        return (User) externalContext.getSessionMap().get("currentUser");
+    }
 
     private  boolean isValidEmail(String email) {
-        final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
-        final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
-        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        final String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+         final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
@@ -100,7 +109,7 @@ public class UserService {
 
         } else if (userService.onlyDigits(userName, userName.length())) {
             error_message = "User name field can not contain only digits";
-        } else  if(!userService.isValidEmail(email)){
+        } else  if(!isValidEmail(email)){
             error_message = "Email provided is of incorrect format";
         }else if (!password1.equals(password2)) {
             error_message = "Passwords do not match";
@@ -132,28 +141,7 @@ public class UserService {
         return  error_message;
 
     }
-    public String makeRequisition(int amount,Date dateNeeded,String description,int budgetLineId,int userId){
-        String error_message ="";
-        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
-        if(budgetLine.getAmountDelegated()<amount){
-            error_message="Amount specified is more than what is on budget line";
-        } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
-            error_message="Date needed is a past date";
-        } else if (description.length()<50) {
-            error_message = "Please provide more description";
-        } else if (!budgetLine.getStatus().equals("approved")) {
-            error_message = "Budget line not yet approved";
-        } else {
-            Requisition requisition = new Requisition();
-            requisition.setAmount(amount);
-            requisition.setReferenceNumber(userService.generateReferenceNumber());
-            requisition.setDateNeeded(dateNeeded);
-            requisition.setDescription(description);
-            requisition.setBudgetLine(budgetLine);
-            userDao.saveRequisition(requisition);
-        }
-        return error_message;
-    }
+
     public String provideAccountability(String description,int amount,int requisitionId){
         String error_message ="";
         Requisition requisition = userDao.getRequisitionOfId(requisitionId);
@@ -362,6 +350,7 @@ public class UserService {
     }
 
     public void deleteUserOfUserName(String userName) {
+        userDao.deleteUserOfUserName(userName);
     }
 
     public void deleteAllUsers() {
@@ -385,4 +374,38 @@ public class UserService {
         }
         return returnedUsers;
     }
+
+
+
+
+    //REQUISITIONS
+    public String makeRequisition(int amount,Date dateNeeded,String description,int budgetLineId){
+        String error_message ="";
+        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
+        if(budgetLine.getAmountDelegated()<amount){
+            error_message="Amount specified is more than what is on budget line";
+        } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
+            error_message="Date needed is a past date";
+        } else if (description.length()<50) {
+            error_message = "Please provide more description";
+        } else if (!budgetLine.getStatus().equals("approved")) {
+            error_message = "Budget line not yet approved";
+        } else {
+            Requisition requisition = new Requisition();
+            requisition.setAmount(amount);
+            requisition.setReferenceNumber(userService.generateReferenceNumber());
+            requisition.setDateNeeded(dateNeeded);
+            requisition.setDescription(description);
+            requisition.setBudgetLine(budgetLine);
+            requisition.setUser(userService.getCurrentUser());
+            System.out.println("SAVING REQUISITION2");
+            userDao.saveRequisition(requisition);
+        }
+        return error_message;
+    }
+
+    public List<Requisition> getAllRequisitions() {
+        return  userDao.getAllRequisitions();
+    }
 }
+
