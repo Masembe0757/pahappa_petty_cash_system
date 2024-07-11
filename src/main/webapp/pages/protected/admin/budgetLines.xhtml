@@ -5,8 +5,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
 
-   <ui:define name="title">budgetLines</ui:define>
-   <ui:define name="pageTitle">budgetLines</ui:define>
+   <ui:define name="title">Budeget Lines</ui:define>
+   <ui:define name="pageTitle">Budeget Lines</ui:define>
 
    <ui:define name="content">
       <h:head>
@@ -14,12 +14,12 @@
             .first-layer-top {
                display: flex;
                justify-content: space-between;
-               width: calc(100% - 25px);
             }
 
             ul.navList{
                display: flex;
                justify-content: center;
+               padding-left: 0 !important;
             }
 
             .navListItem{
@@ -39,9 +39,6 @@
             input#searchForm\:search.ui-inputfield {
                width: 840px !important;
             }
-
-
-
          </style>
       </h:head>
 
@@ -50,28 +47,28 @@
             <h:form>
                <ul class="navList">
                   <li class="">
-                     <h:link
-                             styleClass="listLink">
-                        <h:outputText value="Current Budget Lines"/>
-                     </h:link>
+                     <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('currentBudgetLines')}">
+                        <h:outputText value="Current Budget Lines" />
+                        <p:ajax update="contentSection" />
+                     </h:commandLink>
                   </li>
                   <li class="navListItem">
-                     <h:link
-                             styleClass="listLink">
-                        <h:outputText value="Drafts"/>
-                     </h:link>
+                     <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('budgetLineDrafts')}">
+                        <h:outputText value="Drafts" />
+                        <p:ajax update="contentSection" />
+                     </h:commandLink>
                   </li>
                   <li class="navListItem">
-                     <h:link
-                             styleClass="listLink">
-                        <h:outputText value="Expired Budget Lines"/>
-                     </h:link>
+                     <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('expiredBudgetLines')}">
+                        <h:outputText value="Expired Budget Lines" />
+                        <p:ajax update="contentSection" />
+                     </h:commandLink>
                   </li>
                   <li class="navListItem">
-                     <h:link
-                             styleClass="listLink">
-                        <h:outputText value="Budget Line Categories"/>
-                     </h:link>
+                     <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('budgetLineCategories')}">
+                        <h:outputText value="Budget Line Categories" />
+                        <p:ajax update="contentSection" />
+                     </h:commandLink>
                   </li>
                </ul>
             </h:form>
@@ -118,12 +115,12 @@
 
                </h:panelGrid>
 
-               <p:commandButton value="Save" action="#{registerBean.register()}"
+               <p:commandButton value="Create" action="#{registerBean.register()}"
                                 oncomplete="PF('dlg').hide();"/>
             </p:dialog>
 
             <p:commandButton value="Create Category" oncomplete="PF('Catdlg').show();" process="@this" update="Catdlg"/>
-            <p:dialog>
+            <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg" resizable="false" width="600">
                <h:panelGrid>
                   <h:outputLabel for="categoryName" value="Category Name :"/>
                   <p:inputText id="categoryName" value="#{registerBean.email}" required="true"
@@ -134,57 +131,17 @@
                                    required="true" requiredMessage="Description is required!"/>
                   <h:message id="descriptionMessage" for="description"/>
 
+                  <p:commandButton value="Create" action="#{registerBean.register()}"
+                                   oncomplete="PF('dlg').hide();"/>
+
                </h:panelGrid>
             </p:dialog>
          </div>
       </div>
 
-      <div class="second-layer-top">
-         <h3>Total Currebt Budget: shs 1,536,367</h3>
-
-         <h:form id="searchForm">
-
-            <h:outputLabel for="filter" value="Filter By:"/>
-            <p:selectOneMenu id="filter" value="#{Req.gender}">
-
-               <p:ajax update="" listener="#{Req.filterDependants()}"/>
-            </p:selectOneMenu>
-
-         </h:form>
-      </div>
-
-      <div>
-         <h:form id="budgetLineForm">
-            <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.filteredbudgetLines}" rowIndexVar="rowIndex"
-                         emptyMessage="No budgetLines available">
-               <p:column headerText="No.">
-                  <h:outputText value="#{rowIndex + 1}"/>
-               </p:column>
-               <p:column headerText="Category">
-                  <h:outputText value="#{budgetLine.User}"/>
-               </p:column>
-               <p:column headerText="Start Date">
-                  <h:outputText value="#{budgetLine.budgetLine}"/>
-               </p:column>
-               <p:column headerText="End Date">
-                  <h:outputText value="#{budgetLine.Refernce}"/>
-               </p:column>
-               <p:column headerText="Intial Amount">
-                  <h:outputText value="#{budgetLine.status}"/>
-               </p:column>
-               <p:column headerText="Balance">
-                  <h:outputText value="#{budgetLine.paid}"/>
-               </p:column>
-               <p:column headerText="Status">
-                  <h:outputText value="#{budgetLine.paid}"/>
-               </p:column>
-               <p:column headerText="Actions">
-
-               </p:column>
-            </p:dataTable>
-         </h:form>
-
-      </div>
+      <h:panelGroup id="contentSection">
+         <ui:include src="#{navigationBean.selectedBudgetLineSection}.xhtml" />
+      </h:panelGroup>
 
    </ui:define>
 
