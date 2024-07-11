@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 
 @Entity
-@Component
+@Table(name = "rejection_table")
 public class Rejection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -84,7 +84,7 @@ public class UserService {
         String referenceNumber = uuid.toString().replace("-", "ref_petty").toUpperCase();
         return referenceNumber;
     }
-    public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email) {
+    public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email,int role) {
         String error_message= "";
 
         if(firstName.isEmpty() || userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
@@ -123,6 +123,7 @@ public class UserService {
                         user.setUserName(userName);
                         user.setPassword(encodedPassword);
                         user.setEmail(email);
+                        user.setRole(role);
                         userDao.saveUser(user);
                 }
 
@@ -212,7 +213,7 @@ public class UserService {
 
     }
 
-    public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email) {
+    public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email,int role) {
         String error_message = "";
             User returnedUser = userDao.returnUser(userName);
             if (returnedUser!=null) {
@@ -242,6 +243,7 @@ public class UserService {
                             returnedUser.setLastName(lastName);
                             returnedUser.setPassword(encodedPassword);
                             returnedUser.setEmail(email);
+                            returnedUser.setRole(role);
                             userDao.updateUser(returnedUser);
 
                     }
@@ -353,5 +355,34 @@ public class UserService {
     //for user
     public  List<BudgetLine> getApprovedBudgetLines(){
         return userDao.getApprovedBudgetLines("approved");
+    }
+
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    public void deleteUserOfUserName(String userName) {
+    }
+
+    public void deleteAllUsers() {
+    }
+
+    public List<User> returnUserOfName(String name) {
+        List<User> allUsers = userDao.getAllUsers();
+        List<User> returnedUsers = new ArrayList<>();
+        for(User u : allUsers){
+            if(u.getUserName().toLowerCase().contains(name.toLowerCase())){
+                returnedUsers.add(u);
+            } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {
+                returnedUsers.add(u);
+            } else if (u.getLastName().toLowerCase().contains(name.toLowerCase())) {
+                returnedUsers.add(u);
+            }
+        }
+        for(User u : returnedUsers){
+            String decodedPassword = new String(Base64.getDecoder().decode(u.getPassword()));
+            u.setPassword(decodedPassword);
+        }
+        return returnedUsers;
     }
 }

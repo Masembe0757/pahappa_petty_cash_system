@@ -1,6 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
+import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
@@ -14,7 +15,8 @@ import java.util.Base64;
 @RequestScoped
 @Component
 public class LoginBean {
-
+    @Autowired
+    Routes routes;
     @Autowired
     UserDao userDao;
     public LoginBean(){}
@@ -70,17 +72,17 @@ public class LoginBean {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/protected/admin/dashboard.xhtml";
+                    return routes.getDashboard();
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password", null));
-                return "/pages/login.xhtml";
+                return routes.getLogin();
             }
 
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User does not exist in database", null));
-            return "/pages/login.xhtml";
+            return routes.getLogin();
         }
     }
 
@@ -88,6 +90,6 @@ public class LoginBean {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.getSessionMap().put("currentUser", null);
-        externalContext.redirect(externalContext.getRequestContextPath() +"/pages/login.xhtml");
+        externalContext.redirect(externalContext.getRequestContextPath() +routes.getLogin());
     }
 }

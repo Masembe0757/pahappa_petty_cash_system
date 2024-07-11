@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 @Entity
-@Component
+@Table(name = "budget_line_table")
 public class BudgetLine {
     public BudgetLine(){}
     @Id

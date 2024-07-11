@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @Entity
-@Component
+@Table(name = "user_table")
 public class User {
-    public User(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,7 +17,7 @@ public class User {
     private String email;
     @Column(columnDefinition = "int default 0")
     private int role;
-
+    public User(){}
     public int getRole() {
         return role;
     }
