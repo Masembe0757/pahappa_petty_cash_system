@@ -5,11 +5,193 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
 
-   <ui:define name="title">Dashboard</ui:define>
-   <ui:define name="pageTitle">Dashboard</ui:define>
+    <ui:define name="title">Dashboard</ui:define>
+    <ui:define name="pageTitle">Dashboard</ui:define>
 
-   <ui:define name="content">
+    <ui:define name="content">
+        <style type="text/css">
+            .top-cards {
+                display: flex;
+                justify-content: space-between;
+                margin-right: 1em;
+            }
 
-   </ui:define>
+            .card {
+                width: 298px;
+                height: 125px;
+                border-left: 4px solid;
+            }
+
+            .glass, .card {
+                border-radius: 4px;
+                background: white;
+                padding: 17px;
+                box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
+            }
+
+            .lower-cards {
+                margin-top: 17px;
+                gap: 20px;
+            }
+
+            .card-container {
+                flex: 1; /* Equal width for each card container */
+                display: flex;
+                gap: 20px; /* Adjust the gap between cards as needed */
+            }
+
+            .card-container:last-child{
+                margin-top: 2em;
+            }
+
+            .one {
+                width: 555px;
+                height: 455px;
+            }
+
+            .two {
+                width: 675px;
+            }
+
+            .three {
+                height: 458px;
+                width: 678px;
+            }
+
+            .four {
+                width: 465px;
+            }
+
+            h3.card-header {
+                vertical-align: middle;
+                margin-left: 0.5rem;
+            }
+
+            .card-icon {
+                display: inline-block;
+                border-radius: 4px;
+                width: 2em;
+                height: 2rem;
+                line-height: 2rem;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .card-join {
+                display: flex;
+            }
+
+            .grid.overview-detail {
+                display: flex;
+                text-align: center;
+            }
+
+            .ui-grid-col-6:first-child {
+                border-right: 1px solid #dee2e6;
+            }
+
+            .ui-grid-col-6 {
+                width: 50%;
+                padding: 0.5rem;
+            }
+
+            .overview-number {
+                font-size: 1.5rem;
+            }
+
+            .overview-subtext {
+                color: #6c757d;
+                margin-top: 0.25rem;
+                font-size: small;
+            }
+
+        </style>
+        <div class="top-cards">
+            <div class="card">
+                <div class="card-join">
+                    <span class="card-icon"></span>
+                    <h3 class="card-header">Requisitions</h3>
+                </div>
+                <div class="grid overview-detail">
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Pending</div>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Completed</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-join">
+                    <span class="card-icon"></span>
+                    <h3 class="card-header">Budget Lines</h3>
+                </div>
+                <div class="grid overview-detail">
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Running</div>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Expired</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-join">
+                    <span class="card-icon"></span>
+                    <h3 class="card-header">Reviews</h3>
+                </div>
+                <div class="grid overview-detail">
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Pending</div>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Approved</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-join">
+                    <span class="card-icon"></span>
+                    <h3 class="card-header">Users</h3>
+                </div>
+                <div class="grid overview-detail">
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Active</div>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">564</div>
+                        <div class="overview-subtext">Deleted</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lower-cards">
+            <div class="card-container">
+                <div class="glass one">
+                    <!-- Your chart or graph for one goes here -->
+                </div>
+                <div class="glass two">
+                    <!-- Your chart or graph for two goes here -->
+                </div>
+            </div>
+            <div class="card-container">
+                <div class="glass three">
+                    <!-- Your chart or graph for three goes here -->
+                </div>
+                <div class="glass four">
+                    <!-- Your chart or graph for four goes here -->
+                </div>
+            </div>
+
+        </div>
+    </ui:define>
 
 </ui:composition>

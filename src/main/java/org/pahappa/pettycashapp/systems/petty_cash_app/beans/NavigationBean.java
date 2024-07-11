@@ -2,6 +2,7 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
