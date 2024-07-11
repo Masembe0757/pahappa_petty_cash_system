@@ -1,0 +1,31 @@
+package org.pahappa.pettycashapp.systems.petty_cash_app.routes;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Routes {
+    private final String login  = "/pages/login.xhtml";
+    private final String dashboard  = "/pages/protected/admin/dashboard.xhtml";
+    private final String budgetLines  = "/pages/protected/admin/budgetLines.xhtml";
+    private final String users  = "/pages/protected/admin/users.xhtml";
+    private final String requisitions  = "/pages/protected/admin/requisitions.xhtml";
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getDashboard() {
+        return dashboard;
+    }
+
+    public String getBudgetLines() {
+        return budgetLines;
+    }
+
+    public String getUsers() {
+        return users;
+    }
+
+    public String getRequisitions() {
+        return requisitions;
+    }
+}

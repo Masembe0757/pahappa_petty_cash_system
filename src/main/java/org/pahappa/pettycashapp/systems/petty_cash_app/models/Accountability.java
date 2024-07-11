@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Component
+@Table(name = "accountability_table")
 public class Accountability {
     public Accountability(){}
     @Id

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 @Entity
-@Component
+@Table(name = "review_table")
 public class Review {
     public Review(){}
     @Id

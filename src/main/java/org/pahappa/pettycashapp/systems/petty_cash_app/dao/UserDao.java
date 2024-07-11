@@ -442,4 +442,21 @@ public class UserDao {
         }
         return budgetLines;
     }
+
+    public List<User> getAllUsers() {
+        List<User> users = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from User");
+            users = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return users;
+    }
 }
