@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 @Entity
-@Component
+@Table(name = "requisition_table")
 public class Requisition {
     public Requisition(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private  int amount;
-    private  String status;
+    private  String status="drafted";
     private String description;
     private final Date dateCreated = new Date();
     private Date dateNeeded;
@@ -25,6 +25,16 @@ public class Requisition {
 
     @OneToOne
     private Review review;
+    @OneToOne
+    private Rejection rejection;
+
+    public Rejection getRejection() {
+        return rejection;
+    }
+
+    public void setRejection(Rejection rejection) {
+        this.rejection = rejection;
+    }
 
     @OneToOne
     Accountability accountability;

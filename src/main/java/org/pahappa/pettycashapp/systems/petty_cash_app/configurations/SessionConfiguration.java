@@ -18,6 +18,7 @@ public class SessionConfiguration {
             configuration.addAnnotatedClass(Category.class);
             configuration.addAnnotatedClass(Requisition.class);
             configuration.addAnnotatedClass(Review.class);
+            configuration.addAnnotatedClass(Rejection.class);
             return configuration.buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Failed to create SessionFactory: " + ex);

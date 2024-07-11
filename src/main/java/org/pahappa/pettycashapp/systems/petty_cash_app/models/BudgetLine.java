@@ -6,20 +6,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 @Entity
-@Component
+@Table(name = "budget_line_table")
 public class BudgetLine {
     public BudgetLine(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private  String amountDelegated;
+    private int amountDelegated;
     private Date startDate;
     private Date endDate;
-    private String status;
+    private String status ="drafted";
     private final Date dateCreated = new Date();
     @ManyToOne
     private Category category;
+    @OneToOne
+    private Rejection rejection;
+
+    public Rejection getRejection() {
+        return rejection;
+    }
+
+    public void setRejection(Rejection rejection) {
+        this.rejection = rejection;
+    }
 
     public Category getCategory() {
         return category;
@@ -61,11 +71,12 @@ public class BudgetLine {
     public void setId(int id) {
         this.id = id;
     }
-    public String getAmountDelegated() {
+
+    public int getAmountDelegated() {
         return amountDelegated;
     }
 
-    public void setAmountDelegated(String amountDelegated) {
+    public void setAmountDelegated(int amountDelegated) {
         this.amountDelegated = amountDelegated;
     }
 
