@@ -8,7 +8,15 @@ public class Routes {
     private final String budgetLines  = "/pages/protected/admin/budgetLines.xhtml";
     private final String users  = "/pages/protected/admin/users.xhtml";
     private final String requisitions  = "/pages/protected/admin/requisitions.xhtml";
+    private final String requisitionDrafts = "/pages/protected/admin/requisitionsDrafts.xhtml";
+    private final String accountability = "/pages/protected/admin/accountability.xhtml";
 
+    public String getRequisitionDrafts() {
+        return requisitionDrafts;
+    }
+    public String getAccountability() {
+        return accountability;
+    }
     public String getLogin() {
         return login;
     }

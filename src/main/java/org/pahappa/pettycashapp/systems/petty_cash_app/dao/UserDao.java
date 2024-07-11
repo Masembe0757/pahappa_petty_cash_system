@@ -82,11 +82,12 @@ public class UserDao {
 
     public void saveRequisition(Requisition requisition) {
         try {
-
+            System.out.println("SAVING REQUISITION3");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
             Transaction trs = session.beginTransaction();
             session.saveOrUpdate(requisition);
+            System.out.println("SAVING REQUISITION4");
             trs.commit();
             SessionConfiguration.shutdown();
         }
@@ -458,5 +459,38 @@ public class UserDao {
             SessionConfiguration.shutdown();
         }
         return users;
+    }
+
+    public void deleteUserOfUserName(String userName) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from User where userName = :userName");
+            qry.setParameter("userName", userName);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public List<Requisition> getAllRequisitions() {
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition ");
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
+
     }
 }

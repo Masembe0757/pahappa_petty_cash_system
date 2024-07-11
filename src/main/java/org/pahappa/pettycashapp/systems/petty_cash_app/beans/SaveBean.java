@@ -1,16 +1,19 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +31,47 @@ public class SaveBean {
     private String email;
     private String role;
     private String name;
+
+    //REquisition
+    private int amount;
+    private int budgetLineId;
+    private String description;
+    private Date dateNeeded;
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDateNeeded() {
+        return dateNeeded;
+    }
+
+    public void setDateNeeded(Date dateNeeded) {
+        this.dateNeeded = dateNeeded;
+    }
+
+    public int getBudgetLineId() {
+        return budgetLineId;
+    }
+
+    public void setBudgetLineId(int budgetLineId) {
+        this.budgetLineId = budgetLineId;
+    }
+
+    @Autowired
+    private UserDao userDao;
 
     public String getName() {
         return name;
@@ -110,7 +154,7 @@ public class SaveBean {
         String message = userService.updateUserOfUserName(firstName,lastName,userName,password1,password2,email,Integer.parseInt(role));
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User updated successfully ", null));
             return routes.getUsers();
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -124,8 +168,11 @@ public class SaveBean {
     }
 
 
-    public void deleteofUserName(String userName) {
+    public void deleteUserOfUserName(String userName) {
+        System.out.println("delete user");
         userService.deleteUserOfUserName(userName);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "User deleted successfully", null));
     }
 
     public void deleteAllUsers() {
@@ -148,5 +195,36 @@ public class SaveBean {
             }
         }
         return userList;
+    }
+    public String defineRoles(int role){
+        if(role==1){
+            return "C-E-O";
+        } else if (role==2) {
+            return "H-R";
+        }
+        else if(role==0) {
+            return "Normal user";
+        }
+        else {
+            return "O-P-S";
+        }
+    }
+
+    //REQUISITIONS CODE
+    public void makeRequistion(int amount,Date dateNeeded,String description,int budgetLineId){
+        System.out.println("SAVING REQUISITION1");
+        String message = userService.makeRequisition(amount,dateNeeded,description,budgetLineId);
+
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+    }
+
+
+    public List<Requisition> getAllRequisitions() {
+        return userService.getAllRequisitions();
+    }
+
+    public List<BudgetLine> budgetLines() {
+       return userService.getApprovedBudgetLines();
     }
 }
