@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:dataTable id="expiredTable" value="#{budgetLineBean.expiredBudgetLines}" var="expiredLine"
+                 emptyMessage="No expired budget lines available"
+                 >
+        <p:column headerText="Name">
+            <h:outputText value="#{expiredLine.name}"/>
+        </p:column>
+        <p:column headerText="Category">
+            <h:outputText value="#{expiredLine.category.name}"/>
+        </p:column>
+        <p:column headerText="Start Date">
+            <h:outputText value="#{expiredLine.startDate}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="End Date">
+            <h:outputText value="#{expiredLine.endDate}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="Amount">
+            <h:outputText value="#{expiredLine.amount}"/>
+        </p:column>
+
+    </p:dataTable>
+
+
+</ui:composition>

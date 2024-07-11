@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div class="second-layer-top">
+        <h:form id="searchForm">
+            <p:inputText id="search" value="#{Req.search}"
+                         icon="pi pi-search"
+                         placeholder="Search By name">
+                <p:ajax event="keyup" update=""
+                        listener="#{Req.searchNames()}"/>
+            </p:inputText>
+
+            <h:outputLabel for="filter" value="Filter By:"/>
+            <p:selectOneMenu id="filter" value="#{Req.gender}">
+
+                <p:ajax update="" listener="#{Req.filterDependants()}"/>
+            </p:selectOneMenu>
+
+            <p:selectOneMenu value="#{Req.gender}">
+
+                <p:ajax update="" listener="#{Req.filterDependants()}"/>
+            </p:selectOneMenu>
+        </h:form>
+    </div>
+
+    <div>
+        <h:form id="requsitionForm">
+            <p:dataTable id="requsitionTable" var="requisition" value="#{requisitionBean.filteredrequisitions}"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No requisitions available">
+                <p:column headerText="No.">
+                    <h:outputText value="#{rowIndex + 1}"/>
+                </p:column>
+                <p:column headerText="User">
+                    <h:outputText value="#{requisition.User}"/>
+                </p:column>
+                <p:column headerText="Budget Line">
+                    <h:outputText value="#{requisition.budgetLine}"/>
+                </p:column>
+                <p:column headerText="Reference Number">
+                    <h:outputText value="#{requisition.Refernce}"/>
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{requisition.status}"/>
+                </p:column>
+                <p:column headerText="Paid">
+                    <h:outputText value="#{requisition.paid}"/>
+                </p:column>
+                <p:column headerText="Actions">
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+    </div>
+</ui:composition>
