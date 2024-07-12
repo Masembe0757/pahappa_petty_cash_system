@@ -85,33 +85,33 @@
                     <h:panelGrid>
                         <!-- Budget Line Dropdown -->
                         <h:outputLabel for="budgetLine" value="Budget Line:"/>
-                        <p:selectOneMenu id="budgetLine" value="#{saveBean.budgetLineId}" required="true"
+                        <p:selectOneMenu id="budgetLine" value="#{RequisitionBean.budgetLineId}" required="true"
                                          requiredMessage="Budget Line is required!">
                             <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{saveBean.budgetLines()}" var="budgetLine"
+                            <f:selectItems value="#{RequisitionBean.getBudgetLines()}" var="budgetLine"
                                            itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
                         </p:selectOneMenu>
 
                         <!-- Description -->
                         <h:outputLabel for="description" value="Description:"/>
-                        <p:inputTextarea id="description" value="#{saveBean.description}" rows="4" cols="50"
+                        <p:inputTextarea id="description" value="#{RequisitionBean.description}" rows="4" cols="50"
                                          required="true" requiredMessage="Description is required!"/>
 
 
                         <h:outputLabel for="dateNeeded" value="Date needed:"/>
-                        <p:calendar id="dateNeeded" value="#{saveBean.dateNeeded}" pattern="dd/MM/yyyy"
+                        <p:calendar id="dateNeeded" value="#{RequisitionBean.dateNeeded}" pattern="dd/MM/yyyy"
                                     required="true" showOn="button" navigator="true"
                                     styleClass="custom-calendar"
                                     requiredMessage="Date Needed is required!"/>
 
                         <h:outputLabel for="amount" value="Amount:"/>
-                        <p:inputText id="amount" value="#{saveBean.amount}" required="true"
+                        <p:inputText id="amount" value="#{RequisitionBean.amount}" required="true"
                                      requiredMessage="Amount is required!">
                         </p:inputText>
 
                     </h:panelGrid>
 
-                    <p:commandButton value="Save" action="#{saveBean.makeRequistion(saveBean.amount,saveBean.dateNeeded,saveBean.description,saveBean.budgetLineId)}"
+                    <p:commandButton value="Save" action="#{RequisitionBean.makeRequistion(RequisitionBean.amount,RequisitionBean.dateNeeded,RequisitionBean.description,RequisitionBean.budgetLineId)}"
                                      update=":requisitionForm:requisitionTable"
                                      oncomplete=" PF('dlg').show();"/>
                 </p:dialog>
@@ -145,7 +145,7 @@
 
         <div>
             <h:form id="requisitionForm">
-                <p:dataTable id="requisitionTable" var="requisition" value="#{saveBean.getAllRequisitions()}" emptyMessage="No requisitions available">
+                <p:dataTable id="requisitionTable" var="requisition" value="#{RequisitionBean.getAllRequisitions()}" emptyMessage="No requisitions available">
                     <p:column headerText="Reference Number">
                         <h:outputText value="#{requisition.referenceNumber}"/>
                     </p:column>

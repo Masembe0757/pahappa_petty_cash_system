@@ -13,19 +13,28 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>DisplayBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.DisplayBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
+        <managed-bean-name>AccountabilityBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.AccountablityBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>SaveBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.SaveBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.UserBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>CategoryBean</managed-bean-name>
         <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.CategoryBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-
+    <managed-bean>
+        <managed-bean-name>BudgetLineBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.BudgetLineBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>RequisitionBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.RequisitionBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>

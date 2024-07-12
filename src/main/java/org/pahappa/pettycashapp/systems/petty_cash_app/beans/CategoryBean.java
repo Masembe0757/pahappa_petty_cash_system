@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Component
-@ViewScoped
 public class CategoryBean implements Serializable {
     private String name;
     private String description;
