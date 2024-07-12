@@ -83,8 +83,8 @@
                   <p:selectOneMenu id="category" value="#{SaveBean.categoryId}" required="true"
                                    requiredMessage="Category is required!">
                      <f:selectItem itemLabel="Select a Category" itemValue="" noSelectionOption="true"/>
-                     <f:selectItems value="#{SaveBean.getCategories()}" var="category"
-                                    itemLabel="#{categroy.name}" itemValue="#{category.id}"/>
+                     <f:selectItems value="#{SaveBean.returnCategories()}" var="category"
+                                    itemLabel="#{category.name}" itemValue="#{category.id}"/>
                   </p:selectOneMenu>
 
 

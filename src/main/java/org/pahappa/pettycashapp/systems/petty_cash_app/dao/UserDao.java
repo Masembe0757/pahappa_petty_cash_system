@@ -8,7 +8,6 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionCon
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -373,7 +372,7 @@ public class UserDao {
         return requisitions;
     }
 
-    public List<Category> getCategories() {
+    public List<Category> returnCategories() {
         List<Category> categories = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();

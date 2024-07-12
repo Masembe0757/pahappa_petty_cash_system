@@ -193,9 +193,7 @@ public class SaveBean {
         return "";
 
     }
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
-    }
+
 
 
     public void deleteUserOfUserName(String userName) {
@@ -230,13 +228,13 @@ public class SaveBean {
         if(role==1){
             return "C-E-O";
         } else if (role==2) {
-            return "H-R";
+            return "O-P-S";
         }
         else if(role==0) {
             return "Normal user";
         }
         else {
-            return "O-P-S";
+            return "F-N-C";
         }
     }
 
@@ -272,14 +270,10 @@ public class SaveBean {
         }
 
     }
-    public  List<Category> getCategories(){
-       return userService.getCategories();
+    public  List<Category> returnCategories(){
+        System.out.println(userService==null);
+       return userService.returnCategories();
     }
-
-
-
-
-
 
 
 

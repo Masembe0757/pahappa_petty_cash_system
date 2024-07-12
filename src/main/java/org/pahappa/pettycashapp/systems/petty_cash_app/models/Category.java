@@ -13,16 +13,6 @@ public class Category {
     private String name;
     private String description;
 
-    @OneToOne
-    private Rejection rejection;
-
-    public Rejection getRejection() {
-        return rejection;
-    }
-
-    public void setRejection(Rejection rejection) {
-        this.rejection = rejection;
-    }
 
     public List<BudgetLine> getBudgetLines() {
         return budgetLines;
