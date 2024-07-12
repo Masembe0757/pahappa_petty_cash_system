@@ -5,6 +5,8 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
@@ -31,5 +33,9 @@ public class CategoryService {
     private boolean isDescriptionValid(String description) {
         String[] words = description.trim().split("\\s+");
         return words.length <= 25;
+    }
+
+    public List<Category> getCategories(){
+        return categoryDao.getCategories();
     }
 }

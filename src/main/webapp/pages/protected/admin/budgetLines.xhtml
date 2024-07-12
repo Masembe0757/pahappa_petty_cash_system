@@ -31,6 +31,8 @@
                 }
 
                 div.btn-sect {
+                    display: flex;
+                    column-gap: 25px;
                 }
 
                 .second-layer-top {
@@ -43,7 +45,6 @@
                 input#searchForm\:search.ui-inputfield {
                     width: 840px !important;
                 }
-
 
 
             </style>
@@ -74,63 +75,68 @@
                     </ul>
                 </h:form>
 
-         </div>
+            </div>
             <div class="btn-sect">
+                <h:form>
+                    <p:commandButton value="Create budget Line" oncomplete="PF('dlg').show();" process="@this"
+                                     update="dlg"/>
 
-            <p:commandButton value="Create budget Line" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
+                    <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
+                              width="600">
+                        <p:messages globalOnly="true" closable="true"/>
+                        <h:panelGrid>
+                            <h:outputLabel for="name" value="Name:"/>
+                            <p:inputText id="name" value="#{saveBean.name}" required="true"
+                                         requiredMessage="Name is required!">
+                            </p:inputText>
 
-            <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
-               <p:messages globalOnly="true" closable="true" />
-               <h:panelGrid>
-                  <!-- Budget Line Dropdown -->
-                  <h:outputLabel for="category" value="Category:"/>
-                  <p:selectOneMenu id="category" value="#{SaveBean.categoryId}" required="true"
-                                   requiredMessage="Category is required!">
-                     <f:selectItem itemLabel="Select a Category" itemValue="" noSelectionOption="true"/>
-                     <f:selectItems value="#{SaveBean.getCategories()}" var="category"
-                                    itemLabel="#{categroy.name}" itemValue="#{category.id}"/>
-                  </p:selectOneMenu>
+                            <!-- Budget Line Dropdown -->
+                            <h:outputLabel for="category" value="Category:"/>
+                            <p:selectOneMenu id="category" value="#{SaveBean.categoryId}" required="true"
+                                             requiredMessage="Category is required!">
+                                <f:selectItem itemLabel="Select a Category" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{categoryBean.getCategories()}" var="category"
+                                               itemLabel="#{category.name}" itemValue="#{category.id}"/>
+                            </p:selectOneMenu>
 
-                  <h:outputLabel for="startDate" value="Start Date:"/>
-                  <p:calendar id="startDate" value="#{saveBean.startDate}" pattern="dd/MM/yyyy"
-                              required="true" showOn="button" navigator="true"
-                              styleClass="custom-calendar"
-                              requiredMessage="Start Date is required!"/>
+                            <h:outputLabel for="startDate" value="Start Date:"/>
+                            <p:calendar id="startDate" value="#{saveBean.startDate}" pattern="dd/MM/yyyy"
+                                        required="true" showOn="button" navigator="true"
+                                        styleClass="custom-calendar"
+                                        requiredMessage="Start Date is required!"/>
 
-                  <h:outputLabel for="endDate" value="End Date:"/>
-                  <p:calendar id="endDate" value="#{saveBean.endDate}" pattern="dd/MM/yyyy"
-                              required="true" showOn="button" navigator="true"
-                              styleClass="custom-calendar"
-                              requiredMessage="End Date is required!"/>
+                            <h:outputLabel for="endDate" value="End Date:"/>
+                            <p:calendar id="endDate" value="#{saveBean.endDate}" pattern="dd/MM/yyyy"
+                                        required="true" showOn="button" navigator="true"
+                                        styleClass="custom-calendar"
+                                        requiredMessage="End Date is required!"/>
 
 
-                  <h:outputLabel for="amount" value="Amount:"/>
-                  <p:inputText id="amount" value="#{saveBean.amount}" required="true"
-                               requiredMessage="Amount is required!">
-                  </p:inputText>
-                  <h:outputLabel for="name" value="Name:"/>
-                  <p:inputText id="name" value="#{saveBean.name}" required="true"
-                               requiredMessage="Name is required!">
-                  </p:inputText>
+                            <h:outputLabel for="amount" value="Amount:"/>
+                            <p:inputText id="amount" value="#{saveBean.amount}" required="true"
+                                         requiredMessage="Amount is required!">
+                            </p:inputText>
 
-               </h:panelGrid>
+                        </h:panelGrid>
 
-               <p:commandButton value="Save" action="#{saveBean.createBudgetLIne(saveBean.amount,saveBean.name,saveBean.startDate,saveBean.endDate,saveBean.categoryId)}"
-                                update=":budgetLineForm:budgetLineTable"
-                                oncomplete="PF('dlg').hide();"/>
-            </p:dialog>
+                        <p:commandButton value="Save"
+                                         action="#{saveBean.createBudgetLIne(saveBean.amount,saveBean.name,saveBean.startDate,saveBean.endDate,saveBean.categoryId)}"
+                                         update=":budgetLineForm:budgetLineTable"
+                                         oncomplete="PF('dlg').hide();"/>
+                    </p:dialog>
+                </h:form>
 
                 <h:form>
 
                     <p:commandButton value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"
                                      update="Catdlg"/>
                     <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
-                              resizable="false" width="500" >
+                              resizable="false" width="500">
                         <h:panelGrid columns="2"
                                      columnClasses="ui-grid-col-2,ui-grid-col-4"
                                      layout="grid"
                                      styleClass="ui-panelgrid-blank ui-fluid"
-                                     style="border:0px none; background-color:transparent;">
+                                     style="border:0 none; background-color:transparent;">
                             <h:outputLabel for="categoryName" value="Category Name :"/>
                             <p:inputText id="categoryName" value="#{categoryBean.name}" required="true"
                                          requiredMessage="Name is required!"/>
@@ -148,55 +154,56 @@
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
-         </div>
-      </div>
+            </div>
+        </div>
 
-      <div class="second-layer-top">
-         <h3>Total Currebt Budget: shs 1,536,367</h3>
+        <div class="second-layer-top">
+            <h3>Total Current Budget: shs 1,536,367</h3>
 
-         <h:form id="searchForm">
+            <h:form id="searchForm">
 
-            <h:outputLabel for="filter" value="Filter By:"/>
-            <p:selectOneMenu id="filter" value="#{Req.gender}">
+                <h:outputLabel for="filter" value="Filter By:"/>
+                <p:selectOneMenu id="filter" value="#{Req.gender}">
 
-               <p:ajax update="" listener="#{Req.filterDependants()}"/>
-            </p:selectOneMenu>
+                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
+                </p:selectOneMenu>
 
-         </h:form>
-      </div>
+            </h:form>
+        </div>
 
-      <div>
-         <h:form id="budgetLineForm">
-            <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.filteredbudgetLines}" rowIndexVar="rowIndex"
-                         emptyMessage="No budgetLines available">
-               <p:column headerText="No.">
-                  <h:outputText value="#{rowIndex + 1}"/>
-               </p:column>
-               <p:column headerText="Category">
-                  <h:outputText value="#{budgetLine.User}"/>
-               </p:column>
-               <p:column headerText="Start Date">
-                  <h:outputText value="#{budgetLine.budgetLine}"/>
-               </p:column>
-               <p:column headerText="End Date">
-                  <h:outputText value="#{budgetLine.Refernce}"/>
-               </p:column>
-               <p:column headerText="Intial Amount">
-                  <h:outputText value="#{budgetLine.status}"/>
-               </p:column>
-               <p:column headerText="Balance">
-                  <h:outputText value="#{budgetLine.paid}"/>
-               </p:column>
-               <p:column headerText="Status">
-                  <h:outputText value="#{budgetLine.paid}"/>
-               </p:column>
-               <p:column headerText="Actions">
+        <div>
+            <h:form id="budgetLineForm">
+                <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.filteredbudgetLines}"
+                             rowIndexVar="rowIndex"
+                             emptyMessage="No budgetLines available">
+                    <p:column headerText="No.">
+                        <h:outputText value="#{rowIndex + 1}"/>
+                    </p:column>
+                    <p:column headerText="Category">
+                        <h:outputText value="#{budgetLine.User}"/>
+                    </p:column>
+                    <p:column headerText="Start Date">
+                        <h:outputText value="#{budgetLine.budgetLine}"/>
+                    </p:column>
+                    <p:column headerText="End Date">
+                        <h:outputText value="#{budgetLine.Refernce}"/>
+                    </p:column>
+                    <p:column headerText="Intial Amount">
+                        <h:outputText value="#{budgetLine.status}"/>
+                    </p:column>
+                    <p:column headerText="Balance">
+                        <h:outputText value="#{budgetLine.paid}"/>
+                    </p:column>
+                    <p:column headerText="Status">
+                        <h:outputText value="#{budgetLine.paid}"/>
+                    </p:column>
+                    <p:column headerText="Actions">
 
-               </p:column>
-            </p:dataTable>
-         </h:form>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
 
-      </div>
+        </div>
 
 
     </ui:define>

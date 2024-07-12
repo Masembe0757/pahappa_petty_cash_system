@@ -1,5 +1,6 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.List;
 
 @Component
 @ViewScoped
@@ -45,5 +47,9 @@ public class CategoryBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
         return null; // Return null if an error occurs
+    }
+
+    public List<Category> getCategories(){
+        return categoryService.getCategories();
     }
 }
