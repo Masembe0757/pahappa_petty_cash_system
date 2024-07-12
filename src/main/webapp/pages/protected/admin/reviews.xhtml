@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+
+    <ui:define name="title">Reviews</ui:define>
+    <ui:define name="pageTitle">Reviews</ui:define>
+
+    <ui:define name="content">
+        <h:head>
+            <style>
+                .background {
+                    height: 100%;
+                }
+                .first-layer-top {
+                    display: flex;
+                    justify-content: space-between;
+                    width: calc(100% - 25px);
+                }
+
+                ul.navList{
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .navListItem{
+                    margin-left: 3rem;
+                }
+
+                div.btn-sect{
+                }
+
+                .second-layer-top {
+                    display: inline-flex;
+                    justify-content: space-between;
+                    width: calc(100% - 25px);
+                    align-items: center;
+                }
+
+                input#searchForm\:search.ui-inputfield {
+                    width: 840px !important;
+                }
+
+
+
+            </style>
+        </h:head>
+
+        <div class="first-layer-top">
+            <div class="navigation">
+                <h:form>
+                    <ul class="navList">
+                        <li class="">
+                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeReviewSection('pendingRequisitions')}">
+                                <h:outputText value="Pending Requisitions" />
+                                <p:ajax update="contentSection" />
+                            </h:commandLink>
+                        </li>
+                        <li class="navListItem">
+                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeReviewSection('pendingBudgetLines')}">
+                                <h:outputText value="Pending Budget Lines" />
+                                <p:ajax update="contentSection" />
+                            </h:commandLink>
+                        </li>
+                        <li class="navListItem">
+                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeReviewSection('pastReviews')}">
+                                <h:outputText value="Past Reviews" />
+                                <p:ajax update="contentSection" />
+                            </h:commandLink>
+                        </li>
+                    </ul>
+                </h:form>
+
+            </div>
+        </div>
+        <h:panelGroup id="contentSection">
+            <ui:include src="#{navigationBean.selectedReviewSection}.xhtml" />
+        </h:panelGroup>
+
+    </ui:define>
+
+</ui:composition>

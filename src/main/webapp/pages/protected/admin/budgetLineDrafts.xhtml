@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-
+<div class="glass">
     <p:dataTable id="draftTable" value="#{budgetLineBean.draftBudgetLines}" var="draftLine"
                  emptyMessage="No drafts available">
         <p:column headerText="Name">
@@ -29,4 +29,5 @@
 
         </p:column>
     </p:dataTable>
+</div>
 </ui:composition>

@@ -11,8 +11,15 @@
     <ui:define name="content">
         <h:head>
             <style>
+                .background {
+                    height: 100%;
+                }
+
                 .first-layer-top {
                     display: inline-flex;
+                    justify-content: space-between;
+                    width: -webkit-fill-available;
+                    margin-bottom: 25px;
                 }
 
                 ul.navList{
@@ -38,6 +45,10 @@
                     width: 840px !important;
                 }
 
+                form#regform {
+                    display: flex;
+                    column-gap: 25px;
+                }
 
 
             </style>
@@ -45,10 +56,25 @@
 
         <div class="first-layer-top">
 
+            <h:form id="searchForm">
+                <p:inputText id="search" value="#{userBean.name}"
+                             icon="pi pi-search"
+                             placeholder="Search By name">
+                    <p:ajax event="keyup" update=":userForm:userTable"  listener="#{userBean.getUsersByName(userBean.name)}"/>
+                </p:inputText>
+                <!--
+                <h:outputLabel for="filter" value="Filter By Roles:"/>
+                <p:selectOneMenu id="filter" value="#{Req.gender}">
+
+                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
+                </p:selectOneMenu>
+                -->
+
+            </h:form>
+
             <div class="btn-sect">
 
                 <h:form class="actns" id="regform">
-
                     <p:commandButton oncomplete="PF('dlg').show();" process="@this" update="dlg" styleClass="btn1"
                                      icon="pi pi-user-plus"
                                      value="Add New"/>
@@ -150,7 +176,7 @@
                         <p:commandButton value="Save" action="#{RoleBean.saveRole(RoleBean.name,RoleBean.permission)}"
                                          oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
                                          update=":userForm:userTable"
-                        />
+                                            />
                     </p:dialog>
 
 
@@ -160,27 +186,11 @@
             </div>
         </div>
 
-        <div class="second-layer-top">
-            <h:form id="searchForm">
-                <p:inputText id="search" value="#{userBean.name}"
-                             icon="pi pi-search"
-                             placeholder="Search By name">
-                    <p:ajax event="keyup" update=":userForm:userTable"  listener="#{userBean.getUsersByName(userBean.name)}"/>
-                </p:inputText>
-                <!--
-                <h:outputLabel for="filter" value="Filter By Roles:"/>
-                <p:selectOneMenu id="filter" value="#{Req.gender}">
 
-                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
-                </p:selectOneMenu>
-                -->
-
-            </h:form>
-        </div>
-
-        <div>
+        <div class="glass">
+            <h4 class="Table-titile">USERS</h4>
             <h:form id="userForm">
-                <p:dataTable id="userTable" value="#{userBean.getUsersByName(userBean.name)}" var="user" emptyMessage="No users available">
+                <p:dataTable id="userTable"  value="#{saveBean.getUsersByName(saveBean.name)}" var="user" emptyMessage="No users available">
                     <p:column headerText="Username">
                         <h:outputText value="#{user.userName}"/>
                     </p:column>
@@ -197,7 +207,7 @@
                         <h:outputText value="#{userBean.defineRoles(user.role)}"/>
                     </p:column>
                     <p:column headerText="Actions">
-                        <p:commandButton icon="pi pi-user-edit" oncomplete="PF('userDialog').show();"
+                        <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('userDialog').show();"
                                          process="@this"
                                          update="userDialog">
                             <f:setPropertyActionListener value="#{user.userName}" target="#{userBean.username}" />
