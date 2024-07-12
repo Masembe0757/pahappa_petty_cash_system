@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "rejection_table")
 public class Rejection {
+    public Rejection(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

@@ -476,4 +476,18 @@ public class UserDao {
         }
         return categories;
     }
+
+    public void saveRole(Role role) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(role);
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
 }

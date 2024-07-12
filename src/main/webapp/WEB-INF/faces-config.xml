@@ -37,4 +37,9 @@
         <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.RequisitionBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>RoleBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.RoleBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
