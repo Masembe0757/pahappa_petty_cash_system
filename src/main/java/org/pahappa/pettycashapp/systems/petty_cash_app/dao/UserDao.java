@@ -8,7 +8,6 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionCon
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -372,8 +371,22 @@ public class UserDao {
         }
         return requisitions;
     }
-
-
+    public List<Category> returnCategories() {
+        List<Category> categories = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Category ");
+            categories = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return categories;
+    }
 
     public List<BudgetLine> getDraftedBudgetLines(String drafted) {
         List<BudgetLine> budgetLines = new ArrayList<>();
