@@ -371,7 +371,6 @@ public class UserDao {
         }
         return requisitions;
     }
-
     public List<Category> returnCategories() {
         List<Category> categories = new ArrayList<>();
         try {

@@ -17,7 +17,6 @@ public class Rejection {
     @OneToOne
     Requisition requisition;
 
-
     public int getId() {
         return id;
     }

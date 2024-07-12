@@ -12,6 +12,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
     </f:facet>
+    <link rel="stylesheet" href="https://code.icons8.com/font/css/icons8-fluent.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&amp;display=swap" rel="stylesheet"/>
@@ -19,53 +20,60 @@
 
     <style type="text/css">
         body {
-            height: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-weight: 400;
         }
 
         .background {
             background: rgba(253, 248, 232, 0.48);
-            height: 100vh !important;
             margin: 0;
         }
 
         .sideAndBody {
             display: inline-flex;
+            width: 100vw;
         }
 
         .top-bar {
+            position: fixed;
             height: 65px;
-            width: 100%;
+            width: 100vw;
             background: white;
             margin: 0;
             display: flex;
+            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
         }
 
         .sidebar {
+            position: fixed;
             width: 230px;
             height: 100vh;
             background: white;
             margin: 0;
+            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
         }
 
         .mainBody {
             width: calc(100% - 230px);
-            margin: 2em;
+            margin-top: 75px;
+            margin-left: 240px;
+            margin-right: .7em;
         }
 
         h1.header {
             font-family: "Just Me Again Down Here", cursive !important;
             font-weight: 400;
             font-style: normal;
-            margin-left: 3rem;
+            margin-left: 15rem;
             margin-top: inherit;
         }
 
         h3.pageTitle {
-            margin-left: 27rem;
-            font-family: Arial, sans-serif !important;
             color: #524C4C !important;
+            margin-top: 1em;
         }
 
         /* Style links */
@@ -104,7 +112,7 @@
         }
 
         /* Style headers */
-        h1, h2, h3, h4, h5, h6, body{
+        h1, h2, h3, h4, h5, h6, body {
             color: #524C4C !important;
             font-family: Arial, sans-serif;
         }
@@ -142,6 +150,15 @@
             transform: scale(1.2);
         }
 
+        .vertical-divider {
+            margin-inline-end: 3rem;
+            margin-inline-start: 3rem;
+        }
+
+        .Horizontal-divider {
+            margin-inline-end: 0;
+            margin-inline-start: 0;
+        }
 
     </style>
 
@@ -150,18 +167,23 @@
     <div class="background">
         <div class="top-bar">
             <h1 class="header">PCR Management System</h1>
+            <p:separator styleClass="vertical-divider"/>
             <h3 class="pageTitle"><ui:insert name="pageTitle">Default Page Title</ui:insert></h3>
         </div>
         <div class="sideAndBody">
             <div class="sidebar">
+                <h3>Pahappa</h3><h4>Limited</h4>
                 <h2 class="admin">ADMIN</h2>
+                <p:separator styleClass="Horizontal-divider"/>
                 <h:form>
                     <ul class="listType">
                         <li class="listItem">
                             <h:link outcome="/pages/protected/admin/dashboard.xhtml"
-                                    styleClass="listLink">
+                                    styleClass="listLink"
+                                    data-outcome="/pages/protected/admin/dashboard.xhtml">
                                 <i class="pi pi-home"></i>
                                 <h:outputText value="Dashboard"/>
+
                             </h:link>
                         </li>
                         <li class="listItem">
@@ -214,5 +236,6 @@
         </div>
 
     </div>
+
 </h:body>
 </html>
