@@ -83,20 +83,18 @@
 
 
                             <h:outputLabel for="password1" value="Password:"/>
-                            <p:password id="password1" value="#{saveBean.password1}" required="true"
-                                        feedback="true"
+                            <p:inputText id="password1" value="#{saveBean.password1}" required="true"
                                          requiredMessage="Password is required!">
 <!--                                <f:validator validatorId="emailValidator"/>-->
 <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                            </p:password>
+                            </p:inputText>
 
                             <h:outputLabel for="password2" value="Confirm:"/>
-                            <p:password id="password2" value="#{saveBean.password2}" required="true"
-                                        feedback="true"
+                            <p:inputText id="password2" value="#{saveBean.password2}" required="true"
                                          requiredMessage="Please confirm password!">
                                 <!--                                <f:validator validatorId="emailValidator"/>-->
                                 <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                            </p:password>
+                            </p:inputText>
 
                             <h:outputLabel for="u_email" value="Email:"/>
                             <p:inputText id="u_email" value="#{saveBean.email}" required="true"
@@ -108,11 +106,10 @@
                             <h:outputLabel for="role_" value="Role:"/>
                             <p:selectOneMenu id="role_" value="#{saveBean.role}" required="true"
                                              requiredMessage="Role is required!">
-                                <f:selectItem itemLabel="Select a Permisson" itemValue="" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="Approves all" itemValue="1"/>
-                                <f:selectItem itemLabel="Reviews reqs" itemValue="2"/>
-                                <f:selectItem itemLabel="Makes Budget lines,issue money" itemValue="3"/>
-                                <f:selectItem itemLabel="Normal user" itemValue="0"/>
+                                <f:selectItem itemLabel="Select a Role" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Executive" itemValue="1"/>
+                                <f:selectItem itemLabel="Human resource" itemValue="2"/>
+                                <f:selectItem itemLabel="Finance" itemValue="3"/>
                             </p:selectOneMenu>
 
                         </h:panelGrid>
@@ -199,30 +196,27 @@
                                 <p:inputText id="email" value="#{saveBean.email}"
                                              placeholder="Email"/>
                                 <h:outputLabel for="password_1" value="Password:"/>
-                                <p:password id="password_1" value="#{saveBean.password1}" required="true"
-                                            feedback="true"
+                                <p:inputText id="password_1" value="#{saveBean.password1}" required="true"
                                              requiredMessage="Password is required!">
                                     <!--                                <f:validator validatorId="emailValidator"/>-->
                                     <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                                </p:password>
+                                </p:inputText>
 
                                 <h:outputLabel for="password_2" value="Confirm:"/>
-                                <p:password id="password_2" value="#{saveBean.password2}" required="true"
-                                            feedback="true"
+                                <p:inputText id="password_2" value="#{saveBean.password2}" required="true"
                                              requiredMessage="Please confirm password!">
                                     <!--                                <f:validator validatorId="emailValidator"/>-->
                                     <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                                </p:password>
+                                </p:inputText>
 
 
                                 <h:outputLabel for="role_1" value="Role:"/>
                                 <p:selectOneMenu id="role_1" value="#{saveBean.role}" required="true"
                                                  requiredMessage="Role is required!">
                                     <f:selectItem itemLabel="Select a Role" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItem itemLabel="Approves all" itemValue="1"/>
-                                    <f:selectItem itemLabel="Reviews reqs" itemValue="2"/>
-                                    <f:selectItem itemLabel="Makes Budget lines, issue money" itemValue="3"/>
-                                    <f:selectItem itemLabel="Normal user" itemValue="0"/>
+                                    <f:selectItem itemLabel="Executive" itemValue="1"/>
+                                    <f:selectItem itemLabel="Human resource" itemValue="2"/>
+                                    <f:selectItem itemLabel="Finace" itemValue="3"/>
                                 </p:selectOneMenu>
 
                             </h:panelGrid>
