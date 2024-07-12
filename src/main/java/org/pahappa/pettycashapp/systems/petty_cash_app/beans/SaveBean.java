@@ -272,9 +272,7 @@ public class SaveBean {
         }
 
     }
-    public  List<Category> getCategories(){
-       return userService.getCategories();
-    }
+
 
 
 

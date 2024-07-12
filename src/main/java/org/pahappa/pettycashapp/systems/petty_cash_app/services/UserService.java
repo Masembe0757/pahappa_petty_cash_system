@@ -259,9 +259,7 @@ public class UserService {
 
     //CATEGORIES
     //for user
-    public  List<Category> getCategories(){
-        return userDao.getCategories();
-    }
+
 
 
 
