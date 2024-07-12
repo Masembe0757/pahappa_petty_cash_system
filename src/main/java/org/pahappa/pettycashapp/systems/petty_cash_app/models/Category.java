@@ -12,6 +12,7 @@ public class Category {
     private int id;
     private String name;
     private String description;
+
     public List<BudgetLine> getBudgetLines() {
         return budgetLines;
     }
