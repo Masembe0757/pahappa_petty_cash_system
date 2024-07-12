@@ -31,6 +31,8 @@ public class User {
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
+    @ManyToOne
+    Role roleAttached;
 
     public List<Review> getReviews() {
         return reviews;

@@ -48,9 +48,15 @@
             <div class="btn-sect">
 
                 <h:form class="actns" id="regform">
+
                     <p:commandButton oncomplete="PF('dlg').show();" process="@this" update="dlg" styleClass="btn1"
                                      icon="pi pi-user-plus"
                                      value="Add New"/>
+
+                    <p:commandButton oncomplete="PF('role').show();" process="@this" update="dlg" styleClass="btn1"
+                                     icon="pi pi-user-plus"
+                                     value="Add Role"/>
+
                     <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true" resizable="false" width="600">
                         <p:messages globalOnly="true" closable="true" />
                         <h:panelGrid>
@@ -117,6 +123,34 @@
                                          oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
                                          update=":userForm:userTable"
                                             />
+                    </p:dialog>
+
+
+                    <p:dialog header="Add Role" widgetVar="role" modal="true" id="role" responsive="true" dynamic="true" resizable="false" width="600">
+                        <p:messages globalOnly="true" closable="true" />
+                        <h:panelGrid>
+                            <h:outputLabel for="role_name" value="Role Name:"/>
+                            <p:inputText id="role_name" value="#{RoleBean.name}" required="true"
+                                         requiredMessage="Username is required!">
+                                <!--                                <f:validator validatorId="usernameValidator"/>-->
+                                <!--                                <f:ajax event="keyup" execute="@this" render="usernameMessage"/>-->
+                            </p:inputText>
+
+
+                            <h:outputLabel for="role_p" value="Role:"/>
+                            <p:selectOneMenu id="role_p" value="#{RoleBean.permission}" required="true"
+                                             requiredMessage="Role is required!">
+                                <f:selectItem itemLabel="Select a Permisson" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{RoleBean.permissions()}" var="permission"
+                                               itemLabel="#{permission.getKey()}" itemValue="#{permission.getValue()}"/>
+                            </p:selectOneMenu>
+
+                        </h:panelGrid>
+
+                        <p:commandButton value="Save" action="#{RoleBean.saveRole(RoleBean.name,RoleBean.permission)}"
+                                         oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
+                                         update=":userForm:userTable"
+                        />
                     </p:dialog>
 
 
