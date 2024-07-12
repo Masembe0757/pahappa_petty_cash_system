@@ -260,10 +260,6 @@ public class UserService {
     //CATEGORIES
     //for user
 
-    public  List<Category> returnCategories(){
-        return userDao.returnCategories();
-    }
-
 
 
 
