@@ -459,4 +459,21 @@ public class UserDao {
         return requisitions;
 
     }
+
+    public List<Category> returnAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Category ");
+            categories = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return categories;
+    }
 }

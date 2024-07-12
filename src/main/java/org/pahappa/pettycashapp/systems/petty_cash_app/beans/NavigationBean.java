@@ -5,7 +5,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
 public class NavigationBean {
     private String selectedRequisitionsSection = "allRequisitions";
     private String selectedBudgetLineSection = "currentBudgetLines";
