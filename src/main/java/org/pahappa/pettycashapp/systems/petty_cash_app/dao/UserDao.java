@@ -373,32 +373,13 @@ public class UserDao {
         return requisitions;
     }
 
-    public List<Category> getDraftedCategories(String drafted) {
+    public List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Category where status = :drafted");
-            qry.setParameter("drafted", drafted);
-            categories = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return categories;
-    }
-
-    public List<Category> getApprovedCategories(String approved) {
-        List<Category> categories = new ArrayList<>();
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Category where status = :approved");
-            qry.setParameter("approved", approved);
+            Query qry = session.createQuery("from Category ");
             categories = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();

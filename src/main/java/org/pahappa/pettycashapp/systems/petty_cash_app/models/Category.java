@@ -12,15 +12,6 @@ public class Category {
     private int id;
     private String name;
     private String description;
-    private String status = "drafted";
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     @OneToOne
     private Rejection rejection;

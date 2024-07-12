@@ -2,6 +2,7 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
@@ -37,6 +38,35 @@ public class SaveBean {
     private int budgetLineId;
     private String description;
     private Date dateNeeded;
+
+    //Budget lines
+    private int categoryId;
+    private Date startDate;
+    private  Date endDate;
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public int getAmount() {
         return amount;
@@ -227,4 +257,37 @@ public class SaveBean {
     public List<BudgetLine> budgetLines() {
        return userService.getApprovedBudgetLines();
     }
+
+
+
+    //BUDGET LINE CODE
+    public  void createBudgetLIne(int amount,String name, Date startDate,Date endDate,int categoryId){
+        String message = userService.makeBudgetLine(amount,name,startDate,endDate,categoryId);
+        if(message.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Budget line created successfully", null));
+        }
+
+    }
+    public  List<Category> getCategories(){
+       return userService.getCategories();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
