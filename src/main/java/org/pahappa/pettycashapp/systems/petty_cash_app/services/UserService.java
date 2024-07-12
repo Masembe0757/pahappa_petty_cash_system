@@ -142,26 +142,6 @@ public class UserService {
 
     }
 
-    public String provideAccountability(String description,int amount,int requisitionId){
-        String error_message ="";
-        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
-        if(amount > requisition.getAmount()){
-            error_message = "Amount accounted greater than amount requisitioned";
-        } else if (description.length()<50) {
-            error_message = "Please provide more description";
-        }else if (requisition.getStatus().equals("draft")) {
-            error_message ="Can not account for a drafted requisition";
-        } else {
-            Accountability accountability = new Accountability();
-            accountability.setAmount(amount);
-            accountability.setDescription(description);
-            accountability.setRequisition(requisition);
-            accountability.setReferenceNumber(userService.generateReferenceNumber());
-            userDao.saveAccountability(accountability);
-        }
-
-        return error_message;
-    }
     public String makeReview(String description,int requistionId,String userName){
         String error_message = "";
         Requisition requisition = userDao.getRequisitionOfId(requistionId);
@@ -183,23 +163,7 @@ public class UserService {
         return error_message;
     }
 
-    public String makeBudgetLine(int amount,String name, Date startDate,Date endDate,int categoryId){
-        String error_message = "";
-        if(userService.hasDigits(name)){
-            error_message = " Name can not contain didgits";
-        }else {
-            BudgetLine budgetLine= new BudgetLine();
-            Category category = userDao.getCategoryOfId(categoryId);
-            budgetLine.setAmountDelegated(amount);
-            budgetLine.setCategory(category);
-            budgetLine.setEndDate(endDate);
-            budgetLine.setStartDate(startDate);
-            budgetLine.setName(name);
-            userDao.saveBudgetLine(budgetLine);
-        }
-        return error_message;
 
-    }
 
     public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email,int role) {
         String error_message = "";
@@ -244,27 +208,6 @@ public class UserService {
         return  error_message;
     }
 
-    public String updateRequistion(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
-        String error_message = "";
-        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
-        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
-        if(!requisition.getStatus().equals("draft")){
-            error_message ="Requistion can not be edited";
-        } else if (description.length()<50) {
-            error_message="Please provide more description";
-        } else if (amount>budgetLine.getAmountDelegated()) {
-            error_message="Amount specified is greater than amount on budget line";
-        }else if (!budgetLine.getStatus().equals("approved")) {
-            error_message = "Budget line not yet approved";
-        }else {
-            requisition.setAmount(amount);
-            requisition.setDateNeeded(dateNeeded);
-            requisition.setDescription(description);
-            requisition.setBudgetLine(budgetLine);
-            userDao.updateRequesition(requisition);
-        }
-        return error_message;
-    }
     public String updateBudgetLine(int budgetLineId, int amount,String name, Date startDate,Date endDate,int categoryId){
         String error_message = "";
         BudgetLine budgetLine = userDao.returnBudgetLineofId(budgetLineId);
@@ -280,69 +223,6 @@ public class UserService {
             userDao.updateBudgetLIne(budgetLine);
         }
         return error_message;
-    }
-    //CEO approval
-    public void approveBudgetLine(int budgetLneId){
-        userDao.approveBudgetLine(budgetLneId,"approved");
-    }
-    //Reviewied by HR awaiting CEO approval
-    public void stageRequisition(int requisitionId){
-        userDao.stageRequisition(requisitionId,"staged");
-    }
-    //CEO approval
-    public void approveRequisition(int requisitionId){
-        userDao.approveRequisition(requisitionId,"approved");
-    }
-    public void rejectBudgetLine(int budgetLneId, String information){
-        Rejection rejection = new Rejection();
-       BudgetLine budgetLine = userDao.returnBudgetLineofId(budgetLneId);
-        rejection.setBudgetLine(budgetLine);
-        rejection.setInformation(information);
-        userDao.saveRejection(rejection);
-    }
-    public void rejectRequisition(int requisitionId,String information){
-        Rejection rejection = new Rejection();
-        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
-        rejection.setInformation(information);
-        rejection.setRequisition(requisition);
-        userDao.saveRejection(rejection);
-    }
-    //Finance issuing out money
-    public void fulfillRequisition(int requisitionId){
-        userDao.fulfillRequisition(requisitionId,"fulfilled");
-    }
-    //For finance
-    public List<Requisition> getApprovedRequisitions(){
-        return userDao.getapprovedRequisitions("approved");
-    }
-    //for ceo
-    public List<Requisition> getStagedRequisitions(){
-        return userDao.getStagedRequisitions("staged");
-    }
-    //for user
-    public List<Requisition> getFulfilledRequisitions(){
-        return userDao.getFulfilledRequisitions("fulfilled");
-    }
-    //for user
-    public List<Requisition> getDraftedRequisitions(){
-        return userDao.getDraftedRequisitions("drafted");
-    }
-
-    //for finance
-    public  List<Category> getDraftedCategories(){
-        return userDao.getDraftedCategories("drafted");
-    }
-    //for user
-    public  List<Category> getApprovedCategories(){
-        return userDao.getApprovedCategories("approved");
-    }
-    //for finance
-    public  List<BudgetLine> getDraftedBudgetLines(){
-        return userDao.getDraftedBudgetLines("drafted");
-    }
-    //for user
-    public  List<BudgetLine> getApprovedBudgetLines(){
-        return userDao.getApprovedBudgetLines("approved");
     }
 
     public List<User> getAllUsers() {
@@ -377,6 +257,64 @@ public class UserService {
 
 
 
+    //CATEGORIES
+    //for user
+    public  List<Category> getCategories(){
+        return userDao.getCategories();
+    }
+
+
+
+
+
+
+
+
+    //BUDGETLINE
+
+    public String makeBudgetLine(int amount,String name, Date startDate,Date endDate,int categoryId){
+        String error_message = "";
+        if(userService.hasDigits(name)){
+            error_message = " Name can not contain didgits";
+        }else {
+            BudgetLine budgetLine= new BudgetLine();
+            Category category = userDao.getCategoryOfId(categoryId);
+            budgetLine.setAmountDelegated(amount);
+            budgetLine.setCategory(category);
+            budgetLine.setEndDate(endDate);
+            budgetLine.setStartDate(startDate);
+            budgetLine.setName(name);
+            userDao.saveBudgetLine(budgetLine);
+        }
+        return error_message;
+
+    }
+    //for finance
+    public  List<BudgetLine> getDraftedBudgetLines(){
+        return userDao.getDraftedBudgetLines("drafted");
+    }
+    //for user
+    public  List<BudgetLine> getApprovedBudgetLines(){
+        return userDao.getApprovedBudgetLines("approved");
+    }
+    //CEO approval
+    public void approveBudgetLine(int budgetLneId){
+        userDao.approveBudgetLine(budgetLneId,"approved");
+    }
+    //Reviewied by HR awaiting CEO approval
+
+    public void rejectBudgetLine(int budgetLneId, String information){
+        Rejection rejection = new Rejection();
+        BudgetLine budgetLine = userDao.returnBudgetLineofId(budgetLneId);
+        rejection.setBudgetLine(budgetLine);
+        rejection.setInformation(information);
+        userDao.saveRejection(rejection);
+    }
+
+
+
+
+
 
     //REQUISITIONS
     public String makeRequisition(int amount,Date dateNeeded,String description,int budgetLineId){
@@ -407,5 +345,94 @@ public class UserService {
     public List<Requisition> getAllRequisitions() {
         return  userDao.getAllRequisitions();
     }
+    //Finance issuing out money
+    public void fulfillRequisition(int requisitionId){
+        userDao.fulfillRequisition(requisitionId,"fulfilled");
+    }
+    //For finance
+    public List<Requisition> getApprovedRequisitions(){
+        return userDao.getapprovedRequisitions("approved");
+    }
+    //for ceo
+    public List<Requisition> getStagedRequisitions(){
+        return userDao.getStagedRequisitions("staged");
+    }
+    //for user
+    public List<Requisition> getFulfilledRequisitions(){
+        return userDao.getFulfilledRequisitions("fulfilled");
+    }
+    //for user
+    public List<Requisition> getDraftedRequisitions(){
+        return userDao.getDraftedRequisitions("drafted");
+    }
+    public void stageRequisition(int requisitionId){
+        userDao.stageRequisition(requisitionId,"staged");
+    }
+    //CEO approval
+    public void approveRequisition(int requisitionId){
+        userDao.approveRequisition(requisitionId,"approved");
+    }
+
+    public String updateRequistion(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
+        String error_message = "";
+        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
+        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
+        if(!requisition.getStatus().equals("draft")){
+            error_message ="Requistion can not be edited";
+        } else if (description.length()<50) {
+            error_message="Please provide more description";
+        } else if (amount>budgetLine.getAmountDelegated()) {
+            error_message="Amount specified is greater than amount on budget line";
+        }else if (!budgetLine.getStatus().equals("approved")) {
+            error_message = "Budget line not yet approved";
+        }else {
+            requisition.setAmount(amount);
+            requisition.setDateNeeded(dateNeeded);
+            requisition.setDescription(description);
+            requisition.setBudgetLine(budgetLine);
+            userDao.updateRequesition(requisition);
+        }
+        return error_message;
+    }
+    public void rejectRequisition(int requisitionId,String information){
+        Rejection rejection = new Rejection();
+        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
+        rejection.setInformation(information);
+        rejection.setRequisition(requisition);
+        userDao.saveRejection(rejection);
+    }
+
+
+
+
+
+
+
+    //ACCOUNTABILITY
+    public String provideAccountability(String description,int amount,int requisitionId){
+        String error_message ="";
+        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
+        if(amount > requisition.getAmount()){
+            error_message = "Amount accounted greater than amount requisitioned";
+        } else if (description.length()<50) {
+            error_message = "Please provide more description";
+        }else if (requisition.getStatus().equals("draft")) {
+            error_message ="Can not account for a drafted requisition";
+        } else {
+            Accountability accountability = new Accountability();
+            accountability.setAmount(amount);
+            accountability.setDescription(description);
+            accountability.setRequisition(requisition);
+            accountability.setReferenceNumber(userService.generateReferenceNumber());
+            userDao.saveAccountability(accountability);
+        }
+
+        return error_message;
+    }
+
+
 }
+
+
+
 

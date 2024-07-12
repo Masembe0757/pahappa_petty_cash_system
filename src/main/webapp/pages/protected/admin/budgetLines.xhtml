@@ -50,19 +50,19 @@
             <h:form>
                <ul class="navList">
                   <li class="">
-                     <h:link
+                     <h:link  outcome="/pages/proteccted/admin/budgetLines.xhtml"
                              styleClass="listLink">
                         <h:outputText value="Current Budget Lines"/>
                      </h:link>
                   </li>
                   <li class="navListItem">
-                     <h:link
+                     <h:link outcome="/pages/proteccted/admin/budgetLineDrafts.xhtml"
                              styleClass="listLink">
                         <h:outputText value="Drafts"/>
                      </h:link>
                   </li>
                   <li class="navListItem">
-                     <h:link
+                     <h:link outcome="/pages/proteccted/admin/expiredBudgetLines.xhtml"
                              styleClass="listLink">
                         <h:outputText value="Expired Budget Lines"/>
                      </h:link>
@@ -76,39 +76,44 @@
             <p:commandButton value="Create budget Line" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
 
             <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
+               <p:messages globalOnly="true" closable="true" />
                <h:panelGrid>
                   <!-- Budget Line Dropdown -->
                   <h:outputLabel for="category" value="Category:"/>
-                  <p:selectOneMenu id="category" value="#{registerBean.selectedBudgetLine}" required="true"
+                  <p:selectOneMenu id="category" value="#{SaveBean.categoryId}" required="true"
                                    requiredMessage="Category is required!">
                      <f:selectItem itemLabel="Select a Category" itemValue="" noSelectionOption="true"/>
-                     <f:selectItems value="#{registerBean.budgetLines}" var="category"
-                                    itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
+                     <f:selectItems value="#{SaveBean.getCategories()}" var="category"
+                                    itemLabel="#{categroy.name}" itemValue="#{category.id}"/>
                   </p:selectOneMenu>
-                  <h:message id="categoryMessage" for="category"/>
 
 
                   <h:outputLabel for="startDate" value="Start Date:"/>
-                  <p:calendar id="startDate" value="#{registerBean.dateOfBirth}" pattern="dd/MM/yyyy"
+                  <p:calendar id="startDate" value="#{saveBean.startDate}" pattern="dd/MM/yyyy"
                               required="true" showOn="button" navigator="true"
                               styleClass="custom-calendar"
                               requiredMessage="Start Date is required!"/>
 
                   <h:outputLabel for="endDate" value="End Date:"/>
-                  <p:calendar id="endDate" value="#{registerBean.dateOfBirth}" pattern="dd/MM/yyyy"
+                  <p:calendar id="endDate" value="#{saveBean.endDate}" pattern="dd/MM/yyyy"
                               required="true" showOn="button" navigator="true"
                               styleClass="custom-calendar"
                               requiredMessage="End Date is required!"/>
 
 
                   <h:outputLabel for="amount" value="Amount:"/>
-                  <p:inputText id="amount" value="#{registerBean.email}" required="true"
+                  <p:inputText id="amount" value="#{saveBean.amount}" required="true"
                                requiredMessage="Amount is required!">
+                  </p:inputText>
+                  <h:outputLabel for="name" value="Name:"/>
+                  <p:inputText id="name" value="#{saveBean.name}" required="true"
+                               requiredMessage="Name is required!">
                   </p:inputText>
 
                </h:panelGrid>
 
-               <p:commandButton value="Save" action="#{registerBean.register()}"
+               <p:commandButton value="Save" action="#{saveBean.createBudgetLIne(saveBean.amount,saveBean.name,saveBean.startDate,saveBean.endDate,saveBean.categoryId)}"
+                                update=":budgetLineForm:budgetLineTable"
                                 oncomplete="PF('dlg').hide();"/>
             </p:dialog>
          </div>
