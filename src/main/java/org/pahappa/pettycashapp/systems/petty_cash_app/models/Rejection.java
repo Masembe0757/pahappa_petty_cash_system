@@ -16,16 +16,6 @@ public class Rejection {
     BudgetLine budgetLine;
     @OneToOne
     Requisition requisition;
-    @OneToOne
-    Category category;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public int getId() {
         return id;
