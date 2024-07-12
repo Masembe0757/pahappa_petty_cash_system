@@ -26,32 +26,33 @@
     </div>
 
     <div class="glass">
-
-        <h:form id="requsitionForm">
-            <p:dataTable id="requsitionTable" var="requisition" value="#{requisitionBean.filteredrequisitions}"
-                         rowIndexVar="rowIndex"
-                         emptyMessage="No requisitions available">
-                <p:column headerText="No.">
-                    <h:outputText value="#{rowIndex + 1}"/>
+        <h:form id="requisitionForm">
+            <p:dataTable id="requisitionTable" var="requisition" value="#{RequisitionBean.getAllRequisitions()}" emptyMessage="No requisitions available">
+                <p:column headerText="Reference Number">
+                    <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>
                 <p:column headerText="User">
-                    <h:outputText value="#{requisition.User}"/>
+                    <h:outputText value="#{requisition.user.firstName } #{requisition.user.firstName}"/>
                 </p:column>
                 <p:column headerText="Budget Line">
-                    <h:outputText value="#{requisition.budgetLine}"/>
+                    <h:outputText value="#{requisition.budgetLine.name}"/>
                 </p:column>
-                <p:column headerText="Reference Number">
-                    <h:outputText value="#{requisition.Refernce}"/>
+                <p:column headerText="Amount">
+                    <h:outputText value="#{requisition.amount}"/>
+                </p:column>
+
+                <p:column headerText="Date created">
+                    <h:outputText value="#{requisition.dateCreated}"/>
+                </p:column>
+                <p:column headerText="Date needed">
+                    <h:outputText value="#{requisition.dateNeeded}"/>
                 </p:column>
                 <p:column headerText="Status">
                     <h:outputText value="#{requisition.status}"/>
                 </p:column>
-                <p:column headerText="Paid">
-                    <h:outputText value="#{requisition.paid}"/>
-                </p:column>
-                <p:column headerText="Actions">
 
-                </p:column>
+                <p:growl id="message" showDetail="true"/>
+
             </p:dataTable>
         </h:form>
 
