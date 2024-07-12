@@ -3,28 +3,30 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <div class="glass">
 
-    <p:dataTable id="draftTable" value="#{requisitionBean.draftRequisitions}" var="draft"
-                 emptyMessage="No drafts available">
-        <p:column headerText="User">
-            <h:outputText value="#{draft.user.username}"/>
-        </p:column>
-        <p:column headerText="Budget Line">
-            <h:outputText value="#{draft.budgetLine.name}"/>
-        </p:column>
-        <p:column headerText="Description">
-            <h:outputText value="#{draft.description}"/>
-        </p:column>
-        <p:column headerText="Date Needed">
-            <h:outputText value="#{draft.dateNeeded}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
-        </p:column>
-        <p:column headerText="Amount">
-            <h:outputText value="#{draft.amount}"/>
-        </p:column>
-        <p:column headerText="Actions" style="width:100px">
+        <p:dataTable id="draftTable" value="#{requisitionBean.draftRequisitions}" var="draft"
+                     emptyMessage="No drafts available">
+            <p:column headerText="User">
+                <h:outputText value="#{draft.user.username}"/>
+            </p:column>
+            <p:column headerText="Budget Line">
+                <h:outputText value="#{draft.budgetLine.name}"/>
+            </p:column>
+            <p:column headerText="Description">
+                <h:outputText value="#{draft.description}"/>
+            </p:column>
+            <p:column headerText="Date Needed">
+                <h:outputText value="#{draft.dateNeeded}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Amount">
+                <h:outputText value="#{draft.amount}"/>
+            </p:column>
+            <p:column headerText="Actions" style="width:100px">
 
-        </p:column>
-    </p:dataTable>
+            </p:column>
+        </p:dataTable>
+    </div>
 </ui:composition>

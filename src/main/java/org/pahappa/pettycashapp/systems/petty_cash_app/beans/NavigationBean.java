@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 public class NavigationBean {
     private String selectedRequisitionsSection = "allRequisitions";
     private String selectedBudgetLineSection = "currentBudgetLines";
+    private String selectedReviewSection = "pendingRequisitions";
 
     public String getSelectedBudgetLineSection() {
         return selectedBudgetLineSection;
@@ -31,6 +32,18 @@ public class NavigationBean {
 
     public void changeRequisitionsSections(String RequisitionSection) {
         this.selectedRequisitionsSection = RequisitionSection;
+    }
+
+    public String getSelectedReviewSection() {
+        return selectedReviewSection;
+    }
+
+    public void setSelectedReviewSection(String selectedReviewSection) {
+        this.selectedReviewSection = selectedReviewSection;
+    }
+
+    public void changeReviewSection(String ReviewSection) {
+        this.selectedReviewSection = ReviewSection;
     }
 }
 

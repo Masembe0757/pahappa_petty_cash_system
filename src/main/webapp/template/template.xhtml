@@ -139,9 +139,17 @@
             outline: none;
         }
 
+        .glass, .card {
+            border-radius: 4px;
+            background: white;
+            padding: 17px;
+            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
+        }
+
         .ui-button {
             background: #ADA239 !important;
             border: 1px solid #ADA239 !important;
+            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
         }
 
         .ui-button:hover {
@@ -158,6 +166,33 @@
         .Horizontal-divider {
             margin-inline-end: 0;
             margin-inline-start: 0;
+        }
+
+        body .ui-datatable .ui-paginator.ui-paginator-bottom {
+            display: flex;
+            justify-content: end;
+        }
+
+        body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+            background: #fdf6e3;
+        }
+
+        .ui-button.edit, .ui-button.delete {
+            background: rgba(255, 255, 255, 0.87) !important;
+            border: none !important;
+        }
+
+        .ui-button.edit {
+            color: green !important;
+        }
+
+        .ui-button.delete {
+            color: red !important;
+        }
+
+        .ui-button.edit:hover, .ui-button.delete:hover {
+            background-color: #ffffff !important;
+            transform: scale(1.4);
         }
 
     </style>
