@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-@ApplicationScoped
+
 @Component
 public class UserBean implements Serializable {
     @Autowired

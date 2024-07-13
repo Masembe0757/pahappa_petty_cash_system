@@ -6,45 +6,9 @@
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
-
-    <managed-bean>
-        <managed-bean-name>loginBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.LoginBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>AccountabilityBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.AccountablityBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>userBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.UserBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>CategoryBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.CategoryBean</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>BudgetLineBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.BudgetLineBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>RequisitionBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.RequisitionBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>roleBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.RoleBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>navigationBean</managed-bean-name>
-        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.NavigationBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
+    <application>
+        <el-resolver>
+            org.springframework.web.jsf.el.SpringBeanFacesELResolver
+        </el-resolver>
+    </application>
 </faces-config>
