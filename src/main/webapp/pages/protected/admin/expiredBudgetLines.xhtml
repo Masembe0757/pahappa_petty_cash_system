@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-
+ <div class="glass">
     <p:dataTable id="expiredTable" value="#{budgetLineBean.expiredBudgetLines}" var="expiredLine"
                  emptyMessage="No expired budget lines available"
                  >
@@ -24,10 +24,10 @@
             </h:outputText>
         </p:column>
         <p:column headerText="Amount">
-            <h:outputText value="#{expiredLine.amount}"/>
+            <h:outputText value="#{expiredLine.amountDelegated}"/>
         </p:column>
 
     </p:dataTable>
-
+ </div>
 
 </ui:composition>

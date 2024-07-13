@@ -6,11 +6,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 @SessionScoped
-@Component
+@ManagedBean
 public class NavigationBean {
     private String selectedRequisitionsSection = "allRequisitions";
     private String selectedBudgetLineSection = "currentBudgetLines";
     private String selectedUserSection = "availableUsers";
+    private String selectedReviewSection = "pendingRequisitions";
 
     public String getSelectedUserSection() {
         return selectedUserSection;
@@ -19,7 +20,6 @@ public class NavigationBean {
     public void setSelectedUserSection(String selectedUserSection) {
         this.selectedUserSection = selectedUserSection;
     }
-
 
     public String getSelectedBudgetLineSection() {
         return selectedBudgetLineSection;
@@ -46,6 +46,18 @@ public class NavigationBean {
 
     public void changeRequisitionsSections(String RequisitionSection) {
         this.selectedRequisitionsSection = RequisitionSection;
+    }
+
+    public String getSelectedReviewSection() {
+        return selectedReviewSection;
+    }
+
+    public void setSelectedReviewSection(String selectedReviewSection) {
+        this.selectedReviewSection = selectedReviewSection;
+    }
+
+    public void changeReviewSection(String ReviewSection) {
+        this.selectedReviewSection = ReviewSection;
     }
 }
 

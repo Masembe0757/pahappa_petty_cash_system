@@ -3,14 +3,15 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-    <div class="second-layer-top">
-        <h3>Total Currebt Budget: shs 1,536,367</h3>
+
+    <div class="second-layer-top glass">
+        <h3>Total Current Budget: shs 1,536,367</h3>
 
         <!--
         <h:form id="searchForm">
 
             <h:outputLabel for="filter" value="Filter By:"/>
-            <p:selectOneMenu id="filter" value="#{Req.gender}">
+            <p:selectOneMenu id="filter" value="#{Req.gender}" styleClass="glass">
 
                 <p:ajax update="" listener="#{Req.filterDependants()}"/>
             </p:selectOneMenu>
@@ -20,7 +21,7 @@
 
     </div>
 
-    <div>
+    <div class="glass">
         <h:form id="budgetLineForm">
             <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.currentBudgetLines()}"
                          rowIndexVar="rowIndex"

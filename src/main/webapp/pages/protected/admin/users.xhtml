@@ -11,8 +11,15 @@
     <ui:define name="content">
         <h:head>
             <style>
+                .background {
+                    height: 100%;
+                }
+
                 .first-layer-top {
                     display: inline-flex;
+                    justify-content: space-between;
+                    width: -webkit-fill-available;
+                    margin-bottom: 25px;
                 }
 
                 ul.navList{
@@ -38,13 +45,16 @@
                     width: 840px !important;
                 }
 
+                form#regform {
+                    display: flex;
+                    column-gap: 25px;
+                }
 
 
             </style>
         </h:head>
 
         <div class="first-layer-top">
-
             <div class="navigation">
                 <h:form>
                     <ul class="navList">
@@ -66,13 +76,9 @@
 
             </div>
 
-
-
-
             <div class="btn-sect">
 
                 <h:form class="actns" id="regform">
-
                     <p:commandButton oncomplete="PF('dlg').show();" process="@this" update="dlg" styleClass="btn1"
                                      icon="pi pi-user-plus"
                                      value="Add New"/>
@@ -169,6 +175,7 @@
                             
 
                         </h:panelGrid>
+
                         <p:commandButton value="Save" action="#{roleBean.saveRole(roleBean.name,roleBean.permission)}"
                                          oncomplete=" if (!(PF('role').jq.find('.ui-messages-error').length == 0)) PF('role').show();"
                                          update=":userForm:userTable:message"
@@ -181,7 +188,6 @@
                 </h:form>
             </div>
         </div>
-
         <h:panelGroup id="contentSection">
             <ui:include src="#{navigationBean.selectedUserSection}.xhtml" />
         </h:panelGroup>

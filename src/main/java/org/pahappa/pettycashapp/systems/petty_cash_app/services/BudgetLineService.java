@@ -15,8 +15,7 @@ import java.util.List;
 public class BudgetLineService {
     @Autowired
     UserDao userDao;
-    @Autowired
-    BudgetLineService budgetLineService;
+
     //Generic method to check if name provided has digits in it
     private boolean hasDigits(String str){
         boolean hasDigits = false;
@@ -30,7 +29,7 @@ public class BudgetLineService {
 
     public String makeBudgetLine(int amount, String name, Date startDate, Date endDate, int categoryId){
         String error_message = "";
-        if(budgetLineService.hasDigits(name)){
+        if(hasDigits(name)){
             error_message = " Name can not contain didgits";
         }else {
             BudgetLine budgetLine= new BudgetLine();
@@ -67,12 +66,8 @@ public class BudgetLineService {
         userDao.saveRejection(rejection);
     }
 
-    public List<Category> returnCategories() {
-        return userDao.returnAllCategories();
-    }
-
     public List<BudgetLine> budgetLines() {
-        return budgetLineService.getApprovedBudgetLines();
+        return getApprovedBudgetLines();
     }
 
     public List<BudgetLine> returnCurrentBudgetLines() {
@@ -84,5 +79,16 @@ public class BudgetLineService {
             }
         }
         return  budgetLines1;
+    }
+
+    public List<BudgetLine> getExpiredBudgetLines() {
+        List<BudgetLine> bL = userDao.getApprovedBudgetLines("approved");
+        List<BudgetLine> expiredBL =new ArrayList<>();
+        for(BudgetLine budgetLine : bL){
+            if(budgetLine.getEndDate().before(new Date())){
+                expiredBL.add(budgetLine);
+            }
+        }
+        return  expiredBL;
     }
 }

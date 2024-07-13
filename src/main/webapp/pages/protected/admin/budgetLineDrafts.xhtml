@@ -3,8 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-
-    <p:dataTable id="draftTable" value="#{budgetLineBean.draftBudgetLines}" var="draftLine"
+<div class="glass">
+    <p:dataTable id="draftTable" value="#{budgetLineBean.draftedBudgetLines}" var="draftLine"
                  emptyMessage="No drafts available">
         <p:column headerText="Name">
             <h:outputText value="#{draftLine.name}"/>
@@ -23,10 +23,21 @@
             </h:outputText>
         </p:column>
         <p:column headerText="Amount">
-            <h:outputText value="#{draftLine.amount}"/>
+            <h:outputText value="#{draftLine.amountDelegated}"/>
         </p:column>
         <p:column headerText="Actions" style="width:100px">
+            <div class="btn-sect">
+                <p:commandButton styleClass="edit" icon="pi pi-pencil"
+                                 action="#{budgetLineBean.editBudgetLine(draftLine)}" update="categoryTable">
+                </p:commandButton>
+                <p:commandButton styleClass="delete" icon="pi pi-times"
+                                 action="#{categoryBean.cancelBudgetLine(draftLine)}"
+                                 update="categoryTable">
+                    <p:confirm header="Confirmation" message="Are you sure you want to delete this category?"/>
+                </p:commandButton>
+            </div>
 
         </p:column>
     </p:dataTable>
+</div>
 </ui:composition>

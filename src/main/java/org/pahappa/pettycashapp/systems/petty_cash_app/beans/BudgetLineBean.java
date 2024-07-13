@@ -11,19 +11,24 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 @SessionScoped
 @Component
+@ViewScoped
 public class BudgetLineBean implements Serializable {
     //Budget lines
+    private static final long serialVersionUID = 1L;
     private int categoryId;
     private Date startDate;
     private  Date endDate;
     private int amount;
     private String name;
+
     @Autowired
+    private BudgetLineService budgetLineService;
     BudgetLineService budgetLineService;
     @Autowired
     UserDao userDao;
@@ -96,4 +101,11 @@ public class BudgetLineBean implements Serializable {
         return budgetLineService.returnCurrentBudgetLines();
     }
 
+    public List<BudgetLine> getDraftedBudgetLines(){
+        return budgetLineService.getDraftedBudgetLines();
+    }
+
+    public List<BudgetLine> getExpiredBudgetLines() {
+        return budgetLineService.getExpiredBudgetLines();
+    }
 }
