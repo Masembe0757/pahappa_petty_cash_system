@@ -12,13 +12,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@ApplicationScoped
 @Component
 public class UserBean implements Serializable {
     @Autowired

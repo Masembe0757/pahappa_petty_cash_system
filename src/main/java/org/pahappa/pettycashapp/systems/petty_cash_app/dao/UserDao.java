@@ -490,4 +490,36 @@ public class UserDao {
             SessionConfiguration.shutdown();
         }
     }
+
+    public List<Role> getAllRoles() {
+        List<Role> roles = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Role ");
+            roles = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return roles;
+    }
+
+    public void deleteRoleOdId(int roleId) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from Role where id = :roleId");
+            qry.setParameter("roleId", roleId);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
 }

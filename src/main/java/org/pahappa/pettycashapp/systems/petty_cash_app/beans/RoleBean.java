@@ -1,5 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,5 +62,42 @@ public class RoleBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
+    }
+
+    public List<Role> getRoleByName(String name) {
+        List<Role> roles = roleService.getAllRoles();
+        List<Role> roleList = new ArrayList<>();
+        if(name.isEmpty()){
+            roleList.addAll(roles);
+
+        }else {
+            List<Role> returnedRoles = roleService.returnRoleOfName(name);
+            if (returnedRoles.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "No role found for that name", null));
+            }else {
+                roleList.addAll(returnedRoles);
+            }
+        }
+        return roleList;
+    }
+
+    public String updateRole(String name , int permission) {
+        String message = roleService.updateRoleOfId(name,permission);
+        if(message.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role updated successfully ", null));
+           // return routes.getUsers();
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+        return "";
+    }
+
+    public void deleteRoleOfId(int roleId) {
+        roleService.deleteRoleOfId(roleId);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role deleted successfully", null));
     }
 }
