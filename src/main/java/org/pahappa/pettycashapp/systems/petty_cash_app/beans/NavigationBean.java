@@ -1,25 +1,20 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
-import org.springframework.stereotype.Component;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+
 @SessionScoped
 @ManagedBean
 public class NavigationBean {
     private String selectedRequisitionsSection = "allRequisitions";
     private String selectedBudgetLineSection = "currentBudgetLines";
-    private String selectedUserSection = "availableUsers";
     private String selectedReviewSection = "pendingRequisitions";
-
-    public String getSelectedUserSection() {
-        return selectedUserSection;
-    }
+    private String selectedUserSection = "usersSection";
 
     public void setSelectedUserSection(String selectedUserSection) {
         this.selectedUserSection = selectedUserSection;
     }
+
 
     public String getSelectedBudgetLineSection() {
         return selectedBudgetLineSection;
@@ -31,9 +26,6 @@ public class NavigationBean {
 
     public void changeBudgetLineSection(String BudgetLineSection) {
         this.selectedBudgetLineSection = BudgetLineSection;
-    }
-    public void changeUserSection(String userSelection) {
-        this.selectedUserSection = userSelection;
     }
 
     public String getSelectedRequisitionsSection() {
@@ -58,6 +50,14 @@ public class NavigationBean {
 
     public void changeReviewSection(String ReviewSection) {
         this.selectedReviewSection = ReviewSection;
+    }
+
+    public String getSelectedUserSection() {
+        return selectedUserSection;
+    }
+
+    public void changeUserSection(String UserSection) {
+        this.selectedUserSection = UserSection;
     }
 }
 

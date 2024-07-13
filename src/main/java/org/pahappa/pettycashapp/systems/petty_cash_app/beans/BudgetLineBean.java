@@ -15,7 +15,7 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-@SessionScoped
+
 @Component
 @ViewScoped
 public class BudgetLineBean implements Serializable {
@@ -29,7 +29,7 @@ public class BudgetLineBean implements Serializable {
 
     @Autowired
     private BudgetLineService budgetLineService;
-    BudgetLineService budgetLineService;
+
     @Autowired
     UserDao userDao;
 
