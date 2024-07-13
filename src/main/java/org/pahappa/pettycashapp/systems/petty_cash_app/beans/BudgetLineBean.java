@@ -16,8 +16,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Component
-@ViewScoped
+@Service
 public class BudgetLineBean implements Serializable {
     //Budget lines
     private static final long serialVersionUID = 1L;
@@ -33,16 +32,16 @@ public class BudgetLineBean implements Serializable {
     @Autowired
     UserDao userDao;
 
-    @PostConstruct
-    public void init(){
-        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
-        for(BudgetLine budgetLine: budgetLines){
-            if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
-                budgetLine.setStatus("expired");
-                userDao.saveBudgetLine(budgetLine);
-            }
-        }
-    }
+//    @PostConstruct
+//    public void init(){
+//        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
+//        for(BudgetLine budgetLine: budgetLines){
+//            if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
+//                budgetLine.setStatus("expired");
+//                userDao.saveBudgetLine(budgetLine);
+//            }
+//        }
+//    }
 
     public int getCategoryId() {
         return categoryId;
@@ -107,5 +106,9 @@ public class BudgetLineBean implements Serializable {
 
     public List<BudgetLine> getExpiredBudgetLines() {
         return budgetLineService.getExpiredBudgetLines();
+    }
+
+    public List<BudgetLine> getApprovedBudgetLines() {
+        return budgetLineService.getApprovedBudgetLines();
     }
 }

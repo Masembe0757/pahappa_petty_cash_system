@@ -6,6 +6,8 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineServic
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -15,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@SessionScope
 public class RequisitionBean implements Serializable {
 
     private int amount;
