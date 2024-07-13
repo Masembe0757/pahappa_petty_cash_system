@@ -18,7 +18,7 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>SaveBean</managed-bean-name>
+        <managed-bean-name>userBean</managed-bean-name>
         <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.UserBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
@@ -38,8 +38,13 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>RoleBean</managed-bean-name>
+        <managed-bean-name>roleBean</managed-bean-name>
         <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.RoleBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>navigationBean</managed-bean-name>
+        <managed-bean-class>org.pahappa.pettycashapp.systems.petty_cash_app.beans.NavigationBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 </faces-config>

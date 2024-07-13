@@ -1,4 +1,5 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
@@ -6,14 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.enterprise.context.SessionScoped;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
+@SessionScoped
 @Component
 @ViewScoped
 public class BudgetLineBean implements Serializable {
@@ -27,6 +29,20 @@ public class BudgetLineBean implements Serializable {
 
     @Autowired
     private BudgetLineService budgetLineService;
+    BudgetLineService budgetLineService;
+    @Autowired
+    UserDao userDao;
+
+    @PostConstruct
+    public void init(){
+        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
+        for(BudgetLine budgetLine: budgetLines){
+            if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
+                budgetLine.setStatus("expired");
+                userDao.saveBudgetLine(budgetLine);
+            }
+        }
+    }
 
     public int getCategoryId() {
         return categoryId;
