@@ -12,10 +12,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
     </f:facet>
-    <link rel="stylesheet" href="https://code.icons8.com/font/css/icons8-fluent.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&amp;display=swap" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="#{resource['css/general.css']}"/>
 
     <style type="text/css">
@@ -28,7 +28,7 @@
         }
 
         .background {
-            background: rgba(253, 248, 232, 0.48);
+            background: #9fb0de5c;
             margin: 0;
         }
 
@@ -41,7 +41,7 @@
             position: fixed;
             height: 65px;
             width: 100vw;
-            background: white;
+            background: #081d57e6;
             margin: 0;
             display: flex;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
@@ -69,11 +69,12 @@
             font-style: normal;
             margin-left: 15rem;
             margin-top: inherit;
+            color: white!important;
         }
 
         h3.pageTitle {
-            color: #524C4C !important;
             margin-top: 1em;
+            color: white !important;
         }
 
         /* Style links */
@@ -83,7 +84,7 @@
         }
 
         a:hover {
-            color: #ADA239 !important;
+            color: #1039ac !important;
             text-decoration: none !important;
         }
 
@@ -114,22 +115,14 @@
         /* Style headers */
         h1, h2, h3, h4, h5, h6, body {
             color: #524C4C !important;
-            font-family: Arial, sans-serif;
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-weight: 400;
         }
 
         h2.admin {
             font-size: 1.5em;
             margin-top: 25px;
-            margin-left: 112px;
-        }
-
-        .ui-inputfield.ui-state-focus {
-            border-color: #ADA239 !important;
-            box-shadow: 0 0 0 .2em #e3ddb2 !important;
-        }
-
-        .ui-inputfield.ui-state-hover {
-            border-color: #ADA239 !important;
+            font-weight: 600;
         }
 
         body .ui-inputfield {
@@ -147,20 +140,19 @@
         }
 
         .ui-button {
-            background: #ADA239 !important;
-            border: 1px solid #ADA239 !important;
+            background: #1039ac !important;
+            border: 1px solid #1039ac !important;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
         }
 
         .ui-button:hover {
-            background-color: #d8d6a3 !important;
-            border: 1px solid #d8d6a3 !important;
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         .vertical-divider {
             margin-inline-end: 3rem;
             margin-inline-start: 3rem;
+            color: white;
         }
 
         .Horizontal-divider {
@@ -183,7 +175,7 @@
         }
 
         .ui-button.edit {
-            color: green !important;
+            color: #10ac35 !important;
         }
 
         .ui-button.delete {
@@ -193,6 +185,36 @@
         .ui-button.edit:hover, .ui-button.delete:hover {
             background-color: #ffffff !important;
             transform: scale(1.4);
+        }
+
+        .limited {
+            color: #10ac35;
+            font-size: larger;
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-weight: 400;
+            margin-left: 5rem;
+        }
+
+        .limelight-regular {
+            font-family: "Limelight", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: white!important;
+        }
+
+        .logo {
+            background: #081d57e6;
+            padding: 2rem;
+        }
+
+        .admin-sect {
+            display: flex;
+            margin-left: 1em;
+        }
+
+        .admin-image {
+            height: 5em;
+            width: 5em;
         }
 
     </style>
@@ -207,9 +229,14 @@
         </div>
         <div class="sideAndBody">
             <div class="sidebar">
-                <h3>Pahappa</h3><h4>Limited</h4>
+                <div class="logo">
+                    <h1 class="limelight-regular">Pahappa</h1>
+                    <span class="limited">Limited</span>
+                </div>
+                <div class="admin-sect">
+                    <p:graphicImage library="images" name="icons8-shield-96.png" styleClass="admin-image"/>
                 <h2 class="admin">ADMIN</h2>
-                <p:separator styleClass="Horizontal-divider"/>
+                </div>
                 <h:form>
                     <ul class="listType">
                         <li class="listItem">
@@ -224,7 +251,7 @@
                         <li class="listItem">
                             <h:link outcome="/pages/protected/admin/requisitions.xhtml"
                                     styleClass="listLink">
-                                <i class="pi pi-users"></i>
+                                <i class="pi pi-money-bill"></i>
                                 <h:outputText value="Requisitions"/>
                             </h:link>
                         </li>
@@ -238,14 +265,14 @@
                         <li class="listItem">
                             <h:link
                                     styleClass="listLink">
-                                <i class="pi pi-cog"></i>
+                                <i class="pi pi-thumbs-up"></i>
                                 <h:outputText value="Reviews"/>
                             </h:link>
                         </li>
                         <li class="listItem">
                             <h:link outcome="/pages/protected/admin/users.xhtml"
                                     styleClass="listLink">
-                                <i class="pi pi-cog"></i>
+                                <i class="pi pi-users"></i>
                                 <h:outputText value="Users"/>
                             </h:link>
                         </li>
