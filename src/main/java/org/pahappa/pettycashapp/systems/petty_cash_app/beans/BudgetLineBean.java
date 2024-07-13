@@ -6,6 +6,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@SessionScope
 public class BudgetLineBean implements Serializable {
     //Budget lines
     private static final long serialVersionUID = 1L;

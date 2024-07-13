@@ -5,6 +5,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -12,7 +13,7 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 
-@ViewScoped
+@SessionScope
 @Component
 public class CategoryBean implements Serializable {
     private static final long serialVersionUID = 2L;

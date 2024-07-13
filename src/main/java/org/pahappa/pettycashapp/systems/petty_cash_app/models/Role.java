@@ -14,8 +14,8 @@ public class Role {
 
     @OneToMany(mappedBy="roleAttached", cascade = CascadeType.ALL)
     List<User> users;
-    @ManyToOne
-    Permission permission;
+    @OneToMany(mappedBy="role", cascade = CascadeType.ALL)
+    List<Permission> permissions;
 
     public int getId() {
         return id;
@@ -33,12 +33,12 @@ public class Role {
         this.name = name;
     }
 
-    public Permission getPermission() {
-        return permission;
+    public List<Permission> getPermissions() {
+        return permissions;
     }
 
-    public void setPermission(Permission permission) {
-        this.permission = permission;
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     public List<User> getUsers() {

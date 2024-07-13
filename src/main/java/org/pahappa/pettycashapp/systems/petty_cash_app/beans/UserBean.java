@@ -10,6 +10,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@SessionScope
 public class UserBean implements Serializable {
     @Autowired
     UserService userService;

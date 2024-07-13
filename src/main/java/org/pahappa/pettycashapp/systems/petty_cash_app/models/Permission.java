@@ -11,15 +11,14 @@ public class Permission {
     private int id;
     String name;
 
-    @OneToMany(mappedBy="permission", cascade = CascadeType.ALL)
-    List<Role> roles;
+    @ManyToOne
+    Role roles;
 
-
-    public List<Role> getRoles() {
+    public Role getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Role roles) {
         this.roles = roles;
     }
 
