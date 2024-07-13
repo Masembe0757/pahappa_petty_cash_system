@@ -33,7 +33,7 @@
                     <h:outputText value="#{user.email}"/>
                 </p:column>
                 <p:column headerText="Role">
-                    <h:outputText value="#{userBean.defineRoles(user.role)}"/>
+                    <h:outputText value="#{user.role}"/>
                 </p:column>
                 <p:column headerText="Actions">
                     <div class="btn-sect">
@@ -86,13 +86,11 @@
 
 
                                 <h:outputLabel for="role_1" value="Role:"/>
-                                <p:selectOneMenu id="role_1" value="#{userBean.role}" required="true"
+                                <p:selectOneMenu id="role_1" value="#{userBean.roleName}" required="true"
                                                  requiredMessage="Role is required!">
-                                    <f:selectItem itemLabel="Select a Role" itemValue="" noSelectionOption="true"/>
-                                    <f:selectItem itemLabel="Approves all" itemValue="1"/>
-                                    <f:selectItem itemLabel="Reviews reqs" itemValue="2"/>
-                                    <f:selectItem itemLabel="Makes Budget lines, issue money" itemValue="3"/>
-                                    <f:selectItem itemLabel="Normal user" itemValue="0"/>
+                                    <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{roleBean.getRoles()}" var="role"
+                                                   itemLabel="#{role.name}" itemValue="#{role.name}"/>
                                 </p:selectOneMenu>
 
                             </h:panelGrid>

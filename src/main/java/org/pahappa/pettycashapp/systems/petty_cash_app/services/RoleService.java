@@ -1,6 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ public class RoleService {
         return hasDigits;
     }
 
-    public String saveRole(String name, int permission) {
+    public String saveRole(String name, int permissionNumber) {
+        Permission permission = userDao.returnPermissionOfNumber(permissionNumber);
         String error_message = "";
         if(roleService.hasSpecialCharacters(name)){
             error_message ="Role name can not contain special characters";
@@ -71,7 +73,8 @@ public class RoleService {
         return returnedRoles;
     }
 
-    public String updateRoleOfId(String name, int permission) {
+    public String updateRoleOfId(String name, int permissionNumber) {
+        Permission permission = userDao.returnPermissionOfNumber(permissionNumber);
         String error_message = "";
         if(roleService.hasSpecialCharacters(name)){
             error_message ="Role name can not contain special characters";
@@ -88,5 +91,9 @@ public class RoleService {
 
     public void deleteRoleOfId(int roleId) {
         userDao.deleteRoleOdId(roleId);
+    }
+
+    public List<Permission> retunAllPermissions() {
+        return  userDao.returnAllPermissions();
     }
 }

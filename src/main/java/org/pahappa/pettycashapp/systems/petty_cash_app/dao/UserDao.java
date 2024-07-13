@@ -505,4 +505,54 @@ public class UserDao {
             SessionConfiguration.shutdown();
         }
     }
+
+    public Permission returnPermissionOfNumber(int permissionNumber) {
+        Permission permission = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Permission where permissionNumber = :permissionNumber");
+            qry.setParameter("permissionNumber", permissionNumber);
+            permission = (Permission) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return permission;
+    }
+
+    public List<Permission> returnAllPermissions() {
+        List<Permission> permissions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Permission ");
+            permissions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return permissions;
+    }
+
+    public void savePermission(Permission permission) {
+        try {
+
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.getCurrentSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(permission);
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RoleService;
@@ -39,17 +40,12 @@ public class RoleBean implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public List<Map.Entry<String, Integer>> permissions(){
-        final List<Map.Entry<String, Integer>> keyValueList = new ArrayList<>();
-        // Add key-value pairs to the list
-        keyValueList.add(new AbstractMap.SimpleEntry<>("Make Category", 1));
-        keyValueList.add(new AbstractMap.SimpleEntry<>("Make Budget Line", 2));
-        keyValueList.add(new AbstractMap.SimpleEntry<>("Approve Budget Line", 3));
-        keyValueList.add(new AbstractMap.SimpleEntry<>("Make Requisition", 4));
-        keyValueList.add(new AbstractMap.SimpleEntry<>("Review Requisition", 5));
-        keyValueList.add(new AbstractMap.SimpleEntry<>("Approve Requisition", 6));
-        keyValueList.add(new AbstractMap.SimpleEntry<>("View Users", 7));
-        return  keyValueList;
+
+
+
+    public List<Permission> permissions(){
+
+       return roleService.retunAllPermissions();
     }
 
 
@@ -100,4 +96,8 @@ public class RoleBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role deleted successfully", null));
     }
+    public List<Role> getRoles(){
+        return  roleService.getAllRoles();
+    }
+
 }

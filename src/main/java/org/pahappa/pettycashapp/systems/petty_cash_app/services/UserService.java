@@ -92,7 +92,7 @@ public class UserService {
         String referenceNumber = uuid.toString().replace("-", "ref_petty").toUpperCase();
         return referenceNumber;
     }
-    public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email,int role) {
+    public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email,String role) {
         String error_message= "";
 
         if(firstName.isEmpty() || userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
@@ -164,7 +164,7 @@ public class UserService {
 
 
 
-    public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email,int role) {
+    public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email,String role) {
         String error_message = "";
             User returnedUser = userDao.returnUser(userName);
             if (returnedUser!=null) {

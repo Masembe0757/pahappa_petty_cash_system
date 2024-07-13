@@ -1,5 +1,6 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
-import java.util.Base64;
+import java.util.*;
 
 @Component
 public class LoginBean {
@@ -55,11 +56,27 @@ public class LoginBean {
         admin.setUserName("manager");
         admin.setPassword(Base64.getEncoder().encodeToString("manager".getBytes()));
         admin.setEmail("manager@gmail.com");
-        admin.setRole(1);
+        admin.setRole("admin");
         User user = userDao.returnUser(admin.getUserName());
         if(user==null){
             userDao.createAdmin(admin);
         }
+
+        ArrayList<String> permissions = new ArrayList<>();
+        permissions.add("Make Category");
+        permissions.add("Approve Budget Line");
+        permissions.add("Make Requisition");
+        permissions.add("Review Requisition");
+        permissions.add("Approve Requisition");
+        permissions.add("View Users");
+
+
+        for (int i = 0; i< permissions.size(); i++){
+            Permission permission = new Permission();
+            permission.setName(permissions.get(i));
+            userDao.savePermission(permission);
+        }
+
     }
 
 
