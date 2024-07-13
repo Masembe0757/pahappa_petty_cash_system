@@ -22,10 +22,15 @@ public class CategoryService {
         } else if (!isDescriptionValid(description)) {
             message = "Description is too Long";
         } else {
-            Category category = new Category();
-            category.setName(name);
-            category.setDescription(description);
-            categoryDao.saveCategory(category);
+            Category returnedCategory = categoryDao.returnCategory(name);
+            if (returnedCategory!= null) {
+                message ="Category already exists! Enter a new one";
+            } else {
+                Category category = new Category();
+                category.setName(name);
+                category.setDescription(description);
+                categoryDao.saveCategory(category);
+            }
         }
         return message;
     }
@@ -37,5 +42,9 @@ public class CategoryService {
 
     public List<Category> getCategories(){
         return categoryDao.getCategories();
+    }
+
+    public boolean categoryUpdated(int categoryId, String name, String description) {
+        return categoryDao.updateCategory(categoryId, name, description);
     }
 }

@@ -9,20 +9,24 @@ import org.springframework.stereotype.Service;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Component
+@ViewScoped
 public class BudgetLineBean implements Serializable {
     //Budget lines
+    private static final long serialVersionUID = 1L;
     private int categoryId;
     private Date startDate;
     private  Date endDate;
     private int amount;
     private String name;
+
     @Autowired
-    BudgetLineService budgetLineService;
+    private BudgetLineService budgetLineService;
 
     public int getCategoryId() {
         return categoryId;
@@ -81,4 +85,11 @@ public class BudgetLineBean implements Serializable {
         return budgetLineService.returnCurrentBudgetLines();
     }
 
+    public List<BudgetLine> getDraftedBudgetLines(){
+        return budgetLineService.getDraftedBudgetLines();
+    }
+
+    public List<BudgetLine> getExpiredBudgetLines() {
+        return budgetLineService.getExpiredBudgetLines();
+    }
 }

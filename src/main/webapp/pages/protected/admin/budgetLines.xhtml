@@ -83,13 +83,12 @@
 
             </div>
             <div class="btn-sect">
-                <h:form id="createBudgetLineForm">
+                <h:form >
                     <p:commandButton value="Create budget Line" oncomplete="PF('dlg').show();" process="@this"
-                                     update=":createBudgetLineForm:dlg"/>
+                                     update="dlg"/>
 
                     <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
                               width="600">
-                        <p:messages globalOnly="true" closable="true"/>
                         <h:panelGrid>
                             <h:outputLabel for="name" value="Name:"/>
                             <p:inputText id="name" value="#{BudgetLineBean.name}" required="true"
@@ -127,18 +126,16 @@
 
                         <p:commandButton value="Save"
                                          action="#{BudgetLineBean.createBudgetLIne(BudgetLineBean.amount,BudgetLineBean.name,BudgetLineBean.startDate,BudgetLineBean.endDate,BudgetLineBean.categoryId)}"
-                                         update=":budgetLineForm:budgetLineTable"
+                                         update="@form"
                                          oncomplete="PF('dlg').hide();"/>
                     </p:dialog>
                 </h:form>
+                <h:form>
 
-                <h:form id="catalogForm">
-
-                    <p:commandButton value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"/>
-
-                    <p:dialog  header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
+                    <p:commandButton value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"
+                                     update="Catdlg"/>
+                    <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
                               resizable="false" width="500">
-                       <p:message id="message" autoUpdate="true" />
                         <h:panelGrid columns="2"
                                      columnClasses="ui-grid-col-2,ui-grid-col-4"
                                      layout="grid"
@@ -147,15 +144,16 @@
                             <h:outputLabel for="categoryName" value="Category Name :"/>
                             <p:inputText id="categoryName" value="#{categoryBean.name}" required="true"
                                          requiredMessage="Name is required!"/>
+                            <p:message for="categoryName"/>
 
                             <h:outputLabel for="description" value="Description:"/>
                             <p:inputTextarea id="description" value="#{categoryBean.description}" rows="4" cols="50"
                                              required="true" requiredMessage="Description is required!"/>
+                            <p:message for="description"/>
 
                             <p:commandButton value="Create" action="#{categoryBean.addCategory()}"
-                                             update=":catalogForm:Catdlg"
                                              oncomplete="if (PF('Catdlg').jq.find('.ui-messages-error').length == 0) {
-                      PF('Catdlg').show();} else {PF('Catdlg').hide();}" />
+                      PF('Catdlg').show();} else {PF('Catdlg').hide();}" update="@form"/>
 
                         </h:panelGrid>
                     </p:dialog>

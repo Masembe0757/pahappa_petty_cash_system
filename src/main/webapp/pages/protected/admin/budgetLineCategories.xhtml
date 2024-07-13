@@ -21,13 +21,6 @@
                      rows="9"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
         >
-            <f:facet name="customPreviousPageLink">
-                <p:outputLabel value="Previous"/>
-            </f:facet>
-
-            <f:facet name="customNextPageLink">
-                <p:outputLabel value="Next"/>
-            </f:facet>
 
             <p:column headerText="Name">
                 <h:outputText value="#{category.name}"/>
@@ -37,32 +30,48 @@
             </p:column>
             <p:column headerText="Actions">
                 <div class="btn-sect">
-                    <p:commandButton styleClass="edit" icon="pi pi-pencil"
-                                     action="#{categoryBean.editCategory(category)}" update="categoryTable">
+
+                        <p:commandButton styleClass="edit" icon="pi pi-pencil" oncomplete="PF('editCategory').show();"
+                                         actionListener="#{categoryBean.selectCategoryForUpdate(category)}"
+                                         process="@this" update="editCategory"/>
+                        <p:dialog header="Edit Budget Line Category" widgetVar="editCategory" modal="true" dynamic="true"
+                                  id="editCategory"
+                                  resizable="false"
+                                  width="600"
+                        responsive="true">
+
+                            <h:panelGrid>
+                                <h:outputLabel for="name" value="Name:"/>
+                                <p:inputText id="name" value="#{categoryBean.selectedCategory.name}"/>
+                                <h:outputLabel for="description" value="Description:"/>
+                                <p:inputTextarea id="description" value="#{categoryBean.selectedCategory.description}"/>
+                            </h:panelGrid>
+                            <p:commandButton value="Save"
+                                             action="#{categoryBean.updateCategory(categoryBean.selectedCategory)}"
+                                             update=":categoryTable"
+                                             oncomplete="PF('editCategory').hide();"/>
+                        </p:dialog>
+
+
+                    <p:growl id="message" showDetail="true"/>
+
+                    <p:commandButton action="#{categoryBean.deleteCategory(category)}" update="message :categoryTable"
+                                     styleClass="delete" icon="pi pi-trash">
+                        <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                   icon="pi pi-info-circle"/>
                     </p:commandButton>
-                    <p:commandButton styleClass="delete" icon="pi pi-trash"
-                                     action="#{categoryBean.deleteCategory(category)}"
-                                     update="categoryTable">
-                        <p:confirm header="Confirmation" message="Are you sure you want to delete this category?"/>
-                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                     width="350">
+                        <p:commandButton value="No" type="button"
+                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                    </p:confirmDialog>
+
                 </div>
             </p:column>
         </p:dataTable>
 
-        <p:dialog header="Edit Budget Line Category" widgetVar="editDialog" modal="true" id="editDialog"
-                  resizable="false"
-                  width="600">
-            <h:form id="editCategoryForm">
-                <h:panelGrid>
-                    <h:outputLabel for="name" value="Name:"/>
-                    <p:inputText id="name" value="#{budgetLineBean.selectedCategory.name}"/>
-                    <h:outputLabel for="description" value="Description:"/>
-                    <p:inputTextarea id="description" value="#{budgetLineBean.selectedCategory.description}"/>
-                </h:panelGrid>
-                <p:commandButton value="Save" action="#{budgetLineBean.saveCategory}" update="categoryTable"
-                                 oncomplete="PF('editDialog').hide();"/>
-            </h:form>
-        </p:dialog>
     </div>
 
 </ui:composition>

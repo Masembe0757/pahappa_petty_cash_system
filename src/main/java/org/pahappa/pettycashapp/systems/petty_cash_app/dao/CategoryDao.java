@@ -42,4 +42,77 @@ public class CategoryDao {
         }
         return categories;
     }
+
+    public Category returnCategory(String name) {
+        Category category = new Category();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Category where name = :name");
+            qry.setParameter("name", name);
+            category = (Category) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return category;
+    }
+
+    public boolean updateCategory(int categoryId, String newName, String newDescription) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+
+            Category categoryToUpdate = (Category) session.get(Category.class, categoryId);
+
+            if (categoryToUpdate != null) {
+
+                categoryToUpdate.setName(newName);
+                categoryToUpdate.setDescription(newDescription);
+
+                session.update(categoryToUpdate);
+
+                trs.commit();
+                SessionConfiguration.shutdown();
+                return true;
+            } else {
+                SessionConfiguration.shutdown();
+                return false;
+            }
+        } catch (Exception e) {
+            SessionConfiguration.shutdown();
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteCategory(int categoryId) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+
+            Category categoryToDelete = (Category) session.get(Category.class, categoryId);
+
+            if (categoryToDelete != null) {
+                session.delete(categoryToDelete);
+
+                trs.commit();
+                SessionConfiguration.shutdown();
+                return true;
+            } else {
+
+                SessionConfiguration.shutdown();
+                return false;
+            }
+        } catch (Exception e) {
+            SessionConfiguration.shutdown();
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
