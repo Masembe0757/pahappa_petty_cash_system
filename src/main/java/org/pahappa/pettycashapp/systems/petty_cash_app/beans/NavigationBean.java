@@ -12,6 +12,11 @@ public class NavigationBean {
     private String selectedBudgetLineSection = "currentBudgetLines";
     private String selectedUserSection = "availableUsers";
     private String selectedReviewSection = "pendingRequisitions";
+    private String selectedUserSection = "usersSection";
+
+    public void setSelectedUserSection(String selectedUserSection) {
+        this.selectedUserSection = selectedUserSection;
+    }
 
     public String getSelectedUserSection() {
         return selectedUserSection;
@@ -58,6 +63,14 @@ public class NavigationBean {
 
     public void changeReviewSection(String ReviewSection) {
         this.selectedReviewSection = ReviewSection;
+    }
+
+    public String getSelectedUserSection() {
+        return selectedUserSection;
+    }
+
+    public void changeUserSection(String UserSection) {
+        this.selectedUserSection = UserSection;
     }
 }
 

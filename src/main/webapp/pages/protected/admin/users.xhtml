@@ -19,7 +19,6 @@
                     display: inline-flex;
                     justify-content: space-between;
                     width: -webkit-fill-available;
-                    margin-bottom: 25px;
                 }
 
                 ul.navList{
@@ -50,31 +49,34 @@
                     column-gap: 25px;
                 }
 
+                .topOfTable {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-bottom: .5em;
+                }
+
 
             </style>
         </h:head>
 
         <div class="first-layer-top">
-            <div class="navigation">
-                <h:form>
-                    <ul class="navList">
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeUserSection('availableUsers')}">
-                                <h:outputText value="Users" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeUserSection('roles')}">
-                                <h:outputText value="Roles available" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-
-                    </ul>
-                </h:form>
-
-            </div>
+            <h:form>
+                <ul class="navList">
+                    <li class="">
+                        <h:commandLink styleClass="listLink" action="#{navigationBean.changeUserSection('usersSection')}">
+                            <h:outputText value="Users" />
+                            <p:ajax update="contentSection" />
+                        </h:commandLink>
+                    </li>
+                    <li class="navListItem">
+                        <h:commandLink styleClass="listLink" action="#{navigationBean.changeUserSection('roles')}">
+                            <h:outputText value="User Roles" />
+                            <p:ajax update="contentSection" />
+                        </h:commandLink>
+                    </li>
+                </ul>
+            </h:form>
 
             <div class="btn-sect">
 
@@ -172,7 +174,6 @@
                                 <f:selectItems value="#{roleBean.permissions()}" var="permission"
                                                itemLabel="#{permission.getKey()}" itemValue="#{permission.getValue()}"/>
                             </p:selectOneMenu>
-                            
 
                         </h:panelGrid>
 
@@ -188,6 +189,7 @@
                 </h:form>
             </div>
         </div>
+
         <h:panelGroup id="contentSection">
             <ui:include src="#{navigationBean.selectedUserSection}.xhtml" />
         </h:panelGroup>
