@@ -6,6 +6,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@SessionScope
 public class RoleBean implements Serializable {
     public  RoleBean(){}
     @Autowired

@@ -52,7 +52,7 @@ public class RoleService {
         }else {
             Role role = new Role();
             role.setName(name);
-            role.setPermission(permission);
+            role.getPermissions().add(permission);
             userDao.saveRole(role);
         }
         return  error_message;
@@ -83,7 +83,7 @@ public class RoleService {
         }else {
             Role role = new Role();
             role.setName(name);
-            role.setPermission(permission);
+            role.getPermissions().add(permission);
             userDao.saveRole(role);
         }
         return  error_message;
