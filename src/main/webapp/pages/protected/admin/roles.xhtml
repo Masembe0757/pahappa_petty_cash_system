@@ -45,7 +45,7 @@
                                              requiredMessage="Role is required!">
                                 <f:selectItem itemLabel="Select a Permisson" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{roleBean.permissions()}" var="permission"
-                                               itemLabel="#{permission.getKey()}" itemValue="#{permission.getValue()}"/>
+                                               itemLabel="#{permission.name}" itemValue="#{permission.id}"/>
                             </p:selectOneMenu>
                             <p:commandButton value="Save" action="#{roleBean.updateRole(roleBean.name,roleBean.permission)}"
                                              oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"

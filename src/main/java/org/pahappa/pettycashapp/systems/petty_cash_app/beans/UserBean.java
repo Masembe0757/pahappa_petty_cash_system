@@ -34,7 +34,15 @@ public class UserBean implements Serializable {
     private String email;
     private String role;
     private String name;
+    private String roleName;
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     @Autowired
     private UserDao userDao;
@@ -104,7 +112,7 @@ public class UserBean implements Serializable {
     }
 
     public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role){
-        String message = userService.saveUser(firstName,lastName,userName,password1,password2,email,Integer.parseInt(role));
+        String message = userService.saveUser(firstName,lastName,userName,password1,password2,email,role);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
@@ -117,7 +125,7 @@ public class UserBean implements Serializable {
 
     }
     public String updateUser(String firstName, String lastName, String userName, String password1, String password2, String email,String role){
-        String message = userService.updateUserOfUserName(firstName,lastName,userName,password1,password2,email,Integer.parseInt(role));
+        String message = userService.updateUserOfUserName(firstName,lastName,userName,password1,password2,email,role);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User updated successfully ", null));
@@ -160,20 +168,6 @@ public class UserBean implements Serializable {
         }
         return userList;
     }
-    public String defineRoles(int role){
-        if(role==1){
-            return "C-E-O";
-        } else if (role==2) {
-            return "O-P-S";
-        }
-        else if(role==0) {
-            return "Normal user";
-        }
-        else {
-            return "F-N-C";
-        }
-    }
-
 }
 
 

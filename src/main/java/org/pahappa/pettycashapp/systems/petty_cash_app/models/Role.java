@@ -11,10 +11,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private int permission;
 
     @OneToMany(mappedBy="roleAttached", cascade = CascadeType.ALL)
     List<User> users;
+    @ManyToOne
+    Permission permission;
 
     public int getId() {
         return id;
@@ -32,11 +33,11 @@ public class Role {
         this.name = name;
     }
 
-    public int getPermission() {
+    public Permission getPermission() {
         return permission;
     }
 
-    public void setPermission(int permission) {
+    public void setPermission(Permission permission) {
         this.permission = permission;
     }
 

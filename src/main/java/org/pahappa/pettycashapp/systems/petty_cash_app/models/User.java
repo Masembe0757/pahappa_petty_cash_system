@@ -15,14 +15,13 @@ public class User {
     private String lastName;
     private String password;
     private String email;
-    @Column(columnDefinition = "int default 0")
-    private int role;
+    private String role;
     public User(){}
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
