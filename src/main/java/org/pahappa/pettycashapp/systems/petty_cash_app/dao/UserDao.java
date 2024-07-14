@@ -93,6 +93,7 @@ public class UserDao {
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
     }
 
@@ -530,7 +531,7 @@ public class UserDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Permission ");
+            Query qry = session.createQuery("from Permission where role_id = null ");
             permissions = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();

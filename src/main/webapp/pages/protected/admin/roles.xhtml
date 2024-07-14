@@ -5,16 +5,16 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
 
-<!--        <div class="second-layer-top">-->
-<!--            <h:form id="searchForm">-->
-<!--                <p:inputText id="search" value="#{roleBean.name}"-->
-<!--                             icon="pi pi-search"-->
-<!--                             placeholder="Search Role By name">-->
-<!--                    <p:ajax event="keyup" update=":userForm:userTable"  listener="#{roleBean.getRoleByName(roleBean.name)}"/>-->
-<!--                </p:inputText>-->
+        <div class="second-layer-top">
+            <h:form id="searchForm">
+                <p:inputText id="search" value="#{roleBean.name}"
+                             icon="pi pi-search"
+                             placeholder="Search Role By name">
+                    <p:ajax event="keyup" update=":userForm:userTable"  listener="#{roleBean.getRoleByName(roleBean.name)}"/>
+                </p:inputText>
 
-<!--            </h:form>-->
-<!--        </div>-->
+            </h:form>
+        </div>
 
         <div>
             <h:form id="userRoles">

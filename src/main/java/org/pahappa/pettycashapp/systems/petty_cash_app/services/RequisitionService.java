@@ -43,7 +43,7 @@ public class RequisitionService {
             error_message="Amount specified is more than what is on budget line";
         } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
             error_message="Date needed is a past date";
-        } else if (description.length()<50) {
+        } else if (description.length()<10) {
             error_message = "Please provide more description";
         } else if (!budgetLine.getStatus().equals("approved")) {
             error_message = "Budget line not yet approved";

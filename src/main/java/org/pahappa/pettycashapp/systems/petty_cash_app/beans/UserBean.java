@@ -1,11 +1,9 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
+import org.pahappa.pettycashapp.systems.petty_cash_app.services.RoleService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,15 +34,6 @@ public class UserBean implements Serializable {
     private String email;
     private String role;
     private String name;
-    private String roleName;
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 
     @Autowired
     private UserDao userDao;
@@ -115,6 +104,7 @@ public class UserBean implements Serializable {
 
     public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role){
         String message = userService.saveUser(firstName,lastName,userName,password1,password2,email,role);
+        System.out.println("saving.....");
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
@@ -170,6 +160,8 @@ public class UserBean implements Serializable {
         }
         return userList;
     }
+
+
 }
 
 

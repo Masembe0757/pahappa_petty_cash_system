@@ -35,16 +35,16 @@ public class BudgetLineBean implements Serializable {
     @Autowired
     UserDao userDao;
 
-//    @PostConstruct
-//    public void init(){
-//        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
-//        for(BudgetLine budgetLine: budgetLines){
-//            if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
-//                budgetLine.setStatus("expired");
-//                userDao.saveBudgetLine(budgetLine);
-//            }
-//        }
-//    }
+    @PostConstruct
+    public void init(){
+        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
+        for(BudgetLine budgetLine: budgetLines){
+            if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
+                budgetLine.setStatus("expired");
+                userDao.saveBudgetLine(budgetLine);
+            }
+        }
+    }
 
     public int getCategoryId() {
         return categoryId;

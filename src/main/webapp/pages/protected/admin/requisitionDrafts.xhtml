@@ -5,10 +5,10 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
 
-        <p:dataTable id="draftTable" value="#{requisitionBean.draftRequisitions}" var="draft"
+        <p:dataTable id="draftTable" value="#{requisitionBean.rteturnDraftedRequisitions()}" var="draft"
                      emptyMessage="No drafts available">
             <p:column headerText="User">
-                <h:outputText value="#{draft.user.username}"/>
+                <h:outputText value="#{draft.user.userName}"/>
             </p:column>
             <p:column headerText="Budget Line">
                 <h:outputText value="#{draft.budgetLine.name}"/>
