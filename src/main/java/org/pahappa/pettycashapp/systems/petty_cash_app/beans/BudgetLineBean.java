@@ -27,6 +27,7 @@ public class BudgetLineBean implements Serializable {
     private  Date endDate;
     private int amount;
     private String name;
+    private BudgetLine selectedDraftedBudgetLine;
 
     @Autowired
     private BudgetLineService budgetLineService;
@@ -85,6 +86,13 @@ public class BudgetLineBean implements Serializable {
         this.name = name;
     }
 
+    public BudgetLine getSelectedDraftedBudgetLine() {
+        return selectedDraftedBudgetLine;
+    }
+
+    public void setSelectedDraftedBudgetLine(BudgetLine selectedDraftedBudgetLine) {
+        this.selectedDraftedBudgetLine = selectedDraftedBudgetLine;
+    }
 
     //BUDGET LINE CODE
     public  void createBudgetLIne(int amount,String name, Date startDate,Date endDate,int categoryId){
@@ -112,5 +120,14 @@ public class BudgetLineBean implements Serializable {
 
     public List<BudgetLine> getApprovedBudgetLines() {
         return budgetLineService.getApprovedBudgetLines();
+    }
+
+    public void selectBudgetLine(BudgetLine budgetLine) {
+            this.selectedDraftedBudgetLine = budgetLine;
+    }
+
+    public String updateDraftedBL (BudgetLine budgetLine) {
+        return "null";
+
     }
 }
