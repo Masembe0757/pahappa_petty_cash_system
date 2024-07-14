@@ -9,8 +9,9 @@
             <h:form id="searchForm">
                 <p:inputText id="search" value="#{roleBean.name}"
                              icon="pi pi-search"
+                             update=":userRoles:roleTable"
                              placeholder="Search Role By name">
-                    <p:ajax event="keyup" update=":userForm:userTable"  listener="#{roleBean.getRoleByName(roleBean.name)}"/>
+                    <p:ajax event="keyup"   listener="#{roleBean.getRoleByName(roleBean.name)}"/>
                 </p:inputText>
 
             </h:form>
@@ -49,12 +50,12 @@
                             </p:selectOneMenu>
                             <p:commandButton value="Save" action="#{roleBean.updateRole(roleBean.name,roleBean.permission)}"
                                              oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"
-                                             update=":userForm:userTable"/>
+                                             update=":userRoles:roleTable"/>
                         </p:dialog>
 
                         <p:growl id="message" showDetail="true"/>
 
-                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" update="message :userForm:userTable"
+                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" update="message :userRoles:roleTable"
                                          styleClass="delete" icon="pi pi-trash">
                             <p:confirm header="Confirmation" message="Do you want to delete this record?"
                                        icon="pi pi-info-circle"/>

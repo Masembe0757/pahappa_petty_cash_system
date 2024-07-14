@@ -39,7 +39,7 @@
                     <div class="btn-sect">
                         <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('userDialog').show();"
                                          process="@this"
-                                         update="userDialog">
+                                         update=":updateForm:userDialog">
                             <f:setPropertyActionListener value="#{user.userName}" target="#{userBean.username}"/>
                             <f:setPropertyActionListener value="#{user.firstName}" target="#{userBean.firstname}"/>
                             <f:setPropertyActionListener value="#{user.lastName}" target="#{userBean.lastname}"/>
@@ -70,7 +70,10 @@
         </h:form>
 
 
+
+
     </div>
+    <h:form id="updateForm">
     <p:dialog id="userDialog" widgetVar="userDialog" header="Update User" modal="true"
               dynamic="true" width="625px" resizable="false" responsive="true">
         <h:panelGrid columns="2" cellpadding="5">
@@ -116,8 +119,11 @@
 
         </h:panelGrid>
         <p:commandButton value="Save"
-                         action="#{userBean.updateUser(userBean.username,userBean.firstname,userBean.lastname,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                         action="#{userBean.updateUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                          oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"
-                         update=":userForm:userTable"/>
+                         update=":userForm:userTable"
+                         process="@form"
+        />
     </p:dialog>
+    </h:form>
 </ui:composition>

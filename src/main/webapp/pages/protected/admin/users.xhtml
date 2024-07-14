@@ -18,7 +18,7 @@
                 .first-layer-top {
                     display: inline-flex;
                     justify-content: space-between;
-                    width: -webkit-fill-available;
+
                 }
 
                 ul.navList{
@@ -132,7 +132,7 @@
                             </p:password>
 
                             <h:outputLabel for="u_email" value="Email:"/>
-                            <p:inputText id="u_email" value="#{userBean.email} " required="true"
+                            <p:inputText id="u_email" value="#{userBean.email}" required="true"
                                          requiredMessage="Email is required!">
                                 <!--                                <f:validator validatorId="emailValidator"/>-->
                                 <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
@@ -148,13 +148,22 @@
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Add" action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                        <p:commandButton value="Add"
+                                         process="@form"
+                                         action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                          oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
                                          update=":userForm:userTable"
                                             />
                     </p:dialog>
 
 
+                    <p:commandButton  action="#{userBean.deleteAllUsers()}" styleClass="ui-button-danger mr-2"
+                                      icon="pi pi-user-minus" value="Delete All"
+                                      update=":userForm:userTable"/>
+
+                </h:form>
+
+                <h:form>
                     <p:dialog header="Add Role" widgetVar="role" modal="true" id="role" responsive="true" dynamic="true" resizable="false" width="600">
 
                         <h:panelGrid>
@@ -173,16 +182,18 @@
 
                         </h:panelGrid>
 
-                        <p:commandButton value="Save" action="#{roleBean.saveRole(roleBean.name,roleBean.permission)}"
+                        <p:commandButton value="Add"
+                                         process="@form"
+                                         action="#{roleBean.saveRole(roleBean.name,roleBean.permission)}"
                                          oncomplete=" if (!(PF('role').jq.find('.ui-messages-error').length == 0)) PF('role').show();"
+                                         update=":userForm:userTable"
 
                         />
                     </p:dialog>
-
-
-                    <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="ui-button-danger mr-2"
-                                     icon="pi pi-user-minus" value="Delete All" update=":userForm:userTable"/>
                 </h:form>
+
+
+
             </div>
         </div>
 

@@ -1,6 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Role {
     @OneToMany(mappedBy="roleAttached", cascade = CascadeType.ALL)
     List<User> users;
     @OneToMany(mappedBy="role", cascade = CascadeType.ALL)
-    List<Permission> permissions;
+    List<Permission> permissions = new ArrayList<>();
 
     public int getId() {
         return id;

@@ -53,6 +53,7 @@ public class RoleService {
             Role role = new Role();
             role.setName(name);
             role.getPermissions().add(permission);
+            permission.setRole(role);
             userDao.saveRole(role);
         }
         return  error_message;
