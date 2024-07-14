@@ -52,6 +52,7 @@ public class RoleBean implements Serializable {
 
 
     public void saveRole(String name , int permission) {
+        System.out.println(name + "permision id"+permission);
     String message = roleService.saveRole(name,permission);
     if(message.isEmpty()){
         FacesContext.getCurrentInstance().addMessage(null,

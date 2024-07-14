@@ -180,15 +180,18 @@ public class UserDao {
 
     public void updateUser(User user) {
         try {
+            System.out.println("Updating.....1");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             session.saveOrUpdate(user);
+            System.out.println("Updating.....2");
             trs.commit();
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
     }
 
@@ -513,7 +516,7 @@ public class UserDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Permission where permissionNumber = :permissionNumber");
+            Query qry = session.createQuery("from Permission where id = :permissionNumber");
             qry.setParameter("permissionNumber", permissionNumber);
             permission = (Permission) qry.uniqueResult();
             trs.commit();
