@@ -12,14 +12,14 @@ public class Permission {
     String name;
 
     @ManyToOne
-    Role roles;
+    Role role;
 
-    public Role getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Role roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getName() {

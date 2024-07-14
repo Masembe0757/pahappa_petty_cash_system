@@ -15,11 +15,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&amp;display=swap" rel="stylesheet"/>
-
-    <link rel="stylesheet" type="text/css" href="#{resource['css/general.css']}" />
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&amp;display=swap" rel="stylesheet"/>
     <style type="text/css">
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            color: #524C4C;
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-weight: 400;
+            border: 0;
+            height: 100vh !important;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        h1, h2, h3, h4, h5, h6, p {
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            margin: 0;
+            padding: 0;
+            color: #524C4C;
+        }
+
         div.background {
-            background: rgba(253, 248, 232, 0.48);
+            background: #9fb0de5c;
             height: 100vh !important;
             display: flex;
             justify-content: center; /* Center horizontally */
@@ -27,13 +48,14 @@
             margin: 0;
         }
 
-        img {
+        img.loginImage {
             height: 600px;
             width: 400px;
             object-fit: cover;
+            opacity: .8;
         }
 
-        div#combination{
+        div#combination {
             display: flex;
             width: fit-content;
             border-radius: 15px;
@@ -42,43 +64,44 @@
         }
 
         .glass-card {
-            background: white;
+            background: #ffffffba;
             backdrop-filter: blur(10px);
             padding: 20px;
             width: 750px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
             height: 600px;
             justify-content: center;
-            justify-items: center;
+            align-items: center;
             display: flex;
         }
 
         .ui-float-label {
             margin-top: 2em;
+            margin-left: 2.5em;
         }
 
         body .ui-inputfield {
-            width: calc(100% - 25px);
+            width: calc(100% - 3px);
             padding: 10px;
             border: none;
             border-radius: 25px;
             outline: none;
-            background: #e9e6e6;
+            background: #e7ebf7;
+            height: 3.5rem
         }
 
         .ui-button {
-            background: #ADA239 !important;
-            border: 1px solid #ADA239 !important;
+            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+            background: #1039ac !important;
+            border: 1px solid #1039ac !important;
         }
 
         .ui-button:hover {
-            background-color: #d8d6a3 !important;
-            border: 1px solid #d8d6a3 !important;
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         div.loginBtn {
             margin-left: 9.5rem;
+            width: 6rem;
         }
 
         .header {
@@ -86,29 +109,67 @@
             font-weight: 400;
             font-style: normal;
             font-size: xxx-large;
+            color: white;
+        }
+
+        .limelight-regular {
+            font-family: "Limelight", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: white;
+        }
+
+        .limited {
+            color: #10ac35;
+            font-size: medium;
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-weight: 400;
         }
 
         h3 {
-            color: #524C4C;
+            color: #10ac35;
             font-weight: bold;
-            font-family: Inter, serif !important;
-            margin-left: 8rem;
+            margin-left: 9rem;
             font-size: 28px;
-        }
-
-        .ui-inputfield.ui-state-focus {
-            border-color: #ADA239 !important;
-            box-shadow: 0 0 0 .2em #e3ddb2 !important;
         }
 
         .below-form {
             display: inline-flex;
             justify-content: space-between;
             margin-top: 2rem;
+            align-items: center;
+        }
+
+        .top-bar {
+            background: #081d57e6;
+            position: absolute;
+            width: 750px;
+            padding-bottom: 1rem;
+            margin-bottom: 27.6rem;
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        form#login {
+            margin-top: 2em;
+        }
+
+        .icon {
+            height: 2em;
+            width: 2em;
+            position: absolute;
+            margin-top: 3rem;
+            }
+
+        p.fP {
+            font-size: smaller;
+            color: gray;
+            font-weight: 600;
+            margin-left: 2em;
         }
 
 
-    </style>
+</style>
 
 
 </h:head>
@@ -118,29 +179,36 @@
         <div id="combination">
             <h:graphicImage alt="calc" name="bg-calculator.jpg" library="images" styleClass="loginImage"/>
             <div class="glass-card">
-
-                <h:form>
+                <div class="top-bar">
+                    <h1 class="limelight-regular">Pahappa <span class="limited">Limited</span></h1>
                     <h1 class="header">PCR Management System</h1>
+                </div>
+                <h:form id="login">
                     <h3>Login</h3>
+
+                    <h:graphicImage library="images" name="icons8-user-96.png" styleClass="icon"/>
                     <span class="ui-float-label">
                     <p:inputText id="username" value="#{loginBean.username}"/>
-                    <p:outputLabel for="@previous" value="Username or Email"/>
+                    <p:outputLabel for="@previous" icon="pi pi-user" value="Username or Email"/>
                 </span>
 
+                    <h:graphicImage library="images" name="icons8-key-100.png" styleClass="icon"/>
                     <span class="ui-float-label">
                     <p:password id="password" value="#{loginBean.password}" toggleable="true" redisplay="true"/>
-                    <p:outputLabel for="password" value="Password"/>
+                    <p:outputLabel for="password" icon="pi pi-key" value="Password"/>
                 </span>
 
                     <div class="below-form">
 
-                    <div class="fP">
-                        <p>Forgot Password?</p>
-                    </div>
+                        <div >
+                            <p class="fP">Forgot Password?</p>
+                        </div>
 
-                    <div class="loginBtn">
-                        <p:commandButton value="Login" action="#{loginBean.login(loginBean.username,loginBean.password)}" update="@form"/>
-                    </div>
+                        <div class="loginBtn">
+                            <p:commandButton value="Login"
+                                             action="#{loginBean.login(loginBean.username,loginBean.password)}"
+                                             update="@form"/>
+                        </div>
 
                     </div>
 
