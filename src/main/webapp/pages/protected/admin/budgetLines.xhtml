@@ -91,13 +91,13 @@
                               width="600">
                         <h:panelGrid>
                             <h:outputLabel for="name" value="Name:"/>
-                            <p:inputText id="name" value="#{BudgetLineBean.name}" required="true"
+                            <p:inputText id="name" value="#{budgetLineBean.name}" required="true"
                                          requiredMessage="Name is required!">
                             </p:inputText>
 
                             <!-- Budget Line Dropdown -->
                             <h:outputLabel for="category" value="Category:"/>
-                            <p:selectOneMenu id="category" value="#{BudgetLineBean.categoryId}" required="true"
+                            <p:selectOneMenu id="category" value="#{budgetLineBean.categoryId}" required="true"
                                              requiredMessage="Category is required!">
                                 <f:selectItem itemLabel="Select a Category" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{categoryBean.getCategories()}" var="category"
@@ -105,27 +105,27 @@
                             </p:selectOneMenu>
 
                             <h:outputLabel for="startDate" value="Start Date:"/>
-                            <p:calendar id="startDate" value="#{BudgetLineBean.startDate}" pattern="dd/MM/yyyy"
+                            <p:calendar id="startDate" value="#{budgetLineBean.startDate}" pattern="dd/MM/yyyy"
                                         required="true" showOn="button" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="Start Date is required!"/>
 
                             <h:outputLabel for="endDate" value="End Date:"/>
-                            <p:calendar id="endDate" value="#{BudgetLineBean.endDate}" pattern="dd/MM/yyyy"
+                            <p:calendar id="endDate" value="#{budgetLineBean.endDate}" pattern="dd/MM/yyyy"
                                         required="true" showOn="button" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="End Date is required!"/>
 
 
                             <h:outputLabel for="amount" value="Amount:"/>
-                            <p:inputText id="amount" value="#{BudgetLineBean.amount}" required="true"
+                            <p:inputText id="amount" value="#{budgetLineBean.amount}" required="true"
                                          requiredMessage="Amount is required!">
                             </p:inputText>
 
                         </h:panelGrid>
 
                         <p:commandButton value="Save"
-                                         action="#{BudgetLineBean.createBudgetLIne(BudgetLineBean.amount,BudgetLineBean.name,BudgetLineBean.startDate,BudgetLineBean.endDate,BudgetLineBean.categoryId)}"
+                                         action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
                                          update="@form"
                                          oncomplete="PF('dlg').hide();"/>
                     </p:dialog>

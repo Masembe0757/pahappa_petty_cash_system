@@ -25,7 +25,7 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="hibernate.show_sql">true</property>
         <!-- configuration property in Hibernate that controls how Hibernate generates, updates, or validates database schemas based on the mappings defined in your Hibernate configuration (usually through Hibernate mapping files or annotations) -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
     </session-factory>
 </hibernate-configuration>
