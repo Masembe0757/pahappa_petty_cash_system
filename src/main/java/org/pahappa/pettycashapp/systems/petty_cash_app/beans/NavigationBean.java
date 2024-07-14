@@ -3,7 +3,6 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
 @SessionScope
 @ManagedBean

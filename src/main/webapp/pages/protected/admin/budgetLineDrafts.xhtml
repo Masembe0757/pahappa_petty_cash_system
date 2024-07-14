@@ -27,12 +27,11 @@
         </p:column>
         <p:column headerText="Actions" style="width:100px">
             <div class="btn-sect">
-                <p:commandButton styleClass="edit" icon="pi pi-pencil"
-                                 action="#{budgetLineBean.editBudgetLine(draftLine)}" update="categoryTable">
-                </p:commandButton>
-                <p:commandButton styleClass="delete" icon="pi pi-times"
+                <p:commandButton styleClass="edit" action="#{budgetLineBean.editBudgetLine(draftLine)}" update="categoryTable" icon="pi pi-pencil"/>
+
+                <p:commandButton styleClass="delete"
                                  action="#{categoryBean.cancelBudgetLine(draftLine)}"
-                                 update="categoryTable">
+                                 update="categoryTable" icon="pi pi-times">
                     <p:confirm header="Confirmation" message="Are you sure you want to delete this category?"/>
                 </p:commandButton>
             </div>
