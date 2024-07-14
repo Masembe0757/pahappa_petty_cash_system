@@ -27,7 +27,58 @@
         </p:column>
         <p:column headerText="Actions" style="width:100px">
             <div class="btn-sect">
-                <p:commandButton styleClass="edit" action="#{budgetLineBean.editBudgetLine(draftLine)}" update="categoryTable" icon="pi pi-pencil"/>
+                <p:commandButton styleClass="edit" action="#{budgetLineBean.selectBudgetLine(draftLine)}"
+                                 update="editDraftedBL" icon="pi pi-pencil"
+                oncomplete="PF('editDraftedBL').show();" process="@this"/>
+
+                <p:dialog header="Edit Budget Line" widgetVar="editDraftedBL" modal="true" dynamic="true"
+                          id="editCategory"
+                          resizable="false"
+                          width="600"
+                          responsive="true">
+
+                    <h:panelGrid>
+                        <h:outputLabel for="name" value="Name:"/>
+                        <p:inputText id="name" value="#{budgetLineBean.selectedDraftedBudgetLine.name}"/>
+
+                        <h:outputLabel for="category" value="Category:"/>
+                        <p:selectOneMenu id="category" value="#{budgetLineBean.selectedDraftedBudgetLine.category}" required="true">
+                            <f:selectItems value="#{categoryBean.getCategories()}" var="category"
+                                           itemLabel="#{category.name}" itemValue="#{category.id}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel for="startDate" value="Start Date: "/>
+                        <p:calendar id="startDate"
+                                    value="#{budgetLineBean.selectedDraftedBudgetLine.startDate}"
+                                    pattern="dd/MM/yyyy"
+                                    placeholder="Date Of Birth"
+                                    showOn="both"
+                                    navigator="true"
+                                    mode="popup"
+                                    yearRange="c-100:c"
+                                    maxdate=""
+                        />
+
+                        <h:outputLabel for="endDate" value="End Date: "/>
+                        <p:calendar id="endDate"
+                                    value="#{budgetLineBean.selectedDraftedBudgetLine.endDate}"
+                                    pattern="dd/MM/yyyy"
+                                    placeholder="Date Of Birth"
+                                    showOn="both"
+                                    navigator="true"
+                                    mode="popup"
+                                    yearRange="c-100:c"
+                                    maxdate=""
+                        />
+
+                        <h:outputLabel for="amount" value="Amount:"/>
+                        <p:inputTextarea id="amount" value="#{budgetLineBean.selectedDraftedBudgetLine.amountDelegated}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Create"
+                                     action="#{budgetLineBean.updateDraftedBL(budgetLineBean.selectedDraftedBudgetLine)}"
+                                     update=":categoryTable"
+                                     oncomplete="PF('editDraftedBL').hide();"/>
+                </p:dialog>
 
                 <p:commandButton styleClass="delete"
                                  action="#{categoryBean.cancelBudgetLine(draftLine)}"
