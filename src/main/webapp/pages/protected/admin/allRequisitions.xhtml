@@ -5,6 +5,7 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="second-layer-top">
         <h:form id="searchForm">
+            <!--
             <p:inputText id="search" value="#{Req.search}"
                          icon="pi pi-search"
                          placeholder="Search By name">
@@ -22,12 +23,13 @@
 
                 <p:ajax update="" listener="#{Req.filterDependants()}"/>
             </p:selectOneMenu>
+            -->
         </h:form>
     </div>
 
     <div class="glass">
         <h:form id="requisitionForm">
-            <p:dataTable id="requisitionTable" var="requisition" value="#{RequisitionBean.getAllRequisitions()}" emptyMessage="No requisitions available">
+            <p:dataTable id="requisitionTable" var="requisition" value="#{requisitionBean.getAllRequisitions()}" emptyMessage="No requisitions available">
                 <p:column headerText="Reference Number">
                     <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>

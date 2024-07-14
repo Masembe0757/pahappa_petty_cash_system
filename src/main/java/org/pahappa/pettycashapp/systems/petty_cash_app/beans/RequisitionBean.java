@@ -6,10 +6,8 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineServic
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
@@ -63,12 +61,15 @@ public class RequisitionBean implements Serializable {
 
 
     //REQUISITIONS CODE
-    public void makeRequistion(int amount,Date dateNeeded,String description,int budgetLineId){
+    public void makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
         System.out.println("SAVING REQUISITION1");
         String message = requisitionService.makeRequisition(amount,dateNeeded,description,budgetLineId);
 
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+    }
+    public List<Requisition> rteturnDraftedRequisitions(){
+        return  requisitionService.getDraftedRequisitions();
     }
 
 

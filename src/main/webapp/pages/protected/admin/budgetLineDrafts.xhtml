@@ -4,7 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 <div class="glass">
-    <p:dataTable id="draftTable" value="#{budgetLineBean.draftedBudgetLines}" var="draftLine"
+    <p:dataTable id="draftTable" value="#{budgetLineBean.getDraftedBudgetLines()}" var="draftLine"
                  emptyMessage="No drafts available">
         <p:column headerText="Name">
             <h:outputText value="#{draftLine.name}"/>
@@ -28,7 +28,7 @@
         <p:column headerText="Actions" style="width:100px">
             <div class="btn-sect">
                 <p:commandButton styleClass="edit" action="#{budgetLineBean.selectBudgetLine(draftLine)}"
-                                 update="editDraftedBL" icon="pi pi-pencil"
+                                  icon="pi pi-pencil"
                 oncomplete="PF('editDraftedBL').show();" process="@this"/>
 
                 <p:dialog header="Edit Budget Line" widgetVar="editDraftedBL" modal="true" dynamic="true"
@@ -76,13 +76,13 @@
                     </h:panelGrid>
                     <p:commandButton value="Create"
                                      action="#{budgetLineBean.updateDraftedBL(budgetLineBean.selectedDraftedBudgetLine)}"
-                                     update=":categoryTable"
+
                                      oncomplete="PF('editDraftedBL').hide();"/>
                 </p:dialog>
 
                 <p:commandButton styleClass="delete"
                                  action="#{categoryBean.cancelBudgetLine(draftLine)}"
-                                 update="categoryTable" icon="pi pi-times">
+                                  icon="pi pi-times">
                     <p:confirm header="Confirmation" message="Are you sure you want to delete this category?"/>
                 </p:commandButton>
             </div>
