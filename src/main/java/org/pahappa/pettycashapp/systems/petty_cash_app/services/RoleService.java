@@ -42,19 +42,32 @@ public class RoleService {
         return hasDigits;
     }
 
-    public String saveRole(String name, int permissionNumber) {
-        Permission permission = userDao.returnPermissionOfNumber(permissionNumber);
+    public String saveRole(String name, List<String> permissions) {
+
         String error_message = "";
         if(roleService.hasSpecialCharacters(name)){
             error_message ="Role name can not contain special characters";
         } else if (hasDigits(name)) {
             error_message = "Role name can not contain digits";
         }else {
-            Role role = new Role();
-            role.setName(name);
-            role.getPermissions().add(permission);
-            permission.setRole(role);
-            userDao.saveRole(role);
+            try {
+
+
+                Role role = new Role();
+                role.setName(name);
+
+                for (String s : permissions ) {
+                    Permission permission = new Permission();
+                    role.getPermissions().add(permission);
+                    permission.setRole(role);
+                    permission.setName(s);
+
+                }
+
+                userDao.saveRole(role);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return  error_message;
     }
@@ -74,8 +87,7 @@ public class RoleService {
         return returnedRoles;
     }
 
-    public String updateRoleOfId(String name, int permissionNumber) {
-        Permission permission = userDao.returnPermissionOfNumber(permissionNumber);
+    public String updateRoleOfId(String name, List<String> permissions) {
         String error_message = "";
         if(roleService.hasSpecialCharacters(name)){
             error_message ="Role name can not contain special characters";
@@ -84,7 +96,13 @@ public class RoleService {
         }else {
             Role role = new Role();
             role.setName(name);
-            role.getPermissions().add(permission);
+            for (String s : permissions ) {
+                Permission permission = new Permission();
+                role.getPermissions().add(permission);
+                permission.setRole(role);
+                permission.setName(s);
+
+            }
             userDao.saveRole(role);
         }
         return  error_message;
@@ -94,7 +112,7 @@ public class RoleService {
         userDao.deleteRoleOdId(roleId);
     }
 
-    public List<Permission> retunAllPermissions() {
-        return  userDao.returnAllPermissions();
+    public List<Permission> getPermissionsOfRole(int roleId) {
+        return userDao.getPermissionsOfRole(roleId);
     }
 }

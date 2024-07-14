@@ -64,22 +64,6 @@ public class LoginBean {
         if(user==null){
             userDao.createAdmin(admin);
         }
-
-        ArrayList<String> permissions = new ArrayList<>();
-        permissions.add("Make Category");
-        permissions.add("Approve Budget Line");
-        permissions.add("Make Requisition");
-        permissions.add("Review Requisition");
-        permissions.add("Approve Requisition");
-        permissions.add("View Users");
-
-
-        for (int i = 0; i< permissions.size(); i++){
-            Permission permission = new Permission();
-            permission.setName(permissions.get(i));
-            userDao.savePermission(permission);
-        }
-
     }
 
 

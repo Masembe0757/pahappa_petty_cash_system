@@ -12,10 +12,7 @@ import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @SessionScope
@@ -25,14 +22,14 @@ public class RoleBean implements Serializable {
     RoleService roleService;
 
     private String name;
-    private  int permission;
+    List<String> selectedPermissions;
 
-    public int getPermission() {
-        return permission;
+    public List<String> getSelectedPermissions() {
+        return selectedPermissions;
     }
 
-    public void setPermission(int permission) {
-        this.permission = permission;
+    public void setSelectedPermissions(List<String> selectedPermissions) {
+        this.selectedPermissions = selectedPermissions;
     }
 
     public String getName() {
@@ -45,15 +42,23 @@ public class RoleBean implements Serializable {
 
 
 
-    public List<Permission> permissions(){
+    public List<String> permissions(){
 
-       return roleService.retunAllPermissions();
+        List<String> permissions = new ArrayList<>();
+        permissions.add("Make Category");
+        permissions.add("Approve Budget Line");
+        permissions.add("Make Requisition");
+        permissions.add("Review Requisition");
+        permissions.add("Approve Requisition");
+        permissions.add("View Users");
+        return permissions;
+
+
     }
 
 
-    public void saveRole(String name , int permission) {
-        System.out.println(name + "permision id"+permission);
-    String message = roleService.saveRole(name,permission);
+    public void saveRole(String name , List<String> permissions) {
+    String message = roleService.saveRole(name,permissions);
     if(message.isEmpty()){
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role created successfully", null));
@@ -81,8 +86,8 @@ public class RoleBean implements Serializable {
         return roleList;
     }
 
-    public String updateRole(String name , int permission) {
-        String message = roleService.updateRoleOfId(name,permission);
+    public String updateRole(String name , List<String> permissions) {
+        String message = roleService.updateRoleOfId(name, permissions);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role updated successfully ", null));
@@ -102,5 +107,15 @@ public class RoleBean implements Serializable {
     public List<Role> getRoles(){
         return  roleService.getAllRoles();
     }
+
+    public List<String> getPermissionsOfRole(int roleId){
+        List<String> permissionNames = new ArrayList<>();
+        List<Permission> permissions = roleService.getPermissionsOfRole(roleId);
+        for(Permission permission : permissions){
+            permissionNames.add(permission.getName());
+        }
+        return  permissionNames;
+    }
+
 
 }

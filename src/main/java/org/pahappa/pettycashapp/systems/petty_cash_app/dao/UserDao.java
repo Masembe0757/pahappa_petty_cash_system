@@ -527,24 +527,6 @@ public class UserDao {
         }
         return permission;
     }
-
-    public List<Permission> returnAllPermissions() {
-        List<Permission> permissions = new ArrayList<>();
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Permission where role_id = null ");
-            permissions = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return permissions;
-    }
-
     public void savePermission(Permission permission) {
         try {
 
@@ -558,5 +540,41 @@ public class UserDao {
         catch (Exception e){
             SessionConfiguration.shutdown();
         }
+    }
+
+    public Permission returnPermissionOfName(String name) {
+        Permission permission = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Permission where name = :name");
+            qry.setParameter("name", name);
+            permission = (Permission) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return permission;
+    }
+
+    public List<Permission> getPermissionsOfRole(int roleId) {
+        List<Permission> permissions = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Permission where role_id = :roleId");
+            qry.setParameter("roleId", roleId);
+            permissions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return permissions;
     }
 }

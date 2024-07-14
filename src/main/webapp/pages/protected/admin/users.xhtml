@@ -173,18 +173,18 @@
                                 <!--                                <f:validator validatorId="usernameValidator"/>-->
                                 <!--                                <f:ajax event="keyup" execute="@this" render="usernameMessage"/>-->
                             </p:inputText>
-                            <h:outputLabel for="role_p" value="Permission:"/>
-                            <p:selectOneMenu id="role_p" value="#{roleBean.permission}" required="true"
-                                             requiredMessage="Permission is required!">
+                            <h:outputLabel for="role_p" value="Permissions:"/>
+                            <p:selectManyCheckbox id="role_p" value="#{roleBean.selectedPermissions}" required="true"
+                                                  requiredMessage="At least one role is required!">
                                 <f:selectItems value="#{roleBean.permissions()}" var="permission"
-                                               itemLabel="#{permission.name}" itemValue="#{permission.id}"/>
-                            </p:selectOneMenu>
+                                               itemLabel="#{permission}" itemValue="#{permission}"/>
+                            </p:selectManyCheckbox>
 
                         </h:panelGrid>
 
                         <p:commandButton value="Add"
                                          process="@form"
-                                         action="#{roleBean.saveRole(roleBean.name,roleBean.permission)}"
+                                         action="#{roleBean.saveRole(roleBean.name,roleBean.selectedPermissions)}"
                                          oncomplete=" if (!(PF('role').jq.find('.ui-messages-error').length == 0)) PF('role').show();"
                                          update=":userForm:userTable"
 
