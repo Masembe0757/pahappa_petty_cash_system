@@ -1,10 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.Rejection;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -118,6 +115,11 @@ public class RequisitionService {
         Requisition requisition = userDao.getRequisitionOfId(requisitionId);
         rejection.setInformation(information);
         rejection.setRequisition(requisition);
+        System.out.println("REjecting 2");
         userDao.saveRejection(rejection);
+    }
+
+    public void setRejectionStatus(int id) {
+        userDao.setRejectionStatus(id);
     }
 }

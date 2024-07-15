@@ -1,6 +1,8 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Rejection;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.annotation.PostConstruct;
+import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
@@ -22,6 +26,16 @@ public class RequisitionBean implements Serializable {
     private int budgetLineId;
     private String description;
     private Date dateNeeded;
+    String information;
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
     @Autowired
     RequisitionService requisitionService;
     @Autowired
@@ -78,5 +92,14 @@ public class RequisitionBean implements Serializable {
     }
     public List<BudgetLine>  getBudgetLines(){
         return budgetLineService.getApprovedBudgetLines() ;
+    }
+
+    public void rejectRequisition(int requisitionId, String information) {
+        System.out.println("REjecting 1");
+        requisitionService.rejectRequisition(requisitionId,information);
+        requisitionService.setRejectionStatus(requisitionId);
+    }
+    public void approveRequisition(int requisitionId) {
+        requisitionService.approveRequisition(requisitionId);
     }
 }

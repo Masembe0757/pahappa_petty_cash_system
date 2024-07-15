@@ -3,6 +3,11 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@4.1.0/primeicons.css" />
+    </h:head>
+
+
     <div class="second-layer-top">
         <h:form id="searchForm">
             <!--
@@ -34,7 +39,7 @@
                     <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>
                 <p:column headerText="User">
-                    <h:outputText value="#{requisition.user.firstName } #{requisition.user.firstName}"/>
+                    <h:outputText value="#{requisition.user.firstName }"/>
                 </p:column>
                 <p:column headerText="Budget Line">
                     <h:outputText value="#{requisition.budgetLine.name}"/>
@@ -51,6 +56,50 @@
                 </p:column>
                 <p:column headerText="Status">
                     <h:outputText value="#{requisition.status}"/>
+                </p:column>
+                <p:column headerText="Actions">
+                    <h:form>
+                    <div class="btn-sect">
+                        <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('infoDialog').show();"
+                                         process="@this"
+                                         update="infoDialog">
+                        </p:commandButton>
+
+
+                        <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog"
+                                  resizable="false" width="500">
+                            <h:panelGrid columns="1">
+                                <h:outputLabel for="description" value="Reason:"/>
+                                <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
+                                                 required="true" requiredMessage="Information is required!"/>
+
+                                <p:commandButton value="Comment"
+                                                 action="#{requisitionBean.rejectRequisition(requisition.id,requisitionBean.information)}"
+                                                 oncomplete="if (PF('infoDialog').jq.find('.ui-messages-error').length == 0) {
+                                                 PF('infoDialog').hide();} else {PF('infoDialog').show();}"
+                                                 update="requisitionForm:requisitionTable"/>
+
+                            </h:panelGrid>
+                        </p:dialog>
+
+
+                        <p:commandButton  styleClass="delete" icon="pi pi-check">
+                            <p:confirm header="Confirmation" message="Do you want to approve this requisition?"
+                                       icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                         width="350">
+                            <p:commandButton value="No" type="button"
+                                             styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton
+                                    action="#{requisitionBean.approveRequisition(requisition.id)}"
+                                    value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                    update="requisitionForm:requisitionTable"
+                                    />
+                        </p:confirmDialog>
+
+                    </div>
+                    </h:form>
                 </p:column>
 
                 <p:growl id="message" showDetail="true"/>
