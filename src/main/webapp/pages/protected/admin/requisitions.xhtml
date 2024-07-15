@@ -49,31 +49,6 @@
         </h:head>
 
         <div class="first-layer-top">
-            <div class="navigation">
-                <h:form>
-                    <ul class="navList">
-                        <li class="">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeRequisitionsSections('allRequisitions')}">
-                                <h:outputText value="Requisitions" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeRequisitionsSections('requisitionDrafts')}">
-                                <h:outputText value="Drafts" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeRequisitionsSections('accountability')}">
-                                <h:outputText value="Accountability" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                    </ul>
-                </h:form>
-            </div>
-
 
             <h:form>
             <div class="btn-sect">
@@ -113,7 +88,7 @@
                     </h:panelGrid>
 
                     <p:commandButton value="Save" action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
-                                     update=":requisitionForm:requisitionTable"
+                                     update=""
                                      process="@form"
                                      oncomplete=" PF('dlg').hide();"/>
                 </p:dialog>
@@ -122,32 +97,17 @@
         </div>
 
 
-<!--
-        <div class="second-layer-top">
-            <h:form id="searchForm">
-                <p:inputText id="search" value="#{Req.search}"
-                             icon="pi pi-search"
-                             placeholder="Search By name">
-                    <p:ajax event="keyup" update=""
-                            listener="#{Req.searchNames()}"/>
-                </p:inputText>
-
-                <h:outputLabel for="filter" value="Filter By:"/>
-                <p:selectOneMenu id="filter" value="#{Req.gender}">
-
-                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
-                </p:selectOneMenu>
-
-                <p:selectOneMenu value="#{Req.gender}">
-
-                    <p:ajax update="" listener="#{Req.filterDependants()}"/>
-                </p:selectOneMenu>
-            </h:form>
-        </div>
-        -->
-        <h:panelGroup id="contentSection">
-            <ui:include src="#{navigationBean.selectedRequisitionsSection}.xhtml" />
-        </h:panelGroup>
+        <p:tabView>
+            <p:tab id="requisitions" title="Requisitions">
+                <ui:include src="allRequisitions.xhtml"/>
+            </p:tab>
+            <p:tab id="reqDrafts" title="Drafts">
+                <ui:include src="requisitionDrafts.xhtml"/>
+            </p:tab>
+            <p:tab id="accountability" title="Accountability">
+                <ui:include src="accountability.xhtml"/>
+            </p:tab>
+        </p:tabView>
 
     </ui:define>
 
