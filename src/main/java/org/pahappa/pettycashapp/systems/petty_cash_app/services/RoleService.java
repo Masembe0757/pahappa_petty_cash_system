@@ -115,4 +115,8 @@ public class RoleService {
     public List<Permission> getPermissionsOfRole(int roleId) {
         return userDao.getPermissionsOfRole(roleId);
     }
+
+    public List<Permission> returnPermissionsForRole(int roleId) {
+        return  userDao.getPermissionsOfRole(roleId);
+    }
 }
