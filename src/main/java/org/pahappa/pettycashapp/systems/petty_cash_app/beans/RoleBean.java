@@ -50,6 +50,7 @@ public class RoleBean implements Serializable {
         permissions.add("Make Requisition");
         permissions.add("Review Requisition");
         permissions.add("Approve Requisition");
+        permissions.add("Provide accountability");
         permissions.add("View Users");
         return permissions;
 
@@ -58,6 +59,7 @@ public class RoleBean implements Serializable {
 
 
     public void saveRole(String name , List<String> permissions) {
+        System.out.println("ROLE SAVING");
     String message = roleService.saveRole(name,permissions);
     if(message.isEmpty()){
         FacesContext.getCurrentInstance().addMessage(null,
@@ -118,4 +120,10 @@ public class RoleBean implements Serializable {
     }
 
 
+    public List<Permission> permissionsForRole(int role_id) {
+        return roleService.returnPermissionsForRole(role_id);
+    }
+
+    public void deleteAllRoles() {
+    }
 }
