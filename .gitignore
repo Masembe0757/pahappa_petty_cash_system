@@ -5,6 +5,7 @@ out/
 !**/src/test/**/target/
 ### IntelliJ IDEA ###
 
+.smarttomcat/
 .idea/
 *.iws
 *.iml

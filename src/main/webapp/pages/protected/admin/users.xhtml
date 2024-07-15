@@ -60,30 +60,14 @@
             </style>
         </h:head>
 
-        <div class="first-layer-top">
-            <h:form>
-                <ul class="navList">
-                    <li class="">
-                        <h:commandLink styleClass="listLink" action="#{navigationBean.changeUserSection('usersSection')}">
-                            <h:outputText value="Users" />
-                            <p:ajax update="contentSection" />
-                        </h:commandLink>
-                    </li>
-                    <li class="navListItem">
-                        <h:commandLink styleClass="listLink" action="#{navigationBean.changeUserSection('roles')}">
-                            <h:outputText value="User Roles" />
-                            <p:ajax update="contentSection" />
-                        </h:commandLink>
-                    </li>
-                </ul>
-            </h:form>
-
-
-        </div>
-
-        <h:panelGroup id="contentSection">
-            <ui:include src="#{navigationBean.selectedUserSection}.xhtml" />
-        </h:panelGroup>
+        <p:tabView>
+            <p:tab id="users" title="Users">
+                <ui:include src="usersSection.xhtml"/>
+            </p:tab>
+            <p:tab id="userRoles" title="User Roles">
+                <ui:include src="roles.xhtml"/>
+            </p:tab>
+        </p:tabView>
 
     </ui:define>
 

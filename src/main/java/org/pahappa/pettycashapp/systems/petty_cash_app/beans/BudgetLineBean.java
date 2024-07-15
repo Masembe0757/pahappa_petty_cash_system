@@ -127,7 +127,31 @@ public class BudgetLineBean implements Serializable {
     }
 
     public String updateDraftedBL (BudgetLine budgetLine) {
-        return "null";
-
+        String message =  budgetLineService.updateDraftedBL(budgetLine);
+        if(message.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Success", "Budget line created successfully"));
+        }
+        return message;
     }
+
+    public void cancelBudgetLine(BudgetLine budgetLine) {
+        budgetLineService.deleteBL(budgetLine);
+    }
+
+    public void stageBL(BudgetLine budgetLine) {
+        budgetLineService.stageBudgetLine(budgetLine);
+    }
+
+    public int countRunningBL(){
+        return budgetLineService.returnCurrentBudgetLines().size();
+    }
+
+    public int countExpiredBL(){
+        return budgetLineService.getExpiredBudgetLines().size();
+    }
+
 }

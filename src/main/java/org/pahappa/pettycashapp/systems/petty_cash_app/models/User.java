@@ -16,6 +16,7 @@ public class User {
     private String password;
     private String email;
     private String role;
+    private boolean deleted = false;
     public User(){}
     public String getRole() {
         return role;
@@ -92,6 +93,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
