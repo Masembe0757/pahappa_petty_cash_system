@@ -228,6 +228,10 @@ public class UserService {
         return userDao.getAllUsers();
     }
 
+    public List<User> getDeletedUsers() {
+        return userDao.getDeletedUsers();
+    }
+
     public void deleteUserOfUserName(String userName) {
         userDao.deleteUserOfUserName(userName);
     }

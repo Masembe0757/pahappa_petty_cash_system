@@ -14,6 +14,7 @@ public class BudgetLine {
     private int id;
     private String name;
     private int amountDelegated;
+    private int balance;
     private Date startDate;
     private Date endDate;
     private String status ="drafted";
@@ -42,7 +43,9 @@ public class BudgetLine {
     @OneToMany(mappedBy="budgetLine", cascade = CascadeType.ALL)
     private List<Requisition> requisitions = new ArrayList<>();
 
+    public int getBalance() { return balance; }
 
+    public void setBalance(int balance) { this.balance = balance; }
 
     public String getName() {
         return name;

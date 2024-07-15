@@ -157,11 +157,11 @@
                 </div>
                 <div class="grid overview-detail">
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
+                        <div class="overview-number">#{requisitionService.countStagedRequisitions()}</div>
                         <div class="overview-subtext">Pending</div>
                     </div>
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
+                        <div class="overview-number">#{requisitionService.countFulfilledRequisitions()}</div>
                         <div class="overview-subtext">Completed</div>
                     </div>
                 </div>
@@ -173,11 +173,11 @@
                 </div>
                 <div class="grid overview-detail">
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
+                        <div class="overview-number">#{budgetLineBean.countRunningBL()}</div>
                         <div class="overview-subtext">Running</div>
                     </div>
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
+                        <div class="overview-number">#{budgetLineBean.countExpiredBL()}</div>
                         <div class="overview-subtext">Expired</div>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
                     </div>
                     <div class="ui-grid-col-6">
                         <div class="overview-number">564</div>
-                        <div class="overview-subtext">Approved</div>
+                        <div class="overview-subtext">Completed</div>
                     </div>
                 </div>
             </div>
@@ -205,11 +205,11 @@
                 </div>
                 <div class="grid overview-detail">
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
+                        <div class="overview-number">#{userBean.countActiveUsers()}</div>
                         <div class="overview-subtext">Active</div>
                     </div>
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
+                        <div class="overview-number">#{userBean.countDeletedUsers()}</div>
                         <div class="overview-subtext">Deleted</div>
                     </div>
                 </div>
@@ -219,10 +219,10 @@
         <div class="lower-cards">
             <div class="card-container">
                 <div class="glass one">
-                    <p:chart type="donut" model="#{chartBean.donutChartModel}" />
+                    <p:pieChart model="#{chartBean.pieModel}" />
                 </div>
                 <div class="glass two">
-                    <!-- Your chart or graph for two goes here -->
+                    <p:barChart model="#{chartBean.barModel}" />
                 </div>
             </div>
             <div class="card-container">

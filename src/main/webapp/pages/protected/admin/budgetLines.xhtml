@@ -24,6 +24,7 @@
                 ul.navList {
                     display: flex;
                     justify-content: center;
+
                 }
 
                 .navListItem {
@@ -46,40 +47,18 @@
                     width: 840px !important;
                 }
 
+                .active {
+                    border-bottom: 3px solid #1039ac !important;
+                    color: #1039ac !important;
+                    transform: scale(1.1);
+                }
+
 
             </style>
         </h:head>
 
         <div class="first-layer-top">
             <div class="navigation">
-                <h:form>
-                    <ul class="navList">
-                        <li class="">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('currentBudgetLines')}">
-                                <h:outputText value="Current Budget Lines" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('budgetLineDrafts')}">
-                                <h:outputText value="Drafts" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('expiredBudgetLines')}">
-                                <h:outputText value="Expired Budget Lines" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeBudgetLineSection('budgetLineCategories')}">
-                                <h:outputText value="Budget Line Categories" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                    </ul>
-                </h:form>
 
             </div>
             <div class="btn-sect">
@@ -161,9 +140,20 @@
             </div>
         </div>
 
-        <h:panelGroup id="contentSection">
-            <ui:include src="#{navigationBean.selectedBudgetLineSection}.xhtml" />
-        </h:panelGroup>
+        <p:tabView>
+            <p:tab id="currentBL" title="Current Budget Lines">
+                <ui:include src="currentBudgetLines.xhtml"/>
+            </p:tab>
+            <p:tab id="draftsBL" title="Drafts">
+                <ui:include src="budgetLineDrafts.xhtml"/>
+            </p:tab>
+            <p:tab id="epiredBL" title="Expired Budget Lines">
+                <ui:include src="expiredBudgetLines.xhtml"/>
+            </p:tab>
+            <p:tab id="categoriesBL" title="Budget Line Categories">
+                <ui:include src="budgetLineCategories.xhtml"/>
+            </p:tab>
+        </p:tabView>
 
 
     </ui:define>

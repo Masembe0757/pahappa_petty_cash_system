@@ -170,6 +170,14 @@ public class UserBean implements Serializable {
         }
         return userList;
     }
+
+    public int countActiveUsers() {
+       return userService.getAllUsers().size();
+    }
+
+    public int countDeletedUsers() {
+        return userService.getDeletedUsers().size();
+    }
 }
 
 
