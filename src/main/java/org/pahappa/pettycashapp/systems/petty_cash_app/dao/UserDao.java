@@ -421,7 +421,7 @@ public class UserDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from User");
+            Query qry = session.createQuery("from User where deleted = false");
             users = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
@@ -432,12 +432,29 @@ public class UserDao {
         return users;
     }
 
+    public List<User> getDeletedUsers() {
+        List<User> deletedUsers = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from User where deleted = true");
+            deletedUsers = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return deletedUsers;
+    }
+
     public void deleteUserOfUserName(String userName) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("delete from User where userName = :userName");
+            Query qry = session.createQuery("update User set deleted = true where userName = :userName");
             qry.setParameter("userName", userName);
             qry.executeUpdate();
             trs.commit();

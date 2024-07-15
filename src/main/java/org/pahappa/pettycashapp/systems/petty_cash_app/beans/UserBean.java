@@ -104,7 +104,6 @@ public class UserBean implements Serializable {
 
     public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role){
         String message = userService.saveUser(firstName,lastName,userName,password1,password2,email,role);
-        System.out.println("saving.....");
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
@@ -161,7 +160,13 @@ public class UserBean implements Serializable {
         return userList;
     }
 
+    public int countActiveUsers() {
+       return userService.getAllUsers().size();
+    }
 
+    public int countDeletedUsers() {
+        return userService.getDeletedUsers().size();
+    }
 }
 
 

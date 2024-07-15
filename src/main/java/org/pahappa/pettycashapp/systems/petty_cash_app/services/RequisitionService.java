@@ -77,6 +77,8 @@ public class RequisitionService {
     public List<Requisition> getFulfilledRequisitions(){
         return userDao.getFulfilledRequisitions("fulfilled");
     }
+
+    public List<Requisition> getRejectedRequisitions(){ return userDao.getStagedRequisitions("rejected"); }
     //for user
     public List<Requisition> getDraftedRequisitions(){
         return userDao.getDraftedRequisitions("drafted");
@@ -115,11 +117,28 @@ public class RequisitionService {
         Requisition requisition = userDao.getRequisitionOfId(requisitionId);
         rejection.setInformation(information);
         rejection.setRequisition(requisition);
-        System.out.println("REjecting 2");
         userDao.saveRejection(rejection);
     }
 
     public void setRejectionStatus(int id) {
         userDao.setRejectionStatus(id);
     }
+
+    public int countRejectedRequisitions(){
+        return getRejectedRequisitions().size();
+    }
+
+    public int countApprovedRequisitions(){
+        return getApprovedRequisitions().size();
+    }
+
+    public int countStagedRequisitions(){
+        return getStagedRequisitions().size();
+    }
+
+    public int countFulfilledRequisitions(){
+        return getFulfilledRequisitions().size();
+    }
+
+
 }
