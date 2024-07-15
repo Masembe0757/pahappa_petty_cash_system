@@ -5,16 +5,17 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
         <div class="first-layer-top">
-            <h:form class="actns" id="regform">
-            <div class="btn-sect">
-                    <p:commandButton oncomplete="PF('dlg').show();" process="@this" update=":userRegForm:dlg" styleClass="btn1"
+            <h:form class="actns">
+                <div class="btn-sect">
+                    <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="btn1"
                                      icon="pi pi-user-plus"
                                      value="Add User"/>
-                    <p:commandButton  action="#{userBean.deleteAllUsers()}" styleClass="ui-button-danger mr-2"
-                                      icon="pi pi-user-minus" value="Delete All Users"
-                                      update=":userForm:userTable"/>
+                    <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="ui-button-danger mr-2"
+                                     icon="pi pi-user-minus" value="Delete All Users"
+                                     process="@this"
+                                     update=""/>
 
-            </div>
+                </div>
             </h:form>
         </div>
 
@@ -22,74 +23,62 @@
         <!--USER CREATION DIALOG-->
 
         <h:form id="userRegForm">
-                <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true" resizable="false" width="600">
-                    <h:panelGrid>
-                        <h:outputLabel for="u_n" value="User Name:"/>
-                        <p:inputText id="u_n" value="#{userBean.username}" required="true"
-                                     requiredMessage="Username is required!">
-                            <!--                                <f:validator validatorId="usernameValidator"/>-->
-                            <!--                                <f:ajax event="keyup" execute="@this" render="usernameMessage"/>-->
-                        </p:inputText>
+            <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true"
+                      resizable="false" width="600">
+                <h:panelGrid>
+                    <h:outputLabel for="u_n" value="User Name:"/>
+                    <p:inputText id="u_n" value="#{userBean.username}" required="true"
+                                 requiredMessage="Username is required!">
+                    </p:inputText>
 
 
-                        <h:outputLabel for="f_n" value="First Name:"/>
-                        <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
-                                     requiredMessage="First name is required!">
-                            <!--                                <f:validator validatorId="nameValidator"/>-->
-                            <!--                                <f:ajax event="keyup" execute="@this" render="firstnameMessage"/>-->
-                        </p:inputText>
+                    <h:outputLabel for="f_n" value="First Name:"/>
+                    <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
+                                 requiredMessage="First name is required!">
+                    </p:inputText>
 
 
-                        <h:outputLabel for="l_n" value="Last Name:"/>
-                        <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
-                                     requiredMessage="Last name is required!">
-                            <!--                                <f:validator validatorId="nameValidator"/>-->
-                            <!--                                <f:ajax event="keyup" execute="@this" render="lastnameMessage"/>-->
-                        </p:inputText>
+                    <h:outputLabel for="l_n" value="Last Name:"/>
+                    <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
+                                 requiredMessage="Last name is required!">
+                    </p:inputText>
 
 
-                        <h:outputLabel for="password1" value="Password:"/>
-                        <p:password id="password1" value="#{userBean.password1}" required="true"
-                                    feedback="true"
-                                    requiredMessage="Password is required!">
-                            <!--                                <f:validator validatorId="emailValidator"/>-->
-                            <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                        </p:password>
+                    <h:outputLabel for="password1" value="Password:"/>
+                    <p:password id="password1" value="#{userBean.password1}" required="true"
+                                feedback="true"
+                                requiredMessage="Password is required!">
+                    </p:password>
 
-                        <h:outputLabel for="password2" value="Confirm:"/>
-                        <p:password id="password2" value="#{userBean.password2}" required="true"
-                                    feedback="true"
-                                    requiredMessage="Please confirm password!">
-                            <!--                                <f:validator validatorId="emailValidator"/>-->
-                            <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                        </p:password>
+                    <h:outputLabel for="password2" value="Confirm:"/>
+                    <p:password id="password2" value="#{userBean.password2}" required="true"
+                                feedback="true"
+                                requiredMessage="Please confirm password!">
+                    </p:password>
 
-                        <h:outputLabel for="u_email" value="Email:"/>
-                        <p:inputText id="u_email" value="#{userBean.email}" required="true"
-                                     requiredMessage="Email is required!">
-                            <!--                                <f:validator validatorId="emailValidator"/>-->
-                            <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
-                        </p:inputText>
+                    <h:outputLabel for="u_email" value="Email:"/>
+                    <p:inputText id="u_email" value="#{userBean.email}" required="true"
+                                 requiredMessage="Email is required!">
+                    </p:inputText>
 
-                        <h:outputLabel for="role_" value="Role:"/>
-                        <p:selectOneMenu id="role_" value="#{userBean.role}" required="true"
-                                         requiredMessage="Role is required!">
-                            <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{roleBean.getRoles()}" var="role"
-                                           itemLabel="#{role.name}" itemValue="#{role.name}"/>
-                        </p:selectOneMenu>
+                    <h:outputLabel for="role_" value="Role:"/>
+                    <p:selectOneMenu id="role_" value="#{userBean.role}" required="true"
+                                     requiredMessage="Role is required!">
+                        <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{roleBean.getRoles()}" var="role"
+                                       itemLabel="#{role.name}" itemValue="#{role.name}"/>
+                    </p:selectOneMenu>
 
-                    </h:panelGrid>
+                </h:panelGrid>
 
-                    <p:commandButton value="Add"
-                                     process="@form"
-                                     action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
-                                     oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
-                                     update=":userForm:userTable"
-                    />
-                </p:dialog>
-            </h:form>
-
+                <p:commandButton value="Add"
+                                 process="@form"
+                                 action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                                 oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
+                                 update=""
+                />
+            </p:dialog>
+        </h:form>
 
 
         <!--USER UPDATE DIALOG-->
@@ -143,7 +132,7 @@
                 <p:commandButton value="Save"
                                  action="#{userBean.updateUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                  oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"
-                                 update=":userForm:userTable"
+                                 update=""
                                  process="@form"
                 />
             </p:dialog>
@@ -155,7 +144,8 @@
                 <p:inputText id="search" value="#{userBean.name}"
                              icon="pi pi-search"
                              placeholder="Search By name">
-                    <p:ajax event="keyup" update=":userForm:userTable" listener="#{userBean.getUsersByName(userBean.name)}"/>
+                    <p:ajax event="keyup" update=""
+                            listener="#{userBean.getUsersByName(userBean.name)}"/>
                 </p:inputText>
             </h:form>
         </div>
@@ -182,7 +172,7 @@
                     <div class="btn-sect">
                         <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('userDialog').show();"
                                          process="@this"
-                                         update=":updateForm:userDialog">
+                                         update="">
                             <f:setPropertyActionListener value="#{user.userName}" target="#{userBean.username}"/>
                             <f:setPropertyActionListener value="#{user.firstName}" target="#{userBean.firstname}"/>
                             <f:setPropertyActionListener value="#{user.lastName}" target="#{userBean.lastname}"/>
@@ -195,7 +185,7 @@
                         <p:growl id="message" showDetail="true"/>
 
                         <p:commandButton action="#{userBean.deleteUserOfUserName(user.userName)}"
-                                         update="message :userForm:userTable"
+                                         update="message "
                                          styleClass="delete" icon="pi pi-trash">
                             <p:confirm header="Confirmation" message="Do you want to delete this record?"
                                        icon="pi pi-info-circle"/>

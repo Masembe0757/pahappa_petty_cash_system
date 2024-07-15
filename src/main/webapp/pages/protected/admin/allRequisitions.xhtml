@@ -10,25 +10,6 @@
 
     <div class="second-layer-top">
         <h:form id="searchForm">
-            <!--
-            <p:inputText id="search" value="#{Req.search}"
-                         icon="pi pi-search"
-                         placeholder="Search By name">
-                <p:ajax event="keyup" update=""
-                        listener="#{Req.searchNames()}"/>
-            </p:inputText>
-
-            <h:outputLabel for="filter" value="Filter By:"/>
-            <p:selectOneMenu id="filter" value="#{Req.gender}">
-
-                <p:ajax update="" listener="#{Req.filterDependants()}"/>
-            </p:selectOneMenu>
-
-            <p:selectOneMenu value="#{Req.gender}">
-
-                <p:ajax update="" listener="#{Req.filterDependants()}"/>
-            </p:selectOneMenu>
-            -->
         </h:form>
     </div>
 
@@ -77,7 +58,7 @@
                                                  action="#{requisitionBean.rejectRequisition(requisition.id,requisitionBean.information)}"
                                                  oncomplete="if (PF('infoDialog').jq.find('.ui-messages-error').length == 0) {
                                                  PF('infoDialog').hide();} else {PF('infoDialog').show();}"
-                                                 update="requisitionForm:requisitionTable"/>
+                                                 update=""/>
 
                             </h:panelGrid>
                         </p:dialog>
@@ -94,7 +75,7 @@
                             <p:commandButton
                                     action="#{requisitionBean.approveRequisition(requisition.id)}"
                                     value="Yes" type="button" styleClass="ui-confirmdialog-yes"
-                                    update="requisitionForm:requisitionTable"
+                                    update=""
                                     />
                         </p:confirmDialog>
 
