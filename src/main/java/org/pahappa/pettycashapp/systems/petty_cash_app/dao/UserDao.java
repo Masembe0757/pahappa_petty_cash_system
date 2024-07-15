@@ -277,6 +277,7 @@ public class UserDao {
 
     public void saveRejection(Rejection rejection) {
         try {
+            System.out.println("REjecting 3");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
@@ -576,5 +577,24 @@ public class UserDao {
             SessionConfiguration.shutdown();
         }
         return permissions;
+    }
+
+
+    public void setRejectionStatus(int id) {
+        String status = "rejected";
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Requisition set status = :status where id = :id");
+            qry.setParameter("id", id);
+            qry.setParameter("status",status);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
     }
 }

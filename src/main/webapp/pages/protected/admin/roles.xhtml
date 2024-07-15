@@ -8,7 +8,7 @@
         <div class="first-layer-top">
             <h:form class="actns" id="regform">
                 <div class="btn-sect">
-                    <p:commandButton oncomplete="PF('rlg').show();" process="@this" update=":roleCreationForm:rlg" styleClass="btn1"
+                    <p:commandButton oncomplete="PF('rlg').show();" process="@this" update=":roleSaveForm:rlg" styleClass="btn1"
                                      icon="pi pi-user-plus"
                                      value="Add Role"/>
                     <p:commandButton action="#{roleBean.deleteAllRoles()}" styleClass="ui-button-danger mr-2"
@@ -19,7 +19,7 @@
         </div>
 
         <!-- ROLE CREATION DIALOG -->
-        <h:form id="roleCreationForm">
+        <h:form id="roleSaveForm">
             <p:dialog header="Add Role" widgetVar="rlg" modal="true" id="rlg" responsive="true" resizable="false" width="900">
                 <h:panelGrid columns="2">
                     <h:outputLabel for="role_name" value="Role Name:"/>
@@ -34,15 +34,13 @@
                 </h:panelGrid>
 
                 <p:commandButton value="Add"
-                                 process="@this"
+                                 process="@this:roleSaveForm"
                                  action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
                                  oncomplete="if (!(PF('rlg').jq.find('.ui-messages-error').length == 0)) PF('rlg').show();"
                                  update=":roleForm:roleTable"/>
             </p:dialog>
-        </h:form>
 
         <!-- ROLE UPDATE DIALOG -->
-        <h:form id="roleUpdateForm">
             <p:dialog id="roleDialog" widgetVar="roleDialog" header="Update Role" modal="true" width="900" resizable="false" responsive="true">
                 <h:panelGrid columns="2" id="content" cellpadding="2">
                     <h:outputLabel for="role_name1" value="Role Name:"/>
@@ -56,7 +54,7 @@
                     </p:selectManyCheckbox>
                 </h:panelGrid>
                 <p:commandButton value="Save"
-                                 process="@this"
+                                 process="@this:roleSaveForm"
                                  action="#{roleBean.updateRole(roleBean.name, roleBean.selectedPermissions)}"
                                  oncomplete=" if (!(PF('roleDialog').jq.find('.ui-messages-error').length == 0)) PF('roleDialog').show()"
                                  update=":roleForm:roleTable"
@@ -95,7 +93,7 @@
                     <p:column headerText="Actions">
                         <p:commandButton icon="pi pi-user-edit" oncomplete="PF('roleDialog').show();"
                                          process="@this"
-                                         update=":roleUpdateForm:content">
+                                         update=":roleSaveForm:roleDialog">
                             <f:setPropertyActionListener value="#{role.name}" target="#{roleBean.name}"/>
                         </p:commandButton>
                         <p:growl id="message" showDetail="true"/>
