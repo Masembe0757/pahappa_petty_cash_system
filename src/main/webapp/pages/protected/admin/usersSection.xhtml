@@ -5,6 +5,7 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
 
+        <h:form id="userRegForm" >
         <div class="topOfTable">
             <h:form id="searchForm">
                 <p:inputText id="search" value="#{userBean.name}"
@@ -14,6 +15,7 @@
                             listener="#{userBean.getUsersByName(userBean.name)}"/>
                 </p:inputText>
             </h:form>
+
 
             <div class="btn-sect">
                 <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="one"
@@ -93,7 +95,7 @@
                              update="@all"
             />
         </p:dialog>
-
+    </h:form>
 
         <h:form id="userForm">
             <h4 class="Table-title">ACTIVE USERS</h4>

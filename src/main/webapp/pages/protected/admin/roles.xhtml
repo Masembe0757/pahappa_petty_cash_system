@@ -84,6 +84,7 @@
 
 
         <h4 class="Table-title">USER ROLES</h4>
+        <h:form id="roleForm">
         <p:dataTable id="roleTable" value="#{roleBean.getRoleByName(roleBean.name)}" var="role"
                      emptyMessage="No roles available"
                      paginator="true"
@@ -109,6 +110,7 @@
             </p:column>
             <p:column headerText="Actions">
                 <p:commandButton icon="pi pi-pencil" oncomplete="PF('roleDialog').show();"
+                                 styleClass="edit"
                                  process="@this"
                                  update="@form">
                     <f:setPropertyActionListener value="#{role.name}" target="#{roleBean.nameUp}"/>
@@ -132,7 +134,7 @@
                 </p:confirmDialog>
             </p:column>
         </p:dataTable>
-
+        </h:form>
 
     </div>
 </ui:composition>
