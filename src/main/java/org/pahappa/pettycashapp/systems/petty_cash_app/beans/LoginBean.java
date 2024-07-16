@@ -24,8 +24,7 @@ public class LoginBean {
     Routes routes;
     @Autowired
     UserDao userDao;
-    @Autowired
-    RoleBean roleBean;
+
     public LoginBean(){}
 
     private String username;
@@ -57,20 +56,28 @@ public class LoginBean {
     }
     @PostConstruct
     public void init() {
+        //ADDING OVEROLL ADMIN WITH A ROLE AND ALL PERMISSIONS
+
+        Role role1 = userDao.getRoleOfname("admin");
+        if(role1 == null) {
+            Role role = new Role();
+            role.setName("admin");
 
 
-        Role role = new Role();
-        role.setName("admin");
-        userDao.saveRole(role);
+            List<String> permissions =  new ArrayList<>(Arrays.asList("Make Category","Approve Budget Line","Make " +
+                    "Requisition","Review Requisition","Approve Requisition","Provide accountability","View Users"));
 
-//         List<String> permissions = roleBean.getPermissions();
-//        for (String s : permissions ) {
-//            Permission permission = new Permission();
-//            role.getPermissions().add(permission);
-//            permission.setRole(role);
-//            permission.setName(s);
-//        }
-//        userDao.saveRole(role);
+            for (String s : permissions) {
+                Permission permission = new Permission();
+                role.getPermissions().add(permission);
+                permission.setRole(role);
+                permission.setName(s);
+            }
+            userDao.saveRole(role);
+        }
+
+
+
 
 
         User admin = new User();

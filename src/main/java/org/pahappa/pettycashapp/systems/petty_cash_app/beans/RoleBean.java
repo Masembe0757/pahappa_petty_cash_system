@@ -24,7 +24,34 @@ public class RoleBean implements Serializable {
     private  List<String> permissions = new ArrayList<>(Arrays.asList("Make Category","Approve Budget Line","Make " +
             "Requisition","Review Requisition","Approve Requisition","Provide accountability","View Users"));
     private String name;
-    List<String> selectedPermissions;
+    private List<String> selectedPermissions;
+    private String nameUp;
+    private List<String> selectedPermissionsUp;
+    private  int role_id;
+
+    public int getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
+    }
+
+    public List<String> getSelectedPermissionsUp() {
+        return selectedPermissionsUp;
+    }
+
+    public void setSelectedPermissionsUp(List<String> selectedPermissionsUp) {
+        this.selectedPermissionsUp = selectedPermissionsUp;
+    }
+
+    public String getNameUp() {
+        return nameUp;
+    }
+
+    public void setNameUp(String nameUp) {
+        this.nameUp = nameUp;
+    }
 
     public List<String> getPermissions() {
         return permissions;
@@ -88,12 +115,11 @@ public class RoleBean implements Serializable {
         return roleList;
     }
 
-    public String updateRole(String name , List<String> permissions) {
-        String message = roleService.updateRoleOfId(name, permissions);
+    public String updateRole(String name , List<String> permissions, int role_id) {
+        String message = roleService.updateRoleOfId(name, permissions ,role_id);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role updated successfully ", null));
-           // return routes.getUsers();
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));

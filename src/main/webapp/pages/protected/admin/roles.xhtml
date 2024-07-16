@@ -24,46 +24,29 @@
                 <h:panelGrid columns="2">
                     <h:outputLabel for="role_name" value="Role Name:"/>
                     <p:inputText id="role_name" value="#{roleBean.name}" required="true"
-                                 requiredMessage="Role name is required!"/>
+                                 requiredMessage="Role name is required!">
+                        <p:ajax event="keyup" update="@this" />
+                    </p:inputText>
                     <h:outputLabel for="role_p_create" value="Permissions:"/>
                     <p:selectManyCheckbox id="role_p_create" value="#{roleBean.selectedPermissions}" required="true"
                                           requiredMessage="At least one role is required!">
                         <f:selectItems value="#{roleBean.permissions}" var="permission"
                                        itemLabel="#{permission}" itemValue="#{permission}"/>
+                        <p:ajax event="change" update="@this"/>
                     </p:selectManyCheckbox>
                 </h:panelGrid>
 
                 <p:commandButton value="Add"
                                  action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
-                                 update="@form"
-                                 oncomplete="if (!(PF('rlg').jq.find('.ui-messages-error').length == 0)) PF('rlg').show();"
-                                 />
-
-            </p:dialog>
-
-        <!-- ROLE UPDATE DIALOG -->
-            <p:dialog id="roleDialog" widgetVar="roleDialog" header="Update Role" dynamic = "true"  modal="true" width="900" resizable="false" responsive="true">
-                <h:panelGrid columns="2" id="content" cellpadding="2">
-                    <h:outputLabel for="role_name1" value="Role Name:"/>
-                    <p:inputText id="role_name1" value="#{roleBean.name}" required="true"
-                                 requiredMessage="Role name is required!"/>
-                    <h:outputLabel for="role_p_up" value="Permissions:"/>
-                    <p:selectManyCheckbox id="role_p_up" value="#{roleBean.selectedPermissions}" required="true"
-                                          requiredMessage="At least one role is required!">
-                        <f:selectItems value="#{roleBean.permissions}" var="permission"
-                                       itemLabel="#{permission}" itemValue="#{permission}"/>
-                    </p:selectManyCheckbox>
-                </h:panelGrid>
-                <p:commandButton value="Save"
-                                 update="@form"
                                  process="@this"
-                                 action="#{roleBean.updateRole(roleBean.name, roleBean.selectedPermissions)}"
-                                 oncomplete=" if (!(PF('roleDialog').jq.find('.ui-messages-error').length == 0)) PF('roleDialog').show()"
-                                 render=":roleForm:roleTable"
-
-                                />
+                                 update="@all"
+                                 oncomplete="if (!(PF('rlg').jq.find('.ui-messages-error').length == 0)) PF('rlg').show();"
+                >
+                </p:commandButton>
 
             </p:dialog>
+
+
         </h:form>
 
         <div class="topOfTable">
@@ -95,10 +78,17 @@
                     <p:column headerText="Actions">
                         <p:commandButton icon="pi pi-user-edit" oncomplete="PF('roleDialog').show();"
                                          process="@this"
-                                         excute=":roleSaveForm:roleDialog">
-                            <f:setPropertyActionListener value="#{role.name}" target="#{roleBean.name}"/>
-                            <f:setPropertyActionListener value="#{roleBean.getPermissionsOfRole(role.id)}" target="#{roleBean.selectedPermissions}"/>
+                                         update="@form">
+                            <f:setPropertyActionListener value="#{role.name}" target="#{roleBean.nameUp}"/>
+                            <f:setPropertyActionListener value="#{roleBean.getPermissionsOfRole(role.id)}" target="#{roleBean.selectedPermissionsUp}"/>
+                            <f:setPropertyActionListener value="#{role.id}" target="#{roleBean.role_id}"/>
                         </p:commandButton>
+
+
+
+
+
+
                         <p:growl id="message" showDetail="true"/>
                         <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" update=""
                                          styleClass="delete" icon="pi pi-trash">
@@ -113,6 +103,42 @@
                         </p:confirmDialog>
                     </p:column>
                 </p:dataTable>
+
+
+
+
+
+                <!-- ROLE UPDATE DIALOG -->
+                <p:dialog id="roleDialog" widgetVar="roleDialog" header="Update Role" dynamic = "true"  modal="true" width="900" resizable="false" responsive="true">
+                    <h:panelGrid columns="2" id="content" cellpadding="2">
+                        <h:outputLabel for="role_name1" value="Role Name:"/>
+                        <p:inputText id="role_name1" value="#{roleBean.nameUp}" required="true"
+                                     requiredMessage="Role name is required!">
+                            <p:ajax event="keyup" update="@this" />
+                        </p:inputText>
+                        <h:outputLabel for="role_p_up" value="Permissions:"/>
+                        <p:selectManyCheckbox id="role_p_up" value="#{roleBean.selectedPermissionsUp}" required="true"
+                                              requiredMessage="At least one role is required!">
+                            <f:selectItems value="#{roleBean.permissions}" var="permission"
+                                           itemLabel="#{permission}" itemValue="#{permission}"/>
+                            <p:ajax event="change" update="@this" />
+                        </p:selectManyCheckbox>
+                    </h:panelGrid>
+                    <p:commandButton value="Save"
+                                     process="@this"
+                                     update="@form"
+                                     action="#{roleBean.updateRole(roleBean.nameUp, roleBean.selectedPermissionsUp,roleBean.role_id)}"
+                                     oncomplete=" if (!(PF('roleDialog').jq.find('.ui-messages-error').length == 0)) PF('roleDialog').show()"
+
+                    />
+                </p:dialog>
+
+
+
+
+
+
+
             </h:form>
     </div>
 </ui:composition>
