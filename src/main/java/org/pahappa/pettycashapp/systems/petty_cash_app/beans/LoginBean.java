@@ -1,11 +1,13 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,12 +18,14 @@ import java.io.IOException;
 import java.util.*;
 
 @Component
-@RequestScope
+@SessionScope
 public class LoginBean {
     @Autowired
     Routes routes;
     @Autowired
     UserDao userDao;
+    @Autowired
+    RoleBean roleBean;
     public LoginBean(){}
 
     private String username;
@@ -53,6 +57,22 @@ public class LoginBean {
     }
     @PostConstruct
     public void init() {
+
+
+        Role role = new Role();
+        role.setName("admin");
+        userDao.saveRole(role);
+
+//         List<String> permissions = roleBean.getPermissions();
+//        for (String s : permissions ) {
+//            Permission permission = new Permission();
+//            role.getPermissions().add(permission);
+//            permission.setRole(role);
+//            permission.setName(s);
+//        }
+//        userDao.saveRole(role);
+
+
         User admin = new User();
         admin.setFirstName("manager");
         admin.setLastName("manager");
@@ -64,6 +84,8 @@ public class LoginBean {
         if(user==null){
             userDao.createAdmin(admin);
         }
+
+
     }
 
 

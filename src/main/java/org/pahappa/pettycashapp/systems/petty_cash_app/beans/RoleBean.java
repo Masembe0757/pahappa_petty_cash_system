@@ -10,6 +10,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.*;
@@ -125,4 +126,106 @@ public class RoleBean implements Serializable {
 
     public void deleteAllRoles() {
     }
+
+    // PERMISSIONS CHECK FOR UI RENDERING
+
+
+    private User getCurrentUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        return (User) externalContext.getSessionMap().get("currentUser");
+    }
+
+    public boolean canViewUsers(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("View Users")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+
+    public boolean canApproveRequisitions(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("Approve Requisition")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+
+    public boolean CanReviewRequisitions(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("Review Requisition")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+
+    public boolean CanApproveBudgetLine(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("Approve Budget Line")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+    public boolean CanMakeCategory(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("Make Category")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+    public boolean CanMakeRequisition(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("Make Requisition")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+
+
+    public boolean CanViewBudgetLines(){
+        boolean allowed = false;
+        Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
+        List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
+        for(Permission permission:permissions){
+            if (permission.getName().equals("View BudgetLines")) {
+                allowed = true;
+                break;
+            }
+        }
+        return allowed;
+    }
+
+
+
 }

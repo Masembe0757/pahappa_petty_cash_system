@@ -36,7 +36,6 @@
                 <p:commandButton value="Add"
                                  action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
                                  update="@form"
-                                 process="@this"
                                  oncomplete="if (!(PF('rlg').jq.find('.ui-messages-error').length == 0)) PF('rlg').show();"
                                  />
 
