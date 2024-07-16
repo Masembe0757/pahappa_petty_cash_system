@@ -15,9 +15,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 @SessionScope
@@ -102,34 +100,34 @@ public class UserBean implements Serializable {
         this.role = role;
     }
 
-    public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role){
-        String message = userService.saveUser(firstName,lastName,userName,password1,password2,email,role);
-        if(message.isEmpty()){
+    public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
+        String message = userService.saveUser(firstName, lastName, userName, password1, password2, email, role);
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
             return routes.getUsers();
-        }else {
+        } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
         return "";
 
     }
-    public String updateUser(String firstName, String lastName, String userName, String password1, String password2, String email,String role){
+
+    public String updateUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
         System.out.println(firstName);
-        String message = userService.updateUserOfUserName(firstName,lastName,userName,password1,password2,email,role);
-        if(message.isEmpty()){
+        String message = userService.updateUserOfUserName(firstName, lastName, userName, password1, password2, email, role);
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User updated successfully ", null));
             return routes.getUsers();
-        }else {
+        } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
         return "";
 
     }
-
 
 
     public void deleteUserOfUserName(String userName) {
@@ -146,15 +144,15 @@ public class UserBean implements Serializable {
     public List<User> getUsersByName(String name) {
         List<User> users = userService.getAllUsers();
         List<User> userList = new ArrayList<>();
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             userList.addAll(users);
 
-        }else {
+        } else {
             List<User> returnedUsers = userService.returnUserOfName(name);
             if (returnedUsers.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
-            }else {
+            } else {
                 userList.addAll(returnedUsers);
             }
         }
@@ -162,12 +160,13 @@ public class UserBean implements Serializable {
     }
 
     public int countActiveUsers() {
-       return userService.getAllUsers().size();
+        return userService.getAllUsers().size();
     }
 
     public int countDeletedUsers() {
         return userService.getDeletedUsers().size();
     }
-}
 
+
+}
 

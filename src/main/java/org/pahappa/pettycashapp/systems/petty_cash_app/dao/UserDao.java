@@ -180,25 +180,26 @@ public class UserDao {
 
     public void updateUser(String firstName, String lastName, String userName,String password, String email,String role) {
         try {
+
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            System.out.println("REACHED1");
-            Query qry = session.createQuery("UPDATE User set firstName = :firstName, lastName = :lastName, password = :password, role= :role, email= :email, deleted = false where userName = :userName");
-            qry.setParameter("userName", userName);
-            qry.setParameter("firstName", firstName);
-            qry.setParameter("lastName", lastName);
-            qry.setParameter("password", password);
-            qry.setParameter("email", email);
-            qry.setParameter("role", role);
-            qry.executeUpdate();
-            System.out.println("REACHED2");
+            User user =(User) session.get(User.class,userName);
+
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUserName(userName);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setRole(role);
+
+            session.update(user);
+
             trs.commit();
-            System.out.println("REACHED3");
             SessionConfiguration.shutdown();
-        }catch (Exception e){
+        }
+        catch (Exception e){
             SessionConfiguration.shutdown();
-            e.printStackTrace();
         }
 
     }
@@ -535,24 +536,6 @@ public class UserDao {
             SessionConfiguration.shutdown();
         }
     }
-
-    public Permission returnPermissionOfNumber(int permissionNumber) {
-        Permission permission = null;
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Permission where id = :permissionNumber");
-            qry.setParameter("permissionNumber", permissionNumber);
-            permission = (Permission) qry.uniqueResult();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return permission;
-    }
     public void savePermission(Permission permission) {
         try {
 
@@ -656,22 +639,45 @@ public class UserDao {
         }
     }
 
-    public void updateRole(int id,String name) {
+    public void updateRole(String name,List<String> permissions ,int roleId) {
         try {
-            System.out.println("role up");
+
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Role set name = :name where id = :id");
-            qry.setParameter("id", id);
-            qry.setParameter("name",name);
-            qry.executeUpdate();
+            Role role =(Role) session.get(Role.class,roleId);
+            role.setName(name);
+            for (String s : permissions ) {
+                Permission permission = new Permission();
+                role.getPermissions().add(permission);
+                permission.setRole(role);
+                permission.setName(s);
+            }
+            session.update(role);
+
             trs.commit();
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
-            e.printStackTrace();
         }
+    }
+
+    public Role getRoleOfId(int roleId) {
+        Role role = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Role where id = :roleId");
+            qry.setParameter("roleId", roleId);
+            role = (Role) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return role;
     }
 }

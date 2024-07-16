@@ -90,28 +90,15 @@ public class RoleService {
         return userDao.getRoleOfname(name);
     }
 
-    public String updateRoleOfId(String name, List<String> permissions) {
+    public String updateRoleOfId(String name, List<String> permissions,int role_id) {
         String error_message = "";
         if(roleService.hasSpecialCharacters(name)){
             error_message ="Role name can not contain special characters";
         } else if (hasDigits(name)) {
             error_message = "Role name can not contain digits";
         }else {
-            Role role1 = userDao.getRoleOfname(name);
-            userDao.deletePermissionsOfroleId(role1.getId());
-
-            Role role = new Role();
-            role.setName(name);
-
-            for (String s : permissions ) {
-                Permission permission = new Permission();
-                role.getPermissions().add(permission);
-                permission.setRole(role);
-                permission.setName(s);
-                userDao.savePermission(permission);
-            }
-
-            userDao.updateRole(role.getId(),role.getName());
+            userDao.deletePermissionsOfroleId(role_id);
+            userDao.updateRole(name,permissions,role_id);
         }
         return  error_message;
     }

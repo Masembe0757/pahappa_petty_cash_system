@@ -25,18 +25,22 @@
                             <h:outputLabel for="u_n" value="User Name:"/>
                             <p:inputText id="u_n" value="#{userBean.username}" required="true"
                                          requiredMessage="Username is required!">
+                                <p:ajax event="keyup" update="@this"/>
                             </p:inputText>
 
 
                             <h:outputLabel for="f_n" value="First Name:"/>
                             <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
                                          requiredMessage="First name is required!">
+                                <p:ajax event="keyup" update="@this"/>
                             </p:inputText>
 
 
                             <h:outputLabel for="l_n" value="Last Name:"/>
                             <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
                                          requiredMessage="Last name is required!">
+                                <p:ajax event="keyup" update="@this"/>
+
                             </p:inputText>
 
 
@@ -44,17 +48,20 @@
                             <p:password id="password1" value="#{userBean.password1}" required="true"
                                         feedback="true"
                                         requiredMessage="Password is required!">
+                                <p:ajax event="keyup"  update="@this"/>
                             </p:password>
 
                             <h:outputLabel for="password2" value="Confirm:"/>
                             <p:password id="password2" value="#{userBean.password2}" required="true"
                                         feedback="true"
                                         requiredMessage="Please confirm password!">
+                                <p:ajax event="keyup"   update="@this"/>
                             </p:password>
 
                             <h:outputLabel for="u_email" value="Email:"/>
                             <p:inputText id="u_email" value="#{userBean.email}" required="true"
                                          requiredMessage="Email is required!">
+                                <p:ajax event="keyup" update="@this"/>
                             </p:inputText>
 
                             <h:outputLabel for="role_" value="Role:"/>
@@ -63,6 +70,7 @@
                                 <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{roleBean.getRoles()}" var="role"
                                                itemLabel="#{role.name}" itemValue="#{role.name}"/>
+                                <p:ajax event="change" update="@this"/>
                             </p:selectOneMenu>
 
                         </h:panelGrid>
@@ -71,7 +79,7 @@
                                          process="@this"
                                          action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                          oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
-                                         update=""
+                                         update="@all"
                         />
                     </p:dialog>
                 </h:form>
@@ -137,29 +145,34 @@
 
                                 <h:outputLabel for="firstname" value="First Name: "/>
                                 <p:inputText id="firstname" value="#{userBean.firstname}"
-                                             placeholder="First Name"/>
+                                             required="true"
+                                             requiredMessage="First name is required!"
+                                             placeholder="First Name">
+                                    <p:ajax event="keyup" update="@this"/>
+                                </p:inputText>
 
                                 <h:outputLabel for="lastname" value="Last Name: "/>
                                 <p:inputText id="lastname" value="#{userBean.lastname}"
-                                             placeholder="Last Name"/>
+                                             placeholder="Last Name">
+                                    <p:ajax event="keyup" update="@this"/>
+                                </p:inputText>
 
                                 <h:outputLabel for="email" value="Email: "/>
                                 <p:inputText id="email" value="#{userBean.email}"
+                                             requiredMessage="Email is required!"
                                              placeholder="Email"/>
                                 <h:outputLabel for="password_1" value="Password:"/>
                                 <p:password id="password_1" value="#{userBean.password1}" required="true"
                                             feedback="true"
                                             requiredMessage="Password is required!">
-                                    <!--                                <f:validator validatorId="emailValidator"/>-->
-                                    <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
+                                    <p:ajax event="keyup" update="@this"/>
                                 </p:password>
 
                                 <h:outputLabel for="password_2" value="Confirm:"/>
                                 <p:password id="password_2" value="#{userBean.password2}" required="true"
                                             feedback="true"
                                             requiredMessage="Please confirm password!">
-                                    <!--                                <f:validator validatorId="emailValidator"/>-->
-                                    <!--                                <f:ajax event="keyup" execute="@this" render="emailMessage"/>-->
+                                    <p:ajax event="keyup" update="@this"/>
                                 </p:password>
 
 
@@ -169,13 +182,14 @@
                                     <f:selectItem itemLabel="Select a permission" itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{roleBean.getRoles()}" var="role"
                                                    itemLabel="#{role.name}" itemValue="#{role.name}"/>
+                                    <p:ajax event="change" update="@this"/>
                                 </p:selectOneMenu>
 
                             </h:panelGrid>
                             <p:commandButton value="Save"
                                              action="#{userBean.updateUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                              oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"
-                                             update="@this"
+                                             update="@form"
                                              process="@this"
                             />
                         </p:dialog>
