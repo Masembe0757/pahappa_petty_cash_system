@@ -28,7 +28,7 @@
         }
 
         .background {
-            background: #9fb0de5c;
+            background: #9fb0de33;
             margin: 0;
         }
 
@@ -69,7 +69,7 @@
             font-style: normal;
             margin-left: 15rem;
             margin-top: inherit;
-            color: white!important;
+            color: white !important;
         }
 
         h3.pageTitle {
@@ -81,11 +81,27 @@
         a {
             color: #524C4C !important;
             text-decoration: none !important;
+            display: block;
         }
 
         a:hover {
-            color: #1039ac !important;
+            color: rgb(20 58 163 / 90%) !important;
             text-decoration: none !important;
+            transform: scale(1.1) !important;
+        }
+
+        .listItem::before {
+            position: absolute;
+            content: "";
+            display: block;
+            width: 25px;
+            height: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            left: -27px;
+            background: rgb(20 58 163 / 90%);
+            border-bottom-right-radius: 15px;
+            border-top-right-radius: 15px;
         }
 
         /* Style lists */
@@ -110,6 +126,7 @@
             list-style: none;
             padding: 15px;
             text-decoration: none;
+            position: relative;
         }
 
         /* Style headers */
@@ -140,13 +157,14 @@
         }
 
         .ui-button {
+            border-radius: 13px !important;
             background: #1039ac !important;
             border: 1px solid #1039ac !important;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
         }
 
         .ui-button:hover {
-            transform: scale(1.1);
+            transform: scale(1.2);
         }
 
         .vertical-divider {
@@ -170,8 +188,28 @@
         }
 
         .ui-button.edit, .ui-button.delete, .ui-button.approve {
-            background: rgba(255, 255, 255, 0.87) !important;
+            background: none !important;
             border: none !important;
+            box-shadow: none !important;
+        }
+
+        .pi.pi-trash, .pi.pi-user-edit, .pi.pi-pencil {
+            font-size: larger;
+        }
+
+        .ui-button.one {
+            background: #3b7a44 !important;
+            border-color: #3b7a44 !important;
+        }
+
+        .ui-button.two {
+            background: #b12222eb !important;
+            border-color: #b12222eb !important;
+        }
+
+        .ui-button.three {
+            background: #a69313 !important;
+            border-color: #a69313 !important;
         }
 
         .ui-button.edit {
@@ -186,8 +224,7 @@
             color: #ac1087 !important;
         }
 
-        .ui-button.edit:hover, .ui-button.delete:hover, .ui-button.approve:hover{
-            background-color: #ffffff !important;
+        .ui-button.edit:hover, .ui-button.delete:hover, .ui-button.approve:hover {
             transform: scale(1.4);
         }
 
@@ -203,7 +240,7 @@
             font-family: "Limelight", sans-serif;
             font-weight: 400;
             font-style: normal;
-            color: white!important;
+            color: white !important;
         }
 
         .logo {
@@ -219,6 +256,43 @@
         .admin-image {
             height: 5em;
             width: 5em;
+        }
+
+        .ui-tabs-nav {
+            margin-top: .5em !important;
+            margin-bottom: .5em !important;
+        }
+
+        body .ui-datatable thead th {
+            padding: .5rem .5rem !important;
+            background: #54a9ff33 !important;
+        }
+
+        body .ui-datatable .ui-datatable-data > tr > td {
+            padding: .5rem .5rem !important;
+        }
+
+        body .ui-tabs .ui-tabs-nav li.ui-tabs-header a {
+            font-weight: normal !important;
+        }
+
+        body .ui-tabs .ui-tabs-nav li.ui-tabs-header.ui-state-active a {
+            color: #2196f3;
+        }
+
+        h4.Table-title {
+            margin-bottom: .5em;
+            color: #0c57b3 !important;
+            font-weight: 600;
+        }
+
+        body .ui-datatable .ui-paginator {
+            padding: .5rem !important;
+        }
+
+        .btn-sect {
+            display: flex;
+            gap: 15px;
         }
 
     </style>
@@ -239,7 +313,7 @@
                 </div>
                 <div class="admin-sect">
                     <p:graphicImage library="images" name="icons8-shield-96.png" styleClass="admin-image"/>
-                <h2 class="admin">ADMIN</h2>
+                    <h2 class="admin">ADMIN</h2>
                 </div>
                 <h:form>
                     <ul class="listType">
@@ -281,7 +355,7 @@
                             </h:link>
                         </li>
                         <li class="listItem">
-                            <h:link
+                            <h:link outcome="/pages/protected/admin/settings.xhtml"
                                     styleClass="listLink">
                                 <i class="pi pi-cog"></i>
                                 <h:outputText value="Settings"/>
@@ -302,7 +376,6 @@
         </div>
 
     </div>
-
 
 
 </h:body>

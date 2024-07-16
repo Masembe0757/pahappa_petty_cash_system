@@ -5,8 +5,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
 
-    <ui:define name="title">Users</ui:define>
-    <ui:define name="pageTitle">Users</ui:define>
+    <ui:define name="title">Settings</ui:define>
+    <ui:define name="pageTitle">Settings</ui:define>
 
     <ui:define name="content">
         <h:head>
@@ -27,11 +27,8 @@
         </h:head>
 
         <p:tabView>
-            <p:tab id="users" title="Users">
-                <ui:include src="usersSection.xhtml"/>
-            </p:tab>
-            <p:tab id="userRoles" title="User Roles">
-                <ui:include src="roles.xhtml"/>
+            <p:tab id="editProfile" title="Edit Profile">
+                <ui:include src="editProfile.xhtml"/>
             </p:tab>
         </p:tabView>
 

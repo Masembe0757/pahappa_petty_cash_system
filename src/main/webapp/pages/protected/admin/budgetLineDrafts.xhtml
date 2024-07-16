@@ -4,8 +4,17 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
+        <h4 class="Table-title">BUDGET LINE DRAFTS</h4>
         <p:dataTable id="draftTable" value="#{budgetLineBean.draftedBudgetLines}" var="draftLine"
-                     emptyMessage="No drafts available">
+                     emptyMessage="No drafts available"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     paginatorAlwaysVisible="true"
+                     pageLinks="4"
+                     rowHover="true"
+                     rows="9"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+        >
             <p:column headerText="Name">
                 <h:outputText value="#{draftLine.name}"/>
             </p:column>
