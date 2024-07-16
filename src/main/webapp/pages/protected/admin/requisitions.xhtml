@@ -16,27 +16,8 @@
                 }
                 .first-layer-top {
                     display: flex;
-                    justify-content: space-between;
-                    width: calc(100% - 25px);
-                }
-
-                ul.navList{
-                    display: flex;
-                    justify-content: center;
-                }
-
-                .navListItem{
-                    margin-left: 3rem;
-                }
-
-                div.btn-sect{
-                }
-
-                .second-layer-top {
-                    display: inline-flex;
-                    justify-content: space-between;
-                    width: calc(100% - 25px);
-                    align-items: center;
+                    justify-content: flex-end;
+                    width: calc(100%);
                 }
 
                 input#searchForm\:search.ui-inputfield {
@@ -51,48 +32,48 @@
         <div class="first-layer-top">
 
             <h:form>
-            <div class="btn-sect">
+                <div class="btn-sect">
 
-                <p:commandButton value="Create Requisition" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
-
-
-                <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
-                    <p:messages globalOnly="true" closable="true" />
-                    <h:panelGrid>
-                        <!-- Budget Line Dropdown -->
-                        <h:outputLabel for="budgetLine" value="Budget Line:"/>
-                        <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
-                                         requiredMessage="Budget Line is required!">
-                            <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
-                            <f:selectItems value="#{requisitionBean.getBudgetLines()}" var="budgetLine"
-                                           itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
-                        </p:selectOneMenu>
-
-                        <!-- Description -->
-                        <h:outputLabel for="description" value="Description:"/>
-                        <p:inputTextarea id="description" value="#{requisitionBean.description}" rows="4" cols="50"
-                                         required="true" requiredMessage="Description is required!"/>
+                    <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
 
 
-                        <h:outputLabel for="dateNeeded" value="Date needed:"/>
-                        <p:calendar id="dateNeeded" value="#{requisitionBean.dateNeeded}" pattern="dd/MM/yyyy"
-                                    required="true" showOn="button" navigator="true"
-                                    styleClass="custom-calendar"
-                                    requiredMessage="Date Needed is required!"/>
+                    <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
+                        <p:messages globalOnly="true" closable="true" />
+                        <h:panelGrid>
+                            <!-- Budget Line Dropdown -->
+                            <h:outputLabel for="budgetLine" value="Budget Line:"/>
+                            <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
+                                             requiredMessage="Budget Line is required!">
+                                <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{requisitionBean.getBudgetLines()}" var="budgetLine"
+                                               itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
+                            </p:selectOneMenu>
 
-                        <h:outputLabel for="amount" value="Amount:"/>
-                        <p:inputText id="amount" value="#{requisitionBean.amount}" required="true"
-                                     requiredMessage="Amount is required!">
-                        </p:inputText>
+                            <!-- Description -->
+                            <h:outputLabel for="description" value="Description:"/>
+                            <p:inputTextarea id="description" value="#{requisitionBean.description}" rows="4" cols="50"
+                                             required="true" requiredMessage="Description is required!"/>
 
-                    </h:panelGrid>
 
-                    <p:commandButton value="Save" action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
-                                     update=""
-                                     process="@form"
-                                     oncomplete=" PF('dlg').hide();"/>
-                </p:dialog>
-            </div>
+                            <h:outputLabel for="dateNeeded" value="Date needed:"/>
+                            <p:calendar id="dateNeeded" value="#{requisitionBean.dateNeeded}" pattern="dd/MM/yyyy"
+                                        required="true" navigator="true"
+                                        styleClass="custom-calendar"
+                                        requiredMessage="Date Needed is required!"/>
+
+                            <h:outputLabel for="amount" value="Amount:"/>
+                            <p:inputText id="amount" value="#{requisitionBean.amount}" required="true"
+                                         requiredMessage="Amount is required!">
+                            </p:inputText>
+
+                        </h:panelGrid>
+
+                        <p:commandButton value="Save" action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
+                                         update=""
+                                         process="@form"
+                                         oncomplete=" PF('dlg').hide();"/>
+                    </p:dialog>
+                </div>
             </h:form>
         </div>
 
