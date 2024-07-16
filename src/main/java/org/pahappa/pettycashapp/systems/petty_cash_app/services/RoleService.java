@@ -86,6 +86,9 @@ public class RoleService {
         }
         return returnedRoles;
     }
+    public Role returnRoleOfUniqueName(String name) {
+        return userDao.getRoleOfname(name);
+    }
 
     public String updateRoleOfId(String name, List<String> permissions) {
         String error_message = "";

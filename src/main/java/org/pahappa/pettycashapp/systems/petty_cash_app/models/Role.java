@@ -13,8 +13,6 @@ public class Role {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy="roleAttached", cascade = CascadeType.ALL)
-    List<User> users;
     @OneToMany(mappedBy="role", cascade = CascadeType.ALL)
     List<Permission> permissions = new ArrayList<>();
 
@@ -42,11 +40,4 @@ public class Role {
         this.permissions = permissions;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

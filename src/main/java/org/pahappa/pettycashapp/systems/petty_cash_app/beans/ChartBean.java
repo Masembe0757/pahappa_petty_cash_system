@@ -3,6 +3,7 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
+import org.primefaces.model.charts.pie.PieChartOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -90,6 +91,8 @@ public class ChartBean implements Serializable {
         List<String> bgColors = new ArrayList<>();
         bgColors.add("rgb(255, 99, 132)");
         bgColors.add("rgb(54, 162, 235)");
+        bgColors.add("rgb(75, 192, 192)");  // Teal
+        bgColors.add("rgb(255, 206, 86)");  // Yellow
         dataSet.setBackgroundColor(bgColors);
 
         data.addChartDataSet(dataSet);
@@ -97,9 +100,8 @@ public class ChartBean implements Serializable {
         labels.add("Approved");
         labels.add("Paid Out");
         labels.add("Rejected");
-        labels.add("Pending");
+        labels.add("Staged");
         data.setLabels(labels);
-
         pieModel.setData(data);
     }
 

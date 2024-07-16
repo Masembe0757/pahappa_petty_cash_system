@@ -121,21 +121,21 @@ public class BudgetLineService {
     }
 
     public List<Number> getExpenditurePerBudgetLine() {
-        List<BudgetLine> budgetLines = getExpiredBudgetLines();
+        List<BudgetLine> budgetLines = userDao.getApprovedBudgetLines("approved");
         List<Number> expendituresPerBudgetLine = new ArrayList<>();
         for (BudgetLine budgetLine : budgetLines) {
            int balance = budgetLine.getBalance();
            int amountDelegated = budgetLine.getAmountDelegated();
-           int expenditurePerBudgetLine = amountDelegated - balance;
+           int expenditurePerBudgetline = amountDelegated - balance;
 
-           expendituresPerBudgetLine.add(expenditurePerBudgetLine);
+           expendituresPerBudgetLine.add(expenditurePerBudgetline);
         }
 
         return expendituresPerBudgetLine;
     }
 
     public List<String> getBLnames() {
-        List<BudgetLine> budgetLines = getExpiredBudgetLines();
+        List<BudgetLine> budgetLines = getApprovedBudgetLines();
         List<String> names = new ArrayList<>();
         for (BudgetLine budgetLine : budgetLines) {
             String name = budgetLine.getName();

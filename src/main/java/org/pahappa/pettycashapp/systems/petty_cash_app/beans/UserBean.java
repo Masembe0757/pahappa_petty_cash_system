@@ -116,6 +116,7 @@ public class UserBean implements Serializable {
 
     }
     public String updateUser(String firstName, String lastName, String userName, String password1, String password2, String email,String role){
+        System.out.println(firstName);
         String message = userService.updateUserOfUserName(firstName,lastName,userName,password1,password2,email,role);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,

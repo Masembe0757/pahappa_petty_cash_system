@@ -41,7 +41,7 @@
                 <p:column headerText="Actions">
                     <h:form>
                     <div class="btn-sect">
-                        <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('infoDialog').show();"
+                        <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();"
                                          process="@this"
                                          update="infoDialog">
                         </p:commandButton>
@@ -56,15 +56,15 @@
 
                                 <p:commandButton value="Comment"
                                                  action="#{requisitionBean.rejectRequisition(requisition.id,requisitionBean.information)}"
-                                                 oncomplete="if (PF('infoDialog').jq.find('.ui-messages-error').length == 0) {
-                                                 PF('infoDialog').hide();} else {PF('infoDialog').show();}"
-                                                 update=""/>
+                                                 process="@this"
+                                                 oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
+                                                 />
 
                             </h:panelGrid>
                         </p:dialog>
 
 
-                        <p:commandButton  styleClass="delete" icon="pi pi-check">
+                        <p:commandButton  styleClass="edit" icon="pi pi-check">
                             <p:confirm header="Confirmation" message="Do you want to approve this requisition?"
                                        icon="pi pi-info-circle"/>
                         </p:commandButton>
@@ -74,8 +74,8 @@
                                              styleClass="ui-confirmdialog-no ui-button-flat"/>
                             <p:commandButton
                                     action="#{requisitionBean.approveRequisition(requisition.id)}"
-                                    value="Yes" type="button" styleClass="ui-confirmdialog-yes"
-                                    update=""
+                                    value="Yes" styleClass="ui-confirmdialog-yes"
+                                    process="@this"
                                     />
                         </p:confirmDialog>
 

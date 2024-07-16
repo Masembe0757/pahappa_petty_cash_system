@@ -158,11 +158,15 @@
                 <div class="grid overview-detail">
                     <div class="ui-grid-col-6">
                         <div class="overview-number">#{requisitionService.countStagedRequisitions()}</div>
-                        <div class="overview-subtext">Pending</div>
+                        <div class="overview-subtext">Staged</div>
                     </div>
                     <div class="ui-grid-col-6">
                         <div class="overview-number">#{requisitionService.countFulfilledRequisitions()}</div>
-                        <div class="overview-subtext">Completed</div>
+                        <div class="overview-subtext">Fullfilled</div>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <div class="overview-number">#{requisitionService.countApprovedRequisitions()}</div>
+                        <div class="overview-subtext">Approved</div>
                     </div>
                 </div>
             </div>
@@ -235,6 +239,7 @@
             </div>
 
         </div>
+
     </ui:define>
 
 </ui:composition>
