@@ -178,21 +178,29 @@ public class UserDao {
         }
     }
 
-    public void updateUser(User user) {
+    public void updateUser(String firstName, String lastName, String userName,String password, String email,String role) {
         try {
-            System.out.println("Updating.....1");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            session.saveOrUpdate(user);
-            System.out.println("Updating.....2");
+            System.out.println("REACHED1");
+            Query qry = session.createQuery("UPDATE User set firstName = :firstName, lastName = :lastName, password = :password, role= :role, email= :email, deleted = false where userName = :userName");
+            qry.setParameter("userName", userName);
+            qry.setParameter("firstName", firstName);
+            qry.setParameter("lastName", lastName);
+            qry.setParameter("password", password);
+            qry.setParameter("email", email);
+            qry.setParameter("role", role);
+            qry.executeUpdate();
+            System.out.println("REACHED2");
             trs.commit();
+            System.out.println("REACHED3");
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        }catch (Exception e){
             SessionConfiguration.shutdown();
             e.printStackTrace();
         }
+
     }
 
     public void updateRequesition(Requisition requisition) {
@@ -612,6 +620,58 @@ public class UserDao {
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
+        }
+    }
+
+    public Role getRoleOfname(String name) {
+        Role role = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Role where name = :name");
+            qry.setParameter("name", name);
+            role = (Role) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return role;
+    }
+
+    public void deletePermissionsOfroleId(int id) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from Permission where role_id = :id");
+            qry.setParameter("id", id);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void updateRole(int id,String name) {
+        try {
+            System.out.println("role up");
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Role set name = :name where id = :id");
+            qry.setParameter("id", id);
+            qry.setParameter("name",name);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
     }
 }
