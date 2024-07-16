@@ -192,12 +192,9 @@ public class UserService {
                           //  UserService.getUserService().EmailSender(email, userName, password1,firstName,lastName);
                             // Encrypting the password with BCrypt
                             String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
-                            returnedUser.setFirstName(firstName);
-                            returnedUser.setLastName(lastName);
-                            returnedUser.setPassword(encodedPassword);
-                            returnedUser.setEmail(email);
-                            returnedUser.setRole(role);
-                            userDao.updateUser(returnedUser);
+
+                            userDao.updateUser(firstName,lastName,userName,encodedPassword,email,role);
+
 
                     }
                 }

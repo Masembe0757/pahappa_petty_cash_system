@@ -20,9 +20,18 @@ public class RoleBean implements Serializable {
     public  RoleBean(){}
     @Autowired
     RoleService roleService;
-
+    private  List<String> permissions = new ArrayList<>(Arrays.asList("Make Category","Approve Budget Line","Make " +
+            "Requisition","Review Requisition","Approve Requisition","Provide accountability","View Users"));
     private String name;
     List<String> selectedPermissions;
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
 
     public List<String> getSelectedPermissions() {
         return selectedPermissions;
@@ -42,25 +51,15 @@ public class RoleBean implements Serializable {
 
 
 
-    public List<String> permissions(){
-
-        List<String> permissions = new ArrayList<>();
-        permissions.add("Make Category");
-        permissions.add("Approve Budget Line");
-        permissions.add("Make Requisition");
-        permissions.add("Review Requisition");
-        permissions.add("Approve Requisition");
-        permissions.add("Provide accountability");
-        permissions.add("View Users");
-        return permissions;
 
 
-    }
 
 
-    public void saveRole(String name , List<String> permissions) {
+    public void saveRole(String name , List<String> selectedPermissions) {
         System.out.println("ROLE SAVING");
-    String message = roleService.saveRole(name,permissions);
+        System.out.println("PERMISSIONS"+selectedPermissions);
+        System.out.println("NAME"+ name);
+    String message = roleService.saveRole(name,selectedPermissions);
     if(message.isEmpty()){
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role created successfully", null));

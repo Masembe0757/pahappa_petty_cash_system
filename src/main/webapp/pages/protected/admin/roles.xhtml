@@ -8,7 +8,7 @@
         <div class="first-layer-top">
             <h:form class="actns" id="regform">
                 <div class="btn-sect">
-                    <p:commandButton oncomplete="PF('rlg').show();" process="@this" update="" styleClass="btn1"
+                    <p:commandButton oncomplete="PF('rlg').show();" process="@this" render=":roleSaveForm:rlg" styleClass="btn1"
                                      icon="pi pi-user-plus"
                                      value="Add Role"/>
                     <p:commandButton action="#{roleBean.deleteAllRoles()}" styleClass="ui-button-danger mr-2"
@@ -20,7 +20,7 @@
 
         <!-- ROLE CREATION DIALOG -->
         <h:form id="roleSaveForm">
-            <p:dialog header="Add Role" widgetVar="rlg" modal="true" id="rlg" responsive="true" resizable="false" width="900">
+            <p:dialog header="Add Role" widgetVar="rlg" modal="true" id="rlg" dynamic = "true" responsive="true" resizable="false" width="900">
                 <h:panelGrid columns="2">
                     <h:outputLabel for="role_name" value="Role Name:"/>
                     <p:inputText id="role_name" value="#{roleBean.name}" required="true"
@@ -28,20 +28,22 @@
                     <h:outputLabel for="role_p_create" value="Permissions:"/>
                     <p:selectManyCheckbox id="role_p_create" value="#{roleBean.selectedPermissions}" required="true"
                                           requiredMessage="At least one role is required!">
-                        <f:selectItems value="#{roleBean.permissions()}" var="permission"
+                        <f:selectItems value="#{roleBean.permissions}" var="permission"
                                        itemLabel="#{permission}" itemValue="#{permission}"/>
                     </p:selectManyCheckbox>
                 </h:panelGrid>
 
                 <p:commandButton value="Add"
-                                 process="@this:roleSaveForm"
                                  action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
+                                 update="@form"
+                                 process="@this"
                                  oncomplete="if (!(PF('rlg').jq.find('.ui-messages-error').length == 0)) PF('rlg').show();"
-                                 update=""/>
+                                 />
+
             </p:dialog>
 
         <!-- ROLE UPDATE DIALOG -->
-            <p:dialog id="roleDialog" widgetVar="roleDialog" header="Update Role" modal="true" width="900" resizable="false" responsive="true">
+            <p:dialog id="roleDialog" widgetVar="roleDialog" header="Update Role" dynamic = "true"  modal="true" width="900" resizable="false" responsive="true">
                 <h:panelGrid columns="2" id="content" cellpadding="2">
                     <h:outputLabel for="role_name1" value="Role Name:"/>
                     <p:inputText id="role_name1" value="#{roleBean.name}" required="true"
@@ -49,15 +51,16 @@
                     <h:outputLabel for="role_p_up" value="Permissions:"/>
                     <p:selectManyCheckbox id="role_p_up" value="#{roleBean.selectedPermissions}" required="true"
                                           requiredMessage="At least one role is required!">
-                        <f:selectItems value="#{roleBean.permissions()}" var="permission"
+                        <f:selectItems value="#{roleBean.permissions}" var="permission"
                                        itemLabel="#{permission}" itemValue="#{permission}"/>
                     </p:selectManyCheckbox>
                 </h:panelGrid>
                 <p:commandButton value="Save"
-                                 process="@this:roleSaveForm"
+                                 update="@form"
+                                 process="@this"
                                  action="#{roleBean.updateRole(roleBean.name, roleBean.selectedPermissions)}"
                                  oncomplete=" if (!(PF('roleDialog').jq.find('.ui-messages-error').length == 0)) PF('roleDialog').show()"
-                                 update=""
+                                 render=":roleForm:roleTable"
 
                                 />
 
@@ -93,11 +96,12 @@
                     <p:column headerText="Actions">
                         <p:commandButton icon="pi pi-user-edit" oncomplete="PF('roleDialog').show();"
                                          process="@this"
-                                         update="">
+                                         excute=":roleSaveForm:roleDialog">
                             <f:setPropertyActionListener value="#{role.name}" target="#{roleBean.name}"/>
+                            <f:setPropertyActionListener value="#{roleBean.getPermissionsOfRole(role.id)}" target="#{roleBean.selectedPermissions}"/>
                         </p:commandButton>
                         <p:growl id="message" showDetail="true"/>
-                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" update="message :roleForm:roleTable"
+                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" update=""
                                          styleClass="delete" icon="pi pi-trash">
                             <p:confirm header="Confirmation" message="Do you want to delete this record?"
                                        icon="pi pi-info-circle"/>

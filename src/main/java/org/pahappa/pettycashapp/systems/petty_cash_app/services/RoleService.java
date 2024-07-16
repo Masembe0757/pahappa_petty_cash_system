@@ -94,16 +94,21 @@ public class RoleService {
         } else if (hasDigits(name)) {
             error_message = "Role name can not contain digits";
         }else {
+            Role role1 = userDao.getRoleOfname(name);
+            userDao.deletePermissionsOfroleId(role1.getId());
+
             Role role = new Role();
             role.setName(name);
+
             for (String s : permissions ) {
                 Permission permission = new Permission();
                 role.getPermissions().add(permission);
                 permission.setRole(role);
                 permission.setName(s);
-
+                userDao.savePermission(permission);
             }
-            userDao.saveRole(role);
+
+            userDao.updateRole(role.getId(),role.getName());
         }
         return  error_message;
     }

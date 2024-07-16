@@ -6,7 +6,7 @@ public class Routes {
     private final String login  = "/pages/login.xhtml";
     private final String dashboard  = "/pages/protected/admin/dashboard.xhtml";
     private final String budgetLines  = "/pages/protected/admin/budgetLines.xhtml";
-    private final String users  = "/pages/protected/admin/users.xhtml";
+    private final String users  = "/pages/protected/admin/users.xhtml?faces-redirect=true";
     private final String requisitions  = "/pages/protected/admin/requisitions.xhtml";
     private final String requisitionDrafts = "/pages/protected/admin/requisitionsDrafts.xhtml";
     private final String accountability = "/pages/protected/admin/accountability.xhtml";
