@@ -52,8 +52,10 @@
             </div>
             <div class="btn-sect">
                 <h:form >
+                    <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
                     <p:commandButton styleClass="one" value="Create budget Line" oncomplete="PF('dlg').show();" process="@this"
                                      update="dlg"/>
+                    </ui:fragment>
 
                     <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
                               width="600">
@@ -99,9 +101,11 @@
                     </p:dialog>
                 </h:form>
                 <h:form>
-
+                    <ui:fragment rendered="#{roleBean.CanManageCategory()}">
                     <p:commandButton styleClass="three" value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"
                                      update="Catdlg"/>
+                    </ui:fragment>
+
                     <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
                               resizable="false" width="500">
                         <h:panelGrid columns="2"
@@ -133,15 +137,23 @@
             <p:tab id="currentBL" title="Current Budget Lines">
                 <ui:include src="currentBudgetLines.xhtml"/>
             </p:tab>
+
+            <ui:fragment rendered="#{roleBean.CanViewDraftedBudgetLines()}">
             <p:tab id="draftsBL" title="Drafts">
                 <ui:include src="budgetLineDrafts.xhtml"/>
             </p:tab>
+            </ui:fragment>
+            <ui:fragment rendered="#{roleBean.canViewExpiredBudgetLines()}">
             <p:tab id="epiredBL" title="Expired Budget Lines">
                 <ui:include src="expiredBudgetLines.xhtml"/>
             </p:tab>
+            </ui:fragment>
+
+            <ui:fragment rendered="#{roleBean.canViewCategories()}">
             <p:tab id="categoriesBL" title="Budget Line Categories">
                 <ui:include src="budgetLineCategories.xhtml"/>
             </p:tab>
+            </ui:fragment>
         </p:tabView>
 
 

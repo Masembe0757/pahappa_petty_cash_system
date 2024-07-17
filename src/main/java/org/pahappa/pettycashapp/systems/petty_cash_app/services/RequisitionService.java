@@ -91,24 +91,20 @@ public class RequisitionService {
         userDao.approveRequisition(requisitionId,"approved");
     }
 
-    public String updateRequistion(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
+    public String updateRequisition(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
         String error_message = "";
         BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
         Requisition requisition = userDao.getRequisitionOfId(requisitionId);
-        if(!requisition.getStatus().equals("draft")){
+        if(!requisition.getStatus().equals("drafted")){
             error_message ="Requistion can not be edited";
-        } else if (description.length()<50) {
+        } else if (description.length()<10) {
             error_message="Please provide more description";
         } else if (amount>budgetLine.getAmountDelegated()) {
             error_message="Amount specified is greater than amount on budget line";
         }else if (!budgetLine.getStatus().equals("approved")) {
             error_message = "Budget line not yet approved";
         }else {
-            requisition.setAmount(amount);
-            requisition.setDateNeeded(dateNeeded);
-            requisition.setDescription(description);
-            requisition.setBudgetLine(budgetLine);
-            userDao.updateRequesition(requisition);
+            userDao.updateRequisition(requisitionId,amount,dateNeeded,description,budgetLine);
         }
         return error_message;
     }
@@ -141,4 +137,16 @@ public class RequisitionService {
     }
 
 
+    public void deleteRequisition(int requisitionId) {
+        userDao.deleteRequisition(requisitionId);
+
+    }
+
+    public List<Requisition> getPendingRequisitions() {
+        return userDao.getPendingRequisitions("pending");
+    }
+
+    public void submitRequisition(int requisitionId) {
+        userDao.submitRequisition(requisitionId,"pending");
+    }
 }

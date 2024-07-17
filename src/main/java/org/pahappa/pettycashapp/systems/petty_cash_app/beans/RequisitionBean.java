@@ -26,7 +26,34 @@ public class RequisitionBean implements Serializable {
     private int budgetLineId;
     private String description;
     private Date dateNeeded;
-    String information;
+    private  String information;
+    private  String username;
+    private String budgetLineName;
+    private int requisitionId;
+
+    public int getRequisitionId() {
+        return requisitionId;
+    }
+
+    public void setRequisitionId(int requisitionId) {
+        this.requisitionId = requisitionId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getBudgetLineName() {
+        return budgetLineName;
+    }
+
+    public void setBudgetLineName(String budgetLineName) {
+        this.budgetLineName = budgetLineName;
+    }
 
     public String getInformation() {
         return information;
@@ -76,7 +103,6 @@ public class RequisitionBean implements Serializable {
 
     //REQUISITIONS CODE
     public void makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
-        System.out.println("SAVING REQUISITION1");
         String message = requisitionService.makeRequisition(amount,dateNeeded,description,budgetLineId);
 
         FacesContext.getCurrentInstance().addMessage(null,
@@ -95,12 +121,55 @@ public class RequisitionBean implements Serializable {
     }
 
     public void rejectRequisition(int requisitionId, String information) {
-        System.out.println(information+"  "+requisitionId);
-        System.out.println("INFORMATION  "+ information);
         requisitionService.rejectRequisition(requisitionId,information);
         requisitionService.setRejectionStatus(requisitionId);
     }
     public void approveRequisition(int requisitionId) {
         requisitionService.approveRequisition(requisitionId);
+    }
+
+    public void updateRequisition(int requisitionId,int amount, Date dateNeeded, String description,int budgetLineId) {
+        String message = requisitionService.updateRequisition(requisitionId,amount,dateNeeded,description,budgetLineId);
+        if(message.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,"Requisition updated successfully", null));
+
+        }else {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));}
+    }
+
+    public void deleteRequisition(int requisitionId) {
+        requisitionService.deleteRequisition(requisitionId);
+    }
+
+    public List<Requisition> returnStagedRequisitions() {
+        return  requisitionService.getStagedRequisitions();
+    }
+    public List<Requisition> returnPendingRequisitions() {
+        return  requisitionService.getPendingRequisitions();
+    }
+    public List<Requisition> returnFulfilledRequisitions() {
+        return  requisitionService.getFulfilledRequisitions();
+    }
+
+    public List<Requisition> returnApprovedRequisitions() {
+        return requisitionService.getApprovedRequisitions();
+    }
+
+    public List<Requisition> returnRejectedRequisitions() {
+        return  requisitionService.getRejectedRequisitions();
+    }
+
+    public void stageRequisition(int requisitionId) {
+        requisitionService.stageRequisition(requisitionId);
+    }
+
+    public void completeRequisition(int requisitionId) {
+        requisitionService.fulfillRequisition(requisitionId);
+    }
+
+    public void submitRequisition(int requisitionId) {
+        requisitionService.submitRequisition(requisitionId);
     }
 }

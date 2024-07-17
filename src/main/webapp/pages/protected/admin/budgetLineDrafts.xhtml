@@ -37,12 +37,14 @@
             <p:column headerText="Actions">
                 <div class="btn-sect">
                     <h:form>
+                        <ui:fragment rendered="#{roleBean.CanApproveBudgetLine()}">
                         <p:commandButton icon="pi pi-arrow-circle-up"
                                          styleClass="approve"
 
                         >
                             <p:ajax listener="#{budgetLineBean.stageBL(draftLine)}" event="click"/>
                         </p:commandButton>
+                        </ui:fragment>
 
                         <p:commandButton icon="pi pi-pencil"
                                          styleClass="edit"

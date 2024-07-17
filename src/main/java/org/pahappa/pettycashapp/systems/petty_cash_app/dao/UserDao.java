@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public class UserDao {
 
+    UserDao userDao;
 
     public  void saveUser(User user){
         try {
@@ -204,17 +205,25 @@ public class UserDao {
 
     }
 
-    public void updateRequesition(Requisition requisition) {
+    public void updateRequisition(int requisitionId, int amount,Date dateNeeded,String description,BudgetLine budgetLine) {
         try {
+            System.out.println("Updating requisition..........2");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            session.saveOrUpdate(requisition);
+            Requisition requisition =(Requisition) session.get(Requisition.class,requisitionId);
+            requisition.setAmount(amount);
+            requisition.setDateNeeded(dateNeeded);
+            requisition.setDescription(description);
+            requisition.setBudgetLine(budgetLine);
+            session.update(requisition);
+            System.out.println("Updating requisition..........3");
             trs.commit();
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
     }
 
@@ -678,5 +687,56 @@ public class UserDao {
             SessionConfiguration.shutdown();
         }
         return role;
+    }
+
+    public void deleteRequisition(int requisitionId) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from Requisition where id = :requisitionId");
+            qry.setParameter("requisitionId", requisitionId);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public List<Requisition> getPendingRequisitions(String pending) {
+        List<Requisition> requisitions = new ArrayList<>();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where status = :pending");
+            qry.setParameter("pending", pending);
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
+    }
+
+    public void submitRequisition(int requisitionId, String pending) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Requisition set status = :pending where id = :requisitionId");
+            qry.setParameter("pending", pending);
+            qry.setParameter("requisitionId",requisitionId);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+
     }
 }
