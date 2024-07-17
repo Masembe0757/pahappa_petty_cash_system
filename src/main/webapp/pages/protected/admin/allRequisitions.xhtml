@@ -4,18 +4,24 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@4.1.0/primeicons.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@4.1.0/primeicons.css"/>
     </h:head>
 
 
-    <div class="second-layer-top">
-        <h:form id="searchForm">
-        </h:form>
-    </div>
-
     <div class="glass">
+        <h4 class="Table-title">ALL REQUISITIONS</h4>
         <h:form id="requisitionForm">
-            <p:dataTable id="requisitionTable" var="requisition" value="#{requisitionBean.getAllRequisitions()}" emptyMessage="No requisitions available">
+            <p:dataTable id="requisitionTable" var="requisition"
+                         value="#{requisitionBean.getAllRequisitions()}"
+                         emptyMessage="No requisitions available"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
                 <p:column headerText="Reference Number">
                     <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>
@@ -40,6 +46,14 @@
                 </p:column>
                 <p:column headerText="Actions">
 
+                    <h:form>
+                        <div class="btn-sect">
+                            <p:commandButton icon="pi pi-user-edit" styleClass="edit"
+                                             oncomplete="PF('infoDialog').show();"
+                                             process="@this"
+                                             update="infoDialog">
+                            </p:commandButton>
+
                 <div class="btn-sect">
                     <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
                     </p:commandButton>
@@ -60,6 +74,7 @@
                         </h:panelGrid>
                     </p:dialog>
 
+                         
 
                     <p:commandButton  styleClass="edit" icon="pi pi-check" oncomplete="PF('conf').show();" update="conf" >
 

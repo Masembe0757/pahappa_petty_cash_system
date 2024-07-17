@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <div class="glass">
-        <h4 class="Table-titile">BUDGET LINE CATEGORIES</h4>
+        <h4 class="Table-title">BUDGET LINE CATEGORIES</h4>
         <p:dataTable id="categoryTable" value="#{categoryBean.categories}" var="category"
                      emptyMessage="No budget line categories available"
                      paginator="true"
@@ -26,27 +26,27 @@
             <p:column headerText="Actions">
                 <div class="btn-sect">
 
-                        <p:commandButton styleClass="edit" icon="pi pi-pencil" oncomplete="PF('editCategory').show();"
-                                         actionListener="#{categoryBean.selectCategoryForUpdate(category)}"
-                                         process="@this" update="editCategory"/>
-                        <p:dialog header="Edit Budget Line Category" widgetVar="editCategory" modal="true" dynamic="true"
-                                  id="editCategory"
-                                  resizable="false"
-                                  width="600"
-                        responsive="true">
+                    <p:commandButton styleClass="edit" icon="pi pi-pencil" oncomplete="PF('editCategory').show();"
+                                     actionListener="#{categoryBean.selectCategoryForUpdate(category)}"
+                                     process="@this" update="editCategory"/>
+                    <p:dialog header="Edit Budget Line Category" widgetVar="editCategory" modal="true" dynamic="true"
+                              id="editCategory"
+                              resizable="false"
+                              width="600"
+                              responsive="true">
 
-                            <h:panelGrid>
-                                <h:outputLabel for="name" value="Name:"/>
-                                <p:inputText id="name" value="#{categoryBean.selectedCategory.name}"/>
+                        <h:panelGrid>
+                            <h:outputLabel for="name" value="Name:"/>
+                            <p:inputText id="name" value="#{categoryBean.selectedCategory.name}"/>
 
-                                <h:outputLabel for="description" value="Description:"/>
-                                <p:inputTextarea id="description" value="#{categoryBean.selectedCategory.description}"/>
-                            </h:panelGrid>
-                            <p:commandButton value="Save"
-                                             action="#{categoryBean.updateCategory(categoryBean.selectedCategory)}"
-                                             update="categoryTable"
-                                             oncomplete="PF('editCategory').hide();"/>
-                        </p:dialog>
+                            <h:outputLabel for="description" value="Description:"/>
+                            <p:inputTextarea id="description" value="#{categoryBean.selectedCategory.description}"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Save"
+                                         action="#{categoryBean.updateCategory(categoryBean.selectedCategory)}"
+                                         update="categoryTable"
+                                         oncomplete="PF('editCategory').hide();"/>
+                    </p:dialog>
 
 
                     <p:growl id="message" showDetail="true"/>

@@ -9,76 +9,55 @@
     <ui:define name="pageTitle">Reviews</ui:define>
 
     <ui:define name="content">
-        <h:head>
-            <style>
-                .background {
-                    height: 100%;
-                }
-                .first-layer-top {
-                    display: flex;
-                    justify-content: space-between;
-                    width: calc(100% - 25px);
-                }
 
-                ul.navList{
-                    display: flex;
-                    justify-content: center;
-                }
+    <div class="glass">
+        <h4 class="Table-title">REVIEWS</h4>
+        <p:dataTable id="reviewTable" value="#{reviewBean.reviews}" var="review"
+                     emptyMessage="No reviews available"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     paginatorAlwaysVisible="true"
+                     pageLinks="4"
+                     rowHover="true"
+                     rows="9"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+        >
 
-                .navListItem{
-                    margin-left: 3rem;
-                }
+            <p:column headerText="Review Date">
+                <h:outputText value="#{review.date}"/>
+            </p:column>
+            <p:column headerText="Description">
+                <h:outputText value="#{review.description}"/>
+            </p:column>
+            <p:column headerText="User">
+                <h:outputText value="#{review.user}"/>
+            </p:column>
+            <p:column headerText="Requisition Name">
+                <h:outputText value="#{review.requisitionName}"/>
+            </p:column>
+            <p:column headerText="Actions">
+                <div class="btn-sect">
 
-                div.btn-sect{
-                }
+                    <p:growl id="message" showDetail="true"/>
 
-                .second-layer-top {
-                    display: inline-flex;
-                    justify-content: space-between;
-                    width: calc(100% - 25px);
-                    align-items: center;
-                }
+                    <p:commandButton action="#{reviewBean.deletereview(review)}" update="message reviewTable"
+                                     styleClass="delete" icon="pi pi-trash">
+                        <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                   icon="pi pi-info-circle"/>
+                    </p:commandButton>
 
-                input#searchForm\:search.ui-inputfield {
-                    width: 840px !important;
-                }
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                     width="350">
+                        <p:commandButton value="No" type="button"
+                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                    </p:confirmDialog>
 
+                </div>
+            </p:column>
+        </p:dataTable>
 
-
-            </style>
-        </h:head>
-
-        <div class="first-layer-top">
-            <div class="navigation">
-                <h:form>
-                    <ul class="navList">
-                        <li class="">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeReviewSection('pendingRequisitions')}">
-                                <h:outputText value="Pending Requisitions" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeReviewSection('pendingBudgetLines')}">
-                                <h:outputText value="Pending Budget Lines" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                        <li class="navListItem">
-                            <h:commandLink styleClass="listLink" action="#{navigationBean.changeReviewSection('pastReviews')}">
-                                <h:outputText value="Past Reviews" />
-                                <p:ajax update="contentSection" />
-                            </h:commandLink>
-                        </li>
-                    </ul>
-                </h:form>
-
-            </div>
-        </div>
-        <h:panelGroup id="contentSection">
-            <ui:include src="#{navigationBean.selectedReviewSection}.xhtml" />
-        </h:panelGroup>
-
+    </div>
     </ui:define>
 
 </ui:composition>

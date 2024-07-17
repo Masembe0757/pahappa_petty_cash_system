@@ -3,31 +3,39 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
- <div class="glass">
-    <p:dataTable id="expiredTable" value="#{budgetLineBean.expiredBudgetLines}" var="expiredLine"
-                 emptyMessage="No expired budget lines available"
-                 >
-        <p:column headerText="Name">
-            <h:outputText value="#{expiredLine.name}"/>
-        </p:column>
-        <p:column headerText="Category">
-            <h:outputText value="#{expiredLine.category.name}"/>
-        </p:column>
-        <p:column headerText="Start Date">
-            <h:outputText value="#{expiredLine.startDate}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
-        </p:column>
-        <p:column headerText="End Date">
-            <h:outputText value="#{expiredLine.endDate}">
-                <f:convertDateTime pattern="dd/MM/yyyy"/>
-            </h:outputText>
-        </p:column>
-        <p:column headerText="Amount">
-            <h:outputText value="#{expiredLine.amountDelegated}"/>
-        </p:column>
+    <div class="glass">
+        <h4 class="Table-title">EXPIRED BUDGET LINES</h4>
+        <p:dataTable id="expiredTable" value="#{budgetLineBean.expiredBudgetLines}" var="expiredLine"
+                     emptyMessage="No expired budget lines available"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     paginatorAlwaysVisible="true"
+                     pageLinks="4"
+                     rowHover="true"
+                     rows="9"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+        >
+            <p:column headerText="Name">
+                <h:outputText value="#{expiredLine.name}"/>
+            </p:column>
+            <p:column headerText="Category">
+                <h:outputText value="#{expiredLine.category.name}"/>
+            </p:column>
+            <p:column headerText="Start Date">
+                <h:outputText value="#{expiredLine.startDate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="End Date">
+                <h:outputText value="#{expiredLine.endDate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Amount">
+                <h:outputText value="#{expiredLine.amountDelegated}"/>
+            </p:column>
 
-    </p:dataTable>
- </div>
+        </p:dataTable>
+    </div>
 
 </ui:composition>

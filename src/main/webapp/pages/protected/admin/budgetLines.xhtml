@@ -5,8 +5,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
 
-    <ui:define name="title">budgetLines</ui:define>
-    <ui:define name="pageTitle">budgetLines</ui:define>
+    <ui:define name="title">Budget Lines</ui:define>
+    <ui:define name="pageTitle">Budget Lines</ui:define>
 
     <ui:define name="content">
         <h:head>
@@ -19,28 +19,12 @@
                     display: flex;
                     justify-content: space-between;
                     width: calc(100% - 25px);
-                }
-
-                ul.navList {
-                    display: flex;
-                    justify-content: center;
-
-                }
-
-                .navListItem {
-                    margin-left: 3rem;
+                    align-items: center;
                 }
 
                 div.btn-sect {
                     display: flex;
-                    column-gap: 25px;
-                }
-
-                .second-layer-top {
-                    display: inline-flex;
-                    justify-content: space-between;
-                    width: calc(100% - 25px);
-                    align-items: center;
+                    column-gap: 15px;
                 }
 
                 input#searchForm\:search.ui-inputfield {
@@ -53,15 +37,22 @@
                     transform: scale(1.1);
                 }
 
+                h3.money {
+                    font-weight: 600;
+                    color: #777777 !important;
+                }
+
 
             </style>
         </h:head>
 
         <div class="first-layer-top">
-
+            <div class="navigation">
+                <h3 class="money">Total Current Running Budget: Shs. 1,536,367</h3>
+            </div>
             <div class="btn-sect">
                 <h:form >
-                    <p:commandButton value="Create budget Line" oncomplete="PF('dlg').show();" process="@this"
+                    <p:commandButton styleClass="one" value="Create budget Line" oncomplete="PF('dlg').show();" process="@this"
                                      update="dlg"/>
 
                     <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
@@ -109,7 +100,7 @@
                 </h:form>
                 <h:form>
 
-                    <p:commandButton value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"
+                    <p:commandButton styleClass="three" value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"
                                      update="Catdlg"/>
                     <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
                               resizable="false" width="500">

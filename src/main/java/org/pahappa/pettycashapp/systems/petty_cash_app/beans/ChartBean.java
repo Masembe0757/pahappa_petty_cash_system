@@ -103,6 +103,14 @@ public class ChartBean implements Serializable {
         labels.add("Staged");
         data.setLabels(labels);
         pieModel.setData(data);
+        PieChartOptions pieChartOptions = new PieChartOptions();
+
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText("REQUISITION STATUS");
+        pieChartOptions.setTitle(title);
+
+        pieModel.setOptions(pieChartOptions);
     }
 
     public void createBarModel(){
@@ -147,7 +155,7 @@ public class ChartBean implements Serializable {
 
         Title title = new Title();
         title.setDisplay(true);
-        title.setText("Users With and Without Dependants");
+        title.setText("EXPENDITURE PER BUDGET LINE");
         options.setTitle(title);
 
         Legend legend = new Legend();
@@ -156,7 +164,7 @@ public class ChartBean implements Serializable {
         LegendLabel legendLabels = new LegendLabel();
         legendLabels.setFontStyle("bold");
         legendLabels.setFontColor("#2980B9");
-        legendLabels.setFontSize(24);
+        legendLabels.setFontSize(12);
         legend.setLabels(legendLabels);
         options.setLegend(legend);
 
