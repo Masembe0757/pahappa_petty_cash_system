@@ -95,7 +95,8 @@ public class RequisitionBean implements Serializable {
     }
 
     public void rejectRequisition(int requisitionId, String information) {
-        System.out.println("REjecting 1");
+        System.out.println(information+"  "+requisitionId);
+        System.out.println("INFORMATION  "+ information);
         requisitionService.rejectRequisition(requisitionId,information);
         requisitionService.setRejectionStatus(requisitionId);
     }

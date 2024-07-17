@@ -32,9 +32,20 @@ public class UserBean implements Serializable {
     private String email;
     private String role;
     private String name;
+    private int userId;
+
+
 
     @Autowired
     private UserDao userDao;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;
@@ -101,6 +112,7 @@ public class UserBean implements Serializable {
     }
 
     public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
+        System.out.println("P1"+password1   +"P2"+ password2);
         String message = userService.saveUser(firstName, lastName, userName, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -114,9 +126,9 @@ public class UserBean implements Serializable {
 
     }
 
-    public String updateUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        System.out.println(firstName);
-        String message = userService.updateUserOfUserName(firstName, lastName, userName, password1, password2, email, role);
+    public String updateUser(int userId, String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
+        System.out.println("USER_ID"+userId);
+        String message = userService.updateUserOfUserName(userId,firstName, lastName, userName, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User updated successfully ", null));

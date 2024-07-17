@@ -252,6 +252,4 @@ public class RoleBean implements Serializable {
         return allowed;
     }
 
-
-
 }

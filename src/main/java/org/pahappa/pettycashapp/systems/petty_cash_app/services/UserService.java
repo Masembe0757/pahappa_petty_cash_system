@@ -166,7 +166,7 @@ public class UserService {
 
 
 
-    public String updateUserOfUserName(String firstName, String lastName, String userName,String password1,String password2, String email,String role) {
+    public String updateUserOfUserName(int userId,String firstName, String lastName, String userName,String password1,String password2, String email,String role) {
         String error_message = "";
             User returnedUser = userDao.returnUser(userName);
             if (returnedUser!=null) {
@@ -193,7 +193,7 @@ public class UserService {
                             // Encrypting the password with BCrypt
                             String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
 
-                            userDao.updateUser(firstName,lastName,userName,encodedPassword,email,role);
+                            userDao.updateUser(userId,firstName,lastName,userName,encodedPassword,email,role);
 
 
                     }
