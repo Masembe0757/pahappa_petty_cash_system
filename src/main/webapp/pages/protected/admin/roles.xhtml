@@ -49,18 +49,19 @@
 
         </h:form>
 
-        <div class="topOfTable">
-            <h:form id="searchRoleForm">
-                <p:inputText id="search_role" value="#{roleBean.name}"
-                             icon="pi pi-search"
-                             placeholder="Search Role By name">
-                    <p:ajax event="keyup" update="" listener="#{roleBean.getRoleByName(roleBean.name)}"/>
-                </p:inputText>
-            </h:form>
-        </div>
+
 
 
             <h:form id="roleForm">
+
+                <div class="topOfTable">
+                    <p:inputText id="search_role" value="#{roleBean.name}"
+                                 icon="pi pi-search"
+                                 placeholder="Search Role By name">
+                        <p:ajax event="keyup" update="@form" listener="#{roleBean.getRoleByName(roleBean.name)}"/>
+                    </p:inputText>
+                </div>
+
                 <p:dataTable id="roleTable" value="#{roleBean.getRoleByName(roleBean.name)}" var="role" emptyMessage="No roles available">
                     <p:column headerText="Role name">
                         <h:outputText value="#{role.name}"/>

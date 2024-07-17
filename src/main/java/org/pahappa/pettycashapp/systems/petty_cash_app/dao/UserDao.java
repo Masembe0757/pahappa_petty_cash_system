@@ -178,13 +178,13 @@ public class UserDao {
         }
     }
 
-    public void updateUser(String firstName, String lastName, String userName,String password, String email,String role) {
+    public void updateUser(int userId,String firstName, String lastName, String userName,String password, String email,String role) {
         try {
 
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            User user =(User) session.get(User.class,userName);
+            User user =(User) session.get(User.class,userId);
 
             user.setFirstName(firstName);
             user.setLastName(lastName);
@@ -267,13 +267,13 @@ public class UserDao {
         }
     }
 
-    public void approveRequisition(int requisitonId, String approved) {
+    public void approveRequisition(int requisitionId, String approved) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :approved where id = :requisitonId");
-            qry.setParameter("requisitonId", requisitonId);
+            Query qry = session.createQuery("UPDATE Requisition set status = :approved where id = :requisitionId");
+            qry.setParameter("requisitionId", requisitionId);
             qry.setParameter("approved",approved);
             qry.executeUpdate();
             trs.commit();
@@ -286,7 +286,6 @@ public class UserDao {
 
     public void saveRejection(Rejection rejection) {
         try {
-            System.out.println("REjecting 3");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();

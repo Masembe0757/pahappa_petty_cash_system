@@ -39,48 +39,47 @@
                     <h:outputText value="#{requisition.status}"/>
                 </p:column>
                 <p:column headerText="Actions">
-                    <h:form>
-                    <div class="btn-sect">
-                        <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();"
-                                         process="@this"
-                                         update="infoDialog">
-                        </p:commandButton>
+
+                <div class="btn-sect">
+                    <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
+                    </p:commandButton>
+                    <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog" dynamic="true"
+                              resizable="false" width="500">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel for="description" value="Reason:"/>
+                            <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
+                                             required="true" requiredMessage="Information is required!"/>
+
+                            <p:commandButton value="Comment"
+                                             action="#{requisitionBean.rejectRequisition(requisition.id,requisitionBean.information)}"
+                                             process="@this"
+                                             update="@form"
+                                             oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
+                                             />
+
+                        </h:panelGrid>
+                    </p:dialog>
 
 
-                        <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog"
-                                  resizable="false" width="500">
-                            <h:panelGrid columns="1">
-                                <h:outputLabel for="description" value="Reason:"/>
-                                <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
-                                                 required="true" requiredMessage="Information is required!"/>
+                    <p:commandButton  styleClass="edit" icon="pi pi-check" oncomplete="PF('conf').show();" update="conf" >
 
-                                <p:commandButton value="Comment"
-                                                 action="#{requisitionBean.rejectRequisition(requisition.id,requisitionBean.information)}"
-                                                 process="@this"
-                                                 oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
-                                                 />
+                    </p:commandButton>
+                    <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="conf" id="conf" hideEffect="fade" responsive="true"
+                                dynamic="true"     width="350">
+                        <h:outputText value="Are you sure you want to approve this requisition?" />
+                        <p:commandButton value="No" process="@this" update="@form" onclick="PF('conf').hide();" type="button"
+                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton
+                                action="#{requisitionBean.approveRequisition(requisition.id)}"
+                                value="Yes" styleClass="ui-confirmdialog-yes"
+                                process="@this"
+                                update="@form"
+                                oncomplete="PF('conf').hide();"
+                                />
+                    </p:dialog>
 
-                            </h:panelGrid>
-                        </p:dialog>
+                </div>
 
-
-                        <p:commandButton  styleClass="edit" icon="pi pi-check">
-                            <p:confirm header="Confirmation" message="Do you want to approve this requisition?"
-                                       icon="pi pi-info-circle"/>
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
-                                         width="350">
-                            <p:commandButton value="No" type="button"
-                                             styleClass="ui-confirmdialog-no ui-button-flat"/>
-                            <p:commandButton
-                                    action="#{requisitionBean.approveRequisition(requisition.id)}"
-                                    value="Yes" styleClass="ui-confirmdialog-yes"
-                                    process="@this"
-                                    />
-                        </p:confirmDialog>
-
-                    </div>
-                    </h:form>
                 </p:column>
 
                 <p:growl id="message" showDetail="true"/>

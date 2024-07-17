@@ -14,9 +14,7 @@
                                      process="@this"
                                      update=""/>
 
-
         <!--USER CREATION DIALOG-->
-
 
                     <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true"
                               resizable="false" width="600">
@@ -48,14 +46,16 @@
                             <p:password id="password1" value="#{userBean.password1}" required="true"
                                         feedback="true"
                                         requiredMessage="Password is required!">
-                                <p:ajax event="keyup"  update="@this"/>
+                                <p:ajax event="keyup" />
+
                             </p:password>
 
                             <h:outputLabel for="password2" value="Confirm:"/>
                             <p:password id="password2" value="#{userBean.password2}" required="true"
                                         feedback="true"
                                         requiredMessage="Please confirm password!">
-                                <p:ajax event="keyup"   update="@this"/>
+                                <p:ajax event="keyup" />
+
                             </p:password>
 
                             <h:outputLabel for="u_email" value="Email:"/>
@@ -88,18 +88,19 @@
 
 
 
-        <div class="topOfTable">
-            <h:form id="searchForm">
+
+
+        <h:form id="userForm">
+
+            <div class="topOfTable">
                 <p:inputText id="search" value="#{userBean.name}"
                              icon="pi pi-search"
                              placeholder="Search By name">
-                    <p:ajax event="keyup" update=""
+                    <p:ajax event="keyup" update="@form"
                             listener="#{userBean.getUsersByName(userBean.name)}"/>
                 </p:inputText>
-            </h:form>
-        </div>
+            </div>
 
-        <h:form id="userForm">
             <p:dataTable id="userTable" value="#{userBean.getUsersByName(userBean.name)}" var="user"
                          emptyMessage="No users available">
                 <p:column headerText="Username">
@@ -129,6 +130,7 @@
                             <f:setPropertyActionListener value="#{user.password}" target="#{userBean.password2}"/>
                             <f:setPropertyActionListener value="#{user.email}" target="#{userBean.email}"/>
                             <f:setPropertyActionListener value="#{user.role}" target="#{userBean.role}"/>
+                            <f:setPropertyActionListener value="#{user.id}" target="#{userBean.userId}"/>
                         </p:commandButton>
 
                         <p:growl id="message" showDetail="true"/>
@@ -165,14 +167,14 @@
                                 <p:password id="password_1" value="#{userBean.password1}" required="true"
                                             feedback="true"
                                             requiredMessage="Password is required!">
-                                    <p:ajax event="keyup" update="@this"/>
+                                    <p:ajax event="keyup" />
                                 </p:password>
 
                                 <h:outputLabel for="password_2" value="Confirm:"/>
                                 <p:password id="password_2" value="#{userBean.password2}" required="true"
                                             feedback="true"
                                             requiredMessage="Please confirm password!">
-                                    <p:ajax event="keyup" update="@this"/>
+                                    <p:ajax event="keyup" />
                                 </p:password>
 
 
@@ -187,7 +189,7 @@
 
                             </h:panelGrid>
                             <p:commandButton value="Save"
-                                             action="#{userBean.updateUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                                             action="#{userBean.updateUser(userBean.userId,userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                              oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"
                                              update="@form"
                                              process="@this"
@@ -198,18 +200,27 @@
 
 
                         <p:commandButton action="#{userBean.deleteUserOfUserName(user.userName)}"
-                                         update="message "
+                                         oncomplete="PF('dlt').show();"
+                                         update="dlt"
                                          styleClass="delete" icon="pi pi-trash">
-                            <p:confirm header="Confirmation" message="Do you want to delete this record?"
-                                       icon="pi pi-info-circle"/>
                         </p:commandButton>
 
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                        <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="dlt" id="dlt" hideEffect="fade" responsive="true"
                                          width="350">
+                            <h:outputText value="Are you sure you want to delete this user?"/>
                             <p:commandButton value="No" type="button"
+                                             process="@this"
+                                             update="@form"
+                                             onclick="PF('dlt').hide();"
                                              styleClass="ui-confirmdialog-no ui-button-flat"/>
-                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
-                        </p:confirmDialog>
+                            <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+                             action="#{userBean.deleteUserOfUserName(user.userName)}"
+                            process="@this"
+                            update="@form"
+                             oncomplete="PF('dlt').hide();"
+
+                            />
+                        </p:dialog>
                     </div>
                 </p:column>
             </p:dataTable>
