@@ -23,7 +23,7 @@
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
         >
 
-            <p:column headerText="Review Date">
+            <p:column headerText="Date reviewed">
                 <h:outputText value="#{review.reviewedDate}"/>
             </p:column>
             <p:column headerText="Description">
@@ -34,21 +34,25 @@
             </p:column>
 
             <p:column headerText="Requisition ">
+
                 <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
                 <h:outputText value="#{review.requisition.name}"/>
                 </ui:fragment>
+
             </p:column>
             <p:column headerText="Budget line ">
+
                 <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
                 <h:outputText value="#{review.budgetLine.name}"/>
                 </ui:fragment>
+
             </p:column>
             <p:column headerText="Actions">
                 <div class="btn-sect">
 
                     <p:growl id="message" showDetail="true"/>
 
-                    <p:commandButton action="#{reviewBean.deletereview(review)}" update="message reviewTable"
+                    <p:commandButton action="#{reviewBean.deleteReview(review.id)}" update="message reviewTable"
                                      styleClass="delete" icon="pi pi-trash">
                         <p:confirm header="Confirmation" message="Do you want to delete this record?"
                                    icon="pi pi-info-circle"/>
