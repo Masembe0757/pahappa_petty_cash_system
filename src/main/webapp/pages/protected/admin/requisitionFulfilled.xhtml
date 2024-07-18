@@ -37,7 +37,6 @@
             </p:column>
 
             <p:column headerText="Actions" style="width:100px">
-
                 <p:commandButton oncomplete="PF('dlt').show();"
                                  update="dlt"
                                  styleClass="delete" icon="pi pi-trash">
@@ -60,43 +59,46 @@
                     />
                 </p:dialog>
 
-                <ui:fragment rendered="#{roleBean.canProvideAccountability()}">
+
+                    <ui:fragment rendered="#{roleBean.canProvideAccountability()}" >
                     <p:commandButton oncomplete="PF('acc').show();"
                                      update="acc"
-                                     styleClass="edit" icon="pi pi-trash">
+                                     styleClass="edit" icon="pi pi-plus">
                     </p:commandButton>
+                    </ui:fragment>
+
 
                     <p:dialog >
-                        <h:panelGrid header="Add Accountability" widgetVar="acc" modal="true" id="acc" dynamic="true" responsive="true"
+                        <h:panelGrid header="Add Accountability" widgetVar="acc" id="acc" modal="true"  dynamic="true" responsive="true"
                                      resizable="true" width="1100">
                             <h:outputLabel for="amountSpent" value="Amount Used:"/>
-                            <p:inputText id="amountSpent" value="#{AccBean.amountUsed}" required="true"
+                            <p:inputText id="amountSpent" value="#{accountablityBean.accountedAmount}" required="true"
                                          requiredMessage="Role name is required!">
                                 <p:ajax event="keyup" update="@this"/>
                             </p:inputText>
 
                             <h:outputLabel for="description" value="Usage Description:"/>
-                            <p:inputText id="description" value="#{AccBean.Description}" required="true"
+                            <p:inputText id="description" value="#{accountablityBean.description}" required="true"
                                          requiredMessage="Description is required!">
                                 <p:ajax event="keyup" update="@this"/>
                             </p:inputText>
 
-                            <h:outputLabel for="image" value="Upload Image:"/>
-                            <p:fileUpload id="image" value="#{AccBean.image}" mode="simple" required="true"
-                                          requiredMessage="Image is required!">
-                            <p:ajax event="change" update="@this"/>
-                            </p:fileUpload>
+                            <p:outputLabel for="accountabilityImage" value="Image: ">
+                                <p:fileUpload chooseIcon="pi pi-upload" uploadIcon="pi pi-upload" id="accountabilityImage" value="#{accountablityBean.imageUploaded}"
+                                              mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" requiredMessage="Please add an image of receipt">
+                                </p:fileUpload>
+                            </p:outputLabel>
 
                             <p:commandButton value="Submit"
-                                             action="#{AccBean.submit}"
                                              process="@this"
-                                             update="@all"
-                                             oncomplete="PF('rlg').hide();"
+                                             update="@form"
+                                             action="#{accountablityBean.addAccountability(accountablityBean.imageUploaded,accountablityBean.accountedAmount,accountablityBean.description,draft)}"
+                                             oncomplete="PF('acc').hide();"
                             />
 
                         </h:panelGrid>
                     </p:dialog>
-                </ui:fragment>
+
 
             </p:column>
         </p:dataTable>

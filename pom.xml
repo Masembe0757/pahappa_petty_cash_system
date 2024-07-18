@@ -173,6 +173,18 @@
       <artifactId>spring-orm</artifactId>
       <version>5.3.10</version> <!-- Adjust version as per your requirement -->
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>RELEASE</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>RELEASE</version>
+      <scope>provided</scope>
+    </dependency>
 
   </dependencies>
   <build>
