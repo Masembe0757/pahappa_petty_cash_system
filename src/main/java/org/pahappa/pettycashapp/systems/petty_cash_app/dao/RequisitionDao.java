@@ -49,6 +49,7 @@ public class RequisitionDao {
     public List<Requisition> getPendingRequisitions(String pending) {
         List<Requisition> requisitions = new ArrayList<>();
         try {
+            System.out.println("PENDING REQS........");
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();

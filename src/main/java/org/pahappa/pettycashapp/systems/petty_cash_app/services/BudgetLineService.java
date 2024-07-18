@@ -140,8 +140,8 @@ public class BudgetLineService {
         return names;
     }
 
-    public void submitBudgetLine(BudgetLine budgetLine){
-        budgetLineDao.submitBudgetLine(budgetLine);
+    public void submitBudgetLine(int budgetLineId){
+        budgetLineDao.submitBudgetLine(budgetLineId,"pending");
     }
 
     public List<BudgetLine> getPendingBudgetLInes() {
@@ -162,4 +162,5 @@ public class BudgetLineService {
     public void saveBudgetline(BudgetLine budgetLine) {
         budgetLineDao.saveBudgetLine(budgetLine);
     }
+
 }

@@ -5,10 +5,10 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
-        <h4 class="Table-title">REQUISITION DRAFTS</h4>
+        <h4 class="Table-title">PENDING REQUISITIONS</h4>
 
         <h:form>
-        <p:dataTable id="draftTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
+        <p:dataTable id="pendingTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
                      emptyMessage="No drafts available"
                      paginator="true"
                      paginatorPosition="bottom"
@@ -37,19 +37,18 @@
             </p:column>
 
             <p:column headerText="Actions" style="width:100px">
-                <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
-
 
                 <!-- CONDITION FOR USER OR FINANCE-->
 
                 <p:growl id="message" showDetail="true"/>
 
-
+                <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
                 <p:commandButton icon="pi pi-forward" styleClass="edit"
                                  oncomplete="PF('stageDialog').show();"
                                  process="@this"
                                  update="@form">
                 </p:commandButton>
+                </ui:fragment>
                 <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="stageDialog" id="stageDialog" hideEffect="fade" responsive="true"
                           width="350">
                     <h:outputText value="Are you sure you want to stage this requisition for approval?"/>
@@ -67,9 +66,11 @@
                     />
                 </p:dialog>
 
-
+                <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
                 <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
                 </p:commandButton>
+            </ui:fragment>
+
                 <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog" dynamic="true"
                           resizable="false" width="500">
                     <h:panelGrid columns="1">
@@ -88,7 +89,7 @@
                 </p:dialog>
 
 
-                </ui:fragment>
+
             </p:column>
 
         </p:dataTable>

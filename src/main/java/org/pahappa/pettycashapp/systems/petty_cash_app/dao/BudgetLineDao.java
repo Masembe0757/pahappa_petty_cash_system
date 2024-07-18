@@ -207,14 +207,14 @@ public class BudgetLineDao {
         return budgetLine;
     }
 
-    public void submitBudgetLine(BudgetLine budgetLine) {
+    public void submitBudgetLine(int budgetLineId,String pending) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update BudgetLine set status = :pending where id = :id");
-            qry.setParameter("id", budgetLine.getId());
-            qry.setParameter("pending", "pending");
+            Query qry = session.createQuery("update BudgetLine set status = :pending where id = :budgetLineId");
+            qry.setParameter("budgetLineId", budgetLineId);
+            qry.setParameter("pending", pending);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();

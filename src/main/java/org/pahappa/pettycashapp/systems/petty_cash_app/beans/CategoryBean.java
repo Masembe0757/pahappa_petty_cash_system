@@ -90,4 +90,6 @@ public class CategoryBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, null, null));
         }
     }
+
+
 }
