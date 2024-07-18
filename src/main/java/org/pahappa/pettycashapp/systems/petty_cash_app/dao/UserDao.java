@@ -14,10 +14,6 @@ import java.util.List;
 @Repository
 public class UserDao {
 
-    UserDao userDao;
-
-
-
     public  void saveUser(User user){
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();

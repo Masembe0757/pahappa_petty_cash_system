@@ -8,7 +8,7 @@
         <h4 class="Table-title">REQUISITION DRAFTS</h4>
 
         <h:form>
-        <p:dataTable id="draftTable" value="#{requisitionBean.rteturnDraftedRequisitions()}" var="draft"
+        <p:dataTable id="draftTable" value="#{requisitionBean.returnDraftedRequisitions()}" var="draft"
                      emptyMessage="No drafts available"
                      paginator="true"
                      paginatorPosition="bottom"
@@ -18,7 +18,7 @@
                      rows="9"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
         >
-            <p:column headerText="User">
+            <p:column headerText="Requisitor">
                 <h:outputText value="#{draft.user.userName}"/>
             </p:column>
             <p:column headerText="Budget Line">

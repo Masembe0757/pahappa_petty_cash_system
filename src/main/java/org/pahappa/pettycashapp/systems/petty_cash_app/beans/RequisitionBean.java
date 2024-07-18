@@ -113,7 +113,7 @@ public class RequisitionBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
-    public List<Requisition> rteturnDraftedRequisitions(){
+    public List<Requisition> returnDraftedRequisitions(){
         return  requisitionService.getDraftedRequisitions();
     }
 
