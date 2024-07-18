@@ -10,7 +10,7 @@
 
     <div class="glass">
         <h4 class="Table-title">ALL REQUISITIONS</h4>
-        <h:form id="requisitionForm">
+        <h:form>
             <p:dataTable id="requisitionTable" var="requisition"
                          value="#{requisitionBean.getAllRequisitions()}"
                          emptyMessage="No requisitions available"
@@ -25,7 +25,7 @@
                 <p:column headerText="Reference Number">
                     <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>
-                <p:column headerText="User">
+                <p:column headerText="Requisitor">
                     <h:outputText value="#{requisition.user.firstName }"/>
                 </p:column>
                 <p:column headerText="Budget Line">

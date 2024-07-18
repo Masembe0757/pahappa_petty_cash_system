@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public class RequisitionDao {
     public List<Requisition> getAllRequisitions() {
+        System.out.println("GETTING AL........");
         List<Requisition> requisitions = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -114,7 +115,7 @@ public class RequisitionDao {
         }
     }
 
-    public List<Requisition> getapprovedRequisitions(String status) {
+    public List<Requisition> getApprovedRequisitions(String status) {
         List<Requisition> requisitions = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();

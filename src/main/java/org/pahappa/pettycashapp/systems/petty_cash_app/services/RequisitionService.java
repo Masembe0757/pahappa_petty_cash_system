@@ -71,7 +71,7 @@ public class RequisitionService {
     }
     //For finance
     public List<Requisition> getApprovedRequisitions(){
-        return requisitionDao.getapprovedRequisitions("approved");
+        return requisitionDao.getApprovedRequisitions("approved");
     }
     //for ceo
     public List<Requisition> getStagedRequisitions(){
