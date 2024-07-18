@@ -61,8 +61,41 @@
                 </p:dialog>
 
                 <ui:fragment rendered="#{roleBean.canProvideAccountability()}">
+                    <p:commandButton oncomplete="PF('acc').show();"
+                                     update="acc"
+                                     styleClass="edit" icon="pi pi-trash">
+                    </p:commandButton>
 
-                    <!-- code for accountability -->
+                    <p:dialog >
+                        <h:panelGrid header="Add Accountability" widgetVar="acc" modal="true" id="acc" dynamic="true" responsive="true"
+                                     resizable="true" width="1100">
+                            <h:outputLabel for="amountSpent" value="Amount Used:"/>
+                            <p:inputText id="amountSpent" value="#{AccBean.amountUsed}" required="true"
+                                         requiredMessage="Role name is required!">
+                                <p:ajax event="keyup" update="@this"/>
+                            </p:inputText>
+
+                            <h:outputLabel for="description" value="Usage Description:"/>
+                            <p:inputText id="description" value="#{AccBean.Description}" required="true"
+                                         requiredMessage="Description is required!">
+                                <p:ajax event="keyup" update="@this"/>
+                            </p:inputText>
+
+                            <h:outputLabel for="image" value="Upload Image:"/>
+                            <p:fileUpload id="image" value="#{AccBean.image}" mode="simple" required="true"
+                                          requiredMessage="Image is required!">
+                            <p:ajax event="change" update="@this"/>
+                            </p:fileUpload>
+
+                            <p:commandButton value="Submit"
+                                             action="#{AccBean.submit}"
+                                             process="@this"
+                                             update="@all"
+                                             oncomplete="PF('rlg').hide();"
+                            />
+
+                        </h:panelGrid>
+                    </p:dialog>
                 </ui:fragment>
 
             </p:column>
