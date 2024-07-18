@@ -23,20 +23,11 @@ public class Requisition {
     @ManyToOne
     private BudgetLine budgetLine;
 
-    @OneToOne
+    @OneToOne(mappedBy = "requisition")
     private Review review;
-    @OneToOne
-    private Rejection rejection;
 
-    public Rejection getRejection() {
-        return rejection;
-    }
 
-    public void setRejection(Rejection rejection) {
-        this.rejection = rejection;
-    }
-
-    @OneToOne
+    @OneToOne(mappedBy = "requisition")
     Accountability accountability;
 
     public BudgetLine getBudgetLine() {

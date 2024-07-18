@@ -1,5 +1,4 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.dao;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,7 +6,6 @@ import org.hibernate.Transaction;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,23 @@ public class CategoryDao {
         } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
+    }
+    public Category getCategoryOfId(int categoryId) {
+        Category category = new Category();
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Category where id = :categoryId");
+            qry.setParameter("categoryId", categoryId);
+            category = (Category) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return category;
     }
 
 

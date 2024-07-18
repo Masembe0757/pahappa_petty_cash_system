@@ -3,157 +3,152 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
-public class UserDao {
-
-    UserDao userDao;
-
-
-
-    public  void saveUser(User user){
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.getCurrentSession();
-            Transaction trs = session.beginTransaction();
-            session.save(user);
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-    }
-
-    public User returnUser(String userName) {
-        User user = new User();
+public class RoleDao {
+    public void saveRole(Role role) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from User where userName = :userName");
-            qry.setParameter("userName", userName);
-            user = (User) qry.uniqueResult();
+            session.saveOrUpdate(role);
             trs.commit();
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
         }
-        return user;
     }
-    public User returnUserOfId(int userId) {
-        User user = new User();
+
+    public List<Role> getAllRoles() {
+        List<Role> roles = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from User where id = :userId");
-            qry.setParameter("userId", userId);
-            user = (User) qry.uniqueResult();
+            Query qry = session.createQuery("from Role ");
+            roles = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
             SessionConfiguration.shutdown();
         }
-        return user;
+        return roles;
     }
 
-    public void createAdmin(User user) {
-        try {
-
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.getCurrentSession();
-            Transaction trs = session.beginTransaction();
-            session.saveOrUpdate(user);
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-    }
-
-    public void updateUser(int userId,String firstName, String lastName, String userName,String password, String email,String role) {
-        try {
-
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            User user =(User) session.get(User.class,userId);
-
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setUserName(userName);
-            user.setPassword(password);
-            user.setEmail(email);
-            user.setRole(role);
-
-            session.update(user);
-
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-
-    }
-
-    public List<User> getAllUsers() {
-        List<User> users = null;
+    public void deleteRoleOdId(int roleId) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from User where deleted = false");
-            users = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return users;
-    }
-
-    public List<User> getDeletedUsers() {
-        List<User> deletedUsers = null;
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from User where deleted = true");
-            deletedUsers = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return deletedUsers;
-    }
-
-    public void deleteUserOfUserName(String userName) {
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update User set deleted = true where userName = :userName");
-            qry.setParameter("userName", userName);
+            Query qry = session.createQuery("delete from Role where id = :roleId");
+            qry.setParameter("roleId", roleId);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
         }catch (Exception e){
             SessionConfiguration.shutdown();
         }
+    }
+
+    public List<Permission> getPermissionsOfRole(int roleId) {
+        List<Permission> permissions = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Permission where role_id = :roleId");
+            qry.setParameter("roleId", roleId);
+            permissions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return permissions;
+    }
+
+
+    public Role getRoleOfname(String name) {
+        Role role = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Role where name = :name");
+            qry.setParameter("name", name);
+            role = (Role) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return role;
+    }
+
+    public void deletePermissionsOfroleId(int id) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from Permission where role_id = :id");
+            qry.setParameter("id", id);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public void updateRole(String name,List<String> permissions ,int roleId) {
+        try {
+
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Role role =(Role) session.get(Role.class,roleId);
+            role.setName(name);
+            for (String s : permissions ) {
+                Permission permission = new Permission();
+                role.getPermissions().add(permission);
+                permission.setRole(role);
+                permission.setName(s);
+            }
+            session.update(role);
+
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+    }
+
+    public Role getRoleOfId(int roleId) {
+        Role role = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Role where id = :roleId");
+            qry.setParameter("roleId", roleId);
+            role = (Role) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return role;
     }
 }

@@ -35,8 +35,9 @@
             <p:column headerText="Amount">
                 <h:outputText value="#{draft.amount}"/>
             </p:column>
-            <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
+
             <p:column headerText="Actions" style="width:100px">
+                <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
 
 
                 <!-- CONDITION FOR USER OR FINANCE-->
@@ -51,7 +52,7 @@
                 </p:commandButton>
                 <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="stageDialog" id="stageDialog" hideEffect="fade" responsive="true"
                           width="350">
-                    <h:outputText value="Are you sure you want to stage this requisition for approve?"/>
+                    <h:outputText value="Are you sure you want to stage this requisition for approval?"/>
                     <p:commandButton value="No" type="button"
                                      process="@this"
                                      update="@form"
@@ -77,7 +78,7 @@
                                          required="true" requiredMessage="Information is required!"/>
 
                         <p:commandButton value="Comment"
-                                         action="#{requisitionBean.rejectRequisition(draft.id,requisitionBean.information)}"
+                                         action="#{requisitionBean.saveReview(requisitionBean.information,draft,draft.user)}"
                                          process="@this"
                                          update="@form"
                                          oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
@@ -87,9 +88,9 @@
                 </p:dialog>
 
 
-
+                </ui:fragment>
             </p:column>
-            </ui:fragment>
+
         </p:dataTable>
         </h:form>
     </div>

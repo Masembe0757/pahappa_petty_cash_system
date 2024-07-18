@@ -1,18 +1,19 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
+import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
+import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.faces.event.ActionListener;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -29,11 +30,23 @@ public class BudgetLineBean implements Serializable {
     private String name;
     private BudgetLine selectedDraftedBudgetLine;
 
+    private String information;
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
     @Autowired
     private BudgetLineService budgetLineService;
 
     @Autowired
     UserDao userDao;
+    @Autowired
+    ReviewService reviewService;
 
     @PostConstruct
     public void init(){
@@ -41,7 +54,7 @@ public class BudgetLineBean implements Serializable {
         for(BudgetLine budgetLine: budgetLines){
             if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
                 budgetLine.setStatus("expired");
-                userDao.saveBudgetLine(budgetLine);
+                budgetLineService.saveBudgetline(budgetLine);
             }
         }
     }
@@ -86,6 +99,12 @@ public class BudgetLineBean implements Serializable {
         this.name = name;
     }
 
+    private User getCurrentUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        return (User) externalContext.getSessionMap().get("currentUser");
+    }
+
     public BudgetLine getSelectedDraftedBudgetLine() {
         return selectedDraftedBudgetLine;
     }
@@ -96,7 +115,7 @@ public class BudgetLineBean implements Serializable {
 
     //BUDGET LINE CODE
     public  void createBudgetLIne(int amount,String name, Date startDate,Date endDate,int categoryId){
-        String message = budgetLineService.makeBudgetLine(amount,name,startDate,endDate,categoryId);
+        String message = budgetLineService.makeBudgetLine(amount,name,startDate,endDate,categoryId,getCurrentUser());
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
@@ -142,8 +161,8 @@ public class BudgetLineBean implements Serializable {
         budgetLineService.deleteBL(budgetLine);
     }
 
-    public void stageBL(BudgetLine budgetLine) {
-        budgetLineService.stageBudgetLine(budgetLine);
+    public void submitBudgetLine(BudgetLine budgetLine) {
+        budgetLineService.submitBudgetLine(budgetLine);
     }
 
     public int countRunningBL(){
@@ -154,4 +173,19 @@ public class BudgetLineBean implements Serializable {
         return budgetLineService.getExpiredBudgetLines().size();
     }
 
+    public List<BudgetLine> getPendingBudgetLines() {
+        return budgetLineService.getPendingBudgetLInes();
+    }
+
+    public List<BudgetLine> getAllBudgetLines() {
+        return budgetLineService.getAllBudgetLines();
+    }
+    public List<BudgetLine> getRejectBudgetLineS() {
+        return budgetLineService.getRejectedBudgetLines();
+    }
+
+    public void saveReview(String information,BudgetLine budgetLine, User user) {
+        budgetLineService.setRejectionStatus(budgetLine.getId());
+        reviewService.saveBudgetlineReview(information,new Date(),budgetLine,user);
+    }
 }

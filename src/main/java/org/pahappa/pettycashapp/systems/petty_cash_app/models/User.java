@@ -31,6 +31,8 @@ public class User {
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    private List<BudgetLine> budgetLines = new ArrayList<>();
 
     public List<Review> getReviews() {
         return reviews;
@@ -43,6 +45,15 @@ public class User {
     }
     public void setRequisitions(List<Requisition> requisitions) {
         this.requisitions = requisitions;
+    }
+
+
+    public List<BudgetLine> getBudgetLines() {
+        return budgetLines;
+    }
+
+    public void setBudgetLines(List<BudgetLine> budgetLines) {
+        this.budgetLines = budgetLines;
     }
 
     public int getId() {

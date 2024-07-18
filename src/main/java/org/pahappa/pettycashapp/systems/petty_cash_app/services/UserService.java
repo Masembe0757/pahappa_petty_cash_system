@@ -1,10 +1,8 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -14,9 +12,17 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
     @Autowired
+    RequisitionDao requisitionDao;
+    @Autowired
     UserDao userDao;
     @Autowired
     UserService userService;
+    @Autowired
+    CategoryDao categoryDao;
+    @Autowired
+    BudgetLineDao budgetLineDao;
+    @Autowired
+    ReviewDao reviewDao;
     private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
@@ -145,7 +151,7 @@ public class UserService {
 
     public String makeReview(String description,int requistionId,String userName){
         String error_message = "";
-        Requisition requisition = userDao.getRequisitionOfId(requistionId);
+        Requisition requisition = requisitionDao.getRequisitionOfId(requistionId);
 
         if(description.length()<50){
             error_message = "Please provide more description";
@@ -153,12 +159,12 @@ public class UserService {
             error_message ="Can not review a drafted requisition";
         } else {
             User user = userDao.returnUser(userName);
-             requisition = userDao.getRequisitionOfId(requistionId);
+             requisition = requisitionDao.getRequisitionOfId(requistionId);
             Review review = new Review();
             review.setUser(user);
             review.setDescription(description);
             review.setRequisition(requisition);
-            userDao.makeReview(review);
+            reviewDao.makeReview(review);
         }
 
         return error_message;
@@ -208,17 +214,17 @@ public class UserService {
 
     public String updateBudgetLine(int budgetLineId, int amount,String name, Date startDate,Date endDate,int categoryId){
         String error_message = "";
-        BudgetLine budgetLine = userDao.returnBudgetLineofId(budgetLineId);
+        BudgetLine budgetLine = budgetLineDao.returnBudgetLineofId(budgetLineId);
         if(userService.hasDigits(name)){
             error_message = "Name can not contain digits";
         }else {
-            Category category = userDao.getCategoryOfId(categoryId);
+            Category category = categoryDao.getCategoryOfId(categoryId);
             budgetLine.setName(name);
             budgetLine.setAmountDelegated(amount);
             budgetLine.setStartDate(startDate);
             budgetLine.setEndDate(endDate);
             budgetLine.setCategory(category);
-            userDao.updateBudgetLIne(budgetLine);
+            budgetLineDao.updateBudgetLIne(budgetLine);
         }
         return error_message;
     }

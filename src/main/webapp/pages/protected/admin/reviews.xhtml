@@ -12,7 +12,7 @@
 
     <div class="glass">
         <h4 class="Table-title">REVIEWS</h4>
-        <p:dataTable id="reviewTable" value="#{reviewBean.reviews}" var="review"
+        <p:dataTable id="reviewTable" value="#{reviewBean.getReviewsOfUser()}" var="review"
                      emptyMessage="No reviews available"
                      paginator="true"
                      paginatorPosition="bottom"
@@ -24,16 +24,24 @@
         >
 
             <p:column headerText="Review Date">
-                <h:outputText value="#{review.date}"/>
+                <h:outputText value="#{review.reviewedDate}"/>
             </p:column>
             <p:column headerText="Description">
                 <h:outputText value="#{review.description}"/>
             </p:column>
-            <p:column headerText="User">
-                <h:outputText value="#{review.user}"/>
+            <p:column headerText="Revied by">
+                <h:outputText value="#{review.user.firstName} #{review.user.lastName}"/>
             </p:column>
-            <p:column headerText="Requisition Name">
-                <h:outputText value="#{review.requisitionName}"/>
+
+            <p:column headerText="Requisition ">
+                <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
+                <h:outputText value="#{review.requisition.name}"/>
+                </ui:fragment>
+            </p:column>
+            <p:column headerText="Budget line ">
+                <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
+                <h:outputText value="#{review.budgetLine.name}"/>
+                </ui:fragment>
             </p:column>
             <p:column headerText="Actions">
                 <div class="btn-sect">

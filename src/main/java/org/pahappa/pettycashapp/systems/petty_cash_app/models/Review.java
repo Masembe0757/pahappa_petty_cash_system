@@ -18,6 +18,16 @@ public class Review {
 
     @OneToOne
     private Requisition requisition;
+    @OneToOne
+    private BudgetLine budgetLine;
+
+    public BudgetLine getBudgetLine() {
+        return budgetLine;
+    }
+
+    public void setBudgetLine(BudgetLine budgetLine) {
+        this.budgetLine = budgetLine;
+    }
 
     public User getUser() {
         return user;

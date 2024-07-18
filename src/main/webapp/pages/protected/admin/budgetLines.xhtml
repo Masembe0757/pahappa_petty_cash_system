@@ -134,26 +134,48 @@
         </div>
 
         <p:tabView>
-            <p:tab id="currentBL" title="Current Budget Lines">
-                <ui:include src="currentBudgetLines.xhtml"/>
+            <p:tab id="currentBL" title="All Budget Lines">
+                <ui:include src="allBudgetLines.xhtml"/>
             </p:tab>
 
-            <ui:fragment rendered="#{roleBean.CanViewDraftedBudgetLines()}">
-            <p:tab id="draftsBL" title="Drafts">
+
+            <p:tab id="approvedBL" title="Approved">
+                <ui:fragment rendered="#{roleBean.CanViewApprovedBudgetLines()}">
+                    <ui:include src="approvedBudgetLines.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
+
+            <p:tab id="draftsBL" title="Drafted">
+                <ui:fragment rendered="#{roleBean.CanViewDraftedBudgetLines()}">
                 <ui:include src="budgetLineDrafts.xhtml"/>
-            </p:tab>
             </ui:fragment>
-            <ui:fragment rendered="#{roleBean.canViewExpiredBudgetLines()}">
-            <p:tab id="epiredBL" title="Expired Budget Lines">
-                <ui:include src="expiredBudgetLines.xhtml"/>
             </p:tab>
-            </ui:fragment>
 
-            <ui:fragment rendered="#{roleBean.canViewCategories()}">
-            <p:tab id="categoriesBL" title="Budget Line Categories">
-                <ui:include src="budgetLineCategories.xhtml"/>
+            <p:tab id="pendingBL" title="Pending">
+                <ui:fragment rendered="#{roleBean.CanViewPendingBudgetLines()}">
+                    <ui:include src="pendingBudgetLines.xhtml"/>
+                </ui:fragment>
             </p:tab>
-            </ui:fragment>
+            <p:tab id="rejectedBL" title="Rejected">
+                <ui:fragment rendered="#{roleBean.canViewRejectedBudgetLines()}">
+                    <ui:include src="rejectedBudgetLines.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
+
+            <p:tab id="epiredBL" title="Expired">
+                <ui:fragment rendered="#{roleBean.canViewExpiredBudgetLines()}">
+                    <ui:include src="expiredBudgetLines.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
+            <p:tab id="categoriesBL" title="Budget Line Categories">
+                <ui:fragment rendered="#{roleBean.canViewCategories()}">
+                <ui:include src="budgetLineCategories.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
         </p:tabView>
 
 

@@ -5,9 +5,9 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <div class="glass">
-        <h4 class="Table-title">RUNNING BUDGET LINES</h4>
+        <h4 class="Table-title">ALL BUDGET LINES</h4>
         <h:form id="budgetLineForm">
-            <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.currentBudgetLines()}"
+            <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.getAllBudgetLines()}"
                          rowIndexVar="rowIndex"
                          emptyMessage="No budgetLines available"
                          paginator="true"

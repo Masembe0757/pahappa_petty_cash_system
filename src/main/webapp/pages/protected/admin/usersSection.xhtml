@@ -126,9 +126,10 @@
                     <h:outputText value="#{user.role}"/>
                 </p:column>
 
-                <ui:fragment rendered="#{roleBean.canManageUsers()}">
+
 
                 <p:column headerText="Actions">
+                    <ui:fragment rendered="#{roleBean.canManageUsers()}">
                     <div class="btn-sect">
                         <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('userDialog').show();"
                                          process="@this"
@@ -230,8 +231,9 @@
                             />
                         </p:dialog>
                     </div>
+                    </ui:fragment>
                 </p:column>
-                </ui:fragment>
+
             </p:dataTable>
         </h:form>
 </ui:composition>

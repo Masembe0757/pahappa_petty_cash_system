@@ -1,5 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.AccountabilityDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
@@ -11,9 +13,11 @@ import java.util.UUID;
 @Service
 public class AccountabilityService {
     @Autowired
-    UserDao userDao;
+    AccountabilityDao accountabilityDao;
     @Autowired
     AccountabilityService accountabilityService;
+    @Autowired
+    RequisitionDao requisitionDao;
     public  String generateReferenceNumber() {
         UUID uuid = UUID.randomUUID();
         String referenceNumber = uuid.toString().replace("-", "ACC").toUpperCase();
@@ -22,7 +26,7 @@ public class AccountabilityService {
     //ACCOUNTABILITY
     public String provideAccountability(String description,int amount,int requisitionId){
         String error_message ="";
-        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
+        Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
         if(amount > requisition.getAmount()){
             error_message = "Amount accounted greater than amount requisitioned";
         } else if (description.length()<50) {
@@ -35,7 +39,7 @@ public class AccountabilityService {
             accountability.setDescription(description);
             accountability.setRequisition(requisition);
             accountability.setReferenceNumber(accountabilityService.generateReferenceNumber());
-            userDao.saveAccountability(accountability);
+            accountabilityDao.saveAccountability(accountability);
         }
 
         return error_message;
