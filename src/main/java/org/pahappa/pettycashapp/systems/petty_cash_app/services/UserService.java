@@ -248,12 +248,14 @@ public class UserService {
         List<User> allUsers = userDao.getAllUsers();
         List<User> returnedUsers = new ArrayList<>();
         for(User u : allUsers){
-            if(u.getUserName().toLowerCase().contains(name.toLowerCase())){
-                returnedUsers.add(u);
-            } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {
-                returnedUsers.add(u);
-            } else if (u.getLastName().toLowerCase().contains(name.toLowerCase())) {
-                returnedUsers.add(u);
+            if(!u.getRole().equalsIgnoreCase("admin")) {
+                if (u.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                    returnedUsers.add(u);
+                } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {
+                    returnedUsers.add(u);
+                } else if (u.getLastName().toLowerCase().contains(name.toLowerCase())) {
+                    returnedUsers.add(u);
+                }
             }
         }
         for(User u : returnedUsers){

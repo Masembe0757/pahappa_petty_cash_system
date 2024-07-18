@@ -161,8 +161,9 @@ public class BudgetLineBean implements Serializable {
         budgetLineService.deleteBL(budgetLine.getId());
     }
 
-    public void submitBudgetLine(BudgetLine budgetLine) {
-        budgetLineService.submitBudgetLine(budgetLine);
+    public void submitBudgetLine(int budgetLineId) {
+        System.out.println("SUBMITTING BUDGET LINE");
+        budgetLineService.submitBudgetLine(budgetLineId);
     }
 
     public int countRunningBL(){
@@ -191,5 +192,23 @@ public class BudgetLineBean implements Serializable {
 
     public void deleteBudgetLine(int budgetLIneId) {
         budgetLineService.deleteBL(budgetLIneId);
+    }
+    public int getExpenditureBudgetOnApprovedBudgetLines(){
+        int money = 0;
+        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
+        for(BudgetLine budgetLine: budgetLines){
+            money = money + (budgetLine.getAmountDelegated()-budgetLine.getBalance());
+        }
+        return money;
+
+    }
+    public int getCurrentRunningBudgetLinesAmount(){
+        int balance = 0;
+        List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
+        for(BudgetLine budgetLine: budgetLines){
+            balance = balance + budgetLine.getBalance();
+        }
+        return balance;
+
     }
 }

@@ -157,7 +157,11 @@ public class UserBean implements Serializable {
         List<User> users = userService.getAllUsers();
         List<User> userList = new ArrayList<>();
         if (name.isEmpty()) {
-            userList.addAll(users);
+            for(User user : users) {
+                if(!user.getRole().equalsIgnoreCase("admin")) {
+                    userList.add(user);
+                }
+            }
 
         } else {
             List<User> returnedUsers = userService.returnUserOfName(name);

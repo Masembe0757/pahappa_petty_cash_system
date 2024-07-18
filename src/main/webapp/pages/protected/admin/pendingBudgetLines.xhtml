@@ -53,9 +53,10 @@
                             oncomplete="PF('conf').hide();"
                     />
                 </p:dialog>
-
+                <ui:fragment rendered="#{roleBean.CanApproveBudgetLine()}">
                 <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
                 </p:commandButton>
+                </ui:fragment>
 
                 <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog" dynamic="true"
                           resizable="false" width="500">
