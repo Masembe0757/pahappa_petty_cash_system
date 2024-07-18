@@ -22,4 +22,8 @@ public class AccountabilityDao {
             SessionConfiguration.shutdown();
         }
     }
+    public void uploadImage(){
+
+    }
+
 }

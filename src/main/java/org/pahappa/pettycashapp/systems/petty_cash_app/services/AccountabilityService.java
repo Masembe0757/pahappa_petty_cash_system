@@ -4,10 +4,16 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.dao.AccountabilityDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.ImageBuilder;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
+import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -18,31 +24,48 @@ public class AccountabilityService {
     AccountabilityService accountabilityService;
     @Autowired
     RequisitionDao requisitionDao;
+
     public  String generateReferenceNumber() {
         UUID uuid = UUID.randomUUID();
         String referenceNumber = uuid.toString().replace("-", "ACC").toUpperCase();
         return referenceNumber;
     }
     //ACCOUNTABILITY
-    public String provideAccountability(String description,int amount,int requisitionId){
+    public String provideAccountability(UploadedFile imageUploaded, int amountAccounted, String description, Requisition requisition){
         String error_message ="";
-        Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
-        if(amount > requisition.getAmount()){
+
+        if(amountAccounted > requisition.getAmount()){
             error_message = "Amount accounted greater than amount requisitioned";
-        } else if (description.length()<50) {
+        } else if (description.length()<10) {
             error_message = "Please provide more description";
-        }else if (requisition.getStatus().equals("draft")) {
+        }else if (requisition.getStatus().equals("pending")) {
             error_message ="Can not account for a drafted requisition";
+        } else if (imageUploaded==null) {
+            error_message ="Image is required";
         } else {
-            Accountability accountability = new Accountability();
-            accountability.setAmount(amount);
-            accountability.setDescription(description);
+            Accountability accountability= new Accountability();
+                try {
+                    InputStream inputStream = imageUploaded.getInputStream();
+                    byte[] fileContent = new byte[(int) imageUploaded.getSize()];
+                    inputStream.read(fileContent);
+
+                    accountability.setImage(fileContent);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            accountability.setAmount(amountAccounted);
             accountability.setRequisition(requisition);
-            accountability.setReferenceNumber(accountabilityService.generateReferenceNumber());
+            accountability.setDateCreated(new Date());
+            accountability.setDescription(description);
             accountabilityDao.saveAccountability(accountability);
         }
 
         return error_message;
+    }
+
+    private String uploadImage(MultipartFile file){
+        return "";
     }
 
 }

@@ -14,8 +14,19 @@ public class Accountability {
     private  int amount;
     private Date dateCreated = new Date();
     private String referenceNumber;
+    @Lob
+    private byte[] image;
+
     @OneToOne
     Requisition requisition;
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public int getId() {
         return id;
