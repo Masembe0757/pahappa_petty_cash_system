@@ -6,7 +6,9 @@
 
     <div class="first-layer-top">
             <div class="btn-sect">
+
                 <h:form class="actns" id="userRegForm" >
+                    <ui:fragment rendered="#{roleBean.canManageUsers()}">
                     <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="btn1" update="@form"
                                      icon="pi pi-user-plus"
                                      value="Add User"/>
@@ -14,6 +16,7 @@
                                      icon="pi pi-user-minus" value="Delete All Users"
                                      process="@this"
                                      update=""/>
+                    </ui:fragment>
 
         <!--USER CREATION DIALOG-->
 
@@ -88,11 +91,7 @@
     </div>
 
 
-
-
-
         <h:form id="userForm">
-
             <div class="topOfTable">
                 <p:inputText id="search" value="#{userBean.name}"
                              icon="pi pi-search"
@@ -101,93 +100,6 @@
                             listener="#{userBean.getUsersByName(userBean.name)}"/>
                 </p:inputText>
             </div>
-
-
-            </h:form>
-
-
-            <div class="btn-sect">
-                <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="one"
-                                 icon="pi pi-user-plus"
-                                 value="Add User"/>
-                <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="two"
-                                 icon="pi pi-user-minus" value="Delete All Users"
-                                 process="@this"
-                                 update=""/>
-            </div>
-        </div>
-
-        <!--USER CREATION DIALOG-->
-
-
-        <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true"
-                  resizable="false" width="600">
-            <p:growl id="messages" showDetail="true"/>
-            <h:panelGrid columns="2">
-                <h:outputLabel for="u_n" value="User Name:"/>
-                <p:inputText id="u_n" value="#{userBean.username}" required="true"
-                             requiredMessage="Username is required!">
-                    <p:ajax event="keyup" update="@this"/>
-                </p:inputText>
-
-
-                <h:outputLabel for="f_n" value="First Name:"/>
-                <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
-                             requiredMessage="First name is required!">
-                    <p:ajax event="keyup" update="@this"/>
-                </p:inputText>
-
-
-                <h:outputLabel for="l_n" value="Last Name:"/>
-                <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
-                             requiredMessage="Last name is required!">
-                    <p:ajax event="keyup" update="@this"/>
-
-                </p:inputText>
-
-
-                <h:outputLabel for="password1" value="Password:"/>
-                <p:password id="password1" value="#{userBean.password1}" required="true"
-                            feedback="true"
-                            requiredMessage="Password is required!">
-                    <p:ajax event="keyup" update="@this"/>
-                </p:password>
-
-                <h:outputLabel for="password2" value="Confirm:"/>
-                <p:password id="password2" value="#{userBean.password2}" required="true"
-                            feedback="true"
-                            requiredMessage="Please confirm password!">
-                    <p:ajax event="keyup" update="@this"/>
-                </p:password>
-
-                <h:outputLabel for="u_email" value="Email:"/>
-                <p:inputText id="u_email" value="#{userBean.email}" required="true"
-                             requiredMessage="Email is required!">
-                    <p:ajax event="keyup" update="@this"/>
-                </p:inputText>
-
-                <h:outputLabel for="role_" value="Role:"/>
-                <p:selectOneMenu id="role_" value="#{userBean.role}" required="true"
-                                 requiredMessage="Role is required!">
-                    <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{roleBean.getRoles()}" var="role"
-                                   itemLabel="#{role.name}" itemValue="#{role.name}"/>
-                    <p:ajax event="change" update="@this"/>
-                </p:selectOneMenu>
-
-            </h:panelGrid>
-
-            <p:commandButton value="Add"
-                             process="@this"
-                             action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
-                             oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
-                             update="@all"
-            />
-        </p:dialog>
-    </h:form>
-
-        <h:form id="userForm">
-            <h4 class="Table-title">ACTIVE USERS</h4>
             <p:dataTable id="userTable" value="#{userBean.getUsersByName(userBean.name)}" var="user"
                          emptyMessage="No users available"
                          paginator="true"
@@ -213,7 +125,11 @@
                 <p:column headerText="Role">
                     <h:outputText value="#{user.role}"/>
                 </p:column>
+
+
+
                 <p:column headerText="Actions">
+                    <ui:fragment rendered="#{roleBean.canManageUsers()}">
                     <div class="btn-sect">
                         <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('userDialog').show();"
                                          process="@this"
@@ -293,8 +209,7 @@
                         </p:dialog>
 
 
-                        <p:commandButton action="#{userBean.deleteUserOfUserName(user.userName)}"
-                                         oncomplete="PF('dlt').show();"
+                        <p:commandButton oncomplete="PF('dlt').show();"
                                          update="dlt"
                                          styleClass="delete" icon="pi pi-trash">
                         </p:commandButton>
@@ -316,8 +231,9 @@
                             />
                         </p:dialog>
                     </div>
+                    </ui:fragment>
                 </p:column>
+
             </p:dataTable>
         </h:form>
-    </div>
 </ui:composition>

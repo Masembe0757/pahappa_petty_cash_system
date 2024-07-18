@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div class="glass">
+        <h4 class="Table-title">PENDING BUDGET LINES</h4>
+        <h:form id="pendingBlTable">
+        <p:dataTable id="pendingTable" value="#{budgetLineBean.getPendingBudgetLines()}" var="expiredLine"
+                     emptyMessage="No expired budget lines available"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     paginatorAlwaysVisible="true"
+                     pageLinks="4"
+                     rowHover="true"
+                     rows="9"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+        >
+            <p:column headerText="Name">
+                <h:outputText value="#{expiredLine.name}"/>
+            </p:column>
+            <p:column headerText="Category">
+                <h:outputText value="#{expiredLine.category.name}"/>
+            </p:column>
+            <p:column headerText="Start Date">
+                <h:outputText value="#{expiredLine.startDate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="End Date">
+                <h:outputText value="#{expiredLine.endDate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Amount">
+                <h:outputText value="#{expiredLine.amountDelegated}"/>
+            </p:column>
+            <p:column headerText="Actions">
+                <ui:fragment rendered="#{roleBean.CanApproveBudgetLine()}">
+                <p:commandButton  styleClass="edit" icon="pi pi-check" oncomplete="PF('conf').show();" update="conf" >
+                </p:commandButton>
+                </ui:fragment>
+                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="conf" id="conf" hideEffect="fade" responsive="true"
+                          dynamic="true"     width="350">
+                    <h:outputText value="Are you sure you want to approve this Budget line?" />
+                    <p:commandButton value="No" process="@this" update="@form" onclick="PF('conf').hide();" type="button"
+                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton
+                            action="#{requisitionBean.approveBudgetLine(expiredLine.id)}"
+                            value="Yes" styleClass="ui-confirmdialog-yes"
+                            process="@this"
+                            update="@form"
+                            oncomplete="PF('conf').hide();"
+                    />
+                </p:dialog>
+
+                <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
+                </p:commandButton>
+
+                <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog" dynamic="true"
+                          resizable="false" width="500">
+                    <h:panelGrid columns="1">
+                        <h:outputLabel for="description" value="Reason:"/>
+                        <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
+                                         required="true" requiredMessage="Information is required!"/>
+
+                        <p:commandButton value="Comment"
+                                         action="#{budgetLineBean.saveReview(requisitionBean.information,expiredLine,expiredLine.user)}"
+                                         process="@this"
+                                         update="@form"
+                                         oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
+                        />
+
+                    </h:panelGrid>
+                </p:dialog>
+
+
+            </p:column>
+
+        </p:dataTable>
+        </h:form>
+    </div>
+
+</ui:composition>

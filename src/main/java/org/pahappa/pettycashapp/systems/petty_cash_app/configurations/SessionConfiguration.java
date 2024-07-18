@@ -18,7 +18,6 @@ public class SessionConfiguration {
             configuration.addAnnotatedClass(Category.class);
             configuration.addAnnotatedClass(Requisition.class);
             configuration.addAnnotatedClass(Review.class);
-            configuration.addAnnotatedClass(Rejection.class);
             configuration.addAnnotatedClass(Role.class);
             configuration.addAnnotatedClass(Permission.class);
             return configuration.buildSessionFactory();

@@ -1,15 +1,13 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
-
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.CategoryDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.Rejection;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,10 +17,9 @@ import java.util.List;
 public class BudgetLineService {
 
     @Autowired
-    UserDao userDao;
-
-    @Autowired
     BudgetLineDao budgetLineDao;
+    @Autowired
+    CategoryDao categoryDao;
 
     //Generic method to check if name provided has digits in it
     private boolean hasDigits(String str) {
@@ -35,19 +32,22 @@ public class BudgetLineService {
         return hasDigits;
     }
 
-    public String makeBudgetLine(int amount, String name, Date startDate, Date endDate, int categoryId) {
+    public String makeBudgetLine(int amount, String name, Date startDate, Date endDate, int categoryId, User user) {
         String error_message = "";
         if (hasDigits(name)) {
             error_message = " Name can not contain digits";
+        } else if (startDate.after(endDate)) {
+            error_message = "Start date can not be beyond end date";
         } else {
             BudgetLine budgetLine = new BudgetLine();
-            Category category = userDao.getCategoryOfId(categoryId);
+            Category category = categoryDao.getCategoryOfId(categoryId);
             budgetLine.setAmountDelegated(amount);
             budgetLine.setCategory(category);
             budgetLine.setEndDate(endDate);
             budgetLine.setStartDate(startDate);
+            budgetLine.setUser(user);
             budgetLine.setName(name);
-            userDao.saveBudgetLine(budgetLine);
+            budgetLineDao.saveBudgetLine(budgetLine);
         }
         return error_message;
 
@@ -59,7 +59,9 @@ public class BudgetLineService {
             error_message = " Name can not contain digits";
         } else if (budgetLine.getName().isEmpty() || budgetLine.getName() == null ) {
             error_message = " Name can Empty";
-        } else {
+        }else if (budgetLine.getStartDate().after(budgetLine.getEndDate())) {
+            error_message = "Start date can not be beyond end date";
+        }  else {
             budgetLineDao.updateDrafted(budgetLine);
         }
 
@@ -68,34 +70,27 @@ public class BudgetLineService {
 
     //for finance
     public List<BudgetLine> getDraftedBudgetLines() {
-        return userDao.getDraftedBudgetLines("drafted");
+        return budgetLineDao.getDraftedBudgetLines("drafted");
     }
 
     //for user
     public List<BudgetLine> getApprovedBudgetLines() {
-        return userDao.getApprovedBudgetLines("approved");
+        return budgetLineDao.getApprovedBudgetLines("approved");
     }
 
     //CEO approval
     public void approveBudgetLine(int budgetLneId) {
-        userDao.approveBudgetLine(budgetLneId, "approved");
+        budgetLineDao.approveBudgetLine(budgetLneId, "approved");
     }
     //Reviewied by HR awaiting CEO approval
 
-    public void rejectBudgetLine(int budgetLneId, String information) {
-        Rejection rejection = new Rejection();
-        BudgetLine budgetLine = userDao.returnBudgetLineofId(budgetLneId);
-        rejection.setBudgetLine(budgetLine);
-        rejection.setInformation(information);
-        userDao.saveRejection(rejection);
-    }
 
     public List<BudgetLine> budgetLines() {
         return getApprovedBudgetLines();
     }
 
     public List<BudgetLine> returnCurrentBudgetLines() {
-        List<BudgetLine> budgetLines = userDao.getApprovedBudgetLines("approved");
+        List<BudgetLine> budgetLines = budgetLineDao.getApprovedBudgetLines("approved");
         List<BudgetLine> budgetLines1 = new ArrayList<>();
         for (BudgetLine budgetLine : budgetLines) {
             if (budgetLine.getEndDate().after(new Date())) {
@@ -106,7 +101,7 @@ public class BudgetLineService {
     }
 
     public List<BudgetLine> getExpiredBudgetLines() {
-        List<BudgetLine> bL = userDao.getApprovedBudgetLines("approved");
+        List<BudgetLine> bL = budgetLineDao.getApprovedBudgetLines("approved");
         List<BudgetLine> expiredBL = new ArrayList<>();
         for (BudgetLine budgetLine : bL) {
             if (budgetLine.getEndDate().before(new Date())) {
@@ -121,7 +116,7 @@ public class BudgetLineService {
     }
 
     public List<Number> getExpenditurePerBudgetLine() {
-        List<BudgetLine> budgetLines = userDao.getApprovedBudgetLines("approved");
+        List<BudgetLine> budgetLines = budgetLineDao.getApprovedBudgetLines("approved");
         List<Number> expendituresPerBudgetLine = new ArrayList<>();
         for (BudgetLine budgetLine : budgetLines) {
            int balance = budgetLine.getBalance();
@@ -145,7 +140,26 @@ public class BudgetLineService {
         return names;
     }
 
-    public void stageBudgetLine(BudgetLine budgetLine){
-        budgetLineDao.stageBudgetLine(budgetLine);
+    public void submitBudgetLine(BudgetLine budgetLine){
+        budgetLineDao.submitBudgetLine(budgetLine);
+    }
+
+    public List<BudgetLine> getPendingBudgetLInes() {
+        return budgetLineDao.getPendingBudgetLInes("pending");
+    }
+
+    public List<BudgetLine> getAllBudgetLines() {
+        return budgetLineDao.getAllBudgetLines();
+    }
+
+    public void setRejectionStatus(int budgetLineId) {
+        budgetLineDao.setBudgetLineRejectionStatus(budgetLineId);
+    }
+    public List<BudgetLine> getRejectedBudgetLines() {
+        return  budgetLineDao.getRejectedBudgetLines();
+    }
+
+    public void saveBudgetline(BudgetLine budgetLine) {
+        budgetLineDao.saveBudgetLine(budgetLine);
     }
 }

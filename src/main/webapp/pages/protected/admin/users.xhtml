@@ -30,9 +30,13 @@
             <p:tab id="users" title="Users">
                 <ui:include src="usersSection.xhtml"/>
             </p:tab>
+
             <p:tab id="userRoles" title="User Roles">
+                <ui:fragment rendered="#{roleBean.canViewRoles()}">
                 <ui:include src="roles.xhtml"/>
+                </ui:fragment>
             </p:tab>
+
         </p:tabView>
 
     </ui:define>

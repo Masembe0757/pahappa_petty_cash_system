@@ -1,10 +1,10 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
-
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.ReviewDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.Calendar;
@@ -15,7 +15,11 @@ import java.util.UUID;
 @Service
 public class RequisitionService {
     @Autowired
-    UserDao userDao;
+    RequisitionDao requisitionDao;
+    @Autowired
+    BudgetLineDao budgetLineDao;
+    @Autowired
+    ReviewDao reviewDao;
 
     @Autowired
     RequisitionService requisitionService;
@@ -35,7 +39,7 @@ public class RequisitionService {
     //REQUISITIONS
     public String makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
         String error_message ="";
-        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
+        BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
         if(budgetLine.getAmountDelegated()<amount){
             error_message="Amount specified is more than what is on budget line";
         } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
@@ -53,75 +57,64 @@ public class RequisitionService {
             requisition.setBudgetLine(budgetLine);
             requisition.setUser(requisitionService.getCurrentUser());
             System.out.println("SAVING REQUISITION2");
-            userDao.saveRequisition(requisition);
+            requisitionDao.saveRequisition(requisition);
         }
         return error_message;
     }
 
     public List<Requisition> getAllRequisitions() {
-        return  userDao.getAllRequisitions();
+        return  requisitionDao.getAllRequisitions();
     }
     //Finance issuing out money
     public void fulfillRequisition(int requisitionId){
-        userDao.fulfillRequisition(requisitionId,"fulfilled");
+        requisitionDao.fulfillRequisition(requisitionId,"fulfilled");
     }
     //For finance
     public List<Requisition> getApprovedRequisitions(){
-        return userDao.getapprovedRequisitions("approved");
+        return requisitionDao.getapprovedRequisitions("approved");
     }
     //for ceo
     public List<Requisition> getStagedRequisitions(){
-        return userDao.getStagedRequisitions("staged");
+        return requisitionDao.getStagedRequisitions("staged");
     }
     //for user
     public List<Requisition> getFulfilledRequisitions(){
-        return userDao.getFulfilledRequisitions("fulfilled");
+        return requisitionDao.getFulfilledRequisitions("fulfilled");
     }
 
-    public List<Requisition> getRejectedRequisitions(){ return userDao.getStagedRequisitions("rejected"); }
+    public List<Requisition> getRejectedRequisitions(){ return requisitionDao.getStagedRequisitions("rejected"); }
     //for user
     public List<Requisition> getDraftedRequisitions(){
-        return userDao.getDraftedRequisitions("drafted");
+        return requisitionDao.getDraftedRequisitions("drafted");
     }
     public void stageRequisition(int requisitionId){
-        userDao.stageRequisition(requisitionId,"staged");
+        requisitionDao.stageRequisition(requisitionId,"staged");
     }
     //CEO approval
     public void approveRequisition(int requisitionId){
-        userDao.approveRequisition(requisitionId,"approved");
+        requisitionDao.approveRequisition(requisitionId,"approved");
     }
 
-    public String updateRequistion(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
+    public String updateRequisition(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
         String error_message = "";
-        BudgetLine budgetLine= userDao.returnBudgetLineofId(budgetLineId);
-        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
-        if(!requisition.getStatus().equals("draft")){
+        BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
+        Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
+        if(!requisition.getStatus().equals("drafted")){
             error_message ="Requistion can not be edited";
-        } else if (description.length()<50) {
+        } else if (description.length()<10) {
             error_message="Please provide more description";
         } else if (amount>budgetLine.getAmountDelegated()) {
             error_message="Amount specified is greater than amount on budget line";
         }else if (!budgetLine.getStatus().equals("approved")) {
             error_message = "Budget line not yet approved";
         }else {
-            requisition.setAmount(amount);
-            requisition.setDateNeeded(dateNeeded);
-            requisition.setDescription(description);
-            requisition.setBudgetLine(budgetLine);
-            userDao.updateRequesition(requisition);
+            requisitionDao.updateRequisition(requisitionId,amount,dateNeeded,description,budgetLine);
         }
         return error_message;
     }
-    public void rejectRequisition(int requisitionId,String information){
-        Rejection rejection = new Rejection();
-        Requisition requisition = userDao.getRequisitionOfId(requisitionId);
-        rejection.setInformation(information);
-        rejection.setRequisition(requisition);
-        userDao.saveRejection(rejection);
-    }
 
     public void setRejectionStatus(int id) {
-        userDao.setRejectionStatus(id);
+        requisitionDao.setRejectionStatus(id);
     }
 
     public int countRejectedRequisitions(){
@@ -141,4 +134,29 @@ public class RequisitionService {
     }
 
 
+    public void deleteRequisition(int requisitionId) {
+        requisitionDao.deleteRequisition(requisitionId);
+
+    }
+
+    public List<Requisition> getPendingRequisitions() {
+        return requisitionDao.getPendingRequisitions("pending");
+    }
+
+    public void submitRequisition(int requisitionId) {
+        requisitionDao.submitRequisition(requisitionId,"pending");
+    }
+
+    public void saveRequisitionReview(String information, Date date, Requisition requisition, User user) {
+        Review review = new Review();
+        review.setRequisition(requisition);
+        review.setDescription(information);
+        review.setReviewedDate(date);
+        review.setUser(user);
+        reviewDao.saveRequisitionReview(review);
+    }
+
+    public List<Review> getReviewsOfUser(int id) {
+        return  reviewDao.getReviewsOfUser(id);
+    }
 }

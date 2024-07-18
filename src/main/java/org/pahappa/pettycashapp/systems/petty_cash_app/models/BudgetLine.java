@@ -21,15 +21,25 @@ public class BudgetLine {
     private final Date dateCreated = new Date();
     @ManyToOne
     private Category category;
-    @OneToOne
-    private Rejection rejection;
+    @ManyToOne
+    private User user;
+    @OneToOne(mappedBy = "budgetLine")
+    private Review review;
 
-    public Rejection getRejection() {
-        return rejection;
+    public User getUser() {
+        return user;
     }
 
-    public void setRejection(Rejection rejection) {
-        this.rejection = rejection;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
     }
 
     public Category getCategory() {

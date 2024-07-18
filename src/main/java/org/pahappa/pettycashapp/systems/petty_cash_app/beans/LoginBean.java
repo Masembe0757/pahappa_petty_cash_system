@@ -1,4 +1,5 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RoleDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
@@ -18,12 +19,14 @@ import java.io.IOException;
 import java.util.*;
 
 @Component
-@SessionScope
+@RequestScope
 public class LoginBean {
     @Autowired
     Routes routes;
     @Autowired
     UserDao userDao;
+    @Autowired
+    RoleDao roleDao;
 
     public LoginBean(){}
 
@@ -58,22 +61,53 @@ public class LoginBean {
     public void init() {
         //ADDING OVEROLL ADMIN WITH A ROLE AND ALL PERMISSIONS
 
-        Role role1 = userDao.getRoleOfname("admin");
+        Role role1 = roleDao.getRoleOfname("admin");
         if(role1 == null) {
             Role role = new Role();
             role.setName("admin");
-
-
-            List<String> permissions =  new ArrayList<>(Arrays.asList("Make Category","Approve Budget Line","Make " +
-                    "Requisition","Review Requisition","Approve Requisition","Provide accountability","View Users"));
-
+            List<String> permissions =  (Arrays.asList(
+                    "MANAGE_CATEGORIES",
+                    "APPROVE_BUDGET_LINE",
+                    "MAKE_REQUISITION",
+                    "REVIEW_REQUISITION",
+                    "APPROVE_REQUISITION",
+                    "PROVIDE_ACCOUNTABILITY",
+                    "MANAGE_USERS",
+                    "VIEW_USERS",
+                    "VIEW_ROLES",
+                    "MANAGE_ROLES",
+                    "VIEW_REVIEW",
+                    "VIEW_ADMIN_DASHBOARD",
+                    "MANAGE_BUDGET_LINES",
+                    "VIEW_STAGED_REQUISITIONS",
+                    "VIEW_PENDING_REQUISITIONS",
+                    "VIEW_DRAFTED_REQUISITIONS",
+                    "VIEW_FULFILLED_REQUISITIONS",
+                    "VIEW_APPROVED_REQUISITIONS",
+                    "VIEW_ACCOUNTABILITY",
+                    "VIEW_PENDING_BUDGET_LINES",
+                    "VIEW_DRAFTED_BUDGET_LINES",
+                    "VIEW_APPROVED_BUDGET_LINES",
+                    "VIEW_ADMIN_LOGO",
+                    "VIEW_BUDGET_LINE",
+                    "VIEW_REQUISITION",
+                    "VIEW_CATEGORIES",
+                    "VIEW_EXPIRED_BUDGET_LINES",
+                    "VIEW_REJECTED_REQUISITIONS",
+                    "MANAGE_REQUISITION"
+            ));
+            int count =0;
             for (String s : permissions) {
+                count++;
                 Permission permission = new Permission();
                 role.getPermissions().add(permission);
                 permission.setRole(role);
                 permission.setName(s);
+                System.out.println(count);
+                continue;
+
             }
-            userDao.saveRole(role);
+            roleDao.saveRole(role);
         }
 
 

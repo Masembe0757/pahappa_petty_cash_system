@@ -6,6 +6,8 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
         <h4 class="Table-title">REQUISITION DRAFTS</h4>
+
+        <h:form>
         <p:dataTable id="draftTable" value="#{requisitionBean.rteturnDraftedRequisitions()}" var="draft"
                      emptyMessage="No drafts available"
                      paginator="true"
@@ -35,7 +37,101 @@
             </p:column>
             <p:column headerText="Actions" style="width:100px">
 
+                <ui:fragment rendered="#{roleBean.CanManageRequisition()}">
+
+                <p:commandButton icon="pi pi-user-edit" styleClass="edit"
+                                 oncomplete="PF('editDialog').show();"
+                                 process="@this"
+                                 update="@form">
+                    <f:setPropertyActionListener value="#{draft.description}" target="#{requisitionBean.description}"/>
+                    <f:setPropertyActionListener value="#{draft.dateNeeded}" target="#{requisitionBean.dateNeeded}"/>
+                    <f:setPropertyActionListener value="#{draft.amount}" target="#{requisitionBean.amount}"/>
+                    <f:setPropertyActionListener value="#{draft.id}" target="#{requisitionBean.requisitionId}"/>
+                    <f:setPropertyActionListener value="#{draft.budgetLine.id}" target="#{requisitionBean.budgetLineId}"/>
+                </p:commandButton>
+
+                <p:growl id="message" showDetail="true"/>
+
+                <p:dialog header="Update Requisition" widgetVar="editDialog" modal="true" id="infoDialog" dynamic="true"
+                          resizable="false" width="500">
+                    <h:panelGrid>
+                        <!-- Budget Line Dropdown -->
+                        <h:outputLabel for="budgetLine" value="Budget Line:"/>
+                        <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
+                                         requiredMessage="Budget Line is required!">
+                            <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{requisitionBean.getBudgetLines()}" var="budgetLine"
+                                           itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
+                            <p:ajax event="change" update="@this"/>
+                        </p:selectOneMenu>
+
+                        <!-- Description -->
+                        <h:outputLabel for="description" value="Description:"/>
+                        <p:inputTextarea id="description" value="#{requisitionBean.description}" rows="4" cols="50"
+                                         required="true" requiredMessage="Description is required!"/>
+
+
+                        <h:outputLabel for="dateNeeded" value="Date needed:"/>
+                        <p:calendar id="dateNeeded" value="#{requisitionBean.dateNeeded}" pattern="dd/MM/yyyy"
+                                    required="true" navigator="true"
+                                    styleClass="custom-calendar"
+                                    requiredMessage="Date Needed is required!"/>
+
+                        <h:outputLabel for="amount" value="Amount:"/>
+                        <p:inputText id="amount" value="#{requisitionBean.amount}" required="true"
+                                     requiredMessage="Amount is required!">
+                        </p:inputText>
+                        <p:commandButton value="Update" action="#{requisitionBean.updateRequisition(requisitionBean.requisitionId,requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
+                                         update="@form"
+                                         process="@this"
+                                         oncomplete=" PF('dlg').hide();"/>
+
+                    </h:panelGrid>
+                </p:dialog>
+
+
+                <p:commandButton oncomplete="PF('dlt').show();"
+                                 update="dlt"
+                                 styleClass="delete" icon="pi pi-trash">
+                </p:commandButton>
+
+                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="dlt" id="dlt" hideEffect="fade" responsive="true"
+                          width="350">
+                    <h:outputText value="Are you sure you want to delete this requisition?"/>
+                    <p:commandButton value="No" type="button"
+                                     process="@this"
+                                     update="@form"
+                                     onclick="PF('dlt').hide();"
+                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+                                     action="#{requisitionBean.deleteRequisition(draft.id)}"
+                                     process="@this"
+                                     update="@form"
+                                     oncomplete="PF('dlt').hide();"
+
+                    />
+                </p:dialog>
+
+                <p:commandButton  styleClass="edit" icon="pi pi-check" oncomplete="PF('conf').show();" update="conf" >
+
+                </p:commandButton>
+                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="conf" id="conf" hideEffect="fade" responsive="true"
+                          dynamic="true"     width="350">
+                    <h:outputText value="Are you sure you want to submit this requisition?" />
+                    <p:commandButton value="No" process="@this" update="@form" onclick="PF('conf').hide();" type="button"
+                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton
+                            action="#{requisitionBean.submitRequisition(draft.id)}"
+                            value="Yes" styleClass="ui-confirmdialog-yes"
+                            process="@this"
+                            update="@form"
+                            oncomplete="PF('conf').hide();"
+                    />
+                </p:dialog>
+                </ui:fragment>
+
             </p:column>
         </p:dataTable>
+        </h:form>
     </div>
 </ui:composition>

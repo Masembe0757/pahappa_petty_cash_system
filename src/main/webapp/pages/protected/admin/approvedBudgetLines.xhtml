@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <div class="glass">
+        <h4 class="Table-title">APPROVED BUDGET LINES</h4>
+        <h:form id="approvedBudgetLines">
+            <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.currentBudgetLines()}"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No budgetLines available"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
+                <p:column headerText="Reference no.">
+                    <h:outputText value="#{budgetLine.name}"/>
+                </p:column>
+                <p:column headerText="Category">
+                    <h:outputText value="#{budgetLine.category.name}"/>
+                </p:column>
+                <p:column headerText="Start Date">
+                    <h:outputText value="#{budgetLine.startDate}"/>
+                </p:column>
+                <p:column headerText="End Date">
+                    <h:outputText value="#{budgetLine.endDate}"/>
+                </p:column>
+                <p:column headerText="Intial Amount">
+                    <h:outputText value="#{budgetLine.amountDelegated}"/>
+                </p:column>
+                <p:column headerText="Balance">
+                    <h:outputText value="#{budgetLine.amountDelegated}"/>
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{budgetLine.status}"/>
+                </p:column>
+                <p:column headerText="Actions">
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+    </div>
+</ui:composition>
