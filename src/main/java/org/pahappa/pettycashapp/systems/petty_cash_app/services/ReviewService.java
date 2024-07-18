@@ -23,7 +23,11 @@ public class ReviewService {
         reviewDao.saveBudgetlineReview(review);
     }
 
-    public List<Review> getReviewsOfuser(int id) {
+    public List<Review> getReviewsOfUser(int id) {
         return reviewDao.getReviewsOfUser(id);
+    }
+
+    public void deleteReview(int reviewId) {
+        reviewDao.deleteReview(reviewId);
     }
 }

@@ -111,8 +111,8 @@ public class BudgetLineService {
         return expiredBL;
     }
 
-    public void deleteBL(BudgetLine budgetLine) {
-        budgetLineDao.deleteBudgetLine(budgetLine.getId());
+    public void deleteBL(int budgetLineId) {
+        budgetLineDao.deleteBudgetLine(budgetLineId);
     }
 
     public List<Number> getExpenditurePerBudgetLine() {

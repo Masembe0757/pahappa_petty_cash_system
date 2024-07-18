@@ -31,10 +31,12 @@ public class ReviewDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Review where id = :userId");
+            Query qry = session.createQuery("from Review where user_id = :userId");
             qry.setParameter("userId", userId);
+            System.out.println("FETCHED REVIEWS..");
             reviews = qry.list();
             trs.commit();
+
             SessionConfiguration.shutdown();
         } catch (Exception e) {
             SessionConfiguration.shutdown();
@@ -67,5 +69,20 @@ public class ReviewDao {
             SessionConfiguration.shutdown();
         }
 
+    }
+
+    public void deleteReview(int reviewId) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from Review where id = :reviewId");
+            qry.setParameter("reviewId", reviewId);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
     }
 }

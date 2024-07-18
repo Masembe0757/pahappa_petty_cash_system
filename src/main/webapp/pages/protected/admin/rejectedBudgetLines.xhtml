@@ -41,6 +41,28 @@
                 </p:column>
                 <p:column headerText="Actions">
 
+                    <p:commandButton oncomplete="PF('dlt').show();"
+                                     update="dlt"
+                                     styleClass="delete" icon="pi pi-trash">
+                    </p:commandButton>
+
+                    <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="dlt" id="dlt" hideEffect="fade" responsive="true"
+                              width="350">
+                        <h:outputText value="Are you sure you want to delete this budget line?"/>
+                        <p:commandButton value="No" type="button"
+                                         process="@this"
+                                         update="@form"
+                                         onclick="PF('dlt').hide();"
+                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+                                         action="#{budgetLineBean.deleteBudgetLine(budgetLine.id)}"
+                                         process="@this"
+                                         update="@form"
+                                         oncomplete="PF('dlt').hide();"
+
+                        />
+                    </p:dialog>
+
                 </p:column>
             </p:dataTable>
         </h:form>

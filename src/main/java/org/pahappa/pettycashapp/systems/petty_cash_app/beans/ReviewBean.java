@@ -6,6 +6,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.el.MethodExpression;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.List;
@@ -20,7 +21,13 @@ public class ReviewBean {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
     public List<Review> getReviewsOfUser() {
-        return reviewService.getReviewsOfuser(currentUser().getId());
+        System.out.println("FETCHING REV .....1");
+        return reviewService.getReviewsOfUser(currentUser().getId());
+
+    }
+
+    public void deleteReview(int reviewId) {
+        reviewService.deleteReview(reviewId);
 
     }
 }

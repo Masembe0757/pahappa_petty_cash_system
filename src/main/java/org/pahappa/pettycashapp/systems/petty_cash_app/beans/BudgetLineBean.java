@@ -158,7 +158,7 @@ public class BudgetLineBean implements Serializable {
     }
 
     public void cancelBudgetLine(BudgetLine budgetLine) {
-        budgetLineService.deleteBL(budgetLine);
+        budgetLineService.deleteBL(budgetLine.getId());
     }
 
     public void submitBudgetLine(BudgetLine budgetLine) {
@@ -187,5 +187,9 @@ public class BudgetLineBean implements Serializable {
     public void saveReview(String information,BudgetLine budgetLine, User user) {
         budgetLineService.setRejectionStatus(budgetLine.getId());
         reviewService.saveBudgetlineReview(information,new Date(),budgetLine,user);
+    }
+
+    public void deleteBudgetLine(int budgetLIneId) {
+        budgetLineService.deleteBL(budgetLIneId);
     }
 }

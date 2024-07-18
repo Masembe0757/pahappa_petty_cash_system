@@ -5,6 +5,7 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
         <h4 class="Table-title">BUDGET LINE DRAFTS</h4>
+        <h:form>
         <p:dataTable id="draftTable" value="#{budgetLineBean.draftedBudgetLines}" var="draftLine"
                      emptyMessage="No drafts available"
                      paginator="true"
@@ -66,6 +67,7 @@
                         <p:commandButton icon="pi pi-pencil"
                                          styleClass="edit"
                                          oncomplete="PF('editDraftedBL').show();"
+                                         update="editDraftedBL"
                                          actionListener="#{budgetLineBean.selectBudgetLine(draftLine)}"
                         />
 
@@ -116,6 +118,7 @@
                                                  value="#{budgetLineBean.selectedDraftedBudgetLine.amountDelegated}"/>
                             </h:panelGrid>
                             <p:commandButton value="Create"
+                                             update="@form"
                                              action="#{budgetLineBean.updateDraftedBL(budgetLineBean.selectedDraftedBudgetLine)}"
                                              oncomplete="PF('editDraftedBL').hide();"/>
                         </p:dialog>
@@ -129,5 +132,6 @@
                 </div>
             </p:column>
         </p:dataTable>
+        </h:form>
     </div>
 </ui:composition>

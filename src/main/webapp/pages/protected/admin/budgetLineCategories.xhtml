@@ -6,6 +6,7 @@
 
     <div class="glass">
         <h4 class="Table-title">BUDGET LINE CATEGORIES</h4>
+        <h:form>
         <p:dataTable id="categoryTable" value="#{categoryBean.categories}" var="category"
                      emptyMessage="No budget line categories available"
                      paginator="true"
@@ -44,7 +45,7 @@
                         </h:panelGrid>
                         <p:commandButton value="Save"
                                          action="#{categoryBean.updateCategory(categoryBean.selectedCategory)}"
-                                         update="categoryTable"
+                                         update="@form"
                                          oncomplete="PF('editCategory').hide();"/>
                     </p:dialog>
 
@@ -67,6 +68,7 @@
                 </div>
             </p:column>
         </p:dataTable>
+        </h:form>
 
     </div>
 
