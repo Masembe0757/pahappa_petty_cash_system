@@ -18,7 +18,7 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
-                <p:column headerText="Reference no.">
+                <p:column headerText="Names">
                     <h:outputText value="#{budgetLine.name}"/>
                 </p:column>
                 <p:column headerText="Category">
@@ -41,27 +41,13 @@
                 </p:column>
                 <p:column headerText="Actions">
 
-                    <p:commandButton oncomplete="PF('dlt').show();"
-                                     update="dlt"
+                    <p:commandButton action="#{budgetLineBean.deleteBudgetLine(budgetLine.id)}"
+                                     process="@this"
+                                     update="@form"
                                      styleClass="delete" icon="pi pi-trash">
+                        <p:confirm header="Confirmation" message="Are you sure you want to stage this requisition for approval?"
+                                   icon="pi pi-info-circle"/>
                     </p:commandButton>
-
-                    <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="dlt" id="dlt" hideEffect="fade" responsive="true"
-                              width="350">
-                        <h:outputText value="Are you sure you want to delete this budget line?"/>
-                        <p:commandButton value="No" type="button"
-                                         process="@this"
-                                         update="@form"
-                                         onclick="PF('dlt').hide();"
-                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
-                        <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-                                         action="#{budgetLineBean.deleteBudgetLine(budgetLine.id)}"
-                                         process="@this"
-                                         update="@form"
-                                         oncomplete="PF('dlt').hide();"
-
-                        />
-                    </p:dialog>
 
                 </p:column>
             </p:dataTable>

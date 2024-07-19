@@ -55,10 +55,10 @@ public class CategoryBean implements Serializable {
         String message = categoryService.saveCategory(getName(), getDescription());
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Category '" + getName() + "' added successfully", null)); // Include name
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Category '" + getName() + "' added successfully")); // Include name
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", message));
         }
         return null; // Return null if an error occurs
     }
@@ -90,6 +90,5 @@ public class CategoryBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, null, null));
         }
     }
-
 
 }

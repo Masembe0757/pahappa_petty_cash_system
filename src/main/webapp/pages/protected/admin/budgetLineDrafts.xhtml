@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
         <h4 class="Table-title">BUDGET LINE DRAFTS</h4>
-        <h:form>
+        <h:form id="draftForm">
         <p:dataTable id="draftTable" value="#{budgetLineBean.draftedBudgetLines}" var="draftLine"
                      emptyMessage="No drafts available"
                      paginator="true"
@@ -42,32 +42,20 @@
             <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
                         <p:commandButton icon="pi pi-arrow-circle-up"
                                          styleClass="approve"
-                                         onclick="PF('submitDialog').show()">
+                                         action="#{budgetLineBean.submitBudgetLine(draftLine.id)}"
+                                         process="@this"
+                                         update="@all">
+                            <p:confirm header="Confirmation" message="Are you sure you want to submit this budget line for approval?"
+                                       icon="pi pi-info-circle"/>
                         </p:commandButton>
             </ui:fragment>
-                            <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="submitDialog" id="submitDialog" hideEffect="fade" responsive="true"
-                                      width="350">
-                                <h:outputText value="Are you sure you want to submit this budget line for approval?"/>
-                                <p:commandButton value="No" type="button"
-                                                 process="@this"
-                                                 update="@form"
-                                                 onclick="PF('submitDialog').hide();"
-                                                 styleClass="ui-confirmdialog-no ui-button-flat"/>
-                                <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-                                                 action="#{budgetLineBean.submitBudgetLine(draftLine.id)}"
-                                                 process="@this"
-                                                 update="@form"
-                                                 oncomplete="PF('submitDialog').hide();"
-                                />
-                            </p:dialog>
-
 
 
             <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
                         <p:commandButton icon="pi pi-pencil"
                                          styleClass="edit"
                                          oncomplete="PF('editDraftedBL').show();"
-                                         update="editDraftedBL"
+                                         update="editDraftedBL @all"
                                          actionListener="#{budgetLineBean.selectBudgetLine(draftLine)}"
                         />
             </ui:fragment>
@@ -79,7 +67,7 @@
                                   width="600"
                                   responsive="true">
 
-                            <h:panelGrid columns="2" cellpadding="5">
+                            <p:panelGrid columns="2" cellpadding="5">
                                 <h:outputLabel for="name" value="Name:"/>
                                 <p:inputText id="name" value="#{budgetLineBean.selectedDraftedBudgetLine.name}"/>
 
@@ -96,11 +84,9 @@
                                             value="#{budgetLineBean.selectedDraftedBudgetLine.startDate}"
                                             pattern="dd/MM/yyyy"
                                             placeholder="Date Of Birth"
-                                            showOn="both"
                                             navigator="true"
                                             mode="popup"
                                             yearRange="c-100:c"
-                                            maxdate=""
                                 />
 
                                 <h:outputLabel for="endDate" value="End Date: "/>
@@ -108,17 +94,15 @@
                                             value="#{budgetLineBean.selectedDraftedBudgetLine.endDate}"
                                             pattern="dd/MM/yyyy"
                                             placeholder="Date Of Birth"
-                                            showOn="both"
                                             navigator="true"
                                             mode="popup"
                                             yearRange="c-100:c"
-                                            maxdate=""
                                 />
 
                                 <h:outputLabel for="amount" value="Amount:"/>
                                 <p:inputTextarea id="amount"
                                                  value="#{budgetLineBean.selectedDraftedBudgetLine.amountDelegated}"/>
-                            </h:panelGrid>
+                            </p:panelGrid>
                             <p:commandButton value="Create"
                                              update="@form"
                                              action="#{budgetLineBean.updateDraftedBL(budgetLineBean.selectedDraftedBudgetLine)}"

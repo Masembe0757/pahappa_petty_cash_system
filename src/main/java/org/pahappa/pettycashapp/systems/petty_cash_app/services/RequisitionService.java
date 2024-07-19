@@ -48,6 +48,8 @@ public class RequisitionService {
             error_message = "Please provide more description";
         } else if (!budgetLine.getStatus().equals("approved")) {
             error_message = "Budget line not yet approved";
+        } else if (amount<=0) {
+            error_message = "Enter a valid amount";
         } else {
             Requisition requisition = new Requisition();
             requisition.setAmount(amount);
@@ -131,6 +133,10 @@ public class RequisitionService {
 
     public int countFulfilledRequisitions(){
         return getFulfilledRequisitions().size();
+    }
+
+    public int countAllRequisitions(){
+        return getAllRequisitions().size();
     }
 
 

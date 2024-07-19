@@ -90,19 +90,19 @@
             transform: scale(1.1) !important;
         }
 
-        .listItem::before {
-            position: absolute;
-            content: "";
-            display: block;
-            width: 25px;
-            height: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            left: -27px;
-            background: rgb(20 58 163 / 90%);
-            border-bottom-right-radius: 15px;
-            border-top-right-radius: 15px;
-        }
+        /*.listItem::before {*/
+        /*    position: absolute;*/
+        /*    content: "";*/
+        /*    display: block;*/
+        /*    width: 25px;*/
+        /*    height: 100%;*/
+        /*    top: 50%;*/
+        /*    transform: translateY(-50%);*/
+        /*    left: -27px;*/
+        /*    background: rgb(20 58 163 / 90%);*/
+        /*    border-bottom-right-radius: 15px;*/
+        /*    border-top-right-radius: 15px;*/
+        /*}*/
 
         /* Style lists */
         ul.listType {
@@ -183,10 +183,6 @@
             justify-content: end;
         }
 
-        body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
-            background: #fdf6e3;
-        }
-
         .ui-button.edit, .ui-button.delete, .ui-button.approve {
             background: none !important;
             border: none !important;
@@ -226,6 +222,13 @@
 
         .ui-button.edit:hover, .ui-button.delete:hover, .ui-button.approve:hover {
             transform: scale(1.4);
+        }
+
+        .last {
+            width: calc(100% - 25px);
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
         }
 
         .limited {
@@ -269,7 +272,7 @@
         }
 
         body .ui-datatable .ui-datatable-data > tr > td {
-            padding: .5rem .5rem !important;
+            padding: .6rem .6rem !important;
         }
 
         body .ui-tabs .ui-tabs-nav li.ui-tabs-header a {
@@ -278,6 +281,11 @@
 
         body .ui-tabs .ui-tabs-nav li.ui-tabs-header.ui-state-active a {
             color: #2196f3;
+        }
+
+        body .ui-panelgrid .ui-panelgrid-cell {
+            padding: .1rem !important;
+            border: none !important;
         }
 
         h4.Table-title {
@@ -292,6 +300,13 @@
 
         .btn-sect {
             display: flex;
+            gap: 15px;
+        }
+
+        .space {
+            margin-left: 3rem;
+            display: flex;
+            justify-content: space-between;
             gap: 15px;
         }
 

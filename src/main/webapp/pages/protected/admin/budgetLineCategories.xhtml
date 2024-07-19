@@ -33,10 +33,10 @@
                     <p:dialog header="Edit Budget Line Category" widgetVar="editCategory" modal="true" dynamic="true"
                               id="editCategory"
                               resizable="false"
-                              width="600"
+                              width="400"
                               responsive="true">
 
-                        <h:panelGrid>
+                        <h:panelGrid styleClass="ui-fluid" style="border: none;">
                             <h:outputLabel for="name" value="Name:"/>
                             <p:inputText id="name" value="#{categoryBean.selectedCategory.name}"/>
 

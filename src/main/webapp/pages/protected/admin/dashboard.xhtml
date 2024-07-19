@@ -81,9 +81,10 @@
                 text-align: center;
             }
 
-            .ui-grid-col-6:first-child {
+            .ui-grid-col-6:first-child, .ui-grid-col-6.nxt  {
                 border-right: 1px solid #dee2e6;
             }
+
 
             .ui-grid-col-6 {
                 width: 50%;
@@ -163,7 +164,7 @@
                         <div class="overview-number">#{requisitionService.countStagedRequisitions()}</div>
                         <div class="overview-subtext">Staged</div>
                     </div>
-                    <div class="ui-grid-col-6">
+                    <div class="ui-grid-col-6 nxt">
                         <div class="overview-number">#{requisitionService.countFulfilledRequisitions()}</div>
                         <div class="overview-subtext">Fullfilled</div>
                     </div>
@@ -196,12 +197,12 @@
                 </div>
                 <div class="grid overview-detail">
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
-                        <div class="overview-subtext">Pending</div>
+                        <div class="overview-number">#{budgetLineBean.countReviewedBL()}</div>
+                        <div class="overview-subtext">Budget Lines</div>
                     </div>
                     <div class="ui-grid-col-6">
-                        <div class="overview-number">564</div>
-                        <div class="overview-subtext">Completed</div>
+                        <div class="overview-number">#{requisitionBean.countReviewedReqs()}</div>
+                        <div class="overview-subtext">Requisitions</div>
                     </div>
                 </div>
             </div>
@@ -233,14 +234,14 @@
                     <p:barChart model="#{chartBean.barModel}" />
                 </div>
             </div>
-            <div class="card-container">
-                <div class="glass three">
-                    <!-- Your chart or graph for three goes here -->
-                </div>
-                <div class="glass four">
-                    <!-- Your chart or graph for four goes here -->
-                </div>
-            </div>
+<!--            <div class="card-container">-->
+<!--                <div class="glass three">-->
+<!--                    <p:donutChart model="#{chartBean.donutModel}"/>-->
+<!--                </div>-->
+<!--                <div class="glass four">-->
+<!--                    &lt;!&ndash; Your chart or graph for four goes here &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
 
         </div>
         </ui:fragment>

@@ -3,148 +3,152 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <style>
+        .first-layer-top {
+            position: absolute;
+            display: flex;
+            margin-left: 43rem;
+        }
+
+
+    </style>
 
     <div class="first-layer-top">
-            <div class="btn-sect">
+        <div class="btn-sect">
 
-                <h:form class="actns" id="userRegForm" >
-                    <ui:fragment rendered="#{roleBean.canManageUsers()}">
-                    <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="btn1" update="@form"
-                                     icon="pi pi-user-plus"
-                                     value="Add User"/>
-                    <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="ui-button-danger mr-2"
-                                     icon="pi pi-user-minus" value="Delete All Users"
-                                     process="@this"
-                                     update=""/>
-                    </ui:fragment>
+            <p:growl globalOnly="true" id="message" showDetail="true"/>
 
-        <!--USER CREATION DIALOG-->
+            <ui:fragment rendered="#{roleBean.canManageUsers()}">
+                <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="one"
+                                 update="UsersTab:userRegForm:dlg"
+                                 icon="pi pi-user-plus"
+                                 value="Add User"
+                />
+                <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="two"
+                                 icon="pi pi-user-minus" value="Delete All Users"
+                                 process="@this"
+                                 update=""/>
+            </ui:fragment>
 
-                    <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true"
-                              resizable="false" width="600">
-                        <p:growl id="messages" showDetail="true"/>
-                        <h:panelGrid columns="2" >
-                            <h:outputLabel for="u_n" value="User Name:"/>
-                            <p:inputText id="u_n" value="#{userBean.username}" required="true"
-                                         requiredMessage="Username is required!">
-                                <p:ajax event="keyup" update="@this"/>
-                            </p:inputText>
+            <!--USER CREATION DIALOG-->
 
-
-                            <h:outputLabel for="f_n" value="First Name:"/>
-                            <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
-                                         requiredMessage="First name is required!">
-                                <p:ajax event="keyup" update="@this"/>
-                            </p:inputText>
+            <h:form class="actns" id="userRegForm">
+                <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true"
+                          resizable="false" width="800">
+                    <p:growl id="messages" showDetail="true"/>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for="u_n" value="User Name:"/>
+                        <p:inputText id="u_n" value="#{userBean.username}" required="true"
+                                     requiredMessage="Username is required!">
+                        </p:inputText>
 
 
-                            <h:outputLabel for="l_n" value="Last Name:"/>
-                            <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
-                                         requiredMessage="Last name is required!">
-                                <p:ajax event="keyup" update="@this"/>
-
-                            </p:inputText>
+                        <h:outputLabel for="f_n" value="First Name:"/>
+                        <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
+                                     requiredMessage="First name is required!">
+                        </p:inputText>
 
 
-                            <h:outputLabel for="password1" value="Password:"/>
-                            <p:password id="password1" value="#{userBean.password1}" required="true"
-                                        feedback="true"
-                                        requiredMessage="Password is required!">
-                                <p:ajax event="keyup" />
+                        <h:outputLabel for="l_n" value="Last Name:"/>
+                        <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
+                                     requiredMessage="Last name is required!">
+                        </p:inputText>
 
-                            </p:password>
 
-                            <h:outputLabel for="password2" value="Confirm:"/>
-                            <p:password id="password2" value="#{userBean.password2}" required="true"
-                                        feedback="true"
-                                        requiredMessage="Please confirm password!">
-                                <p:ajax event="keyup" />
+                        <h:outputLabel for="password1" value="Password:"/>
+                        <p:password id="password1" value="#{userBean.password1}" required="true"
+                                    feedback="true"
+                                    requiredMessage="Password is required!">
+                        </p:password>
 
-                            </p:password>
+                        <h:outputLabel for="password2" value="Confirm:"/>
+                        <p:password id="password2" value="#{userBean.password2}" required="true"
+                                    feedback="true"
+                                    requiredMessage="Please confirm password!">
+                        </p:password>
 
-                            <h:outputLabel for="u_email" value="Email:"/>
-                            <p:inputText id="u_email" value="#{userBean.email}" required="true"
-                                         requiredMessage="Email is required!">
-                                <p:ajax event="keyup" update="@this"/>
-                            </p:inputText>
+                        <h:outputLabel for="u_email" value="Email:"/>
+                        <p:inputText id="u_email" value="#{userBean.email}" required="true"
+                                     requiredMessage="Email is required!">
+                        </p:inputText>
 
-                            <h:outputLabel for="role_" value="Role:"/>
-                            <p:selectOneMenu id="role_" value="#{userBean.role}" required="true"
-                                             requiredMessage="Role is required!">
-                                <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
-                                <f:selectItems value="#{roleBean.getRoles()}" var="role"
-                                               itemLabel="#{role.name}" itemValue="#{role.name}"/>
-                                <p:ajax event="change" update="@this"/>
-                            </p:selectOneMenu>
+                        <h:outputLabel for="role_" value="Role:"/>
+                        <p:selectOneMenu id="role_" value="#{userBean.role}" required="true"
+                                         requiredMessage="Role is required!">
+                            <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{roleBean.getRoles()}" var="role"
+                                           itemLabel="#{role.name}" itemValue="#{role.name}"/>
+                        </p:selectOneMenu>
 
-                        </h:panelGrid>
+                    </h:panelGrid>
+                    <div class="last">
+                        <p:commandButton value="Cancel"
+                                         process="@this"
+                                         oncomplete="PF('dlg').hide();"
+                        />
 
                         <p:commandButton value="Add"
-                                         process="@this"
-                                         action="#{userBean.saveUser(userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                                         process="@form"
+                                         action="#{userBean.saveUser()}"
                                          oncomplete=" if (!(PF('dlg').jq.find('.ui-messages-error').length == 0)) PF('dlg').show();"
-                                         update="@all"
+                                         update="UsersTab:userForm:userTable, @form"
                         />
-                    </p:dialog>
-                </h:form>
+                    </div>
+                </p:dialog>
+            </h:form>
+
+
         </div>
     </div>
 
 
-        <h:form id="userForm">
-            <div class="topOfTable">
-                <p:inputText id="search" value="#{userBean.name}"
-                             icon="pi pi-search"
-                             placeholder="Search By name">
-                    <p:ajax event="keyup" update="@form"
-                            listener="#{userBean.getUsersByName(userBean.name)}"/>
-                </p:inputText>
-            </div>
-            <p:dataTable id="userTable" value="#{userBean.getUsersByName(userBean.name)}" var="user"
-                         emptyMessage="No users available"
-                         paginator="true"
-                         paginatorPosition="bottom"
-                         paginatorAlwaysVisible="true"
-                         pageLinks="4"
-                         rowHover="true"
-                         rows="9"
-                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
-            >
-                <p:column headerText="Username">
-                    <h:outputText value="#{user.userName}"/>
-                </p:column>
-                <p:column headerText="First Name">
-                    <h:outputText value="#{user.firstName}"/>
-                </p:column>
-                <p:column headerText="Last Name">
-                    <h:outputText value="#{user.lastName}"/>
-                </p:column>
-                <p:column headerText="Email">
-                    <h:outputText value="#{user.email}"/>
-                </p:column>
-                <p:column headerText="Role">
-                    <h:outputText value="#{user.role}"/>
-                </p:column>
+    <div class="topOfTable">
+        <form id="UserSearchForm">
+            <p:inputText id="search" styleClass="search" value="#{userBean.name}"
+                         icon="pi pi-search"
+                         placeholder="Search By name">
+                <p:ajax event="keyup" update="UsersTab:userForm:userTable"
+                        listener="#{userBean.getUsersByName(userBean.name)}"/>
+            </p:inputText>
+        </form>
+    </div>
+
+    <h:form id="userForm">
+        <p:dataTable id="userTable" value="#{userBean.getUsersByName(userBean.name)}" var="user"
+                     emptyMessage="No users available"
+                     paginator="true"
+                     paginatorPosition="bottom"
+                     paginatorAlwaysVisible="true"
+                     pageLinks="4"
+                     rowHover="true"
+                     rows="9"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+        >
+            <p:column headerText="Username">
+                <h:outputText value="#{user.userName}"/>
+            </p:column>
+            <p:column headerText="First Name">
+                <h:outputText value="#{user.firstName}"/>
+            </p:column>
+            <p:column headerText="Last Name">
+                <h:outputText value="#{user.lastName}"/>
+            </p:column>
+            <p:column headerText="Email">
+                <h:outputText value="#{user.email}"/>
+            </p:column>
+            <p:column headerText="Role">
+                <h:outputText value="#{user.role}"/>
+            </p:column>
 
 
-
-                <p:column headerText="Actions">
-                    <ui:fragment rendered="#{roleBean.canManageUsers()}">
+            <p:column headerText="Actions">
+                <ui:fragment rendered="#{roleBean.canManageUsers()}">
                     <div class="btn-sect">
                         <p:commandButton icon="pi pi-user-edit" styleClass="edit" oncomplete="PF('userDialog').show();"
+                                         update="userDialog"
                                          process="@this"
-                                         update="@form">
-                            <f:setPropertyActionListener value="#{user.userName}" target="#{userBean.username}"/>
-                            <f:setPropertyActionListener value="#{user.firstName}" target="#{userBean.firstname}"/>
-                            <f:setPropertyActionListener value="#{user.lastName}" target="#{userBean.lastname}"/>
-                            <f:setPropertyActionListener value="#{user.password}" target="#{userBean.password1}"/>
-                            <f:setPropertyActionListener value="#{user.password}" target="#{userBean.password2}"/>
-                            <f:setPropertyActionListener value="#{user.email}" target="#{userBean.email}"/>
-                            <f:setPropertyActionListener value="#{user.role}" target="#{userBean.role}"/>
-                            <f:setPropertyActionListener value="#{user.id}" target="#{userBean.userId}"/>
-                        </p:commandButton>
-
-                        <p:growl id="message" showDetail="true"/>
+                                         actionListener="#{userBean.getSelectedUserForUpdate(user)}"
+                        />
 
 
                         <!--USER UPDATE DIALOG-->
@@ -153,87 +157,72 @@
                                   dynamic="true" width="625px" resizable="false" responsive="true">
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputLabel for="username" value="Username: "/>
-                                <p:inputText id="username" value="#{userBean.username}"
+                                <p:inputText id="username" value="#{userBean.selectedUser.userName}"
                                              placeholder="Username" disabled="true"/>
 
                                 <h:outputLabel for="firstname" value="First Name: "/>
-                                <p:inputText id="firstname" value="#{userBean.firstname}"
+                                <p:inputText id="firstname" value="#{userBean.selectedUser.firstName}"
                                              required="true"
                                              requiredMessage="First name is required!"
                                              placeholder="First Name">
-                                    <p:ajax event="keyup" update="@this"/>
                                 </p:inputText>
 
                                 <h:outputLabel for="lastname" value="Last Name: "/>
-                                <p:inputText id="lastname" value="#{userBean.lastname}"
+                                <p:inputText id="lastname" value="#{userBean.selectedUser.lastName}"
                                              placeholder="Last Name">
-                                    <p:ajax event="keyup" update="@this"/>
                                 </p:inputText>
 
                                 <h:outputLabel for="email" value="Email: "/>
-                                <p:inputText id="email" value="#{userBean.email}"
+                                <p:inputText id="email" value="#{userBean.selectedUser.email}"
                                              requiredMessage="Email is required!"
                                              placeholder="Email"/>
+
                                 <h:outputLabel for="password_1" value="Password:"/>
-                                <p:password id="password_1" value="#{userBean.password1}" required="true"
+                                <p:password id="password_1" value="#{userBean.selectedUser.password}" required="true"
                                             feedback="true"
+                                            match="password_2"
                                             requiredMessage="Password is required!">
-                                    <p:ajax event="keyup" />
                                 </p:password>
 
                                 <h:outputLabel for="password_2" value="Confirm:"/>
-                                <p:password id="password_2" value="#{userBean.password2}" required="true"
+                                <p:password id="password_2" value="#{userBean.selectedUser.password}" required="true"
                                             feedback="true"
                                             requiredMessage="Please confirm password!">
-                                    <p:ajax event="keyup" />
                                 </p:password>
 
 
                                 <h:outputLabel for="role_1" value="Role:"/>
-                                <p:selectOneMenu id="role_1" value="#{userBean.role}" required="true"
+                                <p:selectOneMenu id="role_1" value="#{userBean.selectedUser.role}" required="true"
                                                  requiredMessage="Role is required!">
                                     <f:selectItem itemLabel="Select a permission" itemValue=""
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{roleBean.getRoles()}" var="role"
                                                    itemLabel="#{role.name}" itemValue="#{role.name}"/>
-                                    <p:ajax event="change" update="@this"/>
                                 </p:selectOneMenu>
 
                             </h:panelGrid>
                             <p:commandButton value="Save"
-                                             action="#{userBean.updateUser(userBean.userId,userBean.firstname,userBean.lastname,userBean.username,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                                             action="#{userBean.updateUser(userBean.selectedUser)}"
                                              oncomplete=" if (!(PF('userDialog').jq.find('.ui-messages-error').length == 0)) PF('userDialog').show()"
-                                             update="@form"
-                                             process="@this"
+                                             update="UsersTab:userForm:userTable"
                             />
                         </p:dialog>
 
 
                         <p:commandButton oncomplete="PF('dlt').show();"
-                                         update="dlt"
-                                         styleClass="delete" icon="pi pi-trash">
+                                         styleClass="delete" icon="pi pi-trash"
+                                         action="#{userBean.deleteUser(user)}"
+                                         update="UsersTab:userForm:userTable"
+                        >
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete this User?"
+                                       icon="pi pi-info-circle"/>
                         </p:commandButton>
 
-                        <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="dlt" id="dlt" hideEffect="fade" responsive="true"
-                                         width="350">
-                            <h:outputText value="Are you sure you want to delete this user?"/>
-                            <p:commandButton value="No" type="button"
-                                             process="@this"
-                                             update="@form"
-                                             onclick="PF('dlt').hide();"
-                                             styleClass="ui-confirmdialog-no ui-button-flat"/>
-                            <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-                             action="#{userBean.deleteUserOfUserName(user.userName)}"
-                            process="@this"
-                            update="@form"
-                             oncomplete="PF('dlt').hide();"
 
-                            />
-                        </p:dialog>
                     </div>
-                    </ui:fragment>
-                </p:column>
+                </ui:fragment>
+            </p:column>
 
-            </p:dataTable>
-        </h:form>
+        </p:dataTable>
+    </h:form>
 </ui:composition>

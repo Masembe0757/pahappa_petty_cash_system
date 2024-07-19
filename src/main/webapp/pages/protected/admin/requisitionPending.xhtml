@@ -9,7 +9,7 @@
 
         <h:form>
         <p:dataTable id="pendingTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
-                     emptyMessage="No drafts available"
+                     emptyMessage="No Pending Requisitions"
                      paginator="true"
                      paginatorPosition="bottom"
                      paginatorAlwaysVisible="true"
@@ -44,27 +44,14 @@
 
                 <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
                 <p:commandButton icon="pi pi-forward" styleClass="edit"
-                                 oncomplete="PF('stageDialog').show();"
+                                 action="#{requisitionBean.stageRequisition(draft.id)}"
                                  process="@this"
                                  update="@form">
+                    <p:confirm header="Confirmation" message="Are you sure you want to stage this requisition for approval?"
+                               icon="pi pi-info-circle"/>
                 </p:commandButton>
                 </ui:fragment>
-                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="stageDialog" id="stageDialog" hideEffect="fade" responsive="true"
-                          width="350">
-                    <h:outputText value="Are you sure you want to stage this requisition for approval?"/>
-                    <p:commandButton value="No" type="button"
-                                     process="@this"
-                                     update="@form"
-                                     onclick="PF('stageDialog').hide();"
-                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
-                    <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-                                     action="#{requisitionBean.stageRequisition(draft.id)}"
-                                     process="@this"
-                                     update="@form"
-                                     oncomplete="PF('stageDialog').hide();"
 
-                    />
-                </p:dialog>
 
                 <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
                 <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
@@ -73,8 +60,8 @@
 
                 <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog" dynamic="true"
                           resizable="false" width="500">
-                    <h:panelGrid columns="1">
-                        <h:outputLabel for="description" value="Reason:"/>
+                    <p:panelGrid columns="1" border="0">
+                        <p:outputLabel for="description" value="Reason:"/>
                         <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
                                          required="true" requiredMessage="Information is required!"/>
 
@@ -85,7 +72,7 @@
                                          oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
                         />
 
-                    </h:panelGrid>
+                    </p:panelGrid>
                 </p:dialog>
 
 

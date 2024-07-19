@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.SessionScoped;
@@ -34,11 +35,17 @@ public class UserBean implements Serializable {
     private String role;
     private String name;
     private int userId;
-
+    private User selectedUser;
 
 
     @Autowired
     private UserDao userDao;
+
+    @PostConstruct
+    public void init() {
+        selectedUser = new User(); // Initialize with a new User object or fetch from a service
+    }
+
 
     public int getUserId() {
         return userId;
@@ -112,53 +119,59 @@ public class UserBean implements Serializable {
         this.role = role;
     }
 
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+
+    public void getSelectedUserForUpdate(User user){
+        this.selectedUser = user;
+    }
+
     public User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        String message = userService.saveUser(firstName, lastName, userName, password1, password2, email, role);
+    public String saveUser() {
+        System.out.println("name   ......." + getLastname());
+        String message = userService.saveUser(firstname, lastname, username, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User added successfully "));
             return routes.getUsers();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
         return "";
 
     }
 
-    public String updateUser(int userId, String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        System.out.println("USER_ID    "+userId);
-        System.out.println("FIRST NAME   "+firstName);
-        System.out.println("PASS    "+password1);
-        System.out.println("PASS    "+password2);
-        System.out.println("PASS    "+lastName);
-        System.out.println("PASS    "+email);
-        System.out.println("PASS    "+role);
-        String message = userService.updateUserOfUserName(userId,firstName, lastName, userName, password1, password2, email, role);
+    public String updateUser(User userForUpdate) {
+        String message = userService.updateUserOfUserName(userForUpdate);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User updated successfully ", null));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User updated successfully "));
             return routes.getUsers();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
         return "";
 
     }
 
 
-    public void deleteUserOfUserName(String userName) {
+    public void deleteUser(User user) {
         System.out.println("delete user");
-        userService.deleteUserOfUserName(userName);
+        userService.deleteUserOfUserName(user.getUserName());
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "User deleted successfully", null));
+                new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS" , "User deleted successfully"));
     }
 
     public void deleteAllUsers() {
@@ -179,7 +192,7 @@ public class UserBean implements Serializable {
             List<User> returnedUsers = userService.returnUserOfName(name);
             if (returnedUsers.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "No user found for that name"));
             } else {
                 userList.addAll(returnedUsers);
             }
@@ -194,7 +207,6 @@ public class UserBean implements Serializable {
     public int countDeletedUsers() {
         return userService.getDeletedUsers().size();
     }
-
 
 }
 
