@@ -50,7 +50,7 @@ public class AccountablityBean implements Serializable {
     }
     public void addAccountability(UploadedFile imageUploaded, int amountAccounted, String description, Requisition requisition) {
         System.out.println(amountAccounted + description + requisition.getDateNeeded());
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAA----------------------.");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAADDDING----------------------.");
       String message =  accountabilityService.provideAccountability(imageUploaded,amountAccounted,description,requisition);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));

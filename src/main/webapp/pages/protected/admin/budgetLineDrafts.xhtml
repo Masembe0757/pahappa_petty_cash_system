@@ -35,6 +35,9 @@
             <p:column headerText="Amount">
                 <h:outputText value="#{draftLine.amountDelegated}"/>
             </p:column>
+            <p:column headerText="Balance">
+                <h:outputText value="#{draftLine.balance}"/>
+            </p:column>
             <p:column headerText="Actions">
             <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
                         <p:commandButton icon="pi pi-arrow-circle-up"
