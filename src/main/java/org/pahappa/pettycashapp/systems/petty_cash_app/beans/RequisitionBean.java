@@ -112,7 +112,7 @@ public class RequisitionBean implements Serializable {
 
         if(message != null) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "SUCCESS", "Requisition sent to drafts"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Requisition sent to drafts"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));

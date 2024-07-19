@@ -118,10 +118,10 @@ public class BudgetLineBean implements Serializable {
         String message = budgetLineService.makeBudgetLine(amount,name,startDate,endDate,categoryId,getCurrentUser());
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Budget line created successfully"));
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Budget line created successfully", null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));
         }
 
     }
