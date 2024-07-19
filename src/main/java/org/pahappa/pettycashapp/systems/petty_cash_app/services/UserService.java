@@ -212,22 +212,7 @@ public class UserService {
         return  error_message;
     }
 
-    public String updateBudgetLine(int budgetLineId, int amount,String name, Date startDate,Date endDate,int categoryId){
-        String error_message = "";
-        BudgetLine budgetLine = budgetLineDao.returnBudgetLineofId(budgetLineId);
-        if(userService.hasDigits(name)){
-            error_message = "Name can not contain digits";
-        }else {
-            Category category = categoryDao.getCategoryOfId(categoryId);
-            budgetLine.setName(name);
-            budgetLine.setAmountDelegated(amount);
-            budgetLine.setStartDate(startDate);
-            budgetLine.setEndDate(endDate);
-            budgetLine.setCategory(category);
-            budgetLineDao.updateBudgetLIne(budgetLine);
-        }
-        return error_message;
-    }
+
 
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
@@ -244,11 +229,12 @@ public class UserService {
     public void deleteAllUsers() {
     }
 
+
     public List<User> returnUserOfName(String name) {
         List<User> allUsers = userDao.getAllUsers();
         List<User> returnedUsers = new ArrayList<>();
         for(User u : allUsers){
-            if(!u.getRole().equalsIgnoreCase("admin")) {
+            if(u.getId()!= getCurrentUser().getId()) {
                 if (u.getUserName().toLowerCase().contains(name.toLowerCase())) {
                     returnedUsers.add(u);
                 } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {

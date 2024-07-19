@@ -13,6 +13,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.*;
@@ -111,8 +112,13 @@ public class UserBean implements Serializable {
         this.role = role;
     }
 
+    public User getCurrentUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        return (User) externalContext.getSessionMap().get("currentUser");
+    }
+
     public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        System.out.println("P1"+password1   +"P2"+ password2);
         String message = userService.saveUser(firstName, lastName, userName, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -127,7 +133,13 @@ public class UserBean implements Serializable {
     }
 
     public String updateUser(int userId, String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        System.out.println("USER_ID"+userId);
+        System.out.println("USER_ID    "+userId);
+        System.out.println("FIRST NAME   "+firstName);
+        System.out.println("PASS    "+password1);
+        System.out.println("PASS    "+password2);
+        System.out.println("PASS    "+lastName);
+        System.out.println("PASS    "+email);
+        System.out.println("PASS    "+role);
         String message = userService.updateUserOfUserName(userId,firstName, lastName, userName, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -158,7 +170,7 @@ public class UserBean implements Serializable {
         List<User> userList = new ArrayList<>();
         if (name.isEmpty()) {
             for(User user : users) {
-                if(!user.getRole().equalsIgnoreCase("admin")) {
+                if(user.getId()!=getCurrentUser().getId()) {
                     userList.add(user);
                 }
             }

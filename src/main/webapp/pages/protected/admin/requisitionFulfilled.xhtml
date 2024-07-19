@@ -62,25 +62,23 @@
 
                     <ui:fragment rendered="#{roleBean.canProvideAccountability()}" >
                     <p:commandButton oncomplete="PF('acc').show();"
-                                     update="acc"
                                      styleClass="edit" icon="pi pi-plus">
                     </p:commandButton>
                     </ui:fragment>
 
-
-                    <p:dialog >
-                        <h:panelGrid header="Add Accountability" widgetVar="acc" id="acc" modal="true"  dynamic="true" responsive="true"
-                                     resizable="true" width="1100">
+                    <h:form>
+                    <p:dialog header="Add Accountability"  resizable="true" width="1100" widgetVar="acc" id="acc" modal="true"  dynamic="true" responsive="true" >
+                        <h:panelGrid columns="1">
                             <h:outputLabel for="amountSpent" value="Amount Used:"/>
                             <p:inputText id="amountSpent" value="#{accountablityBean.accountedAmount}" required="true"
                                          requiredMessage="Role name is required!">
-                                <p:ajax event="keyup" update="@this"/>
+                                <p:ajax event="keyup" />
                             </p:inputText>
 
                             <h:outputLabel for="description" value="Usage Description:"/>
                             <p:inputText id="description" value="#{accountablityBean.description}" required="true"
                                          requiredMessage="Description is required!">
-                                <p:ajax event="keyup" update="@this"/>
+                                <p:ajax event="keyup" />
                             </p:inputText>
 
                             <p:outputLabel for="accountabilityImage" value="Image: ">
@@ -95,9 +93,9 @@
                                              action="#{accountablityBean.addAccountability(accountablityBean.imageUploaded,accountablityBean.accountedAmount,accountablityBean.description,draft)}"
                                              oncomplete="PF('acc').hide();"
                             />
-
                         </h:panelGrid>
                     </p:dialog>
+                    </h:form>
 
 
             </p:column>
