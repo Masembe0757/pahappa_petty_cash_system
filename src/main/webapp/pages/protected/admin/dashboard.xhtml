@@ -225,6 +225,7 @@
 
         <div class="lower-cards">
             <div class="card-container">
+                <f:event type="preRenderView" listener="#{chartBean.updateCharts()}" />
                 <div class="glass one">
                     <p:pieChart model="#{chartBean.pieModel}" />
                 </div>
