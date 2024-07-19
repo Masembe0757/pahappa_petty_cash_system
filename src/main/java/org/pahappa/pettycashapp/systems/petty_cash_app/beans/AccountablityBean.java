@@ -8,16 +8,15 @@ import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.primefaces.model.file.UploadedFile;
+import org.springframework.web.context.annotation.SessionScope;
 
-import javax.faces.bean.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Date;
 
 @Service
-@SessionScoped
+@SessionScope
 public class AccountablityBean implements Serializable {
     @Autowired
     AccountabilityService accountabilityService;
@@ -50,7 +49,11 @@ public class AccountablityBean implements Serializable {
         this.description = description;
     }
     public void addAccountability(UploadedFile imageUploaded, int amountAccounted, String description, Requisition requisition) {
+        System.out.println(amountAccounted + description + requisition.getDateNeeded());
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAA----------------------.");
       String message =  accountabilityService.provideAccountability(imageUploaded,amountAccounted,description,requisition);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
 
     public StreamedContent retrieveImage() {

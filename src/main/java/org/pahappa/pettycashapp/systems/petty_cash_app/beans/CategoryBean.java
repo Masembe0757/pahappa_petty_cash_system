@@ -77,7 +77,7 @@ public class CategoryBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Success: " , "Category Updated!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, null, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error occurred", null));
         }
     }
 
