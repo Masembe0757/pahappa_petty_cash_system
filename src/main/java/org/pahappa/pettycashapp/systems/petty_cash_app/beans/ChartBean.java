@@ -52,6 +52,13 @@ public class ChartBean implements Serializable {
         createPieModel();
     }
 
+
+    public void updateCharts() {
+        createBarModel();
+//        createDonutModel();
+        createPieModel();
+    }
+
     public PieChartModel getPieModel() {
         return pieModel;
     }
