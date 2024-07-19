@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.SessionScoped;
@@ -39,6 +40,11 @@ public class UserBean implements Serializable {
 
     @Autowired
     private UserDao userDao;
+
+    @PostConstruct
+    public void init() {
+        selectedUser = new User(); // Initialize with a new User object or fetch from a service
+    }
 
 
     public int getUserId() {
