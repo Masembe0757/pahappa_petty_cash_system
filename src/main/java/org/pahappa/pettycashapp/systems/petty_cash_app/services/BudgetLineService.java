@@ -142,6 +142,10 @@ public class BudgetLineService {
         return names;
     }
 
+    public int countAllBL(){
+        return getAllBudgetLines().size();
+    }
+
     public void submitBudgetLine(int budgetLineId){
         budgetLineDao.submitBudgetLine(budgetLineId,"pending");
     }

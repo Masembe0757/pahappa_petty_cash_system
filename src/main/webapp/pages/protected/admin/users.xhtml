@@ -9,7 +9,6 @@
     <ui:define name="pageTitle">Users</ui:define>
 
     <ui:define name="content">
-        <h:head>
             <style>
                 .background {
                     height: 100%;
@@ -22,11 +21,17 @@
                     padding-bottom: .5em;
                 }
 
+                .actns {
+                    display: contents;
+                }
+
+                .search.ui-inputfield {
+                    width: 42rem;
+                }
 
             </style>
-        </h:head>
 
-        <p:tabView>
+        <p:tabView id="UsersTab">
             <p:tab id="users" title="Users">
                 <ui:include src="usersSection.xhtml"/>
             </p:tab>

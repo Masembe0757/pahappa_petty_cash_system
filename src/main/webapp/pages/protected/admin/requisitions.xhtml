@@ -14,6 +14,7 @@
                 .background {
                     height: 100%;
                 }
+
                 .first-layer-top {
                     display: flex;
                     justify-content: flex-end;
@@ -25,54 +26,63 @@
                 }
 
 
-
             </style>
         </h:head>
-
+        <p:growl id="message" showDetail="true" />
         <div class="first-layer-top">
 
             <h:form>
                 <div class="btn-sect">
                     <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
 
-                    <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('dlg').show();" process="@this" update="dlg"/>
+                        <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('dlg').show();"
+                                         process="@this" update="dlg"/>
 
                     </ui:fragment>
-                    <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false" width="600">
-                        <p:messages globalOnly="true" closable="true" />
-                        <h:panelGrid>
+
+                    <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false"
+                              width="auto">
+                        <p:panelGrid columns="1"
+                        >
                             <!-- Budget Line Dropdown -->
-                            <h:outputLabel for="budgetLine" value="Budget Line:"/>
-                            <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
-                                             requiredMessage="Budget Line is required!">
-                                <f:selectItem itemLabel="Select a Budget Line" itemValue="" noSelectionOption="true"/>
-                                <f:selectItems value="#{requisitionBean.getBudgetLines()}" var="budgetLine"
-                                               itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
-                            </p:selectOneMenu>
+                            <p:outputLabel for="budgetLine" value="Budget Line:">
+                                <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
+                                                 requiredMessage="Budget Line is required!">
+                                    <f:selectItem itemLabel="Select a Budget Line" itemValue=""
+                                                  noSelectionOption="true"/>
+                                    <f:selectItems value="#{requisitionBean.getBudgetLines()}" var="budgetLine"
+                                                   itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
+                                </p:selectOneMenu>
+                            </p:outputLabel>
 
                             <!-- Description -->
-                            <h:outputLabel for="description" value="Description:"/>
+                            <p:outputLabel for="description" value="Description:"/>
                             <p:inputTextarea id="description" value="#{requisitionBean.description}" rows="4" cols="50"
                                              required="true" requiredMessage="Description is required!"/>
 
 
-                            <h:outputLabel for="dateNeeded" value="Date needed:"/>
+                            <p:outputLabel for="dateNeeded" value="Date needed:"/>
                             <p:calendar id="dateNeeded" value="#{requisitionBean.dateNeeded}" pattern="dd/MM/yyyy"
                                         required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="Date Needed is required!"/>
 
-                            <h:outputLabel for="amount" value="Amount:"/>
-                            <p:inputText id="amount" value="#{requisitionBean.amount}" required="true"
-                                         requiredMessage="Amount is required!">
-                            </p:inputText>
+                            <p:outputLabel for="amount" value="Amount:"/>
+                            <p:inputNumber id="amount" value="#{requisitionBean.amount}" required="true"
+                                           requiredMessage="Amount is required!">
+                            </p:inputNumber>
 
-                        </h:panelGrid>
+                        </p:panelGrid>
+                        <div class="last">
+                            <p:commandButton value="Cancel" styleClass="two" oncomplete="PF('dlg').hide();"/>
+                            <p:commandButton value="Save"
+                                             action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
+                                             update="@all"
+                                             process="@form"
+                                             oncomplete=" PF('dlg').hide();"/>
+                        </div>
 
-                        <p:commandButton value="Save" action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
-                                         update=""
-                                         process="@form"
-                                         oncomplete=" PF('dlg').hide();"/>
+
                     </p:dialog>
                 </div>
             </h:form>
@@ -87,49 +97,47 @@
 
             <p:tab id="reqDrafts" title="Drafts">
                 <ui:fragment rendered="#{roleBean.CanViewDraftedRequisitions()}">
-                <ui:include src="requisitionDrafts.xhtml"/>
+                    <ui:include src="requisitionDrafts.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
+            <p:tab id="reqPending" title="Pending">
+                <ui:fragment rendered="#{roleBean.CanViewPendingRequisitions()}">
+                    <ui:include src="requisitionPending.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
+            <p:tab id="reqApproved" title="Approved">
+                <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
+                    <ui:include src="requisitionApproved.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="reqStaged" title="Staged">
                 <ui:fragment rendered="#{roleBean.CanViewStagedRequisitions()}">
-                <ui:include src="requisitionStaged.xhtml"/>
+                    <ui:include src="requisitionStaged.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="reqFulfilled" title="Fulfilled">
                 <ui:fragment rendered="#{roleBean.CanViewFulfilledRequisitions()}">
-                <ui:include src="requisitionFulfilled.xhtml"/>
-                </ui:fragment>
-            </p:tab>
-
-
-            <p:tab id="reqPending" title="Pending">
-                <ui:fragment rendered="#{roleBean.CanViewPendingRequisitions()}">
-                <ui:include src="requisitionPending.xhtml"/>
-                </ui:fragment>
-            </p:tab>
-
-
-            <p:tab id="reqApproved" title="Approved">
-                <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
-                <ui:include src="requisitionApproved.xhtml"/>
+                    <ui:include src="requisitionFulfilled.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="reqRejected" title="Rejected">
                 <ui:fragment rendered="#{roleBean.canViewRejectedBudgetLines()}">
-                <ui:include src="requisitionRejected.xhtml"/>
+                    <ui:include src="requisitionRejected.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="accountability" title="Accountability">
                 <ui:fragment rendered="#{roleBean.CanViewAccountability()}">
-                <ui:include src="accountability.xhtml"/>
+                    <ui:include src="accountability.xhtml"/>
                 </ui:fragment>
             </p:tab>
 

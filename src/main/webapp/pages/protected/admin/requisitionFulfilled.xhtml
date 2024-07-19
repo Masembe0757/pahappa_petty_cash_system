@@ -9,7 +9,7 @@
 
         <h:form>
         <p:dataTable id="draftTable" value="#{requisitionBean.returnFulfilledRequisitions()}" var="draft"
-                     emptyMessage="No drafts available"
+                     emptyMessage="No Paid Out Requisitions"
                      paginator="true"
                      paginatorPosition="bottom"
                      paginatorAlwaysVisible="true"
@@ -37,32 +37,11 @@
             </p:column>
 
             <p:column headerText="Actions" style="width:100px">
-                <p:commandButton oncomplete="PF('dlt').show();"
-                                 update="dlt"
-                                 styleClass="delete" icon="pi pi-trash">
-                </p:commandButton>
 
-                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="dlt" id="dlt" hideEffect="fade" responsive="true"
-                          width="350">
-                    <h:outputText value="Are you sure you want to delete this requisition?"/>
-                    <p:commandButton value="No" type="button"
-                                     process="@this"
-                                     update="@form"
-                                     onclick="PF('dlt').hide();"
-                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
-                    <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-                                     action="#{requisitionBean.deleteRequisition(draft.id)}"
-                                     process="@this"
-                                     update="@form"
-                                     oncomplete="PF('dlt').hide();"
-
-                    />
-                </p:dialog>
-
-
-                    <ui:fragment rendered="#{roleBean.canProvideAccountability()}" >
+                <ui:fragment rendered="#{roleBean.canProvideAccountability()}">
                     <p:commandButton oncomplete="PF('acc').show();"
-                                     styleClass="edit" icon="pi pi-plus">
+
+                                     styleClass="edit" icon="pi pi-book">
                     </p:commandButton>
                     </ui:fragment>
 
@@ -97,6 +76,14 @@
                     </p:dialog>
                     </h:form>
 
+
+                <p:commandButton action="#{requisitionBean.deleteRequisition(draft.id)}"
+                                 process="@this"
+                                 update="@form"
+                                 styleClass="delete" icon="pi pi-trash">
+                    <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                               icon="pi pi-info-circle"/>
+                </p:commandButton>
 
             </p:column>
         </p:dataTable>

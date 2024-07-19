@@ -18,10 +18,12 @@ import java.util.*;
 @Component
 @SessionScope
 public class RoleBean implements Serializable {
-    public  RoleBean(){}
+    public RoleBean() {
+    }
+
     @Autowired
     RoleService roleService;
-    private  List<String> permissions =
+    private List<String> permissions =
             new ArrayList<>(Arrays.asList(
                     "MANAGE_CATEGORIES",
                     "APPROVE_BUDGET_LINE",
@@ -53,14 +55,14 @@ public class RoleBean implements Serializable {
                     "VIEW_REJECTED_REQUISITIONS",
                     "MANAGE_REQUISITION"
 
-                    ));
+            ));
 
 
     private String name;
     private List<String> selectedPermissions;
     private String nameUp;
     private List<String> selectedPermissionsUp;
-    private  int role_id;
+    private int role_id;
 
     public int getRole_id() {
         return role_id;
@@ -111,48 +113,43 @@ public class RoleBean implements Serializable {
     }
 
 
-
-
-
-
-
-    public void saveRole(String name , List<String> selectedPermissions) {
-    String message = roleService.saveRole(name,selectedPermissions);
-    if(message.isEmpty()){
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role created successfully", null));
-    }else {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-    }
+    public void saveRole(String name, List<String> selectedPermissions) {
+        String message = roleService.saveRole(name, selectedPermissions);
+        if (message.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "SUCCESS", "Role created successfully"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", message));
+        }
     }
 
     public List<Role> getRoleByName(String name) {
         List<Role> roles = roleService.getAllRoles();
         List<Role> roleList = new ArrayList<>();
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             roleList.addAll(roles);
 
-        }else {
+        } else {
             List<Role> returnedRoles = roleService.returnRoleOfName(name);
             if (returnedRoles.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "No role found for that name", null));
-            }else {
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", "No role found for that name"));
+            } else {
                 roleList.addAll(returnedRoles);
             }
         }
         return roleList;
     }
 
-    public String updateRole(String name , List<String> permissions, int role_id) {
-        String message = roleService.updateRoleOfId(name, permissions ,role_id);
-        if(message.isEmpty()){
+    public String updateRole(String name, List<String> permissions, int role_id) {
+        String message = roleService.updateRoleOfId(name, permissions, role_id);
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role updated successfully ", null));
-        }else {
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role updated successfully"));
+        } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
         return "";
     }
@@ -160,19 +157,20 @@ public class RoleBean implements Serializable {
     public void deleteRoleOfId(int roleId) {
         roleService.deleteRoleOfId(roleId);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Role deleted successfully", null));
-    }
-    public List<Role> getRoles(){
-        return  roleService.getAllRoles();
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "DELETED", "Role deleted successfully"));
     }
 
-    public List<String> getPermissionsOfRole(int roleId){
+    public List<Role> getRoles() {
+        return roleService.getAllRoles();
+    }
+
+    public List<String> getPermissionsOfRole(int roleId) {
         List<String> permissionNames = new ArrayList<>();
         List<Permission> permissions = roleService.getPermissionsOfRole(roleId);
-        for(Permission permission : permissions){
+        for (Permission permission : permissions) {
             permissionNames.add(permission.getName());
         }
-        return  permissionNames;
+        return permissionNames;
     }
 
 
@@ -186,20 +184,17 @@ public class RoleBean implements Serializable {
     // PERMISSIONS CHECK FOR UI RENDERING
 
 
-
-
-
     private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public boolean canViewUsers(){
+    public boolean canViewUsers() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_USERS")) {
                 allowed = true;
                 break;
@@ -207,11 +202,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canViewRequisitions(){
+
+    public boolean canViewRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_REQUISITION")) {
                 allowed = true;
                 break;
@@ -219,11 +215,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canViewRoles(){
+
+    public boolean canViewRoles() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_ROLES")) {
                 allowed = true;
                 break;
@@ -231,11 +228,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canManageUsers(){
+
+    public boolean canManageUsers() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("MANAGE_USERS")) {
                 allowed = true;
                 break;
@@ -243,11 +241,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canViewCategories(){
+
+    public boolean canViewCategories() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_CATEGORIES")) {
                 allowed = true;
                 break;
@@ -255,11 +254,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canViewExpiredBudgetLines(){
+
+    public boolean canViewExpiredBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_EXPIRED_BUDGET_LINES")) {
                 allowed = true;
                 break;
@@ -267,11 +267,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canViewRejectedBudgetLines(){
+
+    public boolean canViewRejectedBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_REJECTED_REQUISITIONS")) {
                 allowed = true;
                 break;
@@ -279,11 +280,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean canProvideAccountability(){
+
+    public boolean canProvideAccountability() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("PROVIDE_ACCOUNTABILITY")) {
                 allowed = true;
                 break;
@@ -292,11 +294,11 @@ public class RoleBean implements Serializable {
         return allowed;
     }
 
-    public boolean canApproveRequisitions(){
+    public boolean canApproveRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("APPROVE_REQUISITION")) {
                 allowed = true;
                 break;
@@ -305,11 +307,11 @@ public class RoleBean implements Serializable {
         return allowed;
     }
 
-    public boolean CanReviewRequisitions(){
+    public boolean CanReviewRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("REVIEW_REQUISITION")) {
                 allowed = true;
                 break;
@@ -318,11 +320,11 @@ public class RoleBean implements Serializable {
         return allowed;
     }
 
-    public boolean CanApproveBudgetLine(){
+    public boolean CanApproveBudgetLine() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("APPROVE_BUDGET_LINE")) {
                 allowed = true;
                 break;
@@ -330,11 +332,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewBudgetLines(){
+
+    public boolean CanViewBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_BUDGET_LINE")) {
                 allowed = true;
                 break;
@@ -342,11 +345,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanManageCategory(){
+
+    public boolean CanManageCategory() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("MANAGE_CATEGORIES")) {
                 allowed = true;
                 break;
@@ -354,11 +358,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanMakeRequisition(){
+
+    public boolean CanMakeRequisition() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("MAKE_REQUISITION")) {
                 allowed = true;
                 break;
@@ -368,11 +373,11 @@ public class RoleBean implements Serializable {
     }
 
 
-    public boolean CanViewPendingBudgetLines(){
+    public boolean CanViewPendingBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_PENDING_BUDGET_LINES")) {
                 allowed = true;
                 break;
@@ -380,11 +385,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewDraftedBudgetLines(){
+
+    public boolean CanViewDraftedBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_DRAFTED_BUDGET_LINES")) {
                 allowed = true;
                 break;
@@ -392,11 +398,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewAdminLogo(){
+
+    public boolean CanViewAdminLogo() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_ADMIN_LOGO")) {
                 allowed = true;
                 break;
@@ -404,11 +411,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewApprovedBudgetLines(){
+
+    public boolean CanViewApprovedBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_APPROVED_BUDGET_LINES")) {
                 allowed = true;
                 break;
@@ -416,11 +424,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewAccountability(){
+
+    public boolean CanViewAccountability() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_ACCOUNTABILITY")) {
                 allowed = true;
                 break;
@@ -428,11 +437,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewApprovedRequisitions(){
+
+    public boolean CanViewApprovedRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_APPROVED_REQUISITIONS")) {
                 allowed = true;
                 break;
@@ -440,11 +450,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewFulfilledRequisitions(){
+
+    public boolean CanViewFulfilledRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_FULFILLED_REQUISITIONS")) {
                 allowed = true;
                 break;
@@ -452,11 +463,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanManageBudgetLines(){
+
+    public boolean CanManageBudgetLines() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("MANAGE_BUDGET_LINES")) {
                 allowed = true;
                 break;
@@ -464,11 +476,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanManageRequisition(){
+
+    public boolean CanManageRequisition() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("MANAGE_REQUISITION")) {
                 allowed = true;
                 break;
@@ -476,11 +489,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewPendingRequisitions(){
+
+    public boolean CanViewPendingRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_PENDING_REQUISITIONS")) {
                 allowed = true;
                 break;
@@ -488,11 +502,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewStagedRequisitions(){
+
+    public boolean CanViewStagedRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_STAGED_REQUISITIONS")) {
                 allowed = true;
                 break;
@@ -501,11 +516,11 @@ public class RoleBean implements Serializable {
         return allowed;
     }
 
-    public boolean CanViewDraftedRequisitions(){
+    public boolean CanViewDraftedRequisitions() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_DRAFTED_REQUISITIONS")) {
                 allowed = true;
                 break;
@@ -514,11 +529,11 @@ public class RoleBean implements Serializable {
         return allowed;
     }
 
-    public boolean CanViewAdminDashboard(){
+    public boolean CanViewAdminDashboard() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_ADMIN_DASHBOARD")) {
                 allowed = true;
                 break;
@@ -526,11 +541,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanViewReview(){
+
+    public boolean CanViewReview() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("VIEW_REVIEW")) {
                 allowed = true;
                 break;
@@ -538,11 +554,12 @@ public class RoleBean implements Serializable {
         }
         return allowed;
     }
-    public boolean CanManageRoles(){
+
+    public boolean CanManageRoles() {
         boolean allowed = false;
         Role role = roleService.returnRoleOfUniqueName(getCurrentUser().getRole());
         List<Permission> permissions = roleService.getPermissionsOfRole(role.getId());
-        for(Permission permission:permissions){
+        for (Permission permission : permissions) {
             if (permission.getName().equals("MANAGE_ROLES")) {
                 allowed = true;
                 break;
