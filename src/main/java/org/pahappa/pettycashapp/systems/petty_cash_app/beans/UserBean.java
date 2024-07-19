@@ -34,11 +34,12 @@ public class UserBean implements Serializable {
     private String role;
     private String name;
     private int userId;
-
+    private User selectedUser;
 
 
     @Autowired
     private UserDao userDao;
+
 
     public int getUserId() {
         return userId;
@@ -112,14 +113,27 @@ public class UserBean implements Serializable {
         this.role = role;
     }
 
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+
+    public void getSelectedUserForUpdate(User user){
+        this.selectedUser = user;
+    }
+
     public User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        String message = userService.saveUser(firstName, lastName, userName, password1, password2, email, role);
+    public String saveUser() {
+        System.out.println("name   ......." + getLastname());
+        String message = userService.saveUser(firstname, lastname, username, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User added successfully "));
@@ -132,15 +146,8 @@ public class UserBean implements Serializable {
 
     }
 
-    public String updateUser(int userId, String firstName, String lastName, String userName, String password1, String password2, String email, String role) {
-        System.out.println("USER_ID    "+userId);
-        System.out.println("FIRST NAME   "+firstName);
-        System.out.println("PASS    "+password1);
-        System.out.println("PASS    "+password2);
-        System.out.println("PASS    "+lastName);
-        System.out.println("PASS    "+email);
-        System.out.println("PASS    "+role);
-        String message = userService.updateUserOfUserName(userId,firstName, lastName, userName, password1, password2, email, role);
+    public String updateUser(User userForUpdate) {
+        String message = userService.updateUserOfUserName(userForUpdate);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User updated successfully "));
@@ -154,9 +161,9 @@ public class UserBean implements Serializable {
     }
 
 
-    public void deleteUserOfUserName(String userName) {
+    public void deleteUser(User user) {
         System.out.println("delete user");
-        userService.deleteUserOfUserName(userName);
+        userService.deleteUserOfUserName(user.getUserName());
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS" , "User deleted successfully"));
     }

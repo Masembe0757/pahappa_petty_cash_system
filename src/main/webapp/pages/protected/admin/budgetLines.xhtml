@@ -9,7 +9,7 @@
     <ui:define name="pageTitle">Budget Lines</ui:define>
 
     <ui:define name="content">
-        <h:head>
+
             <style>
                 .background {
                     height: 100%;
@@ -47,7 +47,7 @@
                 }
 
             </style>
-        </h:head>
+
 
         <div class="first-layer-top">
             <div class="navigation">
@@ -106,7 +106,7 @@
 
                         <p:commandButton value="Save"
                                          action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
-                                         update="@all"
+                                         update="tabView"
                                          oncomplete="PF('dlg').hide();"/>
                         </div>
                     </p:dialog>
@@ -140,7 +140,7 @@
             </div>
         </div>
 
-        <p:tabView>
+        <p:tabView id="tabView">
             <p:tab id="currentBL" title="All Budget Lines">
                 <ui:include src="allBudgetLines.xhtml"/>
             </p:tab>

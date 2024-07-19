@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
         <h4 class="Table-title">BUDGET LINE DRAFTS</h4>
-        <h:form>
+        <h:form id="draftForm">
         <p:dataTable id="draftTable" value="#{budgetLineBean.draftedBudgetLines}" var="draftLine"
                      emptyMessage="No drafts available"
                      paginator="true"

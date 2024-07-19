@@ -108,7 +108,7 @@ public class UserService {
         }
         else if(userService.hasDigits(lastName) || userService.hasSpecialCharacters(lastName)){
             error_message = "Last name field has digits or special characters  in it";
-        } else if ( userName.length() < 6 || userService.hasSpecialCharacters(userName) ) {
+        } else if ( userName.length() < 4 || userService.hasSpecialCharacters(userName) ) {
             error_message = "User name field has special characters less than 6 or has special characters";
 
         } else if (Character.isDigit(userName.charAt(0))) {
@@ -172,34 +172,32 @@ public class UserService {
 
 
 
-    public String updateUserOfUserName(int userId,String firstName, String lastName, String userName,String password1,String password2, String email,String role) {
+    public String updateUserOfUserName(User selectedUser) {
         String error_message = "";
-            User returnedUser = userDao.returnUser(userName);
+            User returnedUser = userDao.returnUser(selectedUser.getUserName());
             if (returnedUser!=null) {
                 //update validation
 
-                if( userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
+                if( userService.hasDigits(selectedUser.getFirstName()) || userService.hasSpecialCharacters(selectedUser.getFirstName()) ){
                     error_message ="First name field has digits or special characters  in it";
 
                 }
-                else if(userService.hasDigits(lastName) || userService.hasSpecialCharacters(lastName)){
+                else if(userService.hasDigits(selectedUser.getLastName()) || userService.hasSpecialCharacters(selectedUser.getLastName())){
                     error_message ="Last name field has digits or special characters in it";
 
-                }else  if(!userService.isValidEmail(email)){
+                }else  if(!userService.isValidEmail(selectedUser.getEmail())){
                     error_message = "Email provided is of incorrect format";
-                } else if (!password1.equals(password2)) {
-                    error_message = "Passwords do not match";
                 } else {
-                    if (!userService.isValidPassword(password1)) {
+                    if (!userService.isValidPassword(selectedUser.getPassword())) {
                         error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters";
                     } else {
 
                             //Sending email with credentials
                           //  UserService.getUserService().EmailSender(email, userName, password1,firstName,lastName);
                             // Encrypting the password with BCrypt
-                            String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
+                            String encodedPassword = Base64.getEncoder().encodeToString(selectedUser.getPassword().getBytes());
 
-                            userDao.updateUser(userId,firstName,lastName,userName,encodedPassword,email,role);
+                            userDao.updateUser(selectedUser.getId(), selectedUser.getFirstName(),selectedUser.getLastName(),selectedUser.getUserName(),encodedPassword,selectedUser.getEmail(),selectedUser.getRole());
 
 
                     }
