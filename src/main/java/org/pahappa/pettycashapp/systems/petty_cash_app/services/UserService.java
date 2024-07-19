@@ -229,6 +229,9 @@ public class UserService {
     public void deleteAllUsers() {
     }
 
+    public int countAllUsers() {
+        return getAllUsers().size();
+    }
 
     public List<User> returnUserOfName(String name) {
         List<User> allUsers = userDao.getAllUsers();

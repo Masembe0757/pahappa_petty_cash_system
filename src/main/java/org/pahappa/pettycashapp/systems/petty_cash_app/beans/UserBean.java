@@ -122,11 +122,11 @@ public class UserBean implements Serializable {
         String message = userService.saveUser(firstName, lastName, userName, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User added successfully ", null));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User added successfully "));
             return routes.getUsers();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
         return "";
 
@@ -143,11 +143,11 @@ public class UserBean implements Serializable {
         String message = userService.updateUserOfUserName(userId,firstName, lastName, userName, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User updated successfully ", null));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User updated successfully "));
             return routes.getUsers();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
         return "";
 
@@ -158,7 +158,7 @@ public class UserBean implements Serializable {
         System.out.println("delete user");
         userService.deleteUserOfUserName(userName);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "User deleted successfully", null));
+                new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS" , "User deleted successfully"));
     }
 
     public void deleteAllUsers() {
@@ -179,7 +179,7 @@ public class UserBean implements Serializable {
             List<User> returnedUsers = userService.returnUserOfName(name);
             if (returnedUsers.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "No user found for that name"));
             } else {
                 userList.addAll(returnedUsers);
             }
@@ -194,7 +194,6 @@ public class UserBean implements Serializable {
     public int countDeletedUsers() {
         return userService.getDeletedUsers().size();
     }
-
 
 }
 

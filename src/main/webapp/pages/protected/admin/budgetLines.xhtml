@@ -42,6 +42,9 @@
                     color: #777777 !important;
                 }
 
+                .ui-fluid {
+                    width:calc(100% - 35px);
+                }
 
             </style>
         </h:head>
@@ -51,6 +54,7 @@
                 <h3 class="money">Total Current Running Budget: Shs. #{budgetLineBean.currentRunningBudgetLinesAmount}</h3>
                 <h3 class="money">Total Expenditure on Approved Budget Lines Shs. #{budgetLineBean.expenditureBudgetOnApprovedBudgetLines}</h3>
             </div>
+            <p:growl id="message" showDetail="true" />
             <div class="btn-sect">
                 <h:form >
                     <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
@@ -60,7 +64,8 @@
 
                     <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
                               width="600">
-                        <h:panelGrid>
+                        <h:panelGrid styleClass="ui-fluid"
+                                     style="border:0 none; background-color:transparent; ">
                             <h:outputLabel for="name" value="Name:"/>
                             <p:inputText id="name" value="#{budgetLineBean.name}" required="true"
                                          requiredMessage="Name is required!">
@@ -77,28 +82,33 @@
 
                             <h:outputLabel for="startDate" value="Start Date:"/>
                             <p:calendar id="startDate" value="#{budgetLineBean.startDate}" pattern="dd/MM/yyyy"
-                                        required="true" showOn="button" navigator="true"
+                                        required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="Start Date is required!"/>
 
                             <h:outputLabel for="endDate" value="End Date:"/>
                             <p:calendar id="endDate" value="#{budgetLineBean.endDate}" pattern="dd/MM/yyyy"
-                                        required="true" showOn="button" navigator="true"
+                                        required="true"  navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="End Date is required!"/>
 
 
                             <h:outputLabel for="amount" value="Amount:"/>
-                            <p:inputText id="amount" value="#{budgetLineBean.amount}" required="true"
+                            <p:inputText id="amount" type="number" value="#{budgetLineBean.amount}" required="true"
                                          requiredMessage="Amount is required!">
                             </p:inputText>
 
                         </h:panelGrid>
 
+                        <div class="last">
+                            <p:commandButton value="Cancel" styleClass="one" oncomplete="PF('dlg').hide();"/>
+
+
                         <p:commandButton value="Save"
                                          action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
-                                         update="@form"
+                                         update="@all"
                                          oncomplete="PF('dlg').hide();"/>
+                        </div>
                     </p:dialog>
                 </h:form>
                 <h:form>
@@ -122,11 +132,9 @@
                                              required="true" requiredMessage="Description is required!"/>
                             <p:message for="description"/>
 
-                            <p:commandButton value="Create" action="#{categoryBean.addCategory()}"
-                                             oncomplete="if (PF('Catdlg').jq.find('.ui-messages-error').length == 0) {
-                      PF('Catdlg').show();} else {PF('Catdlg').hide();}" update="@form"/>
-
                         </h:panelGrid>
+                        <p:commandButton value="Create" action="#{categoryBean.addCategory()}"
+                                         oncomplete="PF('Catdlg').hide();" update="@all"/>
                     </p:dialog>
                 </h:form>
             </div>
@@ -137,6 +145,18 @@
                 <ui:include src="allBudgetLines.xhtml"/>
             </p:tab>
 
+            <p:tab id="draftsBL" title="Drafted">
+                <ui:fragment rendered="#{roleBean.CanViewDraftedBudgetLines()}">
+                    <ui:include src="budgetLineDrafts.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
+            <p:tab id="pendingBL" title="Pending">
+                <ui:fragment rendered="#{roleBean.CanViewPendingBudgetLines()}">
+                    <ui:include src="pendingBudgetLines.xhtml"/>
+                </ui:fragment>
+            </p:tab>
+
 
             <p:tab id="approvedBL" title="Approved">
                 <ui:fragment rendered="#{roleBean.CanViewApprovedBudgetLines()}">
@@ -145,17 +165,6 @@
             </p:tab>
 
 
-            <p:tab id="draftsBL" title="Drafted">
-                <ui:fragment rendered="#{roleBean.CanViewDraftedBudgetLines()}">
-                <ui:include src="budgetLineDrafts.xhtml"/>
-            </ui:fragment>
-            </p:tab>
-
-            <p:tab id="pendingBL" title="Pending">
-                <ui:fragment rendered="#{roleBean.CanViewPendingBudgetLines()}">
-                    <ui:include src="pendingBudgetLines.xhtml"/>
-                </ui:fragment>
-            </p:tab>
             <p:tab id="rejectedBL" title="Rejected">
                 <ui:fragment rendered="#{roleBean.canViewRejectedBudgetLines()}">
                     <ui:include src="rejectedBudgetLines.xhtml"/>

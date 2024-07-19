@@ -174,6 +174,10 @@ public class BudgetLineBean implements Serializable {
         return budgetLineService.getExpiredBudgetLines().size();
     }
 
+    public int countReviewedBL() {
+        return budgetLineService.getApprovedBudgetLines().size() + budgetLineService.getRejectedBudgetLines().size();
+    }
+
     public List<BudgetLine> getPendingBudgetLines() {
         return budgetLineService.getPendingBudgetLInes();
     }

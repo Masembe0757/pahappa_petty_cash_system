@@ -110,8 +110,13 @@ public class RequisitionBean implements Serializable {
     public void makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
         String message = requisitionService.makeRequisition(amount,dateNeeded,description,budgetLineId);
 
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        if(message != null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "SUCCESS", "Requisition sent to drafts"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));
+        }
     }
     public List<Requisition> returnDraftedRequisitions(){
         return  requisitionService.getDraftedRequisitions();
@@ -137,11 +142,11 @@ public class RequisitionBean implements Serializable {
         String message = requisitionService.updateRequisition(requisitionId,amount,dateNeeded,description,budgetLineId);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,"Requisition updated successfully", null));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS", "Requisition updated successfully"));
 
         }else {
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));}
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILURE", message));}
     }
 
     public void deleteRequisition(int requisitionId) {
@@ -188,5 +193,9 @@ public class RequisitionBean implements Serializable {
 
     public void approveBudgetLine(int budgetLineId) {
         budgetLineService.approveBudgetLine(budgetLineId);
+    }
+
+    public int countReviewedReqs(){
+        return requisitionService.getApprovedRequisitions().size() + requisitionService.getRejectedRequisitions().size();
     }
 }

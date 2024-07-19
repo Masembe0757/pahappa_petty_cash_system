@@ -3,6 +3,7 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
+import org.pahappa.pettycashapp.systems.petty_cash_app.services.UserService;
 import org.primefaces.model.charts.pie.PieChartOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,11 +45,13 @@ public class ChartBean implements Serializable {
 
     @Autowired
     private BudgetLineService budgetLineService;
+    @Autowired
+    private UserService userService;
 
     @PostConstruct
     public void init() {
         createBarModel();
-//        createDonutModel();
+        createDonutModel();
         createPieModel();
     }
 
@@ -178,29 +181,39 @@ public class ChartBean implements Serializable {
         barModel.setOptions(options);
     }
 
-//    private void createDonutModel() {
-//        donutModel = new DonutChartModel();
-//        ChartData data = new ChartData();
-//
-//        DonutChartModel dataSet = new DonutChartModel();
-//        List<Number> values = new ArrayList<>();
-//        values.add(femaleDependantsCount());
-//        values.add(maleDependantsCount());
-//        dataSet.setData((ChartData) values);
-//
-//        List<String> bgColors = new ArrayList<>();
-//        bgColors.add("rgb(255, 99, 132)");
-//        bgColors.add("rgb(54, 162, 235)");
-//        dataSet.(bgColors);
-//
-//        data.addChartDataSet(dataSet);
-//        List<String> labels = new ArrayList<>();
-//        labels.add("Female");
-//        labels.add("Male");
-//        data.setLabels(labels);
-//
-//        donutModel.setData(data);
-//    }
+    private void createDonutModel() {
+        donutModel = new DonutChartModel();
+        ChartData data = new ChartData();
+
+        // Create a single dataset for the donut chart
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+
+        // Add values for each section of the donut
+        List<Number> values = new ArrayList<>();
+        values.add(requisitionService.countAllRequisitions());
+        values.add(budgetLineService.countAllBL());
+        values.add(userService.countAllUsers());
+        dataSet.setData(values);
+
+        // Set labels for each section
+        List<String> labels = new ArrayList<>();
+        labels.add("Requisitions");
+        labels.add("Budget Lines");
+        labels.add("Users");
+        data.setLabels(labels);
+
+        // Set the chart data to the donut model
+        donutModel.setData(data);
+
+        // Use the extender to customize the donut chart
+        donutModel.setExtender("function(ctx) { " +
+                "  // Access chart elements through ctx.chart, ctx.data, etc." +
+                "  // Example: Add a title to the chart" +
+                "  ctx.chart.options.plugins.title.text = 'Resource Counts';" +
+                "  // Example: Change the font size of the labels" +
+                "  ctx.chart.options.plugins.legend.labels.fontSize = 14;" +
+                "}");
+    }
 
 
 }
