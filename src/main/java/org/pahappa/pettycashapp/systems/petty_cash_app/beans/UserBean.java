@@ -103,7 +103,6 @@ public class UserBean implements Serializable {
         this.password2 = password2;
     }
 
-
     public String getEmail() {
         return email;
     }
