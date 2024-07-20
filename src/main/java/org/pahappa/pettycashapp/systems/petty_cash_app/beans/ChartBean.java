@@ -95,7 +95,7 @@ public class ChartBean implements Serializable {
         values.add(requisitionService.countApprovedRequisitions());
         values.add(requisitionService.countFulfilledRequisitions());
         values.add(requisitionService.countRejectedRequisitions());
-        values.add(requisitionService.countStagedRequisitions());
+        values.add(requisitionService.countRequisitionsWithRequests());
         dataSet.setData(values);
 
         List<String> bgColors = new ArrayList<>();
@@ -110,7 +110,7 @@ public class ChartBean implements Serializable {
         labels.add("Approved");
         labels.add("Paid Out");
         labels.add("Rejected");
-        labels.add("Staged");
+        labels.add("Requests");
         data.setLabels(labels);
         pieModel.setData(data);
         PieChartOptions pieChartOptions = new PieChartOptions();

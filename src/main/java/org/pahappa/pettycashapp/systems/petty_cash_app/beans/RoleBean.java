@@ -155,9 +155,13 @@ public class RoleBean implements Serializable {
     }
 
     public void deleteRoleOfId(int roleId) {
+        roleService.deletePermissionOfId(roleId);
         roleService.deleteRoleOfId(roleId);
+        Role role = roleService.getRoleOfId(roleId);
+
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "DELETED", "Role deleted successfully"));
+
     }
 
     public List<Role> getRoles() {

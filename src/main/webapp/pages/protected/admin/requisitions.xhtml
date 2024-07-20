@@ -89,7 +89,7 @@
         </div>
 
 
-        <p:tabView>
+        <p:tabView id="requisitionTab">
 
             <p:tab id="requisitions" title="All Requisitions">
                 <ui:include src="allRequisitions.xhtml"/>
@@ -114,7 +114,7 @@
             </p:tab>
 
 
-            <p:tab id="reqStaged" title="Staged">
+            <p:tab id="reqStaged" title="Change Requests">
                 <ui:fragment rendered="#{roleBean.CanViewStagedRequisitions()}">
                     <ui:include src="requisitionStaged.xhtml"/>
                 </ui:fragment>
@@ -140,7 +140,6 @@
                     <ui:include src="accountability.xhtml"/>
                 </ui:fragment>
             </p:tab>
-
         </p:tabView>
 
     </ui:define>

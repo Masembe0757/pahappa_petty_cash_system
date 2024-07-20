@@ -3,5 +3,59 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Accountability</ui:define>
+    <ui:define name="pageTitle">Accountability</ui:define>
+
+    <ui:define name="content">
+
+        <div class="glass">
+            <h4 class="Table-title">ACCOUNTABILITY</h4>
+            <h:form id="accTable">
+            <p:dataTable id="accountabilityTable" value="#{accountabilityBean.getAllAccountabilities()}" var="accountabililty"
+                         emptyMessage="No Accountabilities available"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
+
+                <p:column headerText="Reference number:">
+                    <h:outputText value="#{accountabililty.referenceNumber}"/>
+                </p:column>
+                <p:column headerText="Date created:">
+                    <h:outputText value="#{accountabililty.dateCreated}"/>
+                </p:column>
+                <p:column headerText="Description:">
+                    <h:outputText value="#{accountabililty.description}"/>
+                </p:column>
+
+                <p:column headerText="Amount accounted: ">
+                    <h:outputText value="#{accountabililty.amount}"/>
+                </p:column>
+                <p:column headerText="Requisition ">
+                    <h:outputText value="#{accountabililty.requisition.referenceNumber}"/>
+
+                </p:column>
+                <p:column headerText="Actions">
+                    <p:growl id="message" showDetail="true"/>
+
+
+
+                    <p:commandButton action="#{accountabilityBean.deleteAccountability(accountabililty.id)}"
+                                     process="@this"
+                                     update="@form"
+                                     styleClass="delete" icon="pi pi-trash">
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete this accountability?"
+                                   icon="pi pi-info-circle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            </h:form>
+
+        </div>
+    </ui:define>
 
 </ui:composition>

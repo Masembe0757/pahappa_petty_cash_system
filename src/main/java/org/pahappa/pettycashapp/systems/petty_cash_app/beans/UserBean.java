@@ -137,32 +137,27 @@ public class UserBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public String saveUser() {
-        System.out.println("name   ......." + getLastname());
+    public void saveUser() {
         String message = userService.saveUser(firstname, lastname, username, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User added successfully "));
-            return routes.getUsers();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
-        return "";
 
     }
 
-    public String updateUser(User userForUpdate) {
-        String message = userService.updateUserOfUserName(userForUpdate);
+    public void updateUser(String username,String firstname,String lastname,String password1,String password2,String email,String role) {
+        String message = userService.updateUserOfUserName(username,firstname,lastname,password1,password2,email,role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User updated successfully "));
-            return routes.getUsers();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
         }
-        return "";
 
     }
 

@@ -15,7 +15,6 @@ import java.util.List;
 @Repository
 public class RequisitionDao {
     public List<Requisition> getAllRequisitions() {
-        System.out.println("GETTING AL........");
         List<Requisition> requisitions = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -25,13 +24,13 @@ public class RequisitionDao {
             requisitions = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
         return requisitions;
 
     }
+
     public void deleteRequisition(int requisitionId) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -42,10 +41,11 @@ public class RequisitionDao {
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
-        }catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
     }
+
     public List<Requisition> getPendingRequisitions(String pending) {
         List<Requisition> requisitions = new ArrayList<>();
         try {
@@ -58,12 +58,12 @@ public class RequisitionDao {
             requisitions = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
         return requisitions;
     }
+
     public void submitRequisition(int requisitionId, String pending) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -71,16 +71,16 @@ public class RequisitionDao {
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("UPDATE Requisition set status = :pending where id = :requisitionId");
             qry.setParameter("pending", pending);
-            qry.setParameter("requisitionId",requisitionId);
+            qry.setParameter("requisitionId", requisitionId);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
 
     }
+
     public void setRejectionStatus(int id) {
         String status = "rejected";
         try {
@@ -89,12 +89,11 @@ public class RequisitionDao {
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("UPDATE Requisition set status = :status where id = :id");
             qry.setParameter("id", id);
-            qry.setParameter("status",status);
+            qry.setParameter("status", status);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
     }
@@ -106,12 +105,11 @@ public class RequisitionDao {
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("UPDATE Requisition set status = :fulfilled where id = :requisitionId");
             qry.setParameter("requisitionId", requisitionId);
-            qry.setParameter("fulfilled",fulfilled);
+            qry.setParameter("fulfilled", fulfilled);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
     }
@@ -127,25 +125,7 @@ public class RequisitionDao {
             requisitions = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return requisitions;
-    }
-    public List<Requisition> getStagedRequisitions(String status) {
-        List<Requisition> requisitions = new ArrayList<>();
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Requisition where status = :status");
-            qry.setParameter("status", status);
-            requisitions = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
         return requisitions;
@@ -162,8 +142,7 @@ public class RequisitionDao {
             requisitions = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
         return requisitions;
@@ -180,25 +159,24 @@ public class RequisitionDao {
             requisitions = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
         return requisitions;
     }
-    public void stageRequisition(int requisitonId, String staged) {
+
+    public void approveRequisitionRequest(int requisitonId, String drafted) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :staged where id = :requisitonId");
+            Query qry = session.createQuery("UPDATE Requisition set status = :drafted where id = :requisitonId");
             qry.setParameter("requisitonId", requisitonId);
-            qry.setParameter("staged",staged);
+            qry.setParameter("drafted", drafted);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
     }
@@ -210,21 +188,36 @@ public class RequisitionDao {
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("UPDATE Requisition set status = :approved where id = :requisitionId");
             qry.setParameter("requisitionId", requisitionId);
-            qry.setParameter("approved",approved);
+            qry.setParameter("approved", approved);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
     }
+    public void makeRequisitionChangeRequest(int requisitionId, String change) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("UPDATE Requisition set status = :change where id = :requisitionId");
+            qry.setParameter("requisitionId", requisitionId);
+            qry.setParameter("change", change);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        } catch (Exception e) {
+            SessionConfiguration.shutdown();
+        }
+    }
+
     public void updateRequisition(int requisitionId, int amount, Date dateNeeded, String description, BudgetLine budgetLine) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Requisition requisition =(Requisition) session.get(Requisition.class,requisitionId);
+            Requisition requisition = (Requisition) session.get(Requisition.class, requisitionId);
             requisition.setAmount(amount);
             requisition.setDateNeeded(dateNeeded);
             requisition.setDescription(description);
@@ -232,12 +225,12 @@ public class RequisitionDao {
             session.update(requisition);
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
             e.printStackTrace();
         }
     }
+
     public void saveRequisition(Requisition requisition) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -246,8 +239,7 @@ public class RequisitionDao {
             session.saveOrUpdate(requisition);
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
             e.printStackTrace();
         }
@@ -264,11 +256,27 @@ public class RequisitionDao {
             requisition = (Requisition) qry.uniqueResult();
             trs.commit();
             SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             SessionConfiguration.shutdown();
         }
         return requisition;
+    }
+
+    public List<Requisition> getRequisitionsWithReqs(String change) {
+        List<Requisition> requisitions = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where status = :change");
+            qry.setParameter("change", change);
+            requisitions = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        } catch (Exception e) {
+            SessionConfiguration.shutdown();
+        }
+        return requisitions;
     }
 
 }

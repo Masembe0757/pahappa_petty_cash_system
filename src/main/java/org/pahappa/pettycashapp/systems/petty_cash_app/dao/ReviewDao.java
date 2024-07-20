@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Review;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,13 @@ public class ReviewDao {
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Review where user_id = :userId");
             qry.setParameter("userId", userId);
-            System.out.println("FETCHED REVIEWS..");
             reviews = qry.list();
             trs.commit();
 
             SessionConfiguration.shutdown();
         } catch (Exception e) {
             SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
         return reviews;
     }
@@ -54,6 +55,7 @@ public class ReviewDao {
             SessionConfiguration.shutdown();
         } catch (Exception e) {
             SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
     }
 

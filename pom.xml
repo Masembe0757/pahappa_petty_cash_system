@@ -173,6 +173,17 @@
       <artifactId>spring-orm</artifactId>
       <version>5.3.10</version> <!-- Adjust version as per your requirement -->
     </dependency>
+    <!-- Spring Web Flow -->
+    <dependency>
+      <groupId>org.springframework.webflow</groupId>
+      <artifactId>spring-webflow</artifactId>
+      <version>2.5.1.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.webflow</groupId>
+      <artifactId>spring-faces</artifactId>
+      <version>2.5.1.RELEASE</version>
+    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

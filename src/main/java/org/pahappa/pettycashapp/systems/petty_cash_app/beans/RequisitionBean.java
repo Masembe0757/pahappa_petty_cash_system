@@ -3,6 +3,7 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
+import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -29,6 +30,8 @@ public class RequisitionBean implements Serializable {
     private  String username;
     private String budgetLineName;
     private int requisitionId;
+    @Autowired
+    private ReviewService reviewService;
 
     public int getRequisitionId() {
         return requisitionId;
@@ -153,8 +156,8 @@ public class RequisitionBean implements Serializable {
         requisitionService.deleteRequisition(requisitionId);
     }
 
-    public List<Requisition> returnStagedRequisitions() {
-        return  requisitionService.getStagedRequisitions();
+    public List<Requisition> returnRequisitionsWithReqs() {
+        return  requisitionService.getRequisitionsWithReqs();
     }
     public List<Requisition> returnPendingRequisitions() {
         return  requisitionService.getPendingRequisitions();
@@ -171,8 +174,11 @@ public class RequisitionBean implements Serializable {
         return  requisitionService.getRejectedRequisitions();
     }
 
-    public void stageRequisition(int requisitionId) {
-        requisitionService.stageRequisition(requisitionId);
+    public void approveRequisitionRequest(int requisitionId) {
+        requisitionService.approveRequisitionRequest(requisitionId);
+    }
+    public void makeRequisitionChangeRequest(int requisitionId) {
+        requisitionService.makeRequisitionChangeRequest(requisitionId);
     }
 
     public void completeRequisition(int requisitionId) {
@@ -183,12 +189,8 @@ public class RequisitionBean implements Serializable {
         requisitionService.submitRequisition(requisitionId);
     }
 
-    public void saveReview(String information, Requisition requisition,User  user) {
-        requisitionService.saveRequisitionReview(information,new Date(),requisition,user);
-    }
-
-    public List<Review> getReviewsOfUser() {
-        return  requisitionService.getReviewsOfUser(currentUser().getId());
+    public void saveReview(String information,Requisition requisition,User  user) {
+        reviewService.saveRequisitionReview(information,new Date(),requisition,user);
     }
 
     public void approveBudgetLine(int budgetLineId) {
@@ -198,4 +200,6 @@ public class RequisitionBean implements Serializable {
     public int countReviewedReqs(){
         return requisitionService.getApprovedRequisitions().size() + requisitionService.getRejectedRequisitions().size();
     }
+
+
 }

@@ -20,14 +20,12 @@ public class ReviewBean {
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
     }
-    public List<Review> getReviewsOfUser() {
-        System.out.println("FETCHING REV .....1");
-        return reviewService.getReviewsOfUser(currentUser().getId());
-
-    }
 
     public void deleteReview(int reviewId) {
         reviewService.deleteReview(reviewId);
 
+    }
+    public List<Review> getReviewsOfUser() {
+        return  reviewService.getReviewsOfUser(currentUser().getId());
     }
 }

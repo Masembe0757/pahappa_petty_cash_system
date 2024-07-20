@@ -10,7 +10,7 @@
 
     <div class="glass">
         <h4 class="Table-title">ALL REQUISITIONS</h4>
-        <h:form>
+        <h:form id="allReqTable">
             <p:dataTable id="requisitionTable" var="requisition"
                          value="#{requisitionBean.getAllRequisitions()}"
                          emptyMessage="No requisitions available"
