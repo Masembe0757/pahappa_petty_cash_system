@@ -172,40 +172,37 @@ public class UserService {
 
 
 
-    public String updateUserOfUserName(User selectedUser) {
-        String error_message = "";
-            User returnedUser = userDao.returnUser(selectedUser.getUserName());
-            if (returnedUser!=null) {
-                //update validation
+    public String updateUserOfUserName(String username,String firstname,String lastname,String password1,String password2,String email,String role) {
+                String error_message = "";
 
-                if( userService.hasDigits(selectedUser.getFirstName()) || userService.hasSpecialCharacters(selectedUser.getFirstName()) ){
+                if( userService.hasDigits(firstname) || userService.hasSpecialCharacters(firstname)){
                     error_message ="First name field has digits or special characters  in it";
 
                 }
-                else if(userService.hasDigits(selectedUser.getLastName()) || userService.hasSpecialCharacters(selectedUser.getLastName())){
+                else if(userService.hasDigits(lastname) || userService.hasSpecialCharacters(lastname)){
                     error_message ="Last name field has digits or special characters in it";
 
-                }else  if(!userService.isValidEmail(selectedUser.getEmail())){
+                }else  if(!userService.isValidEmail(email)){
                     error_message = "Email provided is of incorrect format";
+                } else if (!password1.equals(password2)) {
+                    error_message = "Passwords do not match";
                 } else {
-                    if (!userService.isValidPassword(selectedUser.getPassword())) {
+                    if (!userService.isValidPassword(password1)) {
                         error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters";
                     } else {
 
                             //Sending email with credentials
                           //  UserService.getUserService().EmailSender(email, userName, password1,firstName,lastName);
                             // Encrypting the password with BCrypt
-                            String encodedPassword = Base64.getEncoder().encodeToString(selectedUser.getPassword().getBytes());
+                            String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
+                            User user = userDao.returnUser(username);
 
-                            userDao.updateUser(selectedUser.getId(), selectedUser.getFirstName(),selectedUser.getLastName(),selectedUser.getUserName(),encodedPassword,selectedUser.getEmail(),selectedUser.getRole());
+                            userDao.updateUser(user.getId(), firstname,lastname,username,encodedPassword,email,role);
 
 
                     }
                 }
-            }
-            else {
-                error_message = "User not registered in the database";
-            }
+
 
         return  error_message;
     }

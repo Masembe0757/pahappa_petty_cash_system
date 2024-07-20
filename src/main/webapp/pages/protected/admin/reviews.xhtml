@@ -12,6 +12,7 @@
 
     <div class="glass">
         <h4 class="Table-title">REVIEWS</h4>
+        <h:form>
         <p:dataTable id="reviewTable" value="#{reviewBean.getReviewsOfUser()}" var="review"
                      emptyMessage="No reviews available"
                      paginator="true"
@@ -68,6 +69,7 @@
                 </div>
             </p:column>
         </p:dataTable>
+        </h:form>
 
     </div>
     </ui:define>

@@ -45,16 +45,20 @@ public class RoleDao {
 
     public void deleteRoleOdId(int roleId) {
         try {
+            System.out.println("role dell 1");
+            System.out.println("ID ...\n" +roleId);
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("delete from Role where id = :roleId");
             qry.setParameter("roleId", roleId);
             qry.executeUpdate();
+            System.out.println("role dell 2");
             trs.commit();
             SessionConfiguration.shutdown();
         }catch (Exception e){
             SessionConfiguration.shutdown();
+            e.printStackTrace();
         }
     }
 

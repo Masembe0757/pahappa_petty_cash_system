@@ -7,99 +7,97 @@
     <div class="glass">
         <h4 class="Table-title">REJECTED REQUISITIONS</h4>
 
-        <h:form>
-        <p:dataTable id="draftTable" value="#{requisitionBean.returnFulfilledRequisitions()}" var="draft"
-                     emptyMessage="No Paid Out Requisitions"
-                     paginator="true"
-                     paginatorPosition="bottom"
-                     paginatorAlwaysVisible="true"
-                     pageLinks="4"
-                     rowHover="true"
-                     rows="9"
-                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
-        >
-            <p:column headerText="User">
-                <h:outputText value="#{draft.user.userName}"/>
-            </p:column>
-            <p:column headerText="Budget Line">
-                <h:outputText value="#{draft.budgetLine.name}"/>
-            </p:column>
-            <p:column headerText="Description">
-                <h:outputText value="#{draft.description}"/>
-            </p:column>
-            <p:column headerText="Date Needed">
-                <h:outputText value="#{draft.dateNeeded}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="Amount">
-                <h:outputText value="#{draft.amount}"/>
-            </p:column>
+        <h:form id="accountabilityForm">
+            <p:dataTable id="draftTable" value="#{requisitionBean.returnFulfilledRequisitions()}" var="draft"
+                         emptyMessage="No Paid Out Requisitions"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
+                <p:column headerText="User">
+                    <h:outputText value="#{draft.user.userName}"/>
+                </p:column>
+                <p:column headerText="Budget Line">
+                    <h:outputText value="#{draft.budgetLine.name}"/>
+                </p:column>
+                <p:column headerText="Description">
+                    <h:outputText value="#{draft.description}"/>
+                </p:column>
+                <p:column headerText="Date Needed">
+                    <h:outputText value="#{draft.dateNeeded}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Amount">
+                    <h:outputText value="#{draft.amount}"/>
+                </p:column>
 
-            <p:column headerText="Actions" style="width:100px">
+                <p:column headerText="Actions" style="width:100px">
 
-                <ui:fragment rendered="#{roleBean.canProvideAccountability()}">
-                    <p:commandButton oncomplete="PF('acc').show();"
+                    <ui:fragment rendered="#{roleBean.canProvideAccountability()}">
+                        <p:commandButton oncomplete="PF('acc').show();" update=":requisitionTab:createAccForm:acc" styleClass="edit" process="@this" icon="pi pi-book">
+                            <f:setPropertyActionListener value="#{draft}" target="#{accountabilityBean.requisition}" />
+                        </p:commandButton>
+                        </ui:fragment>
 
-                                     styleClass="edit" icon="pi pi-book">
+                    <p:commandButton action="#{requisitionBean.deleteRequisition(draft.id)}"
+                                     process="@this"
+                                     update="@form"
+                                     styleClass="delete" icon="pi pi-trash">
+                        <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                   icon="pi pi-info-circle"/>
                     </p:commandButton>
-                    </ui:fragment>
 
-                    <h:form>
-                    <p:dialog header="Add Accountability"  resizable="true" width="1100" widgetVar="acc" id="acc" modal="true"  dynamic="true" responsive="true" >
-                        <p:growl id="message" showDetail="true"/>
-                        <h:panelGrid columns="1">
-                            <h:outputLabel for="requisition" value="Requisition:"/>
-                            <p:inputText id="requisition" value="#{draft.referenceNumber}" disabled="true" required="true"
-                                         requiredMessage="Role name is required!">
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="createAccForm">
+            <p:dialog header="Add Accountability"  resizable="true" width="1100" widgetVar="acc" id="acc" modal="true"  dynamic="true" responsive="true" >
+                <p:growl id="message" showDetail="true"/>
 
-                            </p:inputText>
-                            <h:outputLabel for="amountSpent" value="Amount Used:"/>
-                            <p:inputText id="amountSpent" value="#{accountablityBean.accountedAmount}" required="true"
-                                         requiredMessage="Role name is required!">
-                                <p:ajax event="keyup" update="@this"/>
+                <h:outputLabel for="requisition" value="Requisition:"/>
+                <p:inputText id="requisition" value="#{accountabilityBean.requisition.referenceNumber}" disabled="true" required="true"
+                             requiredMessage="Role name is required!">
 
-                            </p:inputText>
-
-                            <h:outputLabel for="description" value="Usage Description:"/>
-                            <p:inputText id="description" value="#{accountablityBean.description}" required="true" up
-                                         requiredMessage="Description is required!">
-                                <p:ajax event="keyup" update="@this"/>
-                            </p:inputText>
-
-                            <p:outputLabel for="accountabilityImage" value="Image: ">
-                                <p:fileUpload chooseIcon="pi pi-upload" uploadIcon="pi pi-upload" id="accountabilityImage" value="#{accountablityBean.imageUploaded}"
-                                              mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" requiredMessage="Please add an image of receipt"
-                                                update="@this"
-                                                >
-
-                                </p:fileUpload>
-                            </p:outputLabel>
+                </p:inputText>
+                <h:outputLabel for="amountSpent" value="Amount Used:"/>
+                <p:inputText id="amountSpent" value="#{accountabilityBean.accountedAmount}" required="true"
+                             requiredMessage="Role name is required!">
 
 
-                            <p:commandButton value="Submit"
-                                             process="@this"
-                                             update="@form"
-                                             action="#{accountablityBean.addAccountability()}"
-                                             oncomplete="PF('acc').hide();"
-                            >
-                                <f:setPropertyActionListener  value="#{draft}" target="#{accountablityBean.requisition}"  />
-                            </p:commandButton>
-                        </h:panelGrid>
-                    </p:dialog>
-                    </h:form>
+                </p:inputText>
+
+                <h:outputLabel for="description" value="Usage Description:"/>
+                <p:inputText id="description" value="#{accountabilityBean.description}" required="true"
+                             requiredMessage="Description is required!">
+
+                </p:inputText>
+                <!--
+
+                <p:outputLabel for="accountabilityImage" value="Image: ">
+                    <p:fileUpload chooseIcon="pi pi-upload" uploadIcon="pi pi-upload" id="accountabilityImage" value="#{accountabilityBean.imageUploaded}"
+                                  mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" requiredMessage="Please add an image of receipt"
+                                  update="@this"
+                    >
+                    </p:fileUpload>
+                </p:outputLabel>
+                -->
 
 
-                <p:commandButton action="#{requisitionBean.deleteRequisition(draft.id)}"
-                                 process="@this"
-                                 update="@form"
-                                 styleClass="delete" icon="pi pi-trash">
-                    <p:confirm header="Confirmation" message="Do you want to delete this record?"
-                               icon="pi pi-info-circle"/>
+                <p:commandButton value="Submit"
+                                 process="@form"
+                                 update=":requisitionTab:createAccForm:acc"
+                                 action="#{accountabilityBean.addAccountability()}"
+                                 oncomplete="PF('acc').hide();"
+                >
                 </p:commandButton>
 
-            </p:column>
-        </p:dataTable>
+            </p:dialog>
+
         </h:form>
     </div>
 </ui:composition>

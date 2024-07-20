@@ -80,6 +80,7 @@ public class UserDao {
 
     public void updateUser(int userId,String firstName, String lastName, String userName,String password, String email,String role) {
         try {
+            System.out.println("\n\n UPDATING,..................");
 
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();

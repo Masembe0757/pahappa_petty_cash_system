@@ -11,7 +11,7 @@
         <div class="glass">
             <h4 class="Table-title">ACCOUNTABILITY</h4>
             <h:form id="accTable">
-            <p:dataTable id="accountabilityTable" value="#{accountablityBean.getAllAccountabilities()}" var="accountabililty"
+            <p:dataTable id="accountabilityTable" value="#{accountabilityBean.getAllAccountabilities()}" var="accountabililty"
                          emptyMessage="No Accountabilities available"
                          paginator="true"
                          paginatorPosition="bottom"
@@ -44,7 +44,7 @@
 
 
 
-                    <p:commandButton action="#{accountablityBean.deleteAccountability(accountabililty.id)}"
+                    <p:commandButton action="#{accountabilityBean.deleteAccountability(accountabililty.id)}"
                                      process="@this"
                                      update="@form"
                                      styleClass="delete" icon="pi pi-trash">

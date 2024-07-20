@@ -8,6 +8,9 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
 
 
   <listener>
@@ -31,11 +34,16 @@
     <param-value>server</param-value>
   </context-param>
 
+  <!-- JSF configuration -->
   <context-param>
     <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Production</param-value>
+    <param-value>Development</param-value>
   </context-param>
-
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
 
 
 
@@ -59,11 +67,6 @@
     <param-value>resources.application</param-value>
   </context-param>
 
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
 
 
   <servlet-mapping>

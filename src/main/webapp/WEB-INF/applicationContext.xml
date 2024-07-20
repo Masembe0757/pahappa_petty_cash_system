@@ -8,5 +8,6 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="org.pahappa.pettycashapp.systems.petty_cash_app"/>
-    <bean id="loginBean" class="org.pahappa.pettycashapp.systems.petty_cash_app.beans.LoginBean"></bean>
+    <bean id="facesContextUtils" class="org.springframework.web.jsf.FacesContextUtils" abstract="true"/>
+    <bean class="org.springframework.web.jsf.el.SpringBeanFacesELResolver" />
 </beans>

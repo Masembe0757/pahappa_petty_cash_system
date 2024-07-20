@@ -48,20 +48,22 @@ public class AccountabilityService {
             error_message = "Please provide more description";
         }else if (requisition.getStatus().equals("pending")) {
             error_message ="Can not account for a drafted requisition";
-        } else if (imageUploaded==null) {
-            error_message ="Image is required";
-        } else {
+        }
+//        else if (imageUploaded==null) {
+//            error_message ="Image is required";
+//        }
+        else {
             Accountability accountability= new Accountability();
-                try {
-                    InputStream inputStream = imageUploaded.getInputStream();
-                    byte[] fileContent = new byte[(int) imageUploaded.getSize()];
-                    inputStream.read(fileContent);
-
-                    accountability.setImage(fileContent);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    InputStream inputStream = imageUploaded.getInputStream();
+//                    byte[] fileContent = new byte[(int) imageUploaded.getSize()];
+//                    inputStream.read(fileContent);
+//
+//                    accountability.setImage(fileContent);
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             accountability.setAmount(amountAccounted);
             accountability.setRequisition(requisition);
             accountability.setDateCreated(new Date());
