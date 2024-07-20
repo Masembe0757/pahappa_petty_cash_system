@@ -47,31 +47,44 @@
 
                     <h:form>
                     <p:dialog header="Add Accountability"  resizable="true" width="1100" widgetVar="acc" id="acc" modal="true"  dynamic="true" responsive="true" >
+                        <p:growl id="message" showDetail="true"/>
                         <h:panelGrid columns="1">
+                            <h:outputLabel for="requisition" value="Requisition:"/>
+                            <p:inputText id="requisition" value="#{draft.referenceNumber}" disabled="true" required="true"
+                                         requiredMessage="Role name is required!">
+
+                            </p:inputText>
                             <h:outputLabel for="amountSpent" value="Amount Used:"/>
                             <p:inputText id="amountSpent" value="#{accountablityBean.accountedAmount}" required="true"
                                          requiredMessage="Role name is required!">
-                                <p:ajax event="keyup" />
+                                <p:ajax event="keyup" update="@this"/>
+
                             </p:inputText>
 
                             <h:outputLabel for="description" value="Usage Description:"/>
-                            <p:inputText id="description" value="#{accountablityBean.description}" required="true"
+                            <p:inputText id="description" value="#{accountablityBean.description}" required="true" up
                                          requiredMessage="Description is required!">
-                                <p:ajax event="keyup" />
+                                <p:ajax event="keyup" update="@this"/>
                             </p:inputText>
 
                             <p:outputLabel for="accountabilityImage" value="Image: ">
                                 <p:fileUpload chooseIcon="pi pi-upload" uploadIcon="pi pi-upload" id="accountabilityImage" value="#{accountablityBean.imageUploaded}"
-                                              mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" requiredMessage="Please add an image of receipt">
+                                              mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" requiredMessage="Please add an image of receipt"
+                                                update="@this"
+                                                >
+
                                 </p:fileUpload>
                             </p:outputLabel>
+
 
                             <p:commandButton value="Submit"
                                              process="@this"
                                              update="@form"
-                                             action="#{accountablityBean.addAccountability(accountablityBean.imageUploaded,accountablityBean.accountedAmount,accountablityBean.description,draft)}"
+                                             action="#{accountablityBean.addAccountability()}"
                                              oncomplete="PF('acc').hide();"
-                            />
+                            >
+                                <f:setPropertyActionListener  value="#{draft}" target="#{accountablityBean.requisition}"  />
+                            </p:commandButton>
                         </h:panelGrid>
                     </p:dialog>
                     </h:form>

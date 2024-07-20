@@ -36,7 +36,7 @@
             <p:column headerText="Requisition ">
 
                 <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
-                <h:outputText value="#{review.requisition.name}"/>
+                <h:outputText value="#{review.requisition.referenceNumber}"/>
                 </ui:fragment>
 
             </p:column>

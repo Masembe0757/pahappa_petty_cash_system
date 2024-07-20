@@ -213,6 +213,5 @@ public class BudgetLineBean implements Serializable {
             balance = balance + budgetLine.getBalance();
         }
         return balance;
-
     }
 }

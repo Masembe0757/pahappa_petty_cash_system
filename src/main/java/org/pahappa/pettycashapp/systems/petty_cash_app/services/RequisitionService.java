@@ -2,15 +2,13 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.ReviewDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class RequisitionService {
@@ -20,6 +18,8 @@ public class RequisitionService {
     BudgetLineDao budgetLineDao;
     @Autowired
     ReviewDao reviewDao;
+    @Autowired
+    UserDao userDao;
 
     @Autowired
     RequisitionService requisitionService;
@@ -29,12 +29,17 @@ public class RequisitionService {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public  String generateReferenceNumber() {
-        UUID uuid = UUID.randomUUID();
-        String referenceNumber = uuid.toString().replace("-", "REQ").toUpperCase();
-        return referenceNumber;
-    }
+    public String generateReferenceNumber() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuilder referenceNumber = new StringBuilder("REQ-");
 
+        for (int i = 0; i < 5; i++) {
+            referenceNumber.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        return referenceNumber.toString();
+    }
 
     //REQUISITIONS
     public String makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
@@ -76,25 +81,28 @@ public class RequisitionService {
         return requisitionDao.getApprovedRequisitions("approved");
     }
     //for ceo
-    public List<Requisition> getStagedRequisitions(){
-        return requisitionDao.getStagedRequisitions("staged");
+    public List<Requisition> getRequisitionsWithReqs(){
+        return requisitionDao.getRequisitionsWithReqs("change");
     }
     //for user
     public List<Requisition> getFulfilledRequisitions(){
         return requisitionDao.getFulfilledRequisitions("fulfilled");
     }
 
-    public List<Requisition> getRejectedRequisitions(){ return requisitionDao.getStagedRequisitions("rejected"); }
+    public List<Requisition> getRejectedRequisitions(){ return requisitionDao.getRequisitionsWithReqs("rejected"); }
     //for user
     public List<Requisition> getDraftedRequisitions(){
         return requisitionDao.getDraftedRequisitions("drafted");
     }
-    public void stageRequisition(int requisitionId){
-        requisitionDao.stageRequisition(requisitionId,"staged");
+    public void approveRequisitionRequest(int requisitionId){
+        requisitionDao.approveRequisitionRequest(requisitionId,"drafted");
     }
     //CEO approval
     public void approveRequisition(int requisitionId){
         requisitionDao.approveRequisition(requisitionId,"approved");
+    }
+    public void makeRequisitionChangeRequest(int requisitionId){
+        requisitionDao.makeRequisitionChangeRequest(requisitionId,"change");
     }
 
     public String updateRequisition(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
@@ -127,8 +135,8 @@ public class RequisitionService {
         return getApprovedRequisitions().size();
     }
 
-    public int countStagedRequisitions(){
-        return getStagedRequisitions().size();
+    public int countRequisitionsWithRequests(){
+        return requisitionService.getRequisitionsWithReqs().size();
     }
 
     public int countFulfilledRequisitions(){
@@ -153,16 +161,5 @@ public class RequisitionService {
         requisitionDao.submitRequisition(requisitionId,"pending");
     }
 
-    public void saveRequisitionReview(String information, Date date, Requisition requisition, User user) {
-        Review review = new Review();
-        review.setRequisition(requisition);
-        review.setDescription(information);
-        review.setReviewedDate(date);
-        review.setUser(user);
-        reviewDao.saveRequisitionReview(review);
-    }
 
-    public List<Review> getReviewsOfUser(int id) {
-        return  reviewDao.getReviewsOfUser(id);
-    }
 }

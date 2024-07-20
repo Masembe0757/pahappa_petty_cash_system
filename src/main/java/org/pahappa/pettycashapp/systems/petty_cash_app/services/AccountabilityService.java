@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -25,10 +27,16 @@ public class AccountabilityService {
     @Autowired
     RequisitionDao requisitionDao;
 
-    public  String generateReferenceNumber() {
-        UUID uuid = UUID.randomUUID();
-        String referenceNumber = uuid.toString().replace("-", "ACC").toUpperCase();
-        return referenceNumber;
+    public String generateReferenceNumber() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuilder referenceNumber = new StringBuilder("ACC-");
+
+        for (int i = 0; i < 5; i++) {
+            referenceNumber.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        return referenceNumber.toString();
     }
     //ACCOUNTABILITY
     public String provideAccountability(UploadedFile imageUploaded, int amountAccounted, String description, Requisition requisition){
@@ -58,6 +66,7 @@ public class AccountabilityService {
             accountability.setRequisition(requisition);
             accountability.setDateCreated(new Date());
             accountability.setDescription(description);
+            accountability.setReferenceNumber(generateReferenceNumber());
             accountabilityDao.saveAccountability(accountability);
         }
 
@@ -68,4 +77,10 @@ public class AccountabilityService {
         return "";
     }
 
+    public List<Accountability> getAccountabilitiesOfUser(int id) {
+        return  accountabilityDao.getAccountabilitiesOfUser(id);
+    }
+    public List<Accountability> getAllAccountabilities() {
+        return  accountabilityDao.getAllAccountabilities();
+    }
 }
