@@ -6,8 +6,6 @@
     <ui:define name="title">Accountability</ui:define>
     <ui:define name="pageTitle">Accountability</ui:define>
 
-    <ui:define name="content">
-
         <div class="glass">
             <h4 class="Table-title">ACCOUNTABILITY</h4>
             <h:form id="accTable">
@@ -33,7 +31,9 @@
                 </p:column>
 
                 <p:column headerText="Amount accounted: ">
-                    <h:outputText value="#{accountabililty.amount}"/>
+                    <h:outputText value="#{accountabililty.amount}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Requisition ">
                     <h:outputText value="#{accountabililty.requisition.referenceNumber}"/>
@@ -56,6 +56,5 @@
             </h:form>
 
         </div>
-    </ui:define>
 
 </ui:composition>

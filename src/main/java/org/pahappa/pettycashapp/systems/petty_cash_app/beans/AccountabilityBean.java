@@ -1,23 +1,26 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
+
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.AccountabilityService;
-import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import java.io.Serializable;
+import java.io.*;
 import java.util.List;
 
 @Service
 @SessionScope
 public class AccountabilityBean implements Serializable {
+    private Accountability accountability;
+
     @Autowired
     AccountabilityService accountabilityService;
 
@@ -58,6 +61,11 @@ public class AccountabilityBean implements Serializable {
         this.description = description;
     }
 
+    @PostConstruct
+    public void init() {
+        accountability = new Accountability();
+    }
+
     private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
@@ -65,7 +73,8 @@ public class AccountabilityBean implements Serializable {
     }
 
     public void addAccountability() {
-      String message =  accountabilityService.provideAccountability(imageUploaded,accountedAmount,description,requisition);
+        handleFileUpload();
+        String message = accountabilityService.provideAccountability(accountability, accountedAmount, description, requisition);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
@@ -73,6 +82,7 @@ public class AccountabilityBean implements Serializable {
     public List<Accountability> getAccountabilitiesOfUser() {
         return accountabilityService.getAccountabilitiesOfUser(getCurrentUser().getId());
     }
+
     public List<Accountability> getAllAccountabilities() {
         return accountabilityService.getAllAccountabilities();
     }
@@ -80,19 +90,18 @@ public class AccountabilityBean implements Serializable {
     public void deleteAccountability(int accId) {
     }
 
-//    public StreamedContent retrieveImage() {
-//        Accountability selectedAccountability =new Accountability();
-//        Requisition selectedRequisition = new Requisition();
-//        if (selectedAccountability != null && selectedAccountability.getImage() != null) {
-//            byte[] imageData = selectedAccountability.getImage();
-//            return DefaultStreamedContent.builder()
-//                    .name(selectedRequisition.getUser().getUserName() + "--"+ "accountability.jpeg")
-//                    .contentType("image/jpeg")
-//                    .stream(() -> new ByteArrayInputStream(imageData))
-//                    .build();
-//        }
-//        return null;
-//    }
-//
-
+    public void handleFileUpload() {
+        if (imageUploaded != null) {
+            try {
+                InputStream inputStream = imageUploaded.getInputStream();
+                byte[] fileContent = new byte[(int) imageUploaded.getSize()];
+                inputStream.read(fileContent);
+                accountability.setImage(fileContent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FacesMessage message = new FacesMessage("Successful", imageUploaded.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
 }

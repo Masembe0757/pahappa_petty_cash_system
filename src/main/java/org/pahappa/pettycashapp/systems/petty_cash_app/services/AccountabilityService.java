@@ -42,7 +42,7 @@ public class AccountabilityService {
         return referenceNumber.toString();
     }
     //ACCOUNTABILITY
-    public String provideAccountability(UploadedFile imageUploaded, int amountAccounted, String description, Requisition requisition){
+    public String provideAccountability(Accountability accountability, int amountAccounted, String description, Requisition requisition){
         String error_message ="";
 
         //Excess returned and available on budget line
@@ -60,26 +60,14 @@ public class AccountabilityService {
         }else if (requisition.getStatus().equals("pending")) {
             error_message ="Can not account for a drafted requisition";
         }
-//        else if (imageUploaded==null) {
-//            error_message ="Image is required";
-//        }
         else {
-            Accountability accountability= new Accountability();
-//                try {
-//                    InputStream inputStream = imageUploaded.getInputStream();
-//                    byte[] fileContent = new byte[(int) imageUploaded.getSize()];
-//                    inputStream.read(fileContent);
-//
-//                    accountability.setImage(fileContent);
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+
             accountability.setAmount(amountAccounted);
             accountability.setRequisition(requisition);
-            accountability.setDateCreated(new Date());
+            accountability.setDateCreated();
             accountability.setDescription(description);
             accountability.setReferenceNumber(generateReferenceNumber());
+            System.out.println(accountability);
             accountabilityDao.saveAccountability(accountability);
         }
 
