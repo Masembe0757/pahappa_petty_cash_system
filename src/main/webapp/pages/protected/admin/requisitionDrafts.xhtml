@@ -32,13 +32,15 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Amount">
-                    <h:outputText value="#{draft.amount}"/>
+                    <h:outputText value="#{draft.amount}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Actions" style="width:200px">
 
                     <ui:fragment rendered="#{roleBean.CanManageRequisition()}">
 
-                        <p:commandButton icon="pi pi-user-edit" styleClass="edit"
+                        <p:commandButton icon="pi pi-pencil" styleClass="edit"
                                          oncomplete="PF('editDialog').show();"
                                          process="@this"
                                          update=":requisitionTab:reqUpdateForm:editDialog">
@@ -52,22 +54,21 @@
                                                          target="#{requisitionBean.budgetLineId}"/>
                         </p:commandButton>
 
+                        <p:commandButton styleClass="approve" icon="pi pi-check"
+                                         action="#{requisitionBean.submitRequisition(draft.id)}"
+                                         process="@form"
+                                         update=":requisitionTab:draftForm:draftTable, requisitionTab:allReqTable ,requisitionTab:pendingReqForm:pendingTable">
+                            <p:confirm header="Confirmation" message="Confirm You Want to submit this Requisition?"
+                                       icon="pi pi-info-circle"/>
+
+                        </p:commandButton>
 
                         <p:commandButton action="#{requisitionBean.deleteRequisition(draft.id)}"
                                          process="@form"
-                                         update=":requisitionTab:draftForm:draftTable"
+                                         update=":requisitionTab:draftForm:draftTable, requisitionTab:allReqTable"
                                          styleClass="delete" icon="pi pi-trash">
-                            <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                            <p:confirm header="Confirmation" message="Do you want to delete this draft?"
                                        icon="pi pi-info-circle"/>
-                        </p:commandButton>
-
-
-                        <p:commandButton styleClass="edit" icon="pi pi-check" action="#{requisitionBean.submitRequisition(draft)}"
-                                         process="@form"
-                                         update=":requisitionTab:draftForm:draftTable">
-                            <p:confirm header="Confirmation" message="Do you want to submit this Requisition"
-                                       icon="pi pi-info-circle"/>
-
                         </p:commandButton>
 
                     </ui:fragment>

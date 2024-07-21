@@ -3,10 +3,6 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@4.1.0/primeicons.css"/>
-    </h:head>
-
 
     <div class="glass">
         <h4 class="Table-title">ALL REQUISITIONS</h4>
@@ -22,7 +18,7 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
-                <p:column headerText="Reference Number" style="width: 295px;">
+                <p:column headerText="Reference Number" style="width: 200px;">
                     <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>
                 <p:column headerText="Requisitor">
@@ -32,7 +28,9 @@
                     <h:outputText value="#{requisition.budgetLine.name}"/>
                 </p:column>
                 <p:column headerText="Amount">
-                    <h:outputText value="#{requisition.amount}"/>
+                    <h:outputText value="#{requisition.amount}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
 
                 <p:column headerText="Date created">
@@ -42,7 +40,9 @@
                     <h:outputText value="#{requisition.dateNeeded}"/>
                 </p:column>
                 <p:column headerText="Status">
-                    <h:outputText value="#{requisition.status}"/>
+                    <h:outputText value="#{requisition.status}"
+                                  style="#{requisition.status eq 'drafted' ? 'background: #f1b8ff' : (requisition.status eq 'pending' ? 'background: #fff4a9' : (requisition.status eq 'approved' ? 'background: #bee0fc;' : (requisition.status eq 'fulfilled' ? 'background: #ccffcc' : (requisition.status eq 'change' ? 'background: cyan' : (requisition.status eq 'rejected' ? 'background: #f72b2b96' : '')))))}; padding:.3em;"/>
+
                 </p:column>
 
                 <p:growl id="message" showDetail="true"/>
