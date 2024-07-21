@@ -48,7 +48,7 @@ public class Accountability {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated() {
         this.dateCreated = dateCreated;
     }
 

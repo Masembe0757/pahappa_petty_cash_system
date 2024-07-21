@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Limelight&amp;display=swap" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="#{resource['css/general.css']}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@4.1.0/primeicons.css"/>
 
     <style type="text/css">
         body {
@@ -104,6 +105,11 @@
         /*    border-top-right-radius: 15px;*/
         /*}*/
 
+        .active {
+            color: #1039ac !important;
+            transform: scale(1.1);
+        }
+
         /* Style lists */
         ul.listType {
             margin-bottom: 1em;
@@ -142,11 +148,9 @@
             font-weight: 600;
         }
 
-        body .ui-inputfield {
+        .ui-inputfield {
             padding: 10px;
-            border: none;
             border-radius: 25px;
-            outline: none;
         }
 
         .glass, .card {
@@ -157,7 +161,7 @@
         }
 
         .ui-button {
-            border-radius: 13px !important;
+            border-radius: 25px !important;
             background: #1039ac !important;
             border: 1px solid #1039ac !important;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)
@@ -314,6 +318,7 @@
 
 </h:head>
 <h:body>
+
     <div class="background">
         <div class="top-bar">
             <h1 class="header">PCR Management System</h1>
@@ -327,10 +332,10 @@
                     <span class="limited">Limited</span>
                 </div>
                 <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
-                <div class="admin-sect">
-                    <p:graphicImage library="images" name="icons8-shield-96.png" styleClass="admin-image"/>
-                    <h2 class="admin">ADMIN</h2>
-                </div>
+                    <div class="admin-sect">
+                        <p:graphicImage library="images" name="icons8-shield-96.png" styleClass="admin-image"/>
+                        <h2 class="admin">ADMIN</h2>
+                    </div>
                 </ui:fragment>
                 <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
                     <!-- Normal user logo -->
@@ -341,51 +346,51 @@
                         <li class="listItem">
                             <h:link outcome="/pages/protected/admin/dashboard.xhtml"
                                     styleClass="listLink"
-                                    data-outcome="/pages/protected/admin/dashboard.xhtml">
+                                    >
                                 <i class="pi pi-home"></i>
                                 <h:outputText value="Dashboard"/>
 
                             </h:link>
                         </li>
                         <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
-                        <li class="listItem">
-                            <h:link outcome="/pages/protected/admin/requisitions.xhtml"
-                                    styleClass="listLink">
-                                <i class="pi pi-money-bill"></i>
-                                <h:outputText value="Requisitions"/>
-                            </h:link>
-                        </li>
+                            <li class="listItem">
+                                <h:link outcome="/pages/protected/admin/requisitions.xhtml"
+                                        styleClass="listLink">
+                                    <i class="pi pi-money-bill"></i>
+                                    <h:outputText value="Requisitions"/>
+                                </h:link>
+                            </li>
                         </ui:fragment>
 
                         <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
-                        <li class="listItem">
-                            <h:link outcome="/pages/protected/admin/budgetLines.xhtml"
-                                    styleClass="listLink">
-                                <i class="pi pi-sitemap"></i>
-                                <h:outputText value="Budget Lines"/>
-                            </h:link>
-                        </li>
+                            <li class="listItem">
+                                <h:link outcome="/pages/protected/admin/budgetLines.xhtml"
+                                        styleClass="listLink">
+                                    <i class="pi pi-sitemap"></i>
+                                    <h:outputText value="Budget Lines"/>
+                                </h:link>
+                            </li>
                         </ui:fragment>
 
                         <ui:fragment rendered="#{roleBean.CanViewReview()}">
-                        <li class="listItem">
-                            <h:link outcome="/pages/protected/admin/reviews.xhtml"
-                                    styleClass="listLink">
-                                <i class="pi pi-thumbs-up"></i>
-                                <h:outputText value="Reviews"/>
-                            </h:link>
-                        </li>
+                            <li class="listItem">
+                                <h:link outcome="/pages/protected/admin/reviews.xhtml"
+                                        styleClass="listLink">
+                                    <i class="pi pi-thumbs-up"></i>
+                                    <h:outputText value="Reviews"/>
+                                </h:link>
+                            </li>
                         </ui:fragment>
 
 
                         <ui:fragment rendered="#{roleBean.canViewUsers()}">
-                        <li class="listItem">
-                            <h:link outcome="/pages/protected/admin/users.xhtml"
-                                    styleClass="listLink">
-                                <i class="pi pi-users"></i>
-                                <h:outputText value="Users"/>
-                            </h:link>
-                        </li>
+                            <li class="listItem">
+                                <h:link outcome="/pages/protected/admin/users.xhtml"
+                                        styleClass="listLink">
+                                    <i class="pi pi-users"></i>
+                                    <h:outputText value="Users"/>
+                                </h:link>
+                            </li>
                         </ui:fragment>
 
 

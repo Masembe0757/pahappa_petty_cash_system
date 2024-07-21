@@ -1,66 +1,54 @@
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
-        <h4 class="Table-title">REQUISITION DRAFTS</h4>
+        <h4 class="Table-title">APPROVED REQUISITIONS</h4>
 
-        <h:form>
-        <p:dataTable id="draftTable" value="#{requisitionBean.returnApprovedRequisitions()}" var="draft"
-                     emptyMessage="No drafts available"
-                     paginator="true"
-                     paginatorPosition="bottom"
-                     paginatorAlwaysVisible="true"
-                     pageLinks="4"
-                     rowHover="true"
-                     rows="9"
-                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
-        >
-            <p:column headerText="User">
-                <h:outputText value="#{draft.user.userName}"/>
-            </p:column>
-            <p:column headerText="Budget Line">
-                <h:outputText value="#{draft.budgetLine.name}"/>
-            </p:column>
-            <p:column headerText="Description">
-                <h:outputText value="#{draft.description}"/>
-            </p:column>
-            <p:column headerText="Date Needed">
-                <h:outputText value="#{draft.dateNeeded}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="Amount">
-                <h:outputText value="#{draft.amount}"/>
-            </p:column>
-            <p:column headerText="Actions" style="width:100px">
+        <h:form id="approvedReqForm">
+            <p:dataTable id="draftTable" value="#{requisitionBean.returnApprovedRequisitions()}" var="draft"
+                         emptyMessage="No drafts available"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
+                <p:column headerText="User">
+                    <h:outputText value="#{draft.user.userName}"/>
+                </p:column>
+                <p:column headerText="Budget Line">
+                    <h:outputText value="#{draft.budgetLine.name}"/>
+                </p:column>
+                <p:column headerText="Description">
+                    <h:outputText value="#{draft.description}"/>
+                </p:column>
+                <p:column headerText="Date Needed">
+                    <h:outputText value="#{draft.dateNeeded}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Amount">
+                    <h:outputText value="#{draft.amount}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Actions">
 
-                <p:commandButton icon="pi pi-forward" styleClass="edit"
-                                 oncomplete="PF('stageDialog').show();"
-                                 process="@this"
-                                 update="@form">
-                </p:commandButton>
-                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="stageDialog" id="stageDialog" hideEffect="fade" responsive="true"
-                          width="350">
-                    <h:outputText value="Are you sure you want to complete this requisition?"/>
-                    <p:commandButton value="No" type="button"
-                                     process="@this"
-                                     update="@form"
-                                     onclick="PF('stageDialog').hide();"
-                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
-                    <p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+                    <p:commandButton icon="pi pi-thumbs-up-fill" styleClass="edit"
                                      action="#{requisitionBean.completeRequisition(draft.id)}"
                                      process="@this"
-                                     update="@form"
-                                     oncomplete="PF('stageDialog').hide();"
+                                     update="@form, requisitionTab:allReqTable, requisitionTab:accountabilityForm:draftTable">
+                        <p:confirm header="Confirmation" message="Has Requisition been paid Out?"
+                                   icon="pi pi-info-circle"/>
+                    </p:commandButton>
 
-                    />
-                </p:dialog>
 
-            </p:column>
-        </p:dataTable>
+                </p:column>
+            </p:dataTable>
         </h:form>
     </div>
 </ui:composition>
