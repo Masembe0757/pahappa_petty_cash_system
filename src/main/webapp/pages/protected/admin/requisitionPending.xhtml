@@ -1,4 +1,3 @@
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -7,106 +6,95 @@
     <div class="glass">
         <h4 class="Table-title">PENDING REQUISITIONS</h4>
 
-        <h:form>
-        <p:dataTable id="pendingTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
-                     emptyMessage="No Pending Requisitions"
-                     paginator="true"
-                     paginatorPosition="bottom"
-                     paginatorAlwaysVisible="true"
-                     pageLinks="4"
-                     rowHover="true"
-                     rows="9"
-                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
-        >
-            <p:column headerText="User">
-                <h:outputText value="#{draft.user.userName}"/>
-            </p:column>
-            <p:column headerText="Budget Line">
-                <h:outputText value="#{draft.budgetLine.name}"/>
-            </p:column>
-            <p:column headerText="Description">
-                <h:outputText value="#{draft.description}"/>
-            </p:column>
-            <p:column headerText="Date Needed">
-                <h:outputText value="#{draft.dateNeeded}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="Amount">
-                <h:outputText value="#{draft.amount}"/>
-            </p:column>
+        <h:form id="pendingReqForm">
+            <p:dataTable id="pendingTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
+                         emptyMessage="No Pending Requisitions"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
+                <p:column headerText="User">
+                    <h:outputText value="#{draft.user.userName}"/>
+                </p:column>
+                <p:column headerText="Budget Line">
+                    <h:outputText value="#{draft.budgetLine.name}"/>
+                </p:column>
+                <p:column headerText="Description">
+                    <h:outputText value="#{draft.description}"/>
+                </p:column>
+                <p:column headerText="Date Needed">
+                    <h:outputText value="#{draft.dateNeeded}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Amount">
+                    <h:outputText value="#{draft.amount}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
+                </p:column>
 
-            <p:column headerText="Actions" style="width:100px">
+                <p:column headerText="Actions" style="width:200px">
 
-                <!-- CONDITION FOR USER OR FINANCE-->
+                    <!-- CONDITION FOR USER OR FINANCE-->
 
-                <p:growl id="message" showDetail="true"/>
+                    <p:growl id="message" showDetail="true"/>
 
-                <ui:fragment rendered="#{roleBean.canApproveRequisitions()}">
-                    <p:commandButton  styleClass="edit" icon="pi pi-check" oncomplete="PF('conf').show();" update="conf" >
-                    </p:commandButton>
-                </ui:fragment>
-                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="conf" id="conf" hideEffect="fade" responsive="true"
-                          dynamic="true"     width="350">
-                    <h:outputText value="Are you sure you want to approve this requisition?" />
-                    <p:commandButton value="No" process="@this" update="@form" onclick="PF('conf').hide();" type="button"
-                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
-                    <p:commandButton
-                            action="#{requisitionBean.approveRequisition(draft.id)}"
-                            value="Yes" styleClass="ui-confirmdialog-yes"
-                            process="@this"
-                            update="@form"
-                            oncomplete="PF('conf').hide();"
-                    />
-                </p:dialog>
-
-
-                <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
-                    <p:commandButton  styleClass="edit" icon="pi pi-question-circle" oncomplete="PF('req').show();" update="req" >
-                    </p:commandButton>
-                </ui:fragment>
-                <p:dialog global="true" header="Confirmation" showEffect="fade" widgetVar="req" id="req" hideEffect="fade" responsive="true"
-                          dynamic="true"     width="350">
-                    <h:outputText value="Submit change on requisition?" />
-                    <p:commandButton value="No" process="@this" update="@form" onclick="PF('req').hide();" type="button"
-                                     styleClass="ui-confirmdialog-no ui-button-flat"/>
-                    <p:commandButton
-                            action="#{requisitionBean.makeRequisitionChangeRequest(draft.id)}"
-                            value="Yes" styleClass="ui-confirmdialog-yes"
-                            process="@this"
-                            update="@form"
-                            oncomplete="PF('req').hide();"
-                    />
-                </p:dialog>
-
-
-                <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
-                <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();" update="infoDialog">
-                </p:commandButton>
-            </ui:fragment>
-
-                <p:dialog header="Enter reson for rejection" widgetVar="infoDialog" modal="true" id="infoDialog" dynamic="true"
-                          resizable="false" width="500">
-                    <p:panelGrid columns="1" border="0">
-                        <p:outputLabel for="description" value="Reason:"/>
-                        <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
-                                         required="true" requiredMessage="Information is required!"/>
-
-                        <p:commandButton value="Comment"
-                                         action="#{requisitionBean.saveReview(requisitionBean.information,draft,draft.user,draft)}"
+                    <ui:fragment rendered="#{roleBean.canApproveRequisitions()}">
+                        <p:commandButton styleClass="edit"
+                                         icon="pi pi-check"
+                                         action="#{requisitionBean.approveRequisition(draft.id)}"
                                          process="@this"
-                                         update="@form"
-                                         oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
-                        />
+                                         update="@form, requisitionTab:allReqTable, requisitionTab:approvedReqForm:draftTable"
+                                         >
+                            <p:confirm header="Confirmation" message="Are you sure you want to approve this Requisition?"
+                                       icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                    </ui:fragment>
 
-                    </p:panelGrid>
-                </p:dialog>
+
+                    <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
+                        <p:commandButton styleClass="approve"
+                                         icon="pi pi-question-circle"
+                                         action="#{requisitionBean.makeRequisitionChangeRequest(draft.id)}"
+                                         process="@this"
+                                         update="@form, requisitionTab:allReqTable">
+                            <p:confirm header="Confirmation" message="Do You really want to submit a change request?"
+                                       icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                    </ui:fragment>
+
+                    <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
+                        <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();"
+                                         update="infoDialog">
+                        </p:commandButton>
+                    </ui:fragment>
+
+                    <p:dialog header="Enter reason for rejection" widgetVar="infoDialog" modal="true" id="infoDialog"
+                              dynamic="true"
+                              resizable="false" width="500">
+                        <p:panelGrid columns="1" border="0">
+                            <p:outputLabel for="description" value="Reason:"/>
+                            <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
+                                             required="true" requiredMessage="Information is required!"/>
+
+                            <p:commandButton value="Comment"
+                                             action="#{requisitionBean.saveReview(requisitionBean.information,draft,draft.user,draft)}"
+                                             process="@this"
+                                             update="@form, requisitionTab:allReqTable, requisitionTab:rejectedReqForm"
+                                             oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
+                            />
+
+                        </p:panelGrid>
+                    </p:dialog>
 
 
+                </p:column>
 
-            </p:column>
-
-        </p:dataTable>
+            </p:dataTable>
         </h:form>
     </div>
 </ui:composition>

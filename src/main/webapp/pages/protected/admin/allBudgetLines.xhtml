@@ -37,7 +37,8 @@
                     <h:outputText value="#{budgetLine.balance}"/>
                 </p:column>
                 <p:column headerText="Status">
-                    <h:outputText value="#{budgetLine.status}"/>
+                    <h:outputText value="#{budgetLine.status}"
+                                  style="#{budgetLine.status eq 'drafted' ? 'background: #f1b8ff' : (budgetLine.status eq 'pending' ? 'background: #fff4a9' : (budgetLine.status eq 'approved' ? 'background: #ccffcc;' : (budgetLine.status eq 'expired' ? 'background: cyan' : (budgetLine.status eq 'rejected' ? 'background: #f72b2b96' : ''))))}; padding:.3em;"/>
                 </p:column>
             </p:dataTable>
         </h:form>

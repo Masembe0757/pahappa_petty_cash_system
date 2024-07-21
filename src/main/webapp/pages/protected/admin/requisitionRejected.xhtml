@@ -7,7 +7,7 @@
     <div class="glass">
         <h4 class="Table-title">REJECTED REQUISITIONS</h4>
 
-        <h:form>
+        <h:form id="rejectedReqForm">
         <p:dataTable id="draftTable" value="#{requisitionBean.returnRejectedRequisitions()}" var="draft"
                      emptyMessage="No rejected Requisitions"
                      paginator="true"
@@ -33,7 +33,9 @@
                 </h:outputText>
             </p:column>
             <p:column headerText="Amount">
-                <h:outputText value="#{draft.amount}"/>
+                <h:outputText value="#{draft.amount}">
+                    <f:convertNumber pattern="#,###"/>
+                </h:outputText>
             </p:column>
             <p:column headerText="Actions" style="width:100px">
 
