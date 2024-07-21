@@ -1,5 +1,6 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.ReviewDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
@@ -23,6 +24,8 @@ public class ReviewService {
     RequisitionService requisitionService;
     @Autowired
     UserDao userDao;
+    @Autowired
+    BudgetLineDao budgetLineDao;
     public void saveBudgetlineReview(String information, Date date, BudgetLine budgetLine, User user) {
         Review review = new Review();
         review.setDescription(information);
@@ -31,8 +34,12 @@ public class ReviewService {
         review.setUser(user);
         reviewDao.saveBudgetlineReview(review);
     }
-    public void saveRequisitionReview(String information, Date date, Requisition requisition,User user) {
+    public void saveRequisitionReview(String information, Date date, Requisition requisition,User user,BudgetLine budgetLine) {
         requisitionService.setRejectionStatus(requisition.getId());
+        //Adding back the amount
+        budgetLine.setBalance(budgetLine.getBalance()+requisition.getAmount());
+        budgetLineDao.updateBudgetLIne(budgetLine);
+
         Review review = new Review();
         review.setRequisition(requisition);
         review.setDescription(information);

@@ -132,11 +132,6 @@ public class RequisitionBean implements Serializable {
     public List<BudgetLine>  getBudgetLines(){
         return budgetLineService.getApprovedBudgetLines() ;
     }
-
-    public void rejectRequisition(int requisitionId, String information) {
-        requisitionService.setRejectionStatus(requisitionId);
-        requisitionService.setRejectionStatus(requisitionId);
-    }
     public void approveRequisition(int requisitionId) {
         requisitionService.approveRequisition(requisitionId);
     }
@@ -189,8 +184,8 @@ public class RequisitionBean implements Serializable {
         requisitionService.submitRequisition(requisitionId);
     }
 
-    public void saveReview(String information,Requisition requisition,User  user) {
-        reviewService.saveRequisitionReview(information,new Date(),requisition,user);
+    public void saveReview(String information,Requisition requisition,User  user,BudgetLine budgetLine) {
+        reviewService.saveRequisitionReview(information,new Date(),requisition,user,budgetLine);
     }
 
     public void approveBudgetLine(int budgetLineId) {

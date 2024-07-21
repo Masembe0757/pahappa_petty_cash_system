@@ -93,7 +93,7 @@
                                          required="true" requiredMessage="Information is required!"/>
 
                         <p:commandButton value="Comment"
-                                         action="#{requisitionBean.saveReview(requisitionBean.information,draft,draft.user)}"
+                                         action="#{requisitionBean.saveReview(requisitionBean.information,draft,draft.user,draft)}"
                                          process="@this"
                                          update="@form"
                                          oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"

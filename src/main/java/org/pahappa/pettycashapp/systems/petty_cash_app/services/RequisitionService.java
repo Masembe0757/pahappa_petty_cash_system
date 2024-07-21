@@ -63,8 +63,11 @@ public class RequisitionService {
             requisition.setDescription(description);
             requisition.setBudgetLine(budgetLine);
             requisition.setUser(requisitionService.getCurrentUser());
-            System.out.println("SAVING REQUISITION2");
             requisitionDao.saveRequisition(requisition);
+
+            //Securing required  money
+            budgetLine.setBalance(budgetLine.getAmountDelegated()-amount);
+            budgetLineDao.updateBudgetLIne(budgetLine);
         }
         return error_message;
     }
@@ -124,6 +127,7 @@ public class RequisitionService {
     }
 
     public void setRejectionStatus(int id) {
+
         requisitionDao.setRejectionStatus(id);
     }
 
