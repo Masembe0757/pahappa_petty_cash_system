@@ -44,6 +44,7 @@ public class BudgetLineService {
             BudgetLine budgetLine = new BudgetLine();
             Category category = categoryDao.getCategoryOfId(categoryId);
             budgetLine.setAmountDelegated(amount);
+            budgetLine.setBalance(amount);
             budgetLine.setCategory(category);
             budgetLine.setEndDate(endDate);
             budgetLine.setStartDate(startDate);
@@ -168,20 +169,5 @@ public class BudgetLineService {
     public void saveBudgetline(BudgetLine budgetLine) {
         budgetLineDao.saveBudgetLine(budgetLine);
     }
-    public String updateBudgetLine(int budgetLineId, int amount,String name, Date startDate,Date endDate,int categoryId){
-        String error_message = "";
-        BudgetLine budgetLine = budgetLineDao.returnBudgetLineofId(budgetLineId);
-        if(budgetLineService.hasDigits(name)){
-            error_message = "Name can not contain digits";
-        }else {
-            Category category = categoryDao.getCategoryOfId(categoryId);
-            budgetLine.setName(name);
-            budgetLine.setAmountDelegated(amount);
-            budgetLine.setStartDate(startDate);
-            budgetLine.setEndDate(endDate);
-            budgetLine.setCategory(category);
-            budgetLineDao.updateBudgetLIne(budgetLine);
-        }
-        return error_message;
-    }
+
 }

@@ -63,8 +63,9 @@ public class RequisitionService {
             requisition.setDescription(description);
             requisition.setBudgetLine(budgetLine);
             requisition.setUser(requisitionService.getCurrentUser());
-            System.out.println("SAVING REQUISITION2");
             requisitionDao.saveRequisition(requisition);
+
+
         }
         return error_message;
     }
@@ -124,6 +125,7 @@ public class RequisitionService {
     }
 
     public void setRejectionStatus(int id) {
+
         requisitionDao.setRejectionStatus(id);
     }
 
@@ -157,8 +159,13 @@ public class RequisitionService {
         return requisitionDao.getPendingRequisitions("pending");
     }
 
-    public void submitRequisition(int requisitionId) {
-        requisitionDao.submitRequisition(requisitionId,"pending");
+    public void submitRequisition(Requisition requisition ) {
+        requisitionDao.submitRequisition(requisition.getId(),"pending");
+
+        //Securing required  money
+        int balance = requisition.getBudgetLine().getBalance()-requisition.getAmount();
+        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(), balance);
+
     }
 
 

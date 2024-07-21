@@ -1,6 +1,7 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.AccountabilityDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
@@ -26,6 +27,8 @@ public class AccountabilityService {
     AccountabilityService accountabilityService;
     @Autowired
     RequisitionDao requisitionDao;
+    @Autowired
+    private BudgetLineDao budgetLineDao;
 
     public String generateReferenceNumber() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -41,6 +44,14 @@ public class AccountabilityService {
     //ACCOUNTABILITY
     public String provideAccountability(UploadedFile imageUploaded, int amountAccounted, String description, Requisition requisition){
         String error_message ="";
+
+        //Excess returned and available on budget line
+        if(amountAccounted < requisition.getAmount()){
+            int excessReturned = requisition.getAmount()-amountAccounted;
+            int balance    =  requisition.getBudgetLine().getBalance()+excessReturned;
+            budgetLineDao.updateBudgetLIne(requisition.getAccountability().getId(),balance);
+
+        }
 
         if(amountAccounted > requisition.getAmount()){
             error_message = "Amount accounted greater than amount requisitioned";
