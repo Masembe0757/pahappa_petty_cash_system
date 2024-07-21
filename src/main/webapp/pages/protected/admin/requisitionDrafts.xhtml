@@ -62,7 +62,7 @@
                         </p:commandButton>
 
 
-                        <p:commandButton styleClass="edit" icon="pi pi-check" action="#{requisitionBean.submitRequisition(draft.id)}"
+                        <p:commandButton styleClass="edit" icon="pi pi-check" action="#{requisitionBean.submitRequisition(draft)}"
                                          process="@form"
                                          update=":requisitionTab:draftForm:draftTable">
                             <p:confirm header="Confirmation" message="Do you want to submit this Requisition"

@@ -34,11 +34,11 @@ public class ReviewService {
         review.setUser(user);
         reviewDao.saveBudgetlineReview(review);
     }
-    public void saveRequisitionReview(String information, Date date, Requisition requisition,User user,BudgetLine budgetLine) {
+    public void saveRequisitionReview(String information, Date date, Requisition requisition,User user) {
         requisitionService.setRejectionStatus(requisition.getId());
         //Adding back the amount
-        budgetLine.setBalance(budgetLine.getBalance()+requisition.getAmount());
-        budgetLineDao.updateBudgetLIne(budgetLine);
+        int  balance = requisition.getBudgetLine().getBalance()+requisition.getAmount();
+        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance);
 
         Review review = new Review();
         review.setRequisition(requisition);

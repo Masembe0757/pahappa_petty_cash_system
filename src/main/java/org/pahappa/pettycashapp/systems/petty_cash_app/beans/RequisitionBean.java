@@ -180,12 +180,12 @@ public class RequisitionBean implements Serializable {
         requisitionService.fulfillRequisition(requisitionId);
     }
 
-    public void submitRequisition(int requisitionId) {
-        requisitionService.submitRequisition(requisitionId);
+    public void submitRequisition(Requisition requisition) {
+        requisitionService.submitRequisition(requisition);
     }
 
-    public void saveReview(String information,Requisition requisition,User  user,BudgetLine budgetLine) {
-        reviewService.saveRequisitionReview(information,new Date(),requisition,user,budgetLine);
+    public void saveReview(String information,Requisition requisition,User  user) {
+        reviewService.saveRequisitionReview(information,new Date(),requisition,user);
     }
 
     public void approveBudgetLine(int budgetLineId) {

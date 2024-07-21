@@ -51,12 +51,14 @@ public class BudgetLineDao {
         }
     }
 
-    public void updateBudgetLIne(BudgetLine budgetLine) {
+    public void updateBudgetLIne(int budgetLineId, int balance) {
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            session.saveOrUpdate(budgetLine);
+            BudgetLine budgetLine = (BudgetLine) session.get(BudgetLine.class,budgetLineId);
+            budgetLine.setBalance(balance);
+            session.update(budgetLine);
             trs.commit();
             SessionConfiguration.shutdown();
         }
