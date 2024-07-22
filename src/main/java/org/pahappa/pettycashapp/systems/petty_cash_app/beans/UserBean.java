@@ -36,6 +36,7 @@ public class UserBean implements Serializable {
     private String name;
     private int userId;
     private User selectedUser;
+    private String searchName;
 
 
     @Autowired
@@ -119,6 +120,14 @@ public class UserBean implements Serializable {
         this.role = role;
     }
 
+    public String getSearchName() {
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    }
+
     public User getSelectedUser() {
         return selectedUser;
     }
@@ -176,10 +185,10 @@ public class UserBean implements Serializable {
     public List<User> getUsersByName(String name) {
         List<User> users = userService.getAllUsers();
         List<User> userList = new ArrayList<>();
-        if (name.isEmpty()) {
+        if (name.isEmpty() || name ==null) {
             for(User user : users) {
                 if(user.getId()!=getCurrentUser().getId()) {
-                    userList.add(user);
+                   userList.add(user);
                 }
             }
 

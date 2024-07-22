@@ -3,6 +3,35 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+
+    <script type="text/javascript">
+
+        function editDraftedBL(xhr, status, args) {
+            // Check if there are any error messages with severity 'error'
+            var errorMessages = PF('editDraftedBL').jq.find('.ui-messages-error');
+
+            if (args.validationFailed || errorMessages.length > 0) {
+                // If there are validation errors or error messages, do not hide the dialog
+                return;
+            }
+
+            // If no validation errors or error messages, hide the dialog
+            PF('editDraftedBL').hide();
+        }
+
+        function editCat(xhr, status, args) {
+            // Check if there are any error messages with severity 'error'
+            var errorMessages = PF('editCategory').jq.find('.ui-messages-error');
+
+            if (args.validationFailed || errorMessages.length > 0) {
+                // If there are validation errors or error messages, do not hide the dialog
+                return;
+            }
+
+            // If no validation errors or error messages, hide the dialog
+            PF('editCategory').hide();
+        }
+    </script>
     <div class="glass">
         <h4 class="Table-title">BUDGET LINE DRAFTS</h4>
         <h:form id="draftForm">
@@ -114,7 +143,7 @@
                                  process="@this"
                                  update=":tabView:draftForm:draftTable"
                                  action="#{budgetLineBean.updateDraftedBL(budgetLineBean.selectedDraftedBudgetLine)}"
-                                 oncomplete="PF('editDraftedBL').hide();"/>
+                                 oncomplete="editDraftedBL(xhr, status, args)"/>
             </p:dialog>
 
         </h:form>

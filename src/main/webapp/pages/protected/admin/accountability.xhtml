@@ -6,11 +6,15 @@
     <ui:define name="title">Accountability</ui:define>
     <ui:define name="pageTitle">Accountability</ui:define>
 
-        <div class="glass">
-            <h4 class="Table-title">ACCOUNTABILITY</h4>
-            <h:form id="accTable">
-            <p:dataTable id="accountabilityTable" value="#{accountabilityBean.getAllAccountabilities()}" var="accountabililty"
+    <div class="glass">
+        <h4 class="Table-title">ACCOUNTABILITY</h4>
+        <h:form id="accTable">
+            <p:dataTable id="accountabilityTable" value="#{accountabilityBean.getAllAccountabilities()}"
+                         var="accountabililty"
                          emptyMessage="No Accountabilities available"
+                         selectionMode="single"
+                         rowKey="#{accountabililty.id}"
+                         selection="#{accountabilityBean.selectedAccountability}"
                          paginator="true"
                          paginatorPosition="bottom"
                          paginatorAlwaysVisible="true"
@@ -19,6 +23,9 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
+                <p:ajax event="rowSelect" process="accountabilityTable" listener="#{accountabilityBean.onRowSelect}"
+                        update="requisitionTab:accountabilityDetailsForm:accountabilityDetailsDialog"
+                        oncomplete="PF('accountabilityDetailsDialog').show(); console.log('Dialog shown, selected accountabililty:', #{accountabilityBean.selectedAccountability != null});"/>
 
                 <p:column headerText="Reference number:">
                     <h:outputText value="#{accountabililty.referenceNumber}"/>
@@ -43,7 +50,6 @@
                     <p:growl id="message" showDetail="true"/>
 
 
-
                     <p:commandButton action="#{accountabilityBean.deleteAccountability(accountabililty.id)}"
                                      process="@this"
                                      update="@form"
@@ -53,8 +59,54 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-            </h:form>
+        </h:form>
 
-        </div>
+        <h:form id="accountabilityDetailsForm" >
+            <p:dialog header="Accountability Details"
+                      widgetVar="accountabilityDetailsDialog"
+                      modal="true"
+                      width="800px"
+                      fitViewport="true"
+                      id="accountabilityDetailsDialog">
+                <p:outputPanel id="accountabilityDetailsPanel">
+                    <h:outputText value="No accountability selected"
+                                  rendered="#{accountabilityBean.selectedAccountability == null}"/>
+                    <h:panelGroup columns="2" rendered="#{accountabilityBean.selectedAccountability != null}"
+                                  layout="block">
+
+                        <h:panelGrid columns="2" styleClass="reqDet">
+                            <h:outputText value="Reference Number:"/>
+                            <h:outputText value="#{accountabilityBean.selectedAccountability.referenceNumber}"/>
+
+                            <h:outputText value="Budget Line: "/>
+                            <h:outputText value="#{accountabilityBean.selectedAccountability.dateCreated}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                            <h:outputText value="Amount:"/>
+                            <h:outputText value="#{accountabilityBean.selectedAccountability.amount}"/>
+
+                            <h:outputText value="Requisition:"/>
+                            <h:outputText value="#{accountabilityBean.selectedAccountability.requisition}"/>
+
+
+
+                            <h:outputText value="Description: "/>
+                            <h:outputText value="#{accountabilityBean.selectedAccountability.description}"/>
+
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn">
+                        <p:printer target="accountabilityDetailsPanel"/>
+                    </p:commandButton>
+
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+
+    </div>
+
 
 </ui:composition>

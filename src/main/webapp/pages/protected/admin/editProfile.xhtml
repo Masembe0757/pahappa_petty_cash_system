@@ -78,13 +78,13 @@
                     </h:inputText>
 
                     <h:outputLabel for="password">Password:</h:outputLabel>
-                    <h:inputSecret id="password" value="#{userBean.currentUser.password}" required="true">
+                    <p:password id="password" value="#{userBean.currentUser.password}" required="true">
                         <p:ajax event="keyup" />
-                    </h:inputSecret>
+                    </p:password>
                     <h:outputLabel for="password2">Confirm:</h:outputLabel>
-                    <h:inputSecret id="password2" value="#{userBean.currentUser.password}" required="true">
+                    <p:password id="password2" value="#{userBean.currentUser.password}" required="true" match="password">
                         <p:ajax event="keyup" />
-                    </h:inputSecret>
+                    </p:password>
                     <h:outputLabel for="email">Email:</h:outputLabel>
                     <h:inputText id="email" value="#{userBean.currentUser.email}" required="true">
                         <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
@@ -104,7 +104,7 @@
                     <p:commandButton value="No" process="@this" update="@form" onclick="PF('conf').hide();" type="button"
                                      styleClass="ui-confirmdialog-no ui-button-flat"/>
                     <p:commandButton
-                            action="#{userBean.updateUser(userBean.currentUser.id,userBean.currentUser.firstName,userBean.currentUser.lastName,userBean.currentUser.userName,userBean.currentUser.password,userBean.currentUser.password,userBean.currentUser.email,userBean.currentUser.role)}"
+                            action="#{userBean.updateUser(userBean.currentUser.firstName,userBean.currentUser.lastName,userBean.currentUser.userName,userBean.currentUser.password,userBean.currentUser.password,userBean.currentUser.email,userBean.currentUser.role)}"
                             value="Yes" styleClass="ui-confirmdialog-yes"
                             process="@this"
                             update="@form"

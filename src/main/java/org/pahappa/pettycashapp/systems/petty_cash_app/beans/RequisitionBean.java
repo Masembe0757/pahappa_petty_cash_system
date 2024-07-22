@@ -4,6 +4,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -30,6 +31,7 @@ public class RequisitionBean implements Serializable {
     private  String username;
     private String budgetLineName;
     private int requisitionId;
+    private Requisition selectedRequisition;
     @Autowired
     private ReviewService reviewService;
 
@@ -64,6 +66,8 @@ public class RequisitionBean implements Serializable {
     public void setInformation(String information) {
         this.information = information;
     }
+
+
 
     @Autowired
     RequisitionService requisitionService;
@@ -100,6 +104,14 @@ public class RequisitionBean implements Serializable {
 
     public void setDateNeeded(Date dateNeeded) {
         this.dateNeeded = dateNeeded;
+    }
+
+    public Requisition getSelectedRequisition() {
+        return selectedRequisition;
+    }
+
+    public void setSelectedRequisition(Requisition selectedRequisition) {
+        this.selectedRequisition = selectedRequisition;
     }
 
     public User currentUser() {
@@ -196,5 +208,8 @@ public class RequisitionBean implements Serializable {
         return requisitionService.getApprovedRequisitions().size() + requisitionService.getRejectedRequisitions().size();
     }
 
+    public void onRowSelect(SelectEvent event) {
+        selectedRequisition = (Requisition) event.getObject();
+    }
 
 }
