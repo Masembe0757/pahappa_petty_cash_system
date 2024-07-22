@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -97,11 +98,6 @@ public class UserService {
         }
         return hasDigits;
     }
-    public  String generateReferenceNumber() {
-        UUID uuid = UUID.randomUUID();
-        String referenceNumber = uuid.toString().replace("-", "ref_petty").toUpperCase();
-        return referenceNumber;
-    }
     public  String saveUser(String firstName, String lastName, String userName, String password1, String password2, String email,String role) {
         String error_message= "";
 
@@ -151,29 +147,6 @@ public class UserService {
 
     }
 
-    public String makeReview(String description,int requistionId,String userName){
-        String error_message = "";
-        Requisition requisition = requisitionDao.getRequisitionOfId(requistionId);
-
-        if(description.length()<50){
-            error_message = "Please provide more description";
-        } else if (requisition.getStatus().equals("draft")) {
-            error_message ="Can not review a drafted requisition";
-        } else {
-            User user = userDao.returnUser(userName);
-             requisition = requisitionDao.getRequisitionOfId(requistionId);
-            Review review = new Review();
-            review.setUser(user);
-            review.setDescription(description);
-            review.setRequisition(requisition);
-            reviewDao.makeReview(review);
-        }
-
-        return error_message;
-    }
-
-
-
     public String updateUserOfUserName(String username,String firstname,String lastname,String password1,String password2,String email,String role) {
                 String error_message = "";
 
@@ -219,41 +192,44 @@ public class UserService {
         return userDao.getDeletedUsers();
     }
 
-    public void deleteUserOfUserName(String userName) {
-        userDao.deleteUserOfUserName(userName);
+    public void deleteUserOfId(int  userId) {
+        userDao.deleteUserOfId(userId);
     }
-
-    public void deleteAllUsers() {
-    }
-
     public int countAllUsers() {
         return getAllUsers().size();
     }
 
     public List<User> returnUserOfName(String name) {
-        List<User> allUsers = userDao.getAllUsers();
+        List<User> users = userDao.getAllUsers();
         List<User> returnedUsers = new ArrayList<>();
-        for(User u : allUsers){
-            if(u.getId()!= getCurrentUser().getId()) {
-                if (u.getUserName().toLowerCase().contains(name.toLowerCase())) {
-                    returnedUsers.add(u);
-                } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {
-                    returnedUsers.add(u);
-                } else if (u.getLastName().toLowerCase().contains(name.toLowerCase())) {
-                    returnedUsers.add(u);
+        if (name.isEmpty()) {
+            for(User user : users) {
+                if(user.getId()!=getCurrentUser().getId()) {
+                    returnedUsers.add(user);
                 }
             }
-        }
-        for(User u : returnedUsers){
-            String decodedPassword = new String(Base64.getDecoder().decode(u.getPassword()));
-            u.setPassword(decodedPassword);
+
+        } else {
+            for(User u : users){
+                if(u.getId()!=getCurrentUser().getId()) {
+                    if (u.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                        returnedUsers.add(u);
+                    } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {
+                        returnedUsers.add(u);
+                    } else if (u.getLastName().toLowerCase().contains(name.toLowerCase())) {
+                        returnedUsers.add(u);
+                    }
+                }
+            }
+
+            if (returnedUsers.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "No user found for that name"));
+            }
         }
         return returnedUsers;
+
     }
-
-
-
-
 }
 
 

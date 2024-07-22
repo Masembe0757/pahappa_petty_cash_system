@@ -18,13 +18,11 @@ public class AccountabilityDao {
     SessionConfiguration sessionConfiguration;
     public void saveAccountability(Accountability accountability) {
         try {
-            System.out.println("saving accountability 1");
 
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
             Transaction trs = session.beginTransaction();
             session.save(accountability);
-            System.out.println("saving accountability 2");
             trs.commit();
             sessionConfiguration.shutdown();
         }

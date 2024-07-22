@@ -171,37 +171,24 @@ public class UserBean implements Serializable {
     }
 
 
-    public void deleteUser(User user) {
-        System.out.println("delete user");
-        userService.deleteUserOfUserName(user.getUserName());
+    public void deleteUser(int userId) {
+        userService.deleteUserOfId(userId);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS" , "User deleted successfully"));
     }
 
     public void deleteAllUsers() {
-        userService.deleteAllUsers();
+        List<User> users = userService.getAllUsers();
+        for(User user : users){
+            if(!user.getRole().equals("admin")) {
+                userService.deleteUserOfId(user.getId());
+            }
+        }
     }
 
     public List<User> getUsersByName(String name) {
-        List<User> users = userService.getAllUsers();
-        List<User> userList = new ArrayList<>();
-        if (name.isEmpty() || name ==null) {
-            for(User user : users) {
-                if(user.getId()!=getCurrentUser().getId()) {
-                   userList.add(user);
-                }
-            }
 
-        } else {
-            List<User> returnedUsers = userService.returnUserOfName(name);
-            if (returnedUsers.isEmpty()) {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "No user found for that name"));
-            } else {
-                userList.addAll(returnedUsers);
-            }
-        }
-        return userList;
+        return userService.returnUserOfName(name);
     }
 
     public int countActiveUsers() {
