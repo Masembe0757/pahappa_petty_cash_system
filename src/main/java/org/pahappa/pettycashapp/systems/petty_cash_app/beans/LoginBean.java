@@ -1,4 +1,5 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
+
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RoleDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
@@ -8,11 +9,9 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
@@ -28,7 +27,8 @@ public class LoginBean {
     @Autowired
     RoleDao roleDao;
 
-    public LoginBean(){}
+    public LoginBean() {
+    }
 
     private String username;
     private String password;
@@ -57,15 +57,16 @@ public class LoginBean {
     public void setId(int id) {
         this.id = id;
     }
+
     @PostConstruct
     public void init() {
         //ADDING OVEROLL ADMIN WITH A ROLE AND ALL PERMISSIONS
 
         Role role1 = roleDao.getRoleOfname("admin");
-        if(role1 == null) {
+        if (role1 == null) {
             Role role = new Role();
             role.setName("admin");
-            List<String> permissions =  (Arrays.asList(
+            List<String> permissions = (Arrays.asList(
                     "MANAGE_CATEGORIES",
                     "APPROVE_BUDGET_LINE",
                     "MAKE_REQUISITION",
@@ -114,7 +115,7 @@ public class LoginBean {
         admin.setEmail("manager@gmail.com");
         admin.setRole("admin");
         User user = userDao.returnUser(admin.getUserName());
-        if(user==null){
+        if (user == null) {
             userDao.createAdmin(admin);
         }
 
@@ -126,11 +127,11 @@ public class LoginBean {
         User user = userDao.returnUser(userName);
         if (user != null) {
             String decodedPassword = new String(Base64.getDecoder().decode(user.getPassword()));
-            if(decodedPassword.equals(passWord)){
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    ExternalContext externalContext = context.getExternalContext();
-                    externalContext.getSessionMap().put("currentUser", user);
-                    return routes.getDashboard();
+            if (decodedPassword.equals(passWord)) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                ExternalContext externalContext = context.getExternalContext();
+                externalContext.getSessionMap().put("currentUser", user);
+                return routes.getDashboard();
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password", null));
@@ -148,6 +149,6 @@ public class LoginBean {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.getSessionMap().put("currentUser", null);
-        externalContext.redirect(externalContext.getRequestContextPath() +routes.getLogin());
+        externalContext.redirect(externalContext.getRequestContextPath() + routes.getLogin());
     }
 }

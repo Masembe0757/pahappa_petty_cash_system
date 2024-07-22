@@ -9,7 +9,6 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class CategoryBean implements Serializable {
         return null; // Return null if an error occurs
     }
 
-    public List<Category> getCategories(){
+    public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
@@ -74,7 +73,7 @@ public class CategoryBean implements Serializable {
     public void updateCategory(Category tobeUpdated) {
         if (categoryService.categoryUpdated(tobeUpdated.getId(), tobeUpdated.getName(), tobeUpdated.getDescription())) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success: " , "Category Updated!"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success: ", "Category Updated!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error occurred", null));
@@ -84,7 +83,7 @@ public class CategoryBean implements Serializable {
     public void deleteCategory(Category category) {
         if (categoryDao.deleteCategory(category.getId())) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success: " , "Category Deleted!"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success: ", "Category Deleted!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, null, null));

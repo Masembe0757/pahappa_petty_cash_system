@@ -38,7 +38,6 @@ public class UserBean implements Serializable {
     private User selectedUser;
     private String searchName;
 
-
     @Autowired
     private UserDao userDao;
 
@@ -46,7 +45,6 @@ public class UserBean implements Serializable {
     public void init() {
         selectedUser = new User(); // Initialize with a new User object or fetch from a service
     }
-
 
     public int getUserId() {
         return userId;

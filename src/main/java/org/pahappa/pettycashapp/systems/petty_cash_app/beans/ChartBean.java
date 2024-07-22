@@ -4,7 +4,7 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.UserService;
-import org.primefaces.model.charts.optionconfig.animation.Animation;
+
 import org.primefaces.model.charts.optionconfig.tooltip.Tooltip;
 import org.primefaces.model.charts.pie.PieChartOptions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 import org.primefaces.model.charts.donut.*;
 import org.springframework.web.context.annotation.SessionScope;
+
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -54,7 +55,6 @@ public class ChartBean implements Serializable {
         createPieModel();
         createDonutModel2();
     }
-
 
     public void updateCharts() {
         createBarModel();
@@ -98,7 +98,6 @@ public class ChartBean implements Serializable {
     private void createPieModel() {
         pieModel = new PieChartModel();
         ChartData data = new ChartData();
-
 
         PieChartDataSet dataSet = new PieChartDataSet();
         List<Number> values = new ArrayList<>();
@@ -167,7 +166,7 @@ public class ChartBean implements Serializable {
         pieModel.setOptions(options);
     }
 
-    public void createBarModel(){
+    public void createBarModel() {
         barModel = new BarChartModel();
         ChartData data = new ChartData();
 
@@ -273,10 +272,9 @@ public class ChartBean implements Serializable {
         // Set the chart data to the donut model
         donutModel.setData(data);
 
-
         // Optional: Set additional options for the donut chart if required
         DonutChartOptions options = new DonutChartOptions();
-        Title title =new Title();
+        Title title = new Title();
         title.setDisplay(true);
         title.setFontFamily("Arial");
         title.setFontSize(16);
@@ -287,6 +285,7 @@ public class ChartBean implements Serializable {
         options.setCutout(75);
         donutModel.setOptions(options);
     }
+
     private void createDonutModel2() {
         donutModel2 = new DonutChartModel();
         ChartData data = new ChartData();
@@ -300,7 +299,7 @@ public class ChartBean implements Serializable {
 
         // Set the background colors for each section of the donut
         List<String> backgroundColors = new ArrayList<>();
-       // backgroundColors.add("#7a5195");  // Dark Cyan
+        // backgroundColors.add("#7a5195");  // Dark Cyan
         backgroundColors.add("#f95d6a");  // Goldenrod
         backgroundColors.add("#e9c46a");  // Coral
         dataSet.setBackgroundColor(backgroundColors);
@@ -311,7 +310,6 @@ public class ChartBean implements Serializable {
         borderColors.add("rgba(54, 162, 235, 1)"); // Example border color for Budget Lines
         borderColors.add("rgba(75, 192, 192, 1)"); // Example border color for Users
         dataSet.setBorderColor(borderColors);
-
 
         // Add the dataset to the chart data
         data.addChartDataSet(dataSet);
@@ -325,10 +323,9 @@ public class ChartBean implements Serializable {
         // Set the chart data to the donut model
         donutModel2.setData(data);
 
-
         // Optional: Set additional options for the donut chart if required
         DonutChartOptions options = new DonutChartOptions();
-        Title title =new Title();
+        Title title = new Title();
         title.setDisplay(true);
         title.setFontFamily("Arial");
         title.setFontSize(16);

@@ -16,7 +16,7 @@
 
         function handleAddUser(xhr, status, args) {
             // Check if there are any error messages with severity 'error'
-            var errorMessages = PF('dlg').jq.find('.ui-messages-error');
+            var errorMessages = PF('dlgTwo').jq.find('.ui-messages-error');
 
             if (args.validationFailed || errorMessages.length > 0) {
                 // If there are validation errors or error messages, do not hide the dialog
@@ -24,7 +24,7 @@
             }
 
             // If no validation errors or error messages, hide the dialog
-            PF('dlg').hide();
+            PF('dlgTwo').hide();
         }
 
         function handleUpdateUser(xhr, status, args) {
@@ -42,14 +42,14 @@
     </script>
 
     <div class="glass">
-        <div class="topOfTable one">
+        <div class="first-layer-top">
             <h:form>
                 <div class="btn-sect">
 
 
                     <ui:fragment rendered="#{roleBean.canManageUsers()}">
-                        <p:commandButton oncomplete="PF('dlg').show();" process="@this" styleClass="one"
-                                         update=":userTabForm:UsersTab:userRegForm:dlg"
+                        <p:commandButton oncomplete="PF('dlgTwo').show();" process="@this" styleClass="one"
+                                         update=":userTabForm:UsersTab:userRegForm:dlgTwo"
                                          icon="pi pi-user-plus"
                                          value="Add User"
                         />
@@ -72,7 +72,7 @@
         </div>
         <!--USER CREATION DIALOG-->
         <h:form class="actns" id="userRegForm">
-            <p:dialog header="Add User" widgetVar="dlg" modal="true" id="dlg" responsive="true" dynamic="true"
+            <p:dialog header="Add User" widgetVar="dlgTwo" modal="true" id="dlgTwo" responsive="true" dynamic="true"
                       resizable="false" width="800">
                 <p:growl id="messages" showDetail="true"/>
                 <h:panelGrid columns="4" cellpadding="5">
@@ -123,7 +123,7 @@
                 <div class="last">
                     <p:commandButton value="Cancel"
                                      process="@this"
-                                     oncomplete="PF('dlg').hide();"
+                                     oncomplete="PF('dlgTwo').hide();"
                     />
 
                     <p:commandButton value="Add"

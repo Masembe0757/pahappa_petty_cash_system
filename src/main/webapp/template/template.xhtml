@@ -321,10 +321,18 @@
             gap: 15px;
         }
 
+        @media print {
+            .printBtn {
+                display: none !important;
+            }
+
+            .image-section {
+                display: none !important;
+            }
+        }
+
     </style>
 
-<!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
-<!--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/primefaces/10.0.0/primefaces.min.js"></script>-->
 </h:head>
 <h:body>
 
@@ -355,7 +363,7 @@
                         <li class="listItem">
                             <h:link outcome="/pages/protected/admin/dashboard.xhtml"
                                     styleClass="listLink"
-                                    >
+                            >
                                 <i class="pi pi-home"></i>
                                 <h:outputText value="Dashboard"/>
 

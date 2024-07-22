@@ -10,6 +10,9 @@
             <p:dataTable id="budgetLineTable" var="budgetLine" value="#{budgetLineBean.getAllBudgetLines()}"
                          rowIndexVar="rowIndex"
                          emptyMessage="No budgetLines available"
+                         selectionMode="single"
+                         rowKey="#{budgetLine.id}"
+                         selection="#{budgetLineBean.selectedBudgetLine}"
                          paginator="true"
                          paginatorPosition="bottom"
                          paginatorAlwaysVisible="true"
@@ -18,6 +21,7 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
+                <p:ajax event="rowSelect" process="budgetLineTable" listener="#{budgetLineBean.onRowSelect}" update="tabView:budgetLineDetailsForm:budgetLineDetailsDialog" oncomplete="PF('budgetLineDetailsDialog').show(); console.log('Dialog shown, selected budgetLine:', #{budgetLineBean.selectedBudgetLine != null});"/>
                 <p:column headerText="Names">
                     <h:outputText value="#{budgetLine.name}"/>
                 </p:column>
@@ -41,6 +45,62 @@
                                   style="#{budgetLine.status eq 'drafted' ? 'background: #f1b8ff' : (budgetLine.status eq 'pending' ? 'background: #fff4a9' : (budgetLine.status eq 'approved' ? 'background: #ccffcc;' : (budgetLine.status eq 'expired' ? 'background: cyan' : (budgetLine.status eq 'rejected' ? 'background: #f72b2b96' : ''))))}; padding:.3em;"/>
                 </p:column>
             </p:dataTable>
+        </h:form>
+
+        <h:form id="budgetLineDetailsForm">
+            <p:dialog header="Budget Line Details"
+                      widgetVar="budgetLineDetailsDialog"
+                      modal="true"
+                      width="800px"
+                      fitViewport="true"
+                      id="budgetLineDetailsDialog">
+                <p:outputPanel id="budgetLineDetailsPanel">
+                    <h:outputText value="No budgetLine selected"
+                                  rendered="#{budgetLineBean.selectedBudgetLine == null}"/>
+                    <h:panelGroup columns="2" rendered="#{budgetLineBean.selectedBudgetLine != null}" layout="block">
+
+                        <h:panelGroup layout="block" styleClass="full-width-panel"
+                                      rendered="#{budgetLineBean.selectedBudgetLine.status != 'rejected'}">
+                            <h:outputText styleClass="panel-header" value="Status"/>
+
+                        </h:panelGroup>
+                        <h:panelGrid columns="2" styleClass="BLDetails">
+                            <h:outputText value="Budget Line Name : "/>
+                            <h:outputText
+                                    value="#{budgetLineBean.selectedBudgetLine.name}"/>
+
+                            <h:outputText value="Budget Line Category : "/>
+                            <h:outputText value="#{budgetLineBean.selectedBudgetLine.category.name}"/>
+
+                            <h:outputText value="Amount : "/>
+                            <h:outputText value="#{budgetLineBean.selectedBudgetLine.amountDelegated}">
+                                <f:convertNumber pattern="#,###"/>
+                            </h:outputText>
+
+                            <h:outputText value="Date Created : "/>
+                            <h:outputText value="#{budgetLineBean.selectedBudgetLine.dateCreated}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                            <h:outputText value="Start Date : "/>
+                            <h:outputText value="#{ budgetLineBean.selectedBudgetLine.startDate}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                            <h:outputText value="End Date : "/>
+                            <h:outputText value="#{ budgetLineBean.selectedBudgetLine.endDate}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn">
+                        <p:printer target="budgetLineDetailsPanel"/>
+                    </p:commandButton>
+
+                </p:outputPanel>
+            </p:dialog>
         </h:form>
 
     </div>
