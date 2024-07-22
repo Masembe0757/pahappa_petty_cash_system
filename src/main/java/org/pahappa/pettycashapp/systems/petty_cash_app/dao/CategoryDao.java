@@ -5,38 +5,43 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.annotation.ApplicationScope;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@ApplicationScope
 @Repository
 public class CategoryDao {
+    @Autowired
+    SessionConfiguration sessionConfiguration;
     public void saveCategory(Category category) {
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
             Transaction trs = session.beginTransaction();
             session.save(category);
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         } catch (Exception e) {
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
     public Category getCategoryOfId(int categoryId) {
         Category category = new Category();
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Category where id = :categoryId");
             qry.setParameter("categoryId", categoryId);
             category = (Category) qry.uniqueResult();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return category;
     }
@@ -45,15 +50,15 @@ public class CategoryDao {
     public List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Category");
             categories = qry.list();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         } catch (Exception e) {
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return categories;
     }
@@ -61,24 +66,24 @@ public class CategoryDao {
     public Category returnCategory(String name) {
         Category category = new Category();
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Category where name = :name");
             qry.setParameter("name", name);
             category = (Category) qry.uniqueResult();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return category;
     }
 
     public boolean updateCategory(int categoryId, String newName, String newDescription) {
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
 
@@ -92,14 +97,14 @@ public class CategoryDao {
                 session.update(categoryToUpdate);
 
                 trs.commit();
-                SessionConfiguration.shutdown();
+                sessionConfiguration.shutdown();
                 return true;
             } else {
-                SessionConfiguration.shutdown();
+                sessionConfiguration.shutdown();
                 return false;
             }
         } catch (Exception e) {
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
             e.printStackTrace();
             return false;
         }
@@ -107,7 +112,7 @@ public class CategoryDao {
 
     public boolean deleteCategory(int categoryId) {
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
 
@@ -117,15 +122,15 @@ public class CategoryDao {
                 session.delete(categoryToDelete);
 
                 trs.commit();
-                SessionConfiguration.shutdown();
+                sessionConfiguration.shutdown();
                 return true;
             } else {
 
-                SessionConfiguration.shutdown();
+                sessionConfiguration.shutdown();
                 return false;
             }
         } catch (Exception e) {
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
             e.printStackTrace();
             return false;
         }

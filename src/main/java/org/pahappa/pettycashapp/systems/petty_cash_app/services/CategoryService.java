@@ -4,9 +4,10 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.dao.CategoryDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.List;
-
+@ApplicationScope
 @Service
 public class CategoryService {
 

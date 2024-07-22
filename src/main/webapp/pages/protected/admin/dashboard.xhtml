@@ -8,6 +8,8 @@
     <ui:define name="title">Dashboard</ui:define>
     <ui:define name="pageTitle">Dashboard</ui:define>
 
+
+
     <ui:define name="content">
         <style type="text/css">
             .top-cards {
@@ -148,6 +150,14 @@
             .card-header.fo{
                 color: #43c714 !important;
             }
+            .piechart{
+                padding: 40px;
+            }
+            .donutchart{
+                width: 420px;
+                height: 420px;
+                margin-left: 20px;
+            }
 
         </style>
 
@@ -228,20 +238,21 @@
             <div class="card-container">
                 <f:event type="preRenderView" listener="#{chartBean.updateCharts()}" />
                 <div class="glass one">
-                    <p:pieChart model="#{chartBean.pieModel}" />
+                    <p:pieChart model="#{chartBean.pieModel}" styleClass="piechart" />
                 </div>
                 <div class="glass two">
-                    <p:barChart model="#{chartBean.barModel}" />
+                    <p:barChart model="#{chartBean.barModel}" styleClass="barchart"/>
                 </div>
             </div>
-<!--            <div class="card-container">-->
-<!--                <div class="glass three">-->
-<!--                    <p:donutChart model="#{chartBean.donutModel}"/>-->
-<!--                </div>-->
-<!--                <div class="glass four">-->
-<!--                    &lt;!&ndash; Your chart or graph for four goes here &ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="card-container">
+                <div class="glass three">
+                    <p:donutChart model="#{chartBean.donutModel}" styleClass="donutchart"/>
+                </div>
+                <div class="glass four">
+                    <p:donutChart model="#{chartBean.donutModel2}" styleClass="donutchart"/>
+                </div>
+
+            </div>
 
         </div>
         </ui:fragment>
@@ -249,6 +260,12 @@
         <!-- normal user dashboard-->
         </ui:fragment>
 
+
+
+
     </ui:define>
+
+
+
 
 </ui:composition>

@@ -6,10 +6,12 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.ApplicationScope;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.*;
-
+@ApplicationScope
 @Service
 public class RequisitionService {
     @Autowired
@@ -45,7 +47,7 @@ public class RequisitionService {
     public String makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
         String error_message ="";
         BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
-        if(budgetLine.getAmountDelegated()<amount){
+        if(budgetLine.getBalance()<amount){
             error_message="Amount specified is more than what is on budget line";
         } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
             error_message="Date needed is a past date";
@@ -169,4 +171,12 @@ public class RequisitionService {
     }
 
 
+    public Number countAllRejectedRequisitions() {
+        return  requisitionDao.getApprovedRequisitions("rejected").size();
+
+    }
+
+    public Number countAllApprovedRequisitions() {
+        return requisitionDao.getApprovedRequisitions("approved").size();
+    }
 }

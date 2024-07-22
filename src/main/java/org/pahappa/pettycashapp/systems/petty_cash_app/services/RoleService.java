@@ -4,9 +4,11 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.ApplicationScope;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@ApplicationScope
 @Service
 public class RoleService {
     @Autowired
@@ -100,6 +102,7 @@ public class RoleService {
     }
 
     public void deleteRoleOfId(int roleId) {
+        roleDao.deletePermissionsOfroleId(roleId);
         roleDao.deleteRoleOdId(roleId);
     }
 

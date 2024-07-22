@@ -96,23 +96,15 @@ public class LoginBean {
                     "VIEW_REJECTED_REQUISITIONS",
                     "MANAGE_REQUISITION"
             ));
-            int count =0;
             for (String s : permissions) {
-                count++;
                 Permission permission = new Permission();
                 role.getPermissions().add(permission);
                 permission.setRole(role);
                 permission.setName(s);
-                System.out.println(count);
-                continue;
 
             }
             roleDao.saveRole(role);
         }
-
-
-
-
 
         User admin = new User();
         admin.setFirstName("manager");
