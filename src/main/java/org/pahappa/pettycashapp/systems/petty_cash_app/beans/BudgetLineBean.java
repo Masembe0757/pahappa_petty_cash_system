@@ -1,19 +1,20 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
+
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionListener;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -25,11 +26,11 @@ public class BudgetLineBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private int categoryId;
     private Date startDate;
-    private  Date endDate;
+    private Date endDate;
     private int amount;
     private String name;
     private BudgetLine selectedDraftedBudgetLine;
-
+    private BudgetLine selectedBudgetLine;
     private String information;
 
     public String getInformation() {
@@ -49,10 +50,10 @@ public class BudgetLineBean implements Serializable {
     ReviewService reviewService;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
-        for(BudgetLine budgetLine: budgetLines){
-            if(budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())){
+        for (BudgetLine budgetLine : budgetLines) {
+            if (budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())) {
                 budgetLine.setStatus("expired");
                 budgetLineService.saveBudgetline(budgetLine);
             }
@@ -99,6 +100,14 @@ public class BudgetLineBean implements Serializable {
         this.name = name;
     }
 
+    public BudgetLine getSelectedBudgetLine() {
+        return selectedBudgetLine;
+    }
+
+    public void setSelectedBudgetLine(BudgetLine selectedBudgetLine) {
+        this.selectedBudgetLine = selectedBudgetLine;
+    }
+
     private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
@@ -114,22 +123,23 @@ public class BudgetLineBean implements Serializable {
     }
 
     //BUDGET LINE CODE
-    public  void createBudgetLIne(int amount,String name, Date startDate,Date endDate,int categoryId){
-        String message = budgetLineService.makeBudgetLine(amount,name,startDate,endDate,categoryId,getCurrentUser());
-        if(message.isEmpty()){
+    public void createBudgetLIne(int amount, String name, Date startDate, Date endDate, int categoryId) {
+        String message = budgetLineService.makeBudgetLine(amount, name, startDate, endDate, categoryId, getCurrentUser());
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Budget line created successfully"));
-        }else {
+        } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));
         }
 
     }
-    public List<BudgetLine> currentBudgetLines(){
+
+    public List<BudgetLine> currentBudgetLines() {
         return budgetLineService.returnCurrentBudgetLines();
     }
 
-    public List<BudgetLine> getDraftedBudgetLines(){
+    public List<BudgetLine> getDraftedBudgetLines() {
         return budgetLineService.getDraftedBudgetLines();
     }
 
@@ -142,15 +152,15 @@ public class BudgetLineBean implements Serializable {
     }
 
     public void selectBudgetLine(BudgetLine budgetLine) {
-            this.selectedDraftedBudgetLine = budgetLine;
+        this.selectedDraftedBudgetLine = budgetLine;
     }
 
-    public String updateDraftedBL (BudgetLine budgetLine) {
-        String message =  budgetLineService.updateDraftedBL(budgetLine);
-        if(message.isEmpty()){
+    public String updateDraftedBL(BudgetLine budgetLine) {
+        String message = budgetLineService.updateDraftedBL(budgetLine);
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
-        }else {
+        } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Success", "Budget line created successfully"));
         }
@@ -165,11 +175,11 @@ public class BudgetLineBean implements Serializable {
         budgetLineService.submitBudgetLine(budgetLineId);
     }
 
-    public int countRunningBL(){
+    public int countRunningBL() {
         return budgetLineService.returnCurrentBudgetLines().size();
     }
 
-    public int countExpiredBL(){
+    public int countExpiredBL() {
         return budgetLineService.getExpiredBudgetLines().size();
     }
 
@@ -184,33 +194,40 @@ public class BudgetLineBean implements Serializable {
     public List<BudgetLine> getAllBudgetLines() {
         return budgetLineService.getAllBudgetLines();
     }
+
     public List<BudgetLine> getRejectBudgetLineS() {
         return budgetLineService.getRejectedBudgetLines();
     }
 
-    public void saveReview(String information,BudgetLine budgetLine, User user) {
+    public void saveReview(String information, BudgetLine budgetLine, User user) {
         budgetLineService.setRejectionStatus(budgetLine.getId());
-        reviewService.saveBudgetlineReview(information,new Date(),budgetLine,user);
+        reviewService.saveBudgetlineReview(information, new Date(), budgetLine, user);
     }
 
     public void deleteBudgetLine(int budgetLIneId) {
         budgetLineService.deleteBL(budgetLIneId);
     }
-    public int getExpenditureBudgetOnApprovedBudgetLines(){
+
+    public int getExpenditureBudgetOnApprovedBudgetLines() {
         int money = 0;
         List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
-        for(BudgetLine budgetLine: budgetLines){
-            money = money + (budgetLine.getAmountDelegated()-budgetLine.getBalance());
+        for (BudgetLine budgetLine : budgetLines) {
+            money = money + (budgetLine.getAmountDelegated() - budgetLine.getBalance());
         }
         return money;
 
     }
-    public int getCurrentRunningBudgetLinesAmount(){
+
+    public int getCurrentRunningBudgetLinesAmount() {
         int balance = 0;
         List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
-        for(BudgetLine budgetLine: budgetLines){
+        for (BudgetLine budgetLine : budgetLines) {
             balance = balance + budgetLine.getBalance();
         }
         return balance;
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        selectedBudgetLine = (BudgetLine) event.getObject();
     }
 }

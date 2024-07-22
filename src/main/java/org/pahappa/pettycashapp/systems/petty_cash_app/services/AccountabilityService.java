@@ -3,22 +3,15 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.services;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.AccountabilityDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
-import org.pahappa.pettycashapp.systems.petty_cash_app.models.ImageBuilder;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
-import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 @ApplicationScope
 @Service
 public class AccountabilityService {

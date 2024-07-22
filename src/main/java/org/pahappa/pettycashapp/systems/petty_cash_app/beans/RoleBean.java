@@ -1,4 +1,5 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
+
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
@@ -6,6 +7,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -188,12 +190,11 @@ public class RoleBean implements Serializable {
         return permissionNames;
     }
 
-
     public List<Permission> permissionsForRole(int role_id) {
         return roleService.returnPermissionsForRole(role_id);
     }
 
-    public List<String> permsForRole(int role_id){
+    public List<String> permsForRole(int role_id) {
         List<String> perms = new ArrayList<>();
         List<Permission> permissions = roleService.returnPermissionsForRole(role_id);
         for (Permission permission : permissions) {

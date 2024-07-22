@@ -5,6 +5,8 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.AccountabilityService;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.primefaces.model.file.UploadedFile;
@@ -31,6 +33,7 @@ public class AccountabilityBean implements Serializable {
     @Autowired
     AccountabilityService accountabilityService;
 
+    private static final long serialVersionUID = 4L;
     private int accountedAmount;
     private String description;
     private UploadedFile imageUploaded;
@@ -128,6 +131,19 @@ public class AccountabilityBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+
+    public StreamedContent getImageDownload() {
+        if (selectedAccountability != null && selectedAccountability.getImage() != null) {
+            byte[] imageData = selectedAccountability.getImage();
+            return DefaultStreamedContent.builder()
+                    .name(selectedAccountability.getRequisition().getUser().getUserName() + ": " + selectedAccountability.getRequisition().getDescription() + "accountability.png")
+                    .contentType("image/jpeg")
+                    .stream(() -> new ByteArrayInputStream(imageData))
+                    .build();
+        }
+        return null;
+    }
+
 
     public void onRowSelect(SelectEvent event) {
         selectedAccountability = (Accountability) event.getObject();

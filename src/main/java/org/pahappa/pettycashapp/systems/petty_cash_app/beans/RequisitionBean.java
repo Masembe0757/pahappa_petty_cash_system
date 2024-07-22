@@ -9,12 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionListener;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -22,13 +19,14 @@ import java.util.List;
 @Component
 @SessionScope
 public class RequisitionBean implements Serializable {
+    private static final long serialVersionUID = 5L;
 
     private int amount;
     private int budgetLineId;
     private String description;
     private Date dateNeeded;
-    private  String information;
-    private  String username;
+    private String information;
+    private String username;
     private String budgetLineName;
     private int requisitionId;
     private Requisition selectedRequisition;
@@ -66,7 +64,6 @@ public class RequisitionBean implements Serializable {
     public void setInformation(String information) {
         this.information = information;
     }
-
 
 
     @Autowired
@@ -120,12 +117,11 @@ public class RequisitionBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-
     //REQUISITIONS CODE
-    public void makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
-        String message = requisitionService.makeRequisition(amount,dateNeeded,description,budgetLineId);
+    public void makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId) {
+        String message = requisitionService.makeRequisition(amount, dateNeeded, description, budgetLineId);
 
-        if(message != null) {
+        if (message != null) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Requisition sent to drafts"));
         } else {
@@ -133,32 +129,36 @@ public class RequisitionBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));
         }
     }
-    public List<Requisition> returnDraftedRequisitions(){
-        return  requisitionService.getDraftedRequisitions();
+
+    public List<Requisition> returnDraftedRequisitions() {
+        return requisitionService.getDraftedRequisitions();
     }
 
 
     public List<Requisition> getAllRequisitions() {
         return requisitionService.getAllRequisitions();
     }
-    public List<BudgetLine>  getBudgetLines(){
-        return budgetLineService.getApprovedBudgetLines() ;
+
+    public List<BudgetLine> getBudgetLines() {
+        return budgetLineService.getApprovedBudgetLines();
     }
+
     public void approveRequisition(int requisitionId) {
 
         requisitionService.approveRequisition(requisitionId);
 
     }
 
-    public void updateRequisition(int requisitionId,int amount, Date dateNeeded, String description,int budgetLineId) {
-        String message = requisitionService.updateRequisition(requisitionId,amount,dateNeeded,description,budgetLineId);
-        if(message.isEmpty()){
+    public void updateRequisition(int requisitionId, int amount, Date dateNeeded, String description, int budgetLineId) {
+        String message = requisitionService.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLineId);
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS", "Requisition updated successfully"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Requisition updated successfully"));
 
-        }else {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,"FAILURE", message));}
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));
+        }
     }
 
     public void deleteRequisition(int requisitionId) {
@@ -166,13 +166,15 @@ public class RequisitionBean implements Serializable {
     }
 
     public List<Requisition> returnRequisitionsWithReqs() {
-        return  requisitionService.getRequisitionsWithReqs();
+        return requisitionService.getRequisitionsWithReqs();
     }
+
     public List<Requisition> returnPendingRequisitions() {
-        return  requisitionService.getPendingRequisitions();
+        return requisitionService.getPendingRequisitions();
     }
+
     public List<Requisition> returnFulfilledRequisitions() {
-        return  requisitionService.getFulfilledRequisitions();
+        return requisitionService.getFulfilledRequisitions();
     }
 
     public List<Requisition> returnApprovedRequisitions() {
@@ -180,12 +182,13 @@ public class RequisitionBean implements Serializable {
     }
 
     public List<Requisition> returnRejectedRequisitions() {
-        return  requisitionService.getRejectedRequisitions();
+        return requisitionService.getRejectedRequisitions();
     }
 
     public void approveRequisitionRequest(int requisitionId) {
         requisitionService.approveRequisitionRequest(requisitionId);
     }
+
     public void makeRequisitionChangeRequest(int requisitionId) {
         requisitionService.makeRequisitionChangeRequest(requisitionId);
     }
@@ -198,15 +201,15 @@ public class RequisitionBean implements Serializable {
         requisitionService.submitRequisition(requisition);
     }
 
-    public void saveReview(String information,Requisition requisition,User  user) {
-        reviewService.saveRequisitionReview(information,new Date(),requisition,user);
+    public void saveReview(String information, Requisition requisition, User user) {
+        reviewService.saveRequisitionReview(information, new Date(), requisition, user);
     }
 
     public void approveBudgetLine(int budgetLineId) {
         budgetLineService.approveBudgetLine(budgetLineId);
     }
 
-    public int countReviewedReqs(){
+    public int countReviewedReqs() {
         return requisitionService.getApprovedRequisitions().size() + requisitionService.getRejectedRequisitions().size();
     }
 
