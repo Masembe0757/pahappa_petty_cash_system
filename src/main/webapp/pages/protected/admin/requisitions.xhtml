@@ -9,38 +9,51 @@
     <ui:define name="pageTitle">Requisitions</ui:define>
 
     <ui:define name="content">
-        <h:head>
-            <style>
-                .background {
-                    height: 100%;
+        <style>
+            .background {
+                height: 100%;
+            }
+
+            .first-layer-top {
+                display: flex;
+                justify-content: flex-end;
+                width: calc(100%);
+            }
+
+            input#searchForm\:search.ui-inputfield {
+                width: 840px !important;
+            }
+
+
+        </style>
+        <script type="text/javascript">
+
+            function createReq(xhr, status, args) {
+                // Check if there are any error messages with severity 'error'
+                var errorMessages = PF('createReq').jq.find('.ui-messages-error');
+
+                if (args.validationFailed || errorMessages.length > 0) {
+                    // If there are validation errors or error messages, do not hide the dialog
+                    return;
                 }
 
-                .first-layer-top {
-                    display: flex;
-                    justify-content: flex-end;
-                    width: calc(100%);
-                }
-
-                input#searchForm\:search.ui-inputfield {
-                    width: 840px !important;
-                }
-
-
-            </style>
-        </h:head>
-        <p:growl id="message" showDetail="true" />
+                // If no validation errors or error messages, hide the dialog
+                PF('createReq').hide();
+            }
+        </script>
+        <p:growl id="message" showDetail="true"/>
         <div class="first-layer-top">
 
             <h:form>
                 <div class="btn-sect">
                     <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
 
-                        <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('dlg').show();"
-                                         process="@this" update="dlg"/>
+                        <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('createReq').show();"
+                                         process="@this" update="createReq"/>
 
                     </ui:fragment>
 
-                    <p:dialog header="Create Requisition" widgetVar="dlg" modal="true" id="dlg" resizable="false"
+                    <p:dialog header="Create Requisition" widgetVar="createReq" modal="true" id="createReq" resizable="false"
                               width="auto">
                         <p:panelGrid columns="1"
                         >
@@ -74,12 +87,12 @@
 
                         </p:panelGrid>
                         <div class="last">
-                            <p:commandButton value="Cancel" styleClass="two" oncomplete="PF('dlg').hide();"/>
+                            <p:commandButton value="Cancel" styleClass="two" oncomplete="PF('createReq').hide();"/>
                             <p:commandButton value="Save"
                                              action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
                                              update="@all"
                                              process="@form"
-                                             oncomplete=" PF('dlg').hide();"/>
+                                             oncomplete="createReq(xhr, status, args)"/>
                         </div>
 
 

@@ -3,6 +3,21 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <script type="text/javascript">
+
+        function editDialog(xhr, status, args) {
+            // Check if there are any error messages with severity 'error'
+            var errorMessages = PF('editDialog').jq.find('.ui-messages-error');
+
+            if (args.validationFailed || errorMessages.length > 0) {
+                // If there are validation errors or error messages, do not hide the dialog
+                return;
+            }
+
+            // If no validation errors or error messages, hide the dialog
+            PF('editDialog').hide();
+        }
+    </script>
     <div class="glass">
         <h4 class="Table-title">REQUISITION DRAFTS</h4>
 
@@ -119,9 +134,9 @@
                     </p:inputText>
                     <p:commandButton value="Update"
                                      action="#{requisitionBean.updateRequisition(requisitionBean.requisitionId,requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
-                                     update=":requisitionTab:draftForm:draftTable"
+                                     update=":requisitionTab:draftForm:draftTable, requisitionTab:allReqTable"
                                      process="@form"
-                                     oncomplete=" PF('dlg').hide();"/>
+                                     oncomplete="editDialog(xhr, status, args)"/>
 
                 </h:panelGrid>
             </p:dialog>

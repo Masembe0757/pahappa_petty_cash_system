@@ -33,6 +33,9 @@
         .background {
             background: #9fb0de33;
             margin: 0;
+            position: relative; /* To allow positioning children */
+            height: 100%; /* Ensure the background takes up full height */
+            overflow-y: auto;
         }
 
         .sideAndBody {
@@ -41,6 +44,7 @@
         }
 
         .top-bar {
+            z-index: 100;
             position: fixed;
             height: 65px;
             width: 100vw;
@@ -51,6 +55,7 @@
         }
 
         .sidebar {
+            z-index: 110;
             position: fixed;
             width: 230px;
             height: 100vh;
@@ -318,6 +323,8 @@
 
     </style>
 
+<!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/primefaces/10.0.0/primefaces.min.js"></script>-->
 </h:head>
 <h:body>
 

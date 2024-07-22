@@ -45,7 +45,34 @@
                 }
 
             </style>
+        <script type="text/javascript">
 
+            function createBL(xhr, status, args) {
+                // Check if there are any error messages with severity 'error'
+                var errorMessages = PF('dlg').jq.find('.ui-messages-error');
+
+                if (args.validationFailed || errorMessages.length > 0) {
+                    // If there are validation errors or error messages, do not hide the dialog
+                    return;
+                }
+
+                // If no validation errors or error messages, hide the dialog
+                PF('dlg').hide();
+            }
+
+            function createCat(xhr, status, args) {
+                // Check if there are any error messages with severity 'error'
+                var errorMessages = PF('Catdlg').jq.find('.ui-messages-error');
+
+                if (args.validationFailed || errorMessages.length > 0) {
+                    // If there are validation errors or error messages, do not hide the dialog
+                    return;
+                }
+
+                // If no validation errors or error messages, hide the dialog
+                PF('Catdlg').hide();
+            }
+        </script>
 
         <div class="first-layer-top">
             <div class="navigation">
@@ -105,7 +132,7 @@
                         <p:commandButton value="Save"
                                          action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
                                          update="tabView"
-                                         oncomplete="PF('dlg').hide();"/>
+                                         oncomplete="createBL(xhr, status, args)"/>
                         </div>
                     </p:dialog>
                 </h:form>
@@ -132,7 +159,7 @@
 
                         </h:panelGrid>
                         <p:commandButton value="Create" action="#{categoryBean.addCategory()}"
-                                         oncomplete="PF('Catdlg').hide();" update="@all"/>
+                                         oncomplete="function createCat(xhr, status, args);" update="@all"/>
                     </p:dialog>
                 </h:form>
             </div>
