@@ -5,60 +5,63 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@ApplicationScope
 @Repository
 public class UserDao {
-
+    @Autowired
+    SessionConfiguration sessionConfiguration;
     public  void saveUser(User user){
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
             Transaction trs = session.beginTransaction();
             session.save(user);
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
 
     public User returnUser(String userName) {
         User user = new User();
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from User where userName = :userName");
             qry.setParameter("userName", userName);
             user = (User) qry.uniqueResult();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return user;
     }
     public User returnUserOfId(int userId) {
         User user = new User();
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from User where id = :userId");
             qry.setParameter("userId", userId);
             user = (User) qry.uniqueResult();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return user;
     }
@@ -66,15 +69,15 @@ public class UserDao {
     public void createAdmin(User user) {
         try {
 
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
             Transaction trs = session.beginTransaction();
             session.saveOrUpdate(user);
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
 
@@ -82,7 +85,7 @@ public class UserDao {
         try {
             System.out.println("\n\n UPDATING,..................");
 
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             User user =(User) session.get(User.class,userId);
@@ -97,10 +100,10 @@ public class UserDao {
             session.update(user);
 
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
 
     }
@@ -108,16 +111,16 @@ public class UserDao {
     public List<User> getAllUsers() {
         List<User> users = null;
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from User where deleted = false");
             users = qry.list();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return users;
     }
@@ -125,32 +128,32 @@ public class UserDao {
     public List<User> getDeletedUsers() {
         List<User> deletedUsers = null;
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from User where deleted = true");
             deletedUsers = qry.list();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return deletedUsers;
     }
 
     public void deleteUserOfUserName(String userName) {
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("update User set deleted = true where userName = :userName");
             qry.setParameter("userName", userName);
             qry.executeUpdate();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
 }

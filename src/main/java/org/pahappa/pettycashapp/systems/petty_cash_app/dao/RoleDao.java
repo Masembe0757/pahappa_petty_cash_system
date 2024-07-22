@@ -6,58 +6,61 @@ import org.hibernate.Transaction;
 import org.pahappa.pettycashapp.systems.petty_cash_app.configurations.SessionConfiguration;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.annotation.ApplicationScope;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@ApplicationScope
 @Repository
 public class RoleDao {
+    @Autowired
+    SessionConfiguration sessionConfiguration;
     public void saveRole(Role role) {
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             session.saveOrUpdate(role);
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
 
     public List<Role> getAllRoles() {
         List<Role> roles = new ArrayList<>();
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Role ");
             roles = qry.list();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return roles;
     }
 
     public void deleteRoleOdId(int roleId) {
         try {
-            System.out.println("role dell 1");
             System.out.println("ID ...\n" +roleId);
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("delete from Role where id = :roleId");
             qry.setParameter("roleId", roleId);
             qry.executeUpdate();
-            System.out.println("role dell 2");
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
             e.printStackTrace();
         }
     }
@@ -65,17 +68,17 @@ public class RoleDao {
     public List<Permission> getPermissionsOfRole(int roleId) {
         List<Permission> permissions = null;
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Permission where role_id = :roleId");
             qry.setParameter("roleId", roleId);
             permissions = qry.list();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return permissions;
     }
@@ -84,40 +87,40 @@ public class RoleDao {
     public Role getRoleOfname(String name) {
         Role role = null;
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Role where name = :name");
             qry.setParameter("name", name);
             role = (Role) qry.uniqueResult();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return role;
     }
 
     public void deletePermissionsOfroleId(int id) {
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("delete from Permission where role_id = :id");
             qry.setParameter("id", id);
             qry.executeUpdate();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
 
     public void updateRole(String name,List<String> permissions ,int roleId) {
         try {
 
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Role role =(Role) session.get(Role.class,roleId);
@@ -131,27 +134,27 @@ public class RoleDao {
             session.update(role);
 
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
     }
 
     public Role getRoleOfId(int roleId) {
         Role role = null;
         try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Role where id = :roleId");
             qry.setParameter("roleId", roleId);
             role = (Role) qry.uniqueResult();
             trs.commit();
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         catch (Exception e){
-            SessionConfiguration.shutdown();
+            sessionConfiguration.shutdown();
         }
         return role;
     }

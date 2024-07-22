@@ -2,11 +2,15 @@ package org.pahappa.pettycashapp.systems.petty_cash_app.configurations;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.ApplicationScope;
 
+@ApplicationScope
+@Service
 public class SessionConfiguration {
-    private final static SessionFactory sessionFactory = buildSessionFactory();
+    private final  SessionFactory sessionFactory = buildSessionFactory();
 
-    private static SessionFactory buildSessionFactory() {
+    private  SessionFactory buildSessionFactory() {
         try {
             AnnotationConfiguration configuration = new AnnotationConfiguration();
             configuration.configure(); // Loads hibernate.cfg.xml configuration
@@ -27,11 +31,11 @@ public class SessionConfiguration {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
+    public  SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
-    public static void shutdown() {
+    public  void shutdown() {
         getSessionFactory().close();
     }
 }

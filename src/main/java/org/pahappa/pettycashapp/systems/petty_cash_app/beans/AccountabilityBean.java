@@ -104,4 +104,13 @@ public class AccountabilityBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    public boolean requisitionNotAccountedFor(int requisitionId){
+        boolean accounted = false;
+        Accountability accountability = accountabilityService.getAccountabilityOnRequisition(requisitionId);
+        if(accountability==null){
+            accounted =true;
+        }
+        System.out.println("ACCOUNTED  "+accounted);
+        return accounted;
+    }
 }

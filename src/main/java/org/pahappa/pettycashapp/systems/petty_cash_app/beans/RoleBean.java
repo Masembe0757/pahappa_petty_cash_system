@@ -1,14 +1,11 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
-
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Permission;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
-
-import javax.el.MethodExpression;
+import org.springframework.web.context.annotation.ApplicationScope;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -16,7 +13,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Component
-@SessionScope
+@ApplicationScope
 public class RoleBean implements Serializable {
     public RoleBean() {
     }

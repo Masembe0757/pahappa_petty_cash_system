@@ -40,10 +40,12 @@
                 <p:column headerText="Actions" style="width:100px">
 
                     <ui:fragment rendered="#{roleBean.canProvideAccountability()}">
+                        <ui:fragment rendered="#{accountabilityBean.requisitionNotAccountedFor(draft.id)}">
                         <p:commandButton oncomplete="PF('acc').show();" update=":requisitionTab:createAccForm:acc"
                                          styleClass="edit" process="@this" icon="pi pi-book">
                             <f:setPropertyActionListener value="#{draft}" target="#{accountabilityBean.requisition}"/>
                         </p:commandButton>
+                        </ui:fragment>
                     </ui:fragment>
 
                     <p:commandButton action="#{requisitionBean.deleteRequisition(draft.id)}"
