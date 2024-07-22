@@ -56,6 +56,7 @@ public class RoleBean implements Serializable {
 
 
     private String name;
+    private String searchName;
     private List<String> selectedPermissions;
     private String nameUp;
     private List<String> selectedPermissionsUp;
@@ -79,6 +80,14 @@ public class RoleBean implements Serializable {
 
     public String getNameUp() {
         return nameUp;
+    }
+
+    public String getSearchName() {
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
     }
 
     public void setNameUp(String nameUp) {
@@ -114,7 +123,7 @@ public class RoleBean implements Serializable {
         String message = roleService.saveRole(name, selectedPermissions);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "SUCCESS", "Role created successfully"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role created successfully"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILED", message));
@@ -140,13 +149,18 @@ public class RoleBean implements Serializable {
     }
 
     public String updateRole(String name, List<String> permissions, int role_id) {
-        String message = roleService.updateRoleOfId(name, permissions, role_id);
-        if (message.isEmpty()) {
+        try {
+            String message = roleService.updateRoleOfId(name, permissions, role_id);
+            if (message.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role updated successfully"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
+            }
+        } catch (Exception e) { // Catch any general exception
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role updated successfully"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "An error occurred while updating the role."));
         }
         return "";
     }
@@ -177,6 +191,15 @@ public class RoleBean implements Serializable {
 
     public List<Permission> permissionsForRole(int role_id) {
         return roleService.returnPermissionsForRole(role_id);
+    }
+
+    public List<String> permsForRole(int role_id){
+        List<String> perms = new ArrayList<>();
+        List<Permission> permissions = roleService.returnPermissionsForRole(role_id);
+        for (Permission permission : permissions) {
+            perms.add(permission.getName());
+        }
+        return perms;
     }
 
     public void deleteAllRoles() {

@@ -3,6 +3,21 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <script type="text/javascript">
+
+        function infoDialog(xhr, status, args) {
+            // Check if there are any error messages with severity 'error'
+            var errorMessages = PF('infoDialog').jq.find('.ui-messages-error');
+
+            if (args.validationFailed || errorMessages.length > 0) {
+                // If there are validation errors or error messages, do not hide the dialog
+                return;
+            }
+
+            // If no validation errors or error messages, hide the dialog
+            PF('infoDialog').hide();
+        }
+    </script>
     <div class="glass">
         <h4 class="Table-title">PENDING REQUISITIONS</h4>
 
@@ -85,7 +100,7 @@
                                              action="#{requisitionBean.saveReview(requisitionBean.information,draft,draft.user)}"
                                              process="@this"
                                              update="@form, requisitionTab:allReqTable, requisitionTab:rejectedReqForm"
-                                             oncomplete="if (!PF('infoDialog').jq.find('.ui-messages-error').length == 0) PF('infoDialog').show();}"
+                                             oncomplete="infoDialog(xhr, status, args)"
                             />
 
                         </p:panelGrid>

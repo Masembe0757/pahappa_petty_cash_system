@@ -3,6 +3,75 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        .reqDet {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .reqDet td {
+            padding: 15px 10px;
+        }
+
+        .reqDet .ui-outputtext {
+            margin-bottom: 10px;
+        }
+
+        .reqDet tr {
+            height: 30px;
+        }
+
+        .full-width-panel {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            padding: 10px 10px 30px;
+        }
+
+        .panel-header {
+            display: block;
+            text-align: center;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+
+        .pipeline {
+            width: 100%;
+            position: relative;
+        }
+
+        .custom-progress {
+            width: 100% !important;
+            height: 20px !important;
+        }
+
+        .status-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            height: 20px;
+            margin-top: 5px;
+        }
+
+        .status {
+            position: relative;
+            text-align: center;
+            font-size: 12px;
+            width: 25%;
+        }
+    </style>
+
 
     <div class="glass">
         <h4 class="Table-title">ALL REQUISITIONS</h4>
@@ -10,6 +79,9 @@
             <p:dataTable id="requisitionTable" var="requisition"
                          value="#{requisitionBean.getAllRequisitions()}"
                          emptyMessage="No requisitions available"
+                         selectionMode="single"
+                         rowKey="#{requisition.id}"
+                         selection="#{requisitionBean.selectedRequisition}"
                          paginator="true"
                          paginatorPosition="bottom"
                          paginatorAlwaysVisible="true"
@@ -18,6 +90,7 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
+                <p:ajax event="rowSelect" process="requisitionTable" listener="#{requisitionBean.onRowSelect}" update="requisitionTab:requisitionDetailsForm:requisitionDetailsDialog" oncomplete="PF('requisitionDetailsDialog').show(); console.log('Dialog shown, selected requisition:', #{requisitionBean.selectedRequisition != null});"/>
                 <p:column headerText="Reference Number" style="width: 200px;">
                     <h:outputText value="#{requisition.referenceNumber}"/>
                 </p:column>
@@ -49,6 +122,64 @@
 
             </p:dataTable>
         </h:form>
+
+        <h:form id="requisitionDetailsForm" onbeforeprint="hidePrintButton()">
+            <p:dialog header="Requisition Details"
+                      widgetVar="requisitionDetailsDialog"
+                      modal="true"
+                      width="800px"
+                      fitViewport="true"
+                      id="requisitionDetailsDialog">
+                <p:outputPanel id="requisitionDetailsPanel">
+                    <h:outputText value="No requisition selected"
+                                  rendered="#{requisitionBean.selectedRequisition == null}"/>
+                    <h:panelGroup columns="2" rendered="#{requisitionBean.selectedRequisition != null}" layout="block">
+
+                        <h:panelGroup layout="block" styleClass="full-width-panel"
+                                      rendered="#{requisitionBean.selectedRequisition.status != 'rejected'}">
+                            <h:outputText styleClass="panel-header" value="Status"/>
+
+                        </h:panelGroup>
+                        <h:panelGrid columns="2" styleClass="reqDet">
+                            <h:outputText value="Reference Number:"/>
+                            <h:outputText
+                                    value="#{requisitionBean.selectedRequisition.referenceNumber}"/>
+
+                            <h:outputText value="Budget Line: "/>
+                            <h:outputText value="#{requisitionBean.selectedRequisition.budgetLine.name}"/>
+
+                            <h:outputText value="Amount:"/>
+                            <h:outputText value="#{requisitionBean.selectedRequisition.amount}"/>
+
+                            <h:outputText value="Date Needed:"/>
+                            <h:outputText value="#{requisitionBean.selectedRequisition.dateNeeded}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                            <h:outputText value="Date Created:"/>
+                            <h:outputText value="#{ requisitionBean.selectedRequisition.dateCreated}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                            <h:outputText value="Date Approved:"/>
+                            <h:outputText value="#{ requisitionBean.selectedRequisition.dateApproved}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
+                            </h:outputText>
+
+                            <h:outputText value="Description: "/>
+                            <h:outputText value="#{requisitionBean.selectedRequisition.description}"/>
+
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn">
+                        <p:printer target="requisitionDetailsPanel"/>
+                    </p:commandButton>
+
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
 
     </div>
 </ui:composition>

@@ -4,10 +4,10 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
-    <style>
+    <style type="text/css">
         .topOfTable.one {
             position: absolute;
-            margin-left: 52rem;
+            margin-left: 44rem;
         }
 
         .check-box {
@@ -18,17 +18,48 @@
 
     </style>
 
+    <script type="text/javascript">
+
+        function handleAddRole(xhr, status, args) {
+            // Check if there are any error messages with severity 'error'
+            var errorMessages = PF('rlg').jq.find('.ui-messages-error');
+
+            if (args.validationFailed || errorMessages.length > 0) {
+                // If there are validation errors or error messages, do not hide the dialog
+                return;
+            }
+
+            // If no validation errors or error messages, hide the dialog
+            PF('rlg').hide();
+        }
+
+        function handleUpdateRole(xhr, status, args) {
+            // Check if there are any error messages with severity 'error'
+            var errorMessages = PF('roleDialog').jq.find('.ui-messages-error');
+
+            if (args.validationFailed || errorMessages.length > 0) {
+                // If there are validation errors or error messages, do not hide the dialog
+                return;
+            }
+
+            // If no validation errors or error messages, hide the dialog
+            PF('roleDialog').hide();
+        }
+    </script>
+
 
     <div class="glass">
         <div class="topOfTable one">
-            <div class="btn-sect">
-                <p:commandButton oncomplete="PF('rlg').show();" process="@this" update=":userTabForm:UsersTab:roleSaveForm:rlg"
-                                 styleClass="one"
-                                 value="Add Role"/>
-                <p:commandButton action="#{roleBean.deleteAllRoles()}" styleClass="two"
-                                 value="Delete All Roles"
-                                 update=""/>
-            </div>
+            <h:form>
+                <div class="btn-sect">
+                    <p:commandButton oncomplete="PF('rlg').show();" update=":userTabForm:UsersTab:roleSaveForm:rlg"
+                                     styleClass="one"
+                                     value="Add Role"/>
+                    <p:commandButton action="#{roleBean.deleteAllRoles()}" styleClass="two"
+                                     value="Delete All Roles"
+                                     update=""/>
+                </div>
+            </h:form>
         </div>
 
         <!-- ROLE CREATION DIALOG -->
@@ -62,7 +93,7 @@
                                      action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
                                      process="@form"
                                      update=":userTabForm:UsersTab:roleForm:roleTable"
-                                     oncomplete="if (!(PF('rlg').jq.find('.ui-messages-error').length == 0)) PF('rlg').show();"
+                                     oncomplete="handleAddRole(xhr, status, args)"
                     />
                 </div>
             </p:dialog>
@@ -70,21 +101,21 @@
 
 
         <div class="topOfTable">
-            <h:form>
-            <p:inputText id="search_role" value="#{roleBean.name}"
-                         styleClass="search"
-                         icon="pi pi-search"
-                         placeholder="Search Role By name">
-                <p:ajax event="keyup" update=":userTabForm:UsersTab:roleForm:roleTable" process="@form" listener="#{roleBean.getRoleByName(roleBean.name)}"/>
-            </p:inputText>
+            <h:form id="searchForm">
+                <p:inputText id="search_role" value="#{roleBean.searchName}"
+                             styleClass="search"
+                             icon="pi pi-search"
+                             placeholder="Search Role By name">
+                    <p:ajax event="keyup" update=":userTabForm:UsersTab:roleForm:roleTable" process="@form"
+                            listener="#{roleBean.getRoleByName(roleBean.searchName)}"/>
+                </p:inputText>
             </h:form>
         </div>
 
 
-
         <h4 class="Table-title">USER ROLES</h4>
         <h:form id="roleForm">
-            <p:dataTable id="roleTable" value="#{roleBean.getRoleByName(roleBean.name)}" var="role"
+            <p:dataTable id="roleTable" value="#{roleBean.getRoleByName(roleBean.searchName)}" var="role"
                          emptyMessage="No roles available"
                          paginator="true"
                          paginatorPosition="bottom"
@@ -97,15 +128,16 @@
                 <p:column headerText="Role name">
                     <h:outputText value="#{role.name}"/>
                 </p:column>
-                <p:column headerText="Permissions">
-                    <h:outputLabel for="role_p_table"/>
-                    <p:selectOneMenu id="role_p_table" value="#{roleBean.selectedPermissions}" required="true"
-                                     requiredMessage="At least one role is required!">
-                        <f:selectItem itemLabel="Role's permissions" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{roleBean.permissionsForRole(role.id)}" var="permission"
-                                       noSelectionOption="true"
-                                       itemLabel="#{permission.name}"/>
-                    </p:selectOneMenu>
+                <p:column headerText="Permissions" width="75%">
+                    <!--                    <h:outputLabel for="role_p_table"/>-->
+                    <!--                    <p:selectOneMenu id="role_p_table" value="#{roleBean.selectedPermissions}" required="true"-->
+                    <!--                                     requiredMessage="At least one role is required!">-->
+                    <!--                        <f:selectItem itemLabel="Role's permissions" itemValue="" noSelectionOption="true"/>-->
+                    <!--                        <f:selectItems value="#{roleBean.permissionsForRole(role.id)}" var="permission"-->
+                    <!--                                       noSelectionOption="true"-->
+                    <!--                                       itemLabel="#{permission.name}"/>-->
+                    <!--                    </p:selectOneMenu>-->
+                    <h:outputText value="#{roleBean.permsForRole(role.id)}"/>
 
                 </p:column>
 
@@ -125,7 +157,8 @@
 
                     <p:growl id="message" showDetail="true"/>
                     <ui:fragment rendered="#{roleBean.CanManageRoles()}">
-                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" process="@this" update=":userTabForm:UsersTab:roleForm:roleTable"
+                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" process="@this"
+                                         update=":userTabForm:UsersTab:roleForm:roleTable"
                                          styleClass="delete" icon="pi pi-trash">
                             <p:confirm header="Confirmation" message="Do you want to delete this role?"
                                        icon="pi pi-info-circle"/>
@@ -163,7 +196,7 @@
                 <div class="last">
                     <p:commandButton value="Cancel"
                                      styleClass="two"
-                                     process="@form"
+                                     process="@this"
                                      oncomplete="PF('roleDialog').hide();"
                     />
 
@@ -172,7 +205,7 @@
                                      process="@form"
                                      update=":userTabForm:UsersTab:roleForm:roleTable"
                                      action="#{roleBean.updateRole(roleBean.nameUp, roleBean.selectedPermissionsUp,roleBean.role_id)}"
-                                     oncomplete=" if (!(PF('roleDialog').jq.find('.ui-messages-error').length == 0)) PF('roleDialog').show()"
+                                     oncomplete="handleUpdateRole(xhr, status, args)"
 
                     />
                 </div>

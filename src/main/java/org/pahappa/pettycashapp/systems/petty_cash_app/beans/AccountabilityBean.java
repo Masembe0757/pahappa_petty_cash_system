@@ -4,6 +4,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.AccountabilityService;
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.primefaces.model.file.UploadedFile;
@@ -28,6 +29,7 @@ public class AccountabilityBean implements Serializable {
     private String description;
     private UploadedFile imageUploaded;
     private Requisition requisition;
+    private Accountability selectedAccountability;
 
     public Requisition getRequisition() {
         return requisition;
@@ -59,6 +61,22 @@ public class AccountabilityBean implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Accountability getSelectedAccountability() {
+        return selectedAccountability;
+    }
+
+    public void setSelectedAccountability(Accountability selectedAccountability) {
+        this.selectedAccountability = selectedAccountability;
+    }
+
+    public Accountability getAccountability() {
+        return accountability;
+    }
+
+    public void setAccountability(Accountability accountability) {
+        this.accountability = accountability;
     }
 
     @PostConstruct
@@ -104,13 +122,18 @@ public class AccountabilityBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
-    public boolean requisitionNotAccountedFor(int requisitionId){
+
+    public void onRowSelect(SelectEvent event) {
+        selectedAccountability = (Accountability) event.getObject();
+    }
+
+    public boolean requisitionNotAccountedFor(int requisitionId) {
         boolean accounted = false;
         Accountability accountability = accountabilityService.getAccountabilityOnRequisition(requisitionId);
-        if(accountability==null){
-            accounted =true;
+        if (accountability == null) {
+            accounted = true;
         }
-        System.out.println("ACCOUNTED  "+accounted);
+        System.out.println("ACCOUNTED  " + accounted);
         return accounted;
     }
 }

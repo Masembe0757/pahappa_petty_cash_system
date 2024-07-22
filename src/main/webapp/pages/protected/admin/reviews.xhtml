@@ -10,68 +10,68 @@
 
     <ui:define name="content">
 
-    <div class="glass">
-        <h4 class="Table-title">REVIEWS</h4>
-        <h:form>
-        <p:dataTable id="reviewTable" value="#{reviewBean.getReviewsOfUser()}" var="review"
-                     emptyMessage="No reviews available"
-                     paginator="true"
-                     paginatorPosition="bottom"
-                     paginatorAlwaysVisible="true"
-                     pageLinks="4"
-                     rowHover="true"
-                     rows="9"
-                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
-        >
+        <div class="glass">
+            <h4 class="Table-title">REVIEWS</h4>
+            <h:form>
+                <p:dataTable id="reviewTable" value="#{reviewBean.getReviewsOfUser()}" var="review"
+                             emptyMessage="No reviews available"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             paginatorAlwaysVisible="true"
+                             pageLinks="4"
+                             rowHover="true"
+                             rows="9"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+                >
 
-            <p:column headerText="Date reviewed">
-                <h:outputText value="#{review.reviewedDate}"/>
-            </p:column>
-            <p:column headerText="Description">
-                <h:outputText value="#{review.description}"/>
-            </p:column>
-            <p:column headerText="Revied by">
-                <h:outputText value="#{review.user.firstName} #{review.user.lastName}"/>
-            </p:column>
+                    <p:column headerText="Date reviewed">
+                        <h:outputText value="#{review.reviewedDate}"/>
+                    </p:column>
+                    <p:column headerText="Description">
+                        <h:outputText value="#{review.description}"/>
+                    </p:column>
+                    <p:column headerText="Revied by">
+                        <h:outputText value="#{review.user.firstName} #{review.user.lastName}"/>
+                    </p:column>
 
-            <p:column headerText="Requisition ">
+                    <p:column headerText="Requisition ">
 
-                <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
-                <h:outputText value="#{review.requisition.referenceNumber}"/>
-                </ui:fragment>
+                        <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
+                            <h:outputText value="#{review.requisition.referenceNumber}"/>
+                        </ui:fragment>
 
-            </p:column>
-            <p:column headerText="Budget line ">
+                    </p:column>
+                    <p:column headerText="Budget line ">
 
-                <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
-                <h:outputText value="#{review.budgetLine.name}"/>
-                </ui:fragment>
+                        <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
+                            <h:outputText value="#{review.budgetLine.name}"/>
+                        </ui:fragment>
 
-            </p:column>
-            <p:column headerText="Actions">
-                <div class="btn-sect">
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <div class="btn-sect">
 
-                    <p:growl id="message" showDetail="true"/>
+                            <p:growl id="message" showDetail="true"/>
 
-                    <p:commandButton action="#{reviewBean.deleteReview(review.id)}" update="message reviewTable"
-                                     styleClass="delete" icon="pi pi-trash">
-                        <p:confirm header="Confirmation" message="Do you want to delete this record?"
-                                   icon="pi pi-info-circle"/>
-                    </p:commandButton>
+                            <p:commandButton action="#{reviewBean.deleteReview(review.id)}" update="message reviewTable"
+                                             styleClass="delete" icon="pi pi-trash">
+                                <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                           icon="pi pi-info-circle"/>
+                            </p:commandButton>
 
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
-                                     width="350">
-                        <p:commandButton value="No" type="button"
-                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
-                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
-                    </p:confirmDialog>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                             width="350">
+                                <p:commandButton value="No" type="button"
+                                                 styleClass="ui-confirmdialog-no ui-button-flat"/>
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                            </p:confirmDialog>
 
-                </div>
-            </p:column>
-        </p:dataTable>
-        </h:form>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
 
-    </div>
+        </div>
     </ui:define>
 
 </ui:composition>
