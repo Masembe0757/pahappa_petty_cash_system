@@ -134,7 +134,7 @@ public class UserBean implements Serializable {
         this.selectedUser = selectedUser;
     }
 
-    public void getSelectedUserForUpdate(User user){
+    public void getSelectedUserForUpdate(User user) {
         this.selectedUser = user;
     }
 
@@ -156,8 +156,8 @@ public class UserBean implements Serializable {
 
     }
 
-    public void updateUser(String username,String firstname,String lastname,String password1,String password2,String email,String role) {
-        String message = userService.updateUserOfUserName(username,firstname,lastname,password1,password2,email,role);
+    public void updateUser(String username, String firstname, String lastname, String password1, String password2, String email, String role) {
+        String message = userService.updateUserOfUserName(username, firstname, lastname, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User updated successfully "));
@@ -172,13 +172,13 @@ public class UserBean implements Serializable {
     public void deleteUser(int userId) {
         userService.deleteUserOfId(userId);
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO,"SUCCESS" , "User deleted successfully"));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User deleted successfully"));
     }
 
     public void deleteAllUsers() {
         List<User> users = userService.getAllUsers();
-        for(User user : users){
-            if(!user.getRole().equals("admin")) {
+        for (User user : users) {
+            if (!user.getRole().equals("admin")) {
                 userService.deleteUserOfId(user.getId());
             }
         }
