@@ -162,7 +162,6 @@ public class BudgetLineBean implements Serializable {
     }
 
     public void submitBudgetLine(int budgetLineId) {
-        System.out.println("SUBMITTING BUDGET LINE");
         budgetLineService.submitBudgetLine(budgetLineId);
     }
 

@@ -50,7 +50,6 @@ public class RoleDao {
 
     public void deleteRoleOdId(int roleId) {
         try {
-            System.out.println("ID ...\n" +roleId);
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();

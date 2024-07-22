@@ -145,7 +145,9 @@ public class RequisitionBean implements Serializable {
         return budgetLineService.getApprovedBudgetLines() ;
     }
     public void approveRequisition(int requisitionId) {
+
         requisitionService.approveRequisition(requisitionId);
+
     }
 
     public void updateRequisition(int requisitionId,int amount, Date dateNeeded, String description,int budgetLineId) {

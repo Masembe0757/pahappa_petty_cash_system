@@ -54,7 +54,6 @@ public class RequisitionDao {
     public List<Requisition> getPendingRequisitions(String pending) {
         List<Requisition> requisitions = new ArrayList<>();
         try {
-            System.out.println("PENDING REQS........");
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
@@ -169,14 +168,14 @@ public class RequisitionDao {
         }
         return requisitions;
     }
-
-    public void approveRequisitionRequest(int requisitonId, String drafted) {
+    public void approveRequisitionRequest(int requisitonId,Date date, String drafted) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :drafted where id = :requisitonId");
+            Query qry = session.createQuery("UPDATE Requisition set status = :drafted, dateApproved =:date where id = :requisitonId");
             qry.setParameter("requisitonId", requisitonId);
+            qry.setParameter("date",date);
             qry.setParameter("drafted", drafted);
             qry.executeUpdate();
             trs.commit();
@@ -185,6 +184,22 @@ public class RequisitionDao {
             sessionConfiguration.shutdown();
         }
     }
+    public  void updateRequisistion(int requisitonId){
+        try {
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Requisition requisition = (Requisition) session.get(Requisition.class, requisitonId);
+            requisition.setStatus("approved");
+            requisition.setDateApproved(new Date());
+            session.update(requisition);
+            trs.commit();
+            sessionConfiguration.shutdown();
+        } catch (Exception e) {
+        sessionConfiguration.shutdown();
+    }
+    }
+
 
     public void approveRequisition(int requisitionId, String approved) {
         try {
@@ -284,4 +299,20 @@ public class RequisitionDao {
         return requisitions;
     }
 
+    public List<Requisition> getRequisitionsForUser(int userId) {
+        List<Requisition> requisitions = null;
+        try {
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Requisition where user_id = :userId");
+            qry.setParameter("userId", userId);
+            requisitions = qry.list();
+            trs.commit();
+            sessionConfiguration.shutdown();
+        } catch (Exception e) {
+            sessionConfiguration.shutdown();
+        }
+        return requisitions;
+    }
 }

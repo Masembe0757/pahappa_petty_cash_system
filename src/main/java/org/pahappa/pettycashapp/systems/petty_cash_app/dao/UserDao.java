@@ -83,7 +83,6 @@ public class UserDao {
 
     public void updateUser(int userId,String firstName, String lastName, String userName,String password, String email,String role) {
         try {
-            System.out.println("\n\n UPDATING,..................");
 
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -142,13 +141,13 @@ public class UserDao {
         return deletedUsers;
     }
 
-    public void deleteUserOfUserName(String userName) {
+    public void deleteUserOfId(int userId) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update User set deleted = true where userName = :userName");
-            qry.setParameter("userName", userName);
+            Query qry = session.createQuery("update User set deleted = true where id = :userId");
+            qry.setParameter("userId", userId);
             qry.executeUpdate();
             trs.commit();
             sessionConfiguration.shutdown();

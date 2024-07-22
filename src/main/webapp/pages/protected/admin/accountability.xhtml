@@ -78,7 +78,7 @@
                             <h:outputText value="Reference Number:"/>
                             <h:outputText value="#{accountabilityBean.selectedAccountability.referenceNumber}"/>
 
-                            <h:outputText value="Budget Line: "/>
+                            <h:outputText value="Date created: "/>
                             <h:outputText value="#{accountabilityBean.selectedAccountability.dateCreated}">
                                 <f:convertDateTime pattern="dd-MM-yyyy" timeZone="Africa/Kampala"/>
                             </h:outputText>
@@ -87,7 +87,10 @@
                             <h:outputText value="#{accountabilityBean.selectedAccountability.amount}"/>
 
                             <h:outputText value="Requisition:"/>
-                            <h:outputText value="#{accountabilityBean.selectedAccountability.requisition}"/>
+                            <h:outputText value="#{accountabilityBean.selectedAccountability.requisition.referenceNumber}"/>
+
+                            <h:outputText value="Time to complete requisition:"/>
+                            <h:outputText value="#{accountabilityBean.getTimeSpent(accountabilityBean.selectedAccountability.requisition.dateApproved,accountabilityBean.selectedAccountability.requisition.dateCreated)} hours"/>
 
 
 

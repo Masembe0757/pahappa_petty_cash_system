@@ -1,8 +1,5 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.services;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.RequisitionDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.ReviewDao;
-import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +19,11 @@ public class RequisitionService {
     ReviewDao reviewDao;
     @Autowired
     UserDao userDao;
-
+    @Autowired
+    AccountabilityDao accountabilityDao;
     @Autowired
     RequisitionService requisitionService;
+
     private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
@@ -46,9 +45,20 @@ public class RequisitionService {
     //REQUISITIONS
     public String makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId){
         String error_message ="";
+        boolean hasUnAccountedRequisitions = false;
         BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        for(Requisition requisition: requisitions){
+            Accountability accountability = accountabilityDao.getAccountabilityOnRequisition(requisition.getId());
+            if(accountability==null){
+                hasUnAccountedRequisitions = true;
+            }
+
+        }
         if(budgetLine.getBalance()<amount){
             error_message="Amount specified is more than what is on budget line";
+        } else if (hasUnAccountedRequisitions) {
+            error_message="User still has un accounted requisitions ";
         } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
             error_message="Date needed is a past date";
         } else if (description.length()<10) {
@@ -81,7 +91,9 @@ public class RequisitionService {
     }
     //For finance
     public List<Requisition> getApprovedRequisitions(){
+
         return requisitionDao.getApprovedRequisitions("approved");
+
     }
     //for ceo
     public List<Requisition> getRequisitionsWithReqs(){
@@ -98,11 +110,13 @@ public class RequisitionService {
         return requisitionDao.getDraftedRequisitions("drafted");
     }
     public void approveRequisitionRequest(int requisitionId){
-        requisitionDao.approveRequisitionRequest(requisitionId,"drafted");
+
+        requisitionDao.approveRequisitionRequest(requisitionId,new Date(),"drafted");
+
     }
     //CEO approval
     public void approveRequisition(int requisitionId){
-        requisitionDao.approveRequisition(requisitionId,"approved");
+        requisitionDao.updateRequisistion(requisitionId);
     }
     public void makeRequisitionChangeRequest(int requisitionId){
         requisitionDao.makeRequisitionChangeRequest(requisitionId,"change");

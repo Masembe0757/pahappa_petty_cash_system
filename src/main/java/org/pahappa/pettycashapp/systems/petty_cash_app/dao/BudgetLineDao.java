@@ -18,7 +18,6 @@ public class BudgetLineDao {
     @Autowired
     SessionConfiguration sessionConfiguration;
     public void deleteBudgetLine(int budgetLineId) {
-        System.out.println("Executing");
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();

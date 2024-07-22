@@ -15,6 +15,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.*;
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -133,7 +139,24 @@ public class AccountabilityBean implements Serializable {
         if (accountability == null) {
             accounted = true;
         }
-        System.out.println("ACCOUNTED  " + accounted);
         return accounted;
+    }
+
+    public String getTimeSpent(Date approved,Date created) {
+        System.out.println("Approved: " + approved + " Created: " + created);
+
+        LocalDateTime createdDateTime = created.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime approvedDateTime = approved.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        Duration duration = Duration.between(createdDateTime, approvedDateTime);
+
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        long seconds = duration.getSeconds() % 60;
+
+        String timeSpent = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        System.out.println("Time spent (hh:mm:ss): " + timeSpent);
+
+        return timeSpent;
     }
 }

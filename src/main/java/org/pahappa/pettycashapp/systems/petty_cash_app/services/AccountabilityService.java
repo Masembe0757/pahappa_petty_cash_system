@@ -50,11 +50,10 @@ public class AccountabilityService {
         if(amountAccounted < requisition.getAmount()){
             int excessReturned = requisition.getAmount()-amountAccounted;
             int balance    =  requisition.getBudgetLine().getBalance()+excessReturned;
-            budgetLineDao.updateBudgetLIne(requisition.getAccountability().getId(),balance);
+            budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance);
 
         }
 
-        Accountability accountability1 = accountabilityDao.getAccountabilityOnRequisition(requisition.getId());
 
         if(amountAccounted > requisition.getAmount()){
             error_message = "Amount accounted greater than amount requisitioned";
@@ -62,8 +61,6 @@ public class AccountabilityService {
             error_message = "Please provide more description";
         }else if (requisition.getStatus().equals("pending")) {
             error_message ="Can not account for a drafted requisition";
-        } else if (accountability1!=null) {
-            error_message ="Requisition already accounted for";
         } else {
 
             accountability.setAmount(amountAccounted);
@@ -71,7 +68,6 @@ public class AccountabilityService {
             accountability.setDateCreated();
             accountability.setDescription(description);
             accountability.setReferenceNumber(generateReferenceNumber());
-            System.out.println(accountability);
             accountabilityDao.saveAccountability(accountability);
         }
 
