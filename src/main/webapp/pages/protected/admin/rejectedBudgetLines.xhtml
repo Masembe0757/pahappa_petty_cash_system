@@ -31,14 +31,11 @@
                     <h:outputText value="#{budgetLine.endDate}"/>
                 </p:column>
                 <p:column headerText="Intial Amount">
-                    <h:outputText value="#{budgetLine.amountDelegated}"/>
+                    <h:outputText value="#{budgetLine.amountDelegated}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
-                <p:column headerText="Balance">
-                    <h:outputText value="#{budgetLine.balance}"/>
-                </p:column>
-                <p:column headerText="Status">
-                    <h:outputText value="#{budgetLine.status}"/>
-                </p:column>
+
                 <p:column headerText="Actions">
 
                     <p:commandButton action="#{budgetLineBean.deleteBudgetLine(budgetLine.id)}"

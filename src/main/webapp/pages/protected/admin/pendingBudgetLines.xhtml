@@ -48,7 +48,9 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Amount">
-                    <h:outputText value="#{expiredLine.amountDelegated}"/>
+                    <h:outputText value="#{expiredLine.amountDelegated}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Actions">
                     <ui:fragment rendered="#{roleBean.CanApproveBudgetLine()}">
