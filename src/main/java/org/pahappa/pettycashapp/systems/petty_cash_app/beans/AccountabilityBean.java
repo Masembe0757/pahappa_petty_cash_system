@@ -159,8 +159,6 @@ public class AccountabilityBean implements Serializable {
     }
 
     public String getTimeSpent(Date approved,Date created) {
-        System.out.println("Approved: " + approved + " Created: " + created);
-
         LocalDateTime createdDateTime = created.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime approvedDateTime = approved.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
@@ -170,9 +168,7 @@ public class AccountabilityBean implements Serializable {
         long minutes = duration.toMinutes() % 60;
         long seconds = duration.getSeconds() % 60;
 
-        String timeSpent = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        System.out.println("Time spent (hh:mm:ss): " + timeSpent);
 
-        return timeSpent;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }

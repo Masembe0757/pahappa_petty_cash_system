@@ -76,7 +76,7 @@
                                          icon="pi pi-question-circle"
                                          action="#{requisitionBean.makeRequisitionChangeRequest(draft.id)}"
                                          process="@this"
-                                         update="@form, requisitionTab:allReqTable">
+                                         update="@form, requisitionTab:allReqTable,requisitionTab:requestForm:requestTable">
                             <p:confirm header="Confirmation" message="Do You really want to submit a change request?"
                                        icon="pi pi-info-circle"/>
                         </p:commandButton>

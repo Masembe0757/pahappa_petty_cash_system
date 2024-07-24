@@ -126,17 +126,18 @@ public class RequisitionService {
         String error_message = "";
         BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
         Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
-        if(!requisition.getStatus().equals("drafted")){
-            error_message ="Requistion can not be edited";
-        } else if (description.length()<10) {
-            error_message="Please provide more description";
-        } else if (amount>budgetLine.getAmountDelegated()) {
-            error_message="Amount specified is greater than amount on budget line";
-        }else if (!budgetLine.getStatus().equals("approved")) {
-            error_message = "Budget line not yet approved";
-        }else {
-            requisitionDao.updateRequisition(requisitionId,amount,dateNeeded,description,budgetLine);
-        }
+            if (!requisition.getStatus().equals("drafted") || !requisition.getStatus().equals("change")) {
+                error_message = "Requistion can not be edited";
+            } else if (description.length() < 10) {
+                error_message = "Please provide more description";
+            } else if (amount > budgetLine.getAmountDelegated()) {
+                error_message = "Amount specified is greater than amount on budget line";
+            } else if (!budgetLine.getStatus().equals("approved")) {
+                error_message = "Budget line not yet approved";
+            } else {
+                requisitionDao.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLine);
+            }
+
         return error_message;
     }
 

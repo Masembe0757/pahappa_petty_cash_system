@@ -149,7 +149,7 @@ public class RequisitionBean implements Serializable {
 
     }
 
-    public void updateRequisition(int requisitionId, int amount, Date dateNeeded, String description, int budgetLineId) {
+    public void updateRequisition( int amount, Date dateNeeded, String description, int budgetLineId) {
         String message = requisitionService.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLineId);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -183,10 +183,6 @@ public class RequisitionBean implements Serializable {
 
     public List<Requisition> returnRejectedRequisitions() {
         return requisitionService.getRejectedRequisitions();
-    }
-
-    public void approveRequisitionRequest(int requisitionId) {
-        requisitionService.approveRequisitionRequest(requisitionId);
     }
 
     public void makeRequisitionChangeRequest(int requisitionId) {
