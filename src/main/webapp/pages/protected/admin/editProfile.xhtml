@@ -50,6 +50,12 @@
         div.profile {
             position: absolute;
             margin-top: 2em;
+            margin-left: 3rem
+        }
+
+        .one.save {
+            margin-top: 1rem;
+            margin-left: calc(100% - 2rem);
         }
 
     </style>
@@ -57,43 +63,44 @@
     <div class="glass">
 
         <div class="profile">
-            <h:graphicImage value="/resources/images/profile.png"/>
+            <h:graphicImage library="images" name="icons8-edit-profile-96.png" width="118px"/>
         </div>
 
         <div class="form-div">
             <h:form>
                 <h:panelGrid columns="4" cellpadding="5">
-                    <h:outputLabel for="username">Username:</h:outputLabel>
-                    <h:inputText id="username" value="#{userBean.currentUser.userName}" disabled="true" required="true">
-                    </h:inputText>
+                    <h:outputLabel for="username">Username :</h:outputLabel>
+                    <p:inputText id="username" value="#{userBean.currentUser.userName}" disabled="true" required="true">
+                    </p:inputText>
 
-                    <h:outputLabel for="firstname">First Name:</h:outputLabel>
-                    <h:inputText id="firstname" value="#{userBean.currentUser.firstName}" required="true">
+                    <h:outputLabel for="firstname">First Name :</h:outputLabel>
+                    <p:inputText id="firstname" value="#{userBean.currentUser.firstName}" required="true">
                         <p:ajax event="keyup" update="@this"/>
-                    </h:inputText>
+                    </p:inputText>
 
-                    <h:outputLabel for="lastname">Last Name:</h:outputLabel>
-                    <h:inputText id="lastname" value="#{userBean.currentUser.lastName}" required="true">
+                    <h:outputLabel for="lastname">Last Name :</h:outputLabel>
+                    <p:inputText id="lastname" value="#{userBean.currentUser.lastName}" required="true">
                         <p:ajax event="keyup" update="@this"/>
-                    </h:inputText>
+                    </p:inputText>
 
-                    <h:outputLabel for="password">Password:</h:outputLabel>
+                    <h:outputLabel for="password">Password :</h:outputLabel>
                     <p:password id="password" value="#{userBean.currentUser.password}" required="true">
                         <p:ajax event="keyup" />
                     </p:password>
-                    <h:outputLabel for="password2">Confirm:</h:outputLabel>
+                    <h:outputLabel for="password2">Confirm :</h:outputLabel>
                     <p:password id="password2" value="#{userBean.currentUser.password}" required="true" match="password">
                         <p:ajax event="keyup" />
                     </p:password>
-                    <h:outputLabel for="email">Email:</h:outputLabel>
-                    <h:inputText id="email" value="#{userBean.currentUser.email}" required="true">
+                    <h:outputLabel for="email">Email :</h:outputLabel>
+                    <p:inputText id="email" value="#{userBean.currentUser.email}" required="true">
                         <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
                         <p:ajax event="keyup" update="@this"/>
-                    </h:inputText>
+                    </p:inputText>
                 </h:panelGrid>
                 <p:growl id="message" globalOnly="true"/>
 
                 <p:commandButton value="Save"
+                                 styleClass="one save"
                                  oncomplete="PF('conf').show();"
                                  update="conf"/>
 

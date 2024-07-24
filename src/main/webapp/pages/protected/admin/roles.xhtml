@@ -57,7 +57,7 @@
                                      value="Add Role"/>
                     <p:commandButton action="#{roleBean.deleteAllRoles()}" styleClass="two"
                                      value="Delete All Roles"
-                                     update=""/>
+                                     update=":userTabForm:UsersTab:roleForm:roleTable"/>
                 </div>
             </h:form>
         </div>
@@ -67,12 +67,12 @@
             <p:dialog header="Add Role" widgetVar="rlg" modal="true" id="rlg" dynamic="true" responsive="true"
                       resizable="true" width="1100">
 
-                <h:panelGrid columns="1">
-                    <h:outputLabel for="role_name" value="Role Name:"/>
+                <h:panelGrid columns="1"  cellpadding="2">
+                    <h:outputLabel for="role_name" value="Role Name :"/>
                     <p:inputText id="role_name" value="#{roleBean.name}" required="true"
                                  requiredMessage="Role name is required!">
                     </p:inputText>
-                    <h:outputLabel for="role_p_create" value="Permissions:">
+                    <h:outputLabel for="role_p_create" value="Permissions :">
                         <p:selectManyCheckbox styleClass="check-box" columns="3" layout="grid"
                                               id="role_p_create"
                                               value="#{roleBean.selectedPermissions}" required="true"
@@ -86,10 +86,12 @@
                 <div class="last">
                     <p:commandButton value="Cancel"
                                      process="@this"
+                                     styleClass="two"
                                      oncomplete="PF('rlg').hide();"
                     />
 
                     <p:commandButton value="Add"
+                                     styleClass="one"
                                      action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
                                      process="@form"
                                      update=":userTabForm:UsersTab:roleForm:roleTable"

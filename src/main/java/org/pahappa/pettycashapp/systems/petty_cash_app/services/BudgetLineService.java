@@ -62,7 +62,7 @@ public class BudgetLineService {
         if (hasDigits(budgetLine.getName())) {
             error_message = " Name can not contain digits";
         } else if (budgetLine.getName().isEmpty() || budgetLine.getName() == null ) {
-            error_message = " Name can Empty";
+            error_message = " Name can not be Empty";
         }else if (budgetLine.getStartDate().after(budgetLine.getEndDate())) {
             error_message = "Start date can not be beyond end date";
         }  else {
