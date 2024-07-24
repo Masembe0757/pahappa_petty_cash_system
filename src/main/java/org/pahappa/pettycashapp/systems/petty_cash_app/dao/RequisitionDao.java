@@ -200,22 +200,6 @@ public class RequisitionDao {
     }
     }
 
-
-    public void approveRequisition(int requisitionId, String approved) {
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :approved where id = :requisitionId");
-            qry.setParameter("requisitionId", requisitionId);
-            qry.setParameter("approved", approved);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-            sessionConfiguration.shutdown();
-        }
-    }
     public void makeRequisitionChangeRequest(int requisitionId, String change) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
