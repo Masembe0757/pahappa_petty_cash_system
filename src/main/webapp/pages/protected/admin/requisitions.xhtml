@@ -54,11 +54,10 @@
                     </ui:fragment>
 
                     <p:dialog header="Create Requisition" widgetVar="createReq" modal="true" id="createReq" resizable="false"
-                              width="auto">
-                        <p:panelGrid columns="1"
-                        >
-                            <!-- Budget Line Dropdown -->
-                            <p:outputLabel for="budgetLine" value="Budget Line:">
+                              width="515px">
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid" >
+
+                            <h:outputLabel for="budgetLine" value="Budget Line:"/>
                                 <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
                                                  requiredMessage="Budget Line is required!">
                                     <f:selectItem itemLabel="Select a Budget Line" itemValue=""
@@ -66,29 +65,29 @@
                                     <f:selectItems value="#{requisitionBean.getBudgetLines()}" var="budgetLine"
                                                    itemLabel="#{budgetLine.name}" itemValue="#{budgetLine.id}"/>
                                 </p:selectOneMenu>
-                            </p:outputLabel>
 
-                            <!-- Description -->
-                            <p:outputLabel for="description" value="Description:"/>
+
+                            <h:outputLabel for="description" value="Description:"/>
                             <p:inputTextarea id="description" value="#{requisitionBean.description}" rows="4" cols="50"
                                              required="true" requiredMessage="Description is required!"/>
 
 
-                            <p:outputLabel for="dateNeeded" value="Date needed:"/>
+                            <h:outputLabel for="dateNeeded" value="Date needed:"/>
                             <p:calendar id="dateNeeded" value="#{requisitionBean.dateNeeded}" pattern="dd/MM/yyyy"
                                         required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="Date Needed is required!"/>
 
-                            <p:outputLabel for="amount" value="Amount:"/>
+                            <h:outputLabel for="amount" value="Amount:"/>
                             <p:inputNumber id="amount" value="#{requisitionBean.amount}" required="true"
-                                           requiredMessage="Amount is required!">
-                            </p:inputNumber>
+                                           requiredMessage="Amount is required!"/>
 
-                        </p:panelGrid>
+
+                        </h:panelGrid>
                         <div class="last">
                             <p:commandButton value="Cancel" styleClass="two" oncomplete="PF('createReq').hide();"/>
                             <p:commandButton value="Save"
+                                             styleClass="one"
                                              action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
                                              update="@all"
                                              process="@form"

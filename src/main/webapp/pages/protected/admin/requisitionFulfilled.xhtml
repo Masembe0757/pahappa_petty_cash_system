@@ -60,46 +60,51 @@
             </p:dataTable>
         </h:form>
         <h:form id="createAccForm" enctype="multipart/form-data">
-            <p:dialog header="Add Accountability" resizable="true" width="1100" widgetVar="acc" id="acc" modal="true"
+            <p:dialog header="Add Accountability" resizable="true" width="600" widgetVar="acc" id="acc" modal="true"
                       dynamic="true" responsive="true">
                 <p:growl id="message" showDetail="true"/>
 
-                <h:outputLabel for="requisition" value="Requisition:"/>
+                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid">
+                <h:outputLabel for="requisition" value="Requisition Number:"/>
                 <p:inputText id="requisition" value="#{accountabilityBean.requisition.referenceNumber}" disabled="true"
                              required="true"
                              requiredMessage="Role name is required!">
 
                 </p:inputText>
-                <h:outputLabel for="amountSpent" value="Amount Used:"/>
-                <p:inputText id="amountSpent" value="#{accountabilityBean.accountedAmount}" required="true"
+                <h:outputLabel for="amountSpent" value="Amount Used :"/>
+                <p:inputNumber id="amountSpent" value="#{accountabilityBean.accountedAmount}" required="true"
                              requiredMessage="Role name is required!">
 
 
-                </p:inputText>
+                </p:inputNumber>
 
-                <h:outputLabel for="description" value="Usage Description:"/>
-                <p:inputText id="description" value="#{accountabilityBean.description}" required="true"
-                             requiredMessage="Description is required!">
-
-                </p:inputText>
+                <h:outputLabel for="description" value="Usage Description :"/>
+                <p:inputTextarea  id="description" value="#{accountabilityBean.description}" required="true"
+                             requiredMessage="Description is required!"/>
 
 
-                <p:outputLabel for="accountabilityImage" value="Image: ">
+
+                <h:outputLabel for="accountabilityImage" value="Image : ">
+
+                </h:outputLabel>
                     <p:fileUpload chooseIcon="pi pi-upload" uploadIcon="pi pi-upload" id="accountabilityImage"
                                   value="#{accountabilityBean.imageUploaded}"
                                   mode="simple" skinSimple="true" allowTypes="/(\.|\/)(gif|jpeg|jpg|png|jfif)$/"
                                   required="true" requiredMessage="Please add an image backing your accountability">
                     </p:fileUpload>
-                </p:outputLabel>
+                </h:panelGrid>
 
-
+                <div class="last">
+                    <p:commandButton value="Cancel" styleClass="two" oncomplete="PF('acc').hide();"/>
                 <p:commandButton value="Submit"
+                                 styleClass="one"
                                  process="@form"
                                  update=":requisitionTab:createAccForm:acc"
                                  action="#{accountabilityBean.addAccountability()}"
                                  oncomplete="PF('acc').hide();"
                 >
                 </p:commandButton>
+                </div>
 
             </p:dialog>
 

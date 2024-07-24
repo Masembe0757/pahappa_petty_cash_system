@@ -51,10 +51,10 @@
                         <p:commandButton oncomplete="PF('dlgTwo').show();" process="@this" styleClass="one"
                                          update=":userTabForm:UsersTab:userRegForm:dlgTwo"
                                          icon="pi pi-user-plus"
-                                         value="Add User"
+                                         value="Add New"
                         />
                         <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="two"
-                                         icon="pi pi-user-minus" value="Delete All Users"
+                                         icon="pi pi-user-minus" value="Delete All "
                                          process="@this"
                                          update=":userTabForm:UsersTab:userForm:userTable">
                             <p:confirm header="Confirmation" message="Are you sure you want to delete all active users in the system?"
@@ -72,46 +72,47 @@
         </div>
         <!--USER CREATION DIALOG-->
         <h:form class="actns" id="userRegForm">
-            <p:dialog header="Add User" widgetVar="dlgTwo" modal="true" id="dlgTwo" responsive="true" dynamic="true"
-                      resizable="false" width="800">
+            <p:dialog header="Add New Employee" widgetVar="dlgTwo" modal="true" id="dlgTwo" responsive="true" dynamic="true"
+                      resizable="false"     width="825px">
                 <p:growl id="messages" showDetail="true"/>
-                <h:panelGrid columns="4" cellpadding="5">
-                    <h:outputLabel for="u_n" value="User Name:"/>
+                <h:panelGrid columns="4" cellpadding="7" width="-webkit-fill-available"
+                styleClass="ui-fluid">
+                    <h:outputLabel for="u_n" value="User Name :"/>
                     <p:inputText id="u_n" value="#{userBean.username}" required="true"
                                  requiredMessage="Username is required!">
                     </p:inputText>
 
 
-                    <h:outputLabel for="f_n" value="First Name:"/>
+                    <h:outputLabel for="f_n" value="First Name :"/>
                     <p:inputText id="f_n" value="#{userBean.firstname}" required="true"
                                  requiredMessage="First name is required!">
                     </p:inputText>
 
 
-                    <h:outputLabel for="l_n" value="Last Name:"/>
+                    <h:outputLabel for="l_n" value="Last Name :"/>
                     <p:inputText id="l_n" value="#{userBean.lastname}" required="true"
                                  requiredMessage="Last name is required!">
                     </p:inputText>
 
 
-                    <h:outputLabel for="password1" value="Password:"/>
+                    <h:outputLabel for="password1" value="Password :"/>
                     <p:password id="password1" value="#{userBean.password1}" required="true"
                                 feedback="true"
                                 requiredMessage="Password is required!">
                     </p:password>
 
-                    <h:outputLabel for="password2" value="Confirm:"/>
+                    <h:outputLabel for="password2" value="Confirm :"/>
                     <p:password id="password2" value="#{userBean.password2}" required="true"
                                 feedback="true"
                                 requiredMessage="Please confirm password!">
                     </p:password>
 
-                    <h:outputLabel for="u_email" value="Email:"/>
+                    <h:outputLabel for="u_email" value="Email :"/>
                     <p:inputText id="u_email" value="#{userBean.email}" required="true"
                                  requiredMessage="Email is required!">
                     </p:inputText>
 
-                    <h:outputLabel for="role_" value="Role:"/>
+                    <h:outputLabel for="role_" value="Role :"/>
                     <p:selectOneMenu id="role_" value="#{userBean.role}" required="true"
                                      requiredMessage="Role is required!">
                         <f:selectItem itemLabel="Select a role" itemValue="" noSelectionOption="true"/>
@@ -123,11 +124,13 @@
                 <div class="last">
                     <p:commandButton value="Cancel"
                                      process="@this"
+                                     styleClass="two"
                                      oncomplete="PF('dlgTwo').hide();"
                     />
 
                     <p:commandButton value="Add"
                                      process="@form"
+                                     styleClass="one"
                                      action="#{userBean.saveUser()}"
                                      oncomplete="handleAddUser(xhr, status, args)"
                                      update=":userTabForm:UsersTab:userForm:userTable"
@@ -148,7 +151,7 @@
             </h:form>
         </div>
 
-        <h4 class="Table-title">USERS</h4>
+        <h4 class="Table-title">EMPLOYEES</h4>
         <h:form id="userForm">
             <p:dataTable id="userTable" value="#{userBean.getUsersByName(userBean.searchName)}" var="user"
                          emptyMessage="No users available"
@@ -223,45 +226,45 @@
         <h:form id="userUpdateForm">
             <!--USER UPDATE DIALOG-->
 
-            <p:dialog id="userDialog" widgetVar="userDialog" header="Update User" modal="true"
-                      dynamic="true" width="625px" resizable="false" responsive="true">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="username" value="Username: "/>
+            <p:dialog id="userDialog" widgetVar="userDialog" header="Update Employee Details" modal="true"
+                      dynamic="true" width="525px" resizable="false" responsive="true">
+                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid">
+                    <h:outputLabel for="username" value="Username : "/>
                     <p:inputText id="username" value="#{userBean.username}"
                                  placeholder="Username" disabled="true"/>
 
-                    <h:outputLabel for="firstname" value="First Name: "/>
+                    <h:outputLabel for="firstname" value="First Name : "/>
                     <p:inputText id="firstname" value="#{userBean.firstname}"
                                  required="true"
                                  requiredMessage="First name is required!"
                                  placeholder="First Name">
                     </p:inputText>
 
-                    <h:outputLabel for="lastname" value="Last Name: "/>
+                    <h:outputLabel for="lastname" value="Last Name : "/>
                     <p:inputText id="lastname" value="#{userBean.lastname}"
                                  placeholder="Last Name">
                     </p:inputText>
 
-                    <h:outputLabel for="email" value="Email: "/>
+                    <h:outputLabel for="email" value="Email : "/>
                     <p:inputText id="email" value="#{userBean.email}"
                                  requiredMessage="Email is required!"
                                  placeholder="Email"/>
 
-                    <h:outputLabel for="password_1" value="Password:"/>
+                    <h:outputLabel for="password_1" value="Password :"/>
                     <p:password id="password_1" value="#{userBean.password1}" required="true"
                                 feedback="true"
                                 match="password_2"
                                 requiredMessage="Password is required!">
                     </p:password>
 
-                    <h:outputLabel for="password_2" value="Confirm:"/>
+                    <h:outputLabel for="password_2" value="Confirm :"/>
                     <p:password id="password_2" value="#{userBean.password2}" required="true"
                                 feedback="true"
                                 requiredMessage="Please confirm password!">
                     </p:password>
 
 
-                    <h:outputLabel for="role_1" value="Role:"/>
+                    <h:outputLabel for="role_1" value="Role :"/>
                     <p:selectOneMenu id="role_1" value="#{userBean.role}" required="true"
                                      requiredMessage="Role is required!">
                         <f:selectItem itemLabel="Select a role" itemValue=""
@@ -271,12 +274,21 @@
                     </p:selectOneMenu>
 
                 </h:panelGrid>
+
+                <div class="last">
+                <p:commandButton value="Cancel"
+                                 process="@this"
+                                 styleClass="two"
+                                 oncomplete="PF('userDialog').hide();"
+                />
                 <p:commandButton value="Save"
+                                 styleClass="one"
                                  process="@form"
                                  action="#{userBean.updateUser(userBean.username,userBean.firstname,userBean.lastname,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                  oncomplete="handleUpdateUser(xhr, status, args)"
                                  update=":userTabForm:UsersTab:userForm:userTable"
                 />
+                </div>
             </p:dialog>
 
         </h:form>
