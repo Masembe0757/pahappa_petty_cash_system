@@ -180,7 +180,7 @@ public class RequisitionService {
 
         //Securing required  money
         int balance = requisition.getBudgetLine().getBalance()-requisition.getAmount();
-        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(), balance);
+        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(), balance,requisition.getBudgetLine().getStatus());
 
     }
 

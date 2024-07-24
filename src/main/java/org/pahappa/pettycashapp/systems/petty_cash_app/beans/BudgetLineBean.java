@@ -1,7 +1,10 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.BudgetLineDao;
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.CategoryDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.dao.UserDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.BudgetLine;
+import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
@@ -28,10 +31,20 @@ public class BudgetLineBean implements Serializable {
     private Date startDate;
     private Date endDate;
     private int amount;
+    private int budgetLineId;
     private String name;
-    private BudgetLine selectedDraftedBudgetLine;
     private BudgetLine selectedBudgetLine;
     private String information;
+    @Autowired
+    private CategoryDao categoryDao;
+
+    public int getBudgetLineId() {
+        return budgetLineId;
+    }
+
+    public void setBudgetLineId(int budgetLineId) {
+        this.budgetLineId = budgetLineId;
+    }
 
     public String getInformation() {
         return information;
@@ -53,9 +66,8 @@ public class BudgetLineBean implements Serializable {
     public void init() {
         List<BudgetLine> budgetLines = budgetLineService.getApprovedBudgetLines();
         for (BudgetLine budgetLine : budgetLines) {
-            if (budgetLine.getEndDate().toInstant().isAfter(new Date().toInstant())) {
-                budgetLine.setStatus("expired");
-                budgetLineService.saveBudgetline(budgetLine);
+            if (budgetLine.getEndDate().toInstant().isBefore(new Date().toInstant())) {
+                budgetLineService.updateBudgetLine(budgetLine.getId(),budgetLine.getBalance(),"expired");
             }
         }
     }
@@ -114,14 +126,6 @@ public class BudgetLineBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public BudgetLine getSelectedDraftedBudgetLine() {
-        return selectedDraftedBudgetLine;
-    }
-
-    public void setSelectedDraftedBudgetLine(BudgetLine selectedDraftedBudgetLine) {
-        this.selectedDraftedBudgetLine = selectedDraftedBudgetLine;
-    }
-
     //BUDGET LINE CODE
     public void createBudgetLIne(int amount, String name, Date startDate, Date endDate, int categoryId) {
         String message = budgetLineService.makeBudgetLine(amount, name, startDate, endDate, categoryId, getCurrentUser());
@@ -147,15 +151,18 @@ public class BudgetLineBean implements Serializable {
         return budgetLineService.getExpiredBudgetLines();
     }
 
-    public List<BudgetLine> getApprovedBudgetLines() {
-        return budgetLineService.getApprovedBudgetLines();
-    }
 
-    public void selectBudgetLine(BudgetLine budgetLine) {
-        this.selectedDraftedBudgetLine = budgetLine;
-    }
+    public String updateDraftedBL(String name, int categoryId, Date startDate, Date endDate, int amount) {
+        Category category = categoryDao.getCategoryOfId(categoryId);
+        BudgetLine budgetLine = new BudgetLine();
+        budgetLine.setName(name);
+        budgetLine.setCategory(category);
+        budgetLine.setStartDate(startDate);
+        budgetLine.setEndDate(endDate);
+        budgetLine.setAmountDelegated(amount);
+        budgetLine.setId(budgetLineId);
 
-    public String updateDraftedBL(BudgetLine budgetLine) {
+
         String message = budgetLineService.updateDraftedBL(budgetLine);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,

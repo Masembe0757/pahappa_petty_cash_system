@@ -39,7 +39,7 @@ public class ReviewService {
         requisitionService.setRejectionStatus(requisition.getId());
         //Adding back the amount
         int  balance = requisition.getBudgetLine().getBalance()+requisition.getAmount();
-        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance);
+        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance,requisition.getBudgetLine().getStatus());
 
         Review review = new Review();
         review.setRequisition(requisition);

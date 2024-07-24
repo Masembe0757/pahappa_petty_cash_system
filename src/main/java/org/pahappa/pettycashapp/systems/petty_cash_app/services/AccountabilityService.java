@@ -43,7 +43,7 @@ public class AccountabilityService {
         if(amountAccounted < requisition.getAmount()){
             int excessReturned = requisition.getAmount()-amountAccounted;
             int balance    =  requisition.getBudgetLine().getBalance()+excessReturned;
-            budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance);
+            budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance,requisition.getBudgetLine().getStatus());
 
         }
 
