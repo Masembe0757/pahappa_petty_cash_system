@@ -5,37 +5,53 @@
                 xmlns:p="http://primefaces.org/ui">
     <div class="glass">
         <h4 class="Table-title">EXPIRED BUDGET LINES</h4>
-        <p:dataTable id="expiredTable" value="#{budgetLineBean.expiredBudgetLines}" var="expiredLine"
-                     emptyMessage="No expired budget lines available"
-                     paginator="true"
-                     paginatorPosition="bottom"
-                     paginatorAlwaysVisible="true"
-                     pageLinks="4"
-                     rowHover="true"
-                     rows="9"
-                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
-        >
-            <p:column headerText="Name">
-                <h:outputText value="#{expiredLine.name}"/>
-            </p:column>
-            <p:column headerText="Category">
-                <h:outputText value="#{expiredLine.category.name}"/>
-            </p:column>
-            <p:column headerText="Start Date">
-                <h:outputText value="#{expiredLine.startDate}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="End Date">
-                <h:outputText value="#{expiredLine.endDate}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="Amount">
-                <h:outputText value="#{expiredLine.amountDelegated}"/>
-            </p:column>
+        <h:form id="expiredBLTableForm">
+            <p:dataTable id="expiredTable" value="#{budgetLineBean.expiredBudgetLines}" var="expiredLine"
+                         emptyMessage="No expired budget lines available"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         paginatorAlwaysVisible="true"
+                         pageLinks="4"
+                         rowHover="true"
+                         rows="9"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+            >
+                <p:column headerText="Name">
+                    <h:outputText value="#{expiredLine.name}"/>
+                </p:column>
+                <p:column headerText="Category">
+                    <h:outputText value="#{expiredLine.category.name}"/>
+                </p:column>
+                <p:column headerText="Start Date">
+                    <h:outputText value="#{expiredLine.startDate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="End Date">
+                    <h:outputText value="#{expiredLine.endDate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Amount">
+                    <h:outputText value="#{expiredLine.amountDelegated}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
+                </p:column>
 
-        </p:dataTable>
+                <p:column headerText="Actions">
+
+                    <p:commandButton action="#{budgetLineBean.deleteBudgetLine(budgetLine.id)}"
+                                     process="@this"
+                                     update="@form"
+                                     styleClass="delete" icon="pi pi-trash">
+                        <p:confirm header="Confirmation" message="Do you want to delete this record?"
+                                   icon="pi pi-info-circle"/>
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
     </div>
 
 </ui:composition>

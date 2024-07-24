@@ -10,6 +10,9 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.MenuModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
@@ -35,6 +38,8 @@ public class BudgetLineBean implements Serializable {
     private String name;
     private BudgetLine selectedBudgetLine;
     private String information;
+    private MenuModel stepModel;
+
     @Autowired
     private CategoryDao categoryDao;
 
@@ -70,6 +75,8 @@ public class BudgetLineBean implements Serializable {
                 budgetLineService.updateBudgetLine(budgetLine.getId(),budgetLine.getBalance(),"expired");
             }
         }
+
+        createStepModel();
     }
 
     public int getCategoryId() {
@@ -137,6 +144,14 @@ public class BudgetLineBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", message));
         }
 
+    }
+
+    public MenuModel getStepModel() {
+        return stepModel;
+    }
+
+    public void setStepModel(MenuModel stepModel) {
+        this.stepModel = stepModel;
     }
 
     public List<BudgetLine> currentBudgetLines() {
@@ -237,4 +252,49 @@ public class BudgetLineBean implements Serializable {
     public void onRowSelect(SelectEvent event) {
         selectedBudgetLine = (BudgetLine) event.getObject();
     }
+
+    private void createStepModel() {
+        stepModel = new DefaultMenuModel();
+
+        // Create steps using the builder pattern
+        DefaultMenuItem step1 = DefaultMenuItem.builder()
+                .value("Drafted")
+                .build();
+
+        DefaultMenuItem step2 = DefaultMenuItem.builder()
+                .value("Pending")
+                .build();
+
+        DefaultMenuItem step3 = DefaultMenuItem.builder()
+                .value("Approved")
+                .build();
+
+        DefaultMenuItem step4 = DefaultMenuItem.builder()
+                .value("Expired")
+                .build();
+
+        // Add steps to the model
+        stepModel.getElements().add(step1);
+        stepModel.getElements().add(step2);
+        stepModel.getElements().add(step3);
+        stepModel.getElements().add(step4);
+
+    }
+
+    public int getActiveIndex() {
+        String status = selectedBudgetLine.getStatus();
+        switch (status) {
+            case "drafted":
+                return 0;
+            case "pending":
+                return 1;
+            case "approved":
+                return 2;
+            case "expired":
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
 }

@@ -11,30 +11,13 @@
             }
         }
 
-        .reqDet {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .reqDet td {
-            padding: 15px 10px;
-        }
-
-        .reqDet .ui-outputtext {
-            margin-bottom: 10px;
-        }
-
-        .reqDet tr {
-            height: 30px;
-        }
-
         .full-width-panel {
             width: 100%;
             box-sizing: border-box;
-            border: 1px solid #ddd;
+            box-shadow: inset 0px 3px 0px -2px rgba(0, 0, 0, 0.2), inset 1px 1px 2px 0 rgba(0, 0, 0, 0.14), inset 0px -3px 0px -2px rgba(0, 0, 0, 0.2), inset -1px -1px 2px 0px rgba(0, 0, 0, 0.14);
             border-radius: 3px;
             margin-bottom: 20px;
-            padding: 10px 10px 30px;
+            padding: 5px
         }
 
         .panel-header {
@@ -42,8 +25,10 @@
             text-align: center;
             align-items: center;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+            margin-top: 3px;
             text-decoration: underline;
+            color: #0c57b3;
         }
 
         .pipeline {
@@ -51,25 +36,6 @@
             position: relative;
         }
 
-        .custom-progress {
-            width: 100% !important;
-            height: 20px !important;
-        }
-
-        .status-container {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            height: 20px;
-            margin-top: 5px;
-        }
-
-        .status {
-            position: relative;
-            text-align: center;
-            font-size: 12px;
-            width: 25%;
-        }
     </style>
 
 
@@ -137,10 +103,14 @@
 
                         <h:panelGroup layout="block" styleClass="full-width-panel"
                                       rendered="#{requisitionBean.selectedRequisition.status != 'rejected'}">
-                            <h:outputText styleClass="panel-header" value="Status"/>
+                            <h:outputText styleClass="panel-header" value="STATUS"/>
+                            <div class="pipeline">
 
+                                    <p:steps model="#{requisitionBean.stepModel}" activeIndex="#{requisitionBean.activeIndex}"  styleClass="custom-steps "/>
+
+                            </div>
                         </h:panelGroup>
-                        <h:panelGrid columns="2" styleClass="reqDet">
+                        <h:panelGrid columns="4" styleClass="ui-fluid" cellpadding="9">
                             <h:outputText value="Reference Number:"/>
                             <h:outputText
                                     value="#{requisitionBean.selectedRequisition.referenceNumber}"/>
@@ -172,10 +142,12 @@
 
                         </h:panelGrid>
                     </h:panelGroup>
-
-                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn">
-                        <p:printer target="requisitionDetailsPanel"/>
-                    </p:commandButton>
+                    <div class="last">
+                        <p:commandButton icon="pi pi-times" value="Close" styleClass="closeBtn two" oncomplete="PF('requisitionDetailsDialog').hide()"/>
+                        <p:commandButton value="Print"  icon="pi pi-print" styleClass="printBtn one">
+                            <p:printer target="requisitionDetailsPanel"/>
+                        </p:commandButton>
+                    </div>
 
                 </p:outputPanel>
             </p:dialog>

@@ -65,7 +65,7 @@
             <p:dialog header="Accountability Details"
                       widgetVar="accountabilityDetailsDialog"
                       modal="true"
-                      width="800px"
+                      width="fit-content"
                       fitViewport="true"
                       id="accountabilityDetailsDialog">
                 <p:outputPanel id="accountabilityDetailsPanel">
@@ -74,8 +74,8 @@
                     <h:panelGroup columns="2" rendered="#{accountabilityBean.selectedAccountability != null}"
                                   layout="block">
 
-                        <h:panelGrid columns="2" styleClass="reqDet">
-                            <h:outputText value="Reference Number:"/>
+                        <h:panelGrid columns="4" styleClass="ui-fluid" cellpadding="9">
+                            <h:outputText value="Accountability Reference Number:"/>
                             <h:outputText value="#{accountabilityBean.selectedAccountability.referenceNumber}"/>
 
                             <h:outputText value="Date created: "/>
@@ -103,9 +103,8 @@
                             <h:outputText value="Description: "/>
                             <h:outputText value="#{accountabilityBean.selectedAccountability.description}"/>
 
-                            <h:panelGroup styleClass="image-section">
+                            <h:panelGroup styleClass="image-section" >
                                 <h:outputText value="Image: "/>
-                                <h:outputText value=""/>
 
                                 <div class="btn-sect">
                                     <p:commandButton value="View Image" oncomplete="PF('imageDialog').show()"/>
