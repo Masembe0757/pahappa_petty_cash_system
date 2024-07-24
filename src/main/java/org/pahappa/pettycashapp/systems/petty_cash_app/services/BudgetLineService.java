@@ -41,6 +41,8 @@ public class BudgetLineService {
             error_message = " Name can not contain digits";
         } else if (startDate.after(endDate)) {
             error_message = "Start date can not be beyond end date";
+        }else if (endDate.toInstant().isBefore(new Date().toInstant())) {
+            error_message = "End date can be before current date";
         } else {
             BudgetLine budgetLine = new BudgetLine();
             Category category = categoryDao.getCategoryOfId(categoryId);
@@ -65,7 +67,9 @@ public class BudgetLineService {
             error_message = " Name can not be Empty";
         }else if (budgetLine.getStartDate().after(budgetLine.getEndDate())) {
             error_message = "Start date can not be beyond end date";
-        }  else {
+        } else if (budgetLine.getEndDate().toInstant().isBefore(new Date().toInstant())) {
+            error_message = "End date can be before current date";
+        } else {
             budgetLineDao.updateDrafted(budgetLine);
         }
 
@@ -89,10 +93,6 @@ public class BudgetLineService {
     //Reviewied by HR awaiting CEO approval
 
 
-    public List<BudgetLine> budgetLines() {
-        return getApprovedBudgetLines();
-    }
-
     public List<BudgetLine> returnCurrentBudgetLines() {
         List<BudgetLine> budgetLines = budgetLineDao.getApprovedBudgetLines("approved");
         List<BudgetLine> budgetLines1 = new ArrayList<>();
@@ -105,14 +105,7 @@ public class BudgetLineService {
     }
 
     public List<BudgetLine> getExpiredBudgetLines() {
-        List<BudgetLine> bL = budgetLineDao.getApprovedBudgetLines("approved");
-        List<BudgetLine> expiredBL = new ArrayList<>();
-        for (BudgetLine budgetLine : bL) {
-            if (budgetLine.getEndDate().before(new Date())) {
-                expiredBL.add(budgetLine);
-            }
-        }
-        return expiredBL;
+        return budgetLineDao.getApprovedBudgetLines("expired");
     }
 
     public void deleteBL(int budgetLineId) {
@@ -166,9 +159,10 @@ public class BudgetLineService {
     public List<BudgetLine> getRejectedBudgetLines() {
         return  budgetLineDao.getRejectedBudgetLines();
     }
+    public  void updateBudgetLine(int budgetLineId, int balance, String status){
+        budgetLineDao.updateBudgetLIne(budgetLineId,balance,status);
 
-    public void saveBudgetline(BudgetLine budgetLine) {
-        budgetLineDao.saveBudgetLine(budgetLine);
     }
+
 
 }

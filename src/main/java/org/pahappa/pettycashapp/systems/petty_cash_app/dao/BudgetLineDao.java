@@ -54,13 +54,14 @@ public class BudgetLineDao {
         }
     }
 
-    public void updateBudgetLIne(int budgetLineId, int balance) {
+    public void updateBudgetLIne(int budgetLineId, int balance, String status) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             BudgetLine budgetLine = (BudgetLine) session.get(BudgetLine.class,budgetLineId);
             budgetLine.setBalance(balance);
+            budgetLine.setStatus(status);
             session.update(budgetLine);
             trs.commit();
             sessionConfiguration.shutdown();
@@ -234,10 +235,14 @@ public class BudgetLineDao {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            BudgetLine oldBL = (BudgetLine) session.createCriteria(BudgetLine.class)
-                    .add(Restrictions.eq("id", budgetLine.getId())).uniqueResult();
-            session.evict(oldBL);
-            session.update(budgetLine);
+            BudgetLine oldBL =(BudgetLine) session.get(BudgetLine.class, budgetLine.getId());
+            oldBL.setStatus(budgetLine.getStatus());
+            oldBL.setName(budgetLine.getName());
+            oldBL.setAmountDelegated(budgetLine.getAmountDelegated());
+            oldBL.setEndDate(budgetLine.getEndDate());
+            oldBL.setCategory(budgetLine.getCategory());
+            oldBL.setStartDate(budgetLine.getStartDate());
+            session.update(oldBL);
             trs.commit();
             sessionConfiguration.shutdown();
         }
