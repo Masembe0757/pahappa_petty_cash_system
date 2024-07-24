@@ -73,7 +73,7 @@
                                          styleClass="approve"
                                          action="#{budgetLineBean.submitBudgetLine(draftLine.id)}"
                                          process="@this"
-                                         update=":tabView:draftForm:draftTable">
+                                         update="tabView:budgetLineForm:budgetLineTable, tabView:pendingBlTable:pendingTable, :tabView:draftForm:draftTable">
                             <p:confirm header="Confirmation" message="Are you sure you want to submit this budget line for approval?"
                                        icon="pi pi-info-circle"/>
                         </p:commandButton>
@@ -100,10 +100,10 @@
             <p:dialog header="Edit Budget Line" widgetVar="editDraftedBL" modal="true" dynamic="true"
                       id="editDraftedBL"
                       resizable="false"
-                      width="600"
+                      width="450"
                       responsive="true">
 
-                <p:panelGrid columns="2" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-fluid" cellpadding="5">
                     <h:outputLabel for="name" value="Name:"/>
                     <p:inputText id="name" value="#{budgetLineBean.selectedDraftedBudgetLine.name}"/>
 
@@ -136,14 +136,19 @@
                     />
 
                     <h:outputLabel for="amount" value="Amount:"/>
-                    <p:inputTextarea id="amount"
+                    <p:inputNumber id="amount"
                                      value="#{budgetLineBean.selectedDraftedBudgetLine.amountDelegated}"/>
                 </p:panelGrid>
+                <div class="last">
+                <p:commandButton value="Cancel" styleClass="two"
+                oncomplete="PF('editDraftedBL').hide()"/>
                 <p:commandButton value="Update"
+                                 styleClass="one"
                                  process="@this"
                                  update=":tabView:draftForm:draftTable"
                                  action="#{budgetLineBean.updateDraftedBL(budgetLineBean.selectedDraftedBudgetLine)}"
                                  oncomplete="editDraftedBL(xhr, status, args)"/>
+                </div>
             </p:dialog>
 
         </h:form>

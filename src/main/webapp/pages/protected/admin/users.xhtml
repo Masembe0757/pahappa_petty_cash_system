@@ -33,11 +33,11 @@
         <h:form id="userTabForm">
 
         <p:tabView id="UsersTab">
-            <p:tab id="users" title="Users">
+            <p:tab id="users" title="Employees">
                 <ui:include src="usersSection.xhtml"/>
             </p:tab>
 
-            <p:tab id="userRoles" title="User Roles">
+            <p:tab id="userRoles" title="Employee Roles">
                 <ui:fragment rendered="#{roleBean.canViewRoles()}">
                 <ui:include src="roles.xhtml"/>
                 </ui:fragment>

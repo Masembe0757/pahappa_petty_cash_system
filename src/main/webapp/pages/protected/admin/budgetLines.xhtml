@@ -10,42 +10,54 @@
 
     <ui:define name="content">
 
-            <style>
-                .background {
-                    height: 100%;
-                }
+        <style>
+            .background {
+                height: 100%;
+            }
 
-                .first-layer-top {
-                    display: flex;
-                    justify-content: space-between;
-                    width: calc(100% - 25px);
-                    align-items: center;
-                }
+            .first-layer-top {
+                display: flex;
+                justify-content: space-between;
+                width: calc(100% - 25px);
+                align-items: center;
+            }
 
-                div.btn-sect {
-                    display: flex;
-                    column-gap: 15px;
-                }
+            div.btn-sect {
+                display: flex;
+                column-gap: 15px;
+            }
 
-                input#searchForm\:search.ui-inputfield {
-                    width: 840px !important;
-                }
+            input#searchForm\:search.ui-inputfield {
+                width: 840px !important;
+            }
 
-                h3.money {
-                    font-weight: 600;
-                    color: #777777 !important;
-                }
+            h3.money {
+                font-weight: 600;
+                color: #777777 !important;
+            }
 
-                .ui-fluid {
-                    width:calc(100% - 35px);
-                }
+            .ui-fluid {
+                width: calc(100% - 35px);
+            }
 
-                div#j_idt62\:category {
-                    border-radius: 25px;
-                }
+            div#j_idt62\:category {
+                border-radius: 25px;
+            }
 
-            </style>
+        </style>
         <script type="text/javascript">
+            function resizeDialog(dialogId) {
+                var dialog = PF(dialogId).jq; // Get the jQuery object for the dialog
+                var currentWidth = dialog.width(); // Get current width
+                var newWidth = currentWidth + 225; // Add 225px
+
+                // Set the new width
+                dialog.css('width', newWidth + 'px');
+            }
+
+            function getErrorMessages() {
+                return document.getElementById("message");
+            }
 
             function createBL(xhr, status, args) {
                 // Check if there are any error messages with severity 'error'
@@ -53,6 +65,7 @@
 
                 if (args.validationFailed || errorMessages.length > 0) {
                     // If there are validation errors or error messages, do not hide the dialog
+                    resizeDialog('dlg');
                     return;
                 }
 
@@ -69,9 +82,15 @@
                     return;
                 }
 
-                // If no validation errors or error messages, hide the dialog
+                // Check for backend errors
+                if (xhr.getResponseHeader('javax.faces.source')) {
+                    // If there are backend errors, don't hide the dialog
+                    return;
+                }
+
                 PF('Catdlg').hide();
             }
+
         </script>
 
         <div class="first-layer-top">
@@ -79,24 +98,25 @@
                 <h3 class="money">GRAND RUNNING BUDGET: Shs. #{budgetLineBean.currentRunningBudgetLinesAmount}</h3>
                 <h3 class="money">GRAND EXPENDITURE ON BUDGETS: Shs. #{budgetLineBean.expenditureBudgetOnApprovedBudgetLines}</h3>
             </div>
-            <p:growl id="message" showDetail="true" />
+            <p:growl id="message" showDetail="true"/>
             <div class="btn-sect">
-                <h:form >
+                <h:form>
                     <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
-                    <p:commandButton styleClass="one" value="Create budget Line" oncomplete="PF('dlg').show();" process="@this"
-                                     update="dlg"/>
+                        <p:commandButton styleClass="one" value="Create budget Line" oncomplete="PF('dlg').show();"
+                                         process="@this"
+                                         update="dlg"/>
                     </ui:fragment>
 
                     <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
-                              width="600">
-                        <h:panelGrid styleClass="ui-fluid"
-                                     style="border:0 none; background-color:transparent; ">
+                              width="450">
+                        <h:panelGrid styleClass="ui-fluid" columns="3" id="createBLGrid"
+                                     cellpadding="5">
                             <h:outputLabel for="name" value="Name:"/>
                             <p:inputText id="name" value="#{budgetLineBean.name}" required="true"
                                          requiredMessage="Name is required!">
                             </p:inputText>
+                            <p:message for="name"/>
 
-                            <!-- Budget Line Dropdown -->
                             <h:outputLabel for="category" value="Category:"/>
                             <p:selectOneMenu id="category" value="#{budgetLineBean.categoryId}" required="true"
                                              requiredMessage="Category is required!">
@@ -104,52 +124,59 @@
                                 <f:selectItems value="#{categoryBean.getCategories()}" var="category"
                                                itemLabel="#{category.name}" itemValue="#{category.id}"/>
                             </p:selectOneMenu>
+                            <p:message for="category"/>
 
                             <h:outputLabel for="startDate" value="Start Date:"/>
                             <p:calendar id="startDate" value="#{budgetLineBean.startDate}" pattern="dd/MM/yyyy"
                                         required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="Start Date is required!"/>
+                            <p:message for="startDate"/>
 
                             <h:outputLabel for="endDate" value="End Date:"/>
                             <p:calendar id="endDate" value="#{budgetLineBean.endDate}" pattern="dd/MM/yyyy"
-                                        required="true"  navigator="true"
+                                        required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="End Date is required!"/>
+                            <p:message for="endDate"/>
 
 
                             <h:outputLabel for="amount" value="Amount:"/>
-                            <p:inputText id="amount" type="number" value="#{budgetLineBean.amount}" required="true"
-                                         requiredMessage="Amount is required!">
-                            </p:inputText>
+                            <p:inputNumber id="amount" value="#{budgetLineBean.amount}" required="true"
+                                           requiredMessage="Amount is required!">
+                            </p:inputNumber>
+                            <p:message for="amount"/>
 
                         </h:panelGrid>
 
                         <div class="last">
-                            <p:commandButton value="Cancel" styleClass="one" oncomplete="PF('dlg').hide();"/>
+                            <p:commandButton value="Cancel" styleClass="two" oncomplete="PF('dlg').hide();"/>
 
 
-                        <p:commandButton value="Save"
-                                         action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
-                                         update="tabView"
-                                         oncomplete="createBL(xhr, status, args)"/>
+                            <p:commandButton value="Save"
+                                             styleClass="one"
+                                             action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
+                                             update="tabView, createBLGrid, message"
+                                             oncomplete="createBL(xhr, status, args)"/>
                         </div>
                     </p:dialog>
                 </h:form>
                 <h:form>
                     <ui:fragment rendered="#{roleBean.CanManageCategory()}">
-                    <p:commandButton styleClass="three" value="Create Category" oncomplete="PF('Catdlg').show();" process="@this"
-                                     update="Catdlg"/>
+                        <p:commandButton styleClass="three" value="Create Category" oncomplete="PF('Catdlg').show();"
+                                         process="@this"
+                                         update="Catdlg"/>
                     </ui:fragment>
 
                     <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
                               resizable="false" width="500">
-                        <h:panelGrid
+                        <h:panelGrid id="catGrid"
                                      styleClass="ui-panelgrid-blank ui-fluid"
                                      style="border:0 none; background-color:transparent;">
                             <h:outputLabel for="categoryName" value="Category Name :"/>
                             <p:inputText id="categoryName" value="#{categoryBean.name}" required="true"
-                                         requiredMessage="Name is required!"/>
+                                         requiredMessage="Name is required!">
+                            </p:inputText>
                             <p:message for="categoryName"/>
 
                             <h:outputLabel for="description" value="Description:"/>
@@ -158,8 +185,14 @@
                             <p:message for="description"/>
 
                         </h:panelGrid>
-                        <p:commandButton value="Create" action="#{categoryBean.addCategory()}"
-                                         oncomplete="function createCat(xhr, status, args);" update="@all"/>
+
+                        <div class="last">
+                            <p:commandButton styleClass="two" value="Cancel"
+                                             oncomplete="PF('Catdlg').hide();"/>
+                            <p:commandButton styleClass="one" value="Create" action="#{categoryBean.addCategory()}"
+                                             oncomplete="createCat(xhr, status, args);"
+                                             update="tabView:CategoryTableForm:categoryTable, message, catGrid"/>
+                        </div>
                     </p:dialog>
                 </h:form>
             </div>
@@ -205,7 +238,7 @@
 
             <p:tab id="categoriesBL" title="Budget Line Categories">
                 <ui:fragment rendered="#{roleBean.canViewCategories()}">
-                <ui:include src="budgetLineCategories.xhtml"/>
+                    <ui:include src="budgetLineCategories.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
