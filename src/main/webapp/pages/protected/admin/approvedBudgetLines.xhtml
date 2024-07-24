@@ -31,10 +31,14 @@
                     <h:outputText value="#{budgetLine.endDate}"/>
                 </p:column>
                 <p:column headerText="Intial Amount">
-                    <h:outputText value="#{budgetLine.amountDelegated}"/>
+                    <h:outputText value="#{budgetLine.amountDelegated}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Balance">
-                    <h:outputText value="#{budgetLine.balance}"/>
+                    <h:outputText value="#{budgetLine.balance}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Actions">
 

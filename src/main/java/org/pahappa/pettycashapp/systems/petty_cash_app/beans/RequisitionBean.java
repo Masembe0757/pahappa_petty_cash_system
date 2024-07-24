@@ -5,10 +5,14 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.services.BudgetLineServic
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.ReviewService;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.MenuModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -30,6 +34,8 @@ public class RequisitionBean implements Serializable {
     private String budgetLineName;
     private int requisitionId;
     private Requisition selectedRequisition;
+    private MenuModel stepModel;
+
     @Autowired
     private ReviewService reviewService;
 
@@ -109,6 +115,19 @@ public class RequisitionBean implements Serializable {
 
     public void setSelectedRequisition(Requisition selectedRequisition) {
         this.selectedRequisition = selectedRequisition;
+    }
+
+    public MenuModel getStepModel() {
+        return stepModel;
+    }
+
+    public void setStepModel(MenuModel stepModel) {
+        this.stepModel = stepModel;
+    }
+
+    @PostConstruct
+    public void init() {
+        createStepModel();
     }
 
     public User currentUser() {
@@ -212,5 +231,51 @@ public class RequisitionBean implements Serializable {
     public void onRowSelect(SelectEvent event) {
         selectedRequisition = (Requisition) event.getObject();
     }
+
+
+    private void createStepModel() {
+        stepModel = new DefaultMenuModel();
+
+        // Create steps using the builder pattern
+        DefaultMenuItem step1 = DefaultMenuItem.builder()
+                .value("Drafted")
+                .build();
+
+        DefaultMenuItem step2 = DefaultMenuItem.builder()
+                .value("Pending")
+                .build();
+
+        DefaultMenuItem step3 = DefaultMenuItem.builder()
+                .value("Approved")
+                .build();
+
+        DefaultMenuItem step4 = DefaultMenuItem.builder()
+                .value("PaidOut")
+                .build();
+
+        // Add steps to the model
+        stepModel.getElements().add(step1);
+        stepModel.getElements().add(step2);
+        stepModel.getElements().add(step3);
+        stepModel.getElements().add(step4);
+
+    }
+
+    public int getActiveIndex() {
+       String status = selectedRequisition.getStatus();
+        switch (status) {
+            case "drafted":
+                return 0;
+            case "pending":
+                return 1;
+            case "approved":
+                return 2;
+            case "fulfilled":
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
 
 }

@@ -3,6 +3,39 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        .full-width-panel {
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: inset 0px 3px 0px -2px rgba(0, 0, 0, 0.2), inset 1px 1px 2px 0 rgba(0, 0, 0, 0.14), inset 0px -3px 0px -2px rgba(0, 0, 0, 0.2), inset -1px -1px 2px 0px rgba(0, 0, 0, 0.14);
+            border-radius: 3px;
+            margin-bottom: 20px;
+            padding: 5px
+        }
+
+        .panel-header {
+            display: block;
+            text-align: center;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 3px;
+            text-decoration: underline;
+            color: #0c57b3;
+        }
+
+        .pipeline {
+            width: 100%;
+            position: relative;
+        }
+    </style>
 
     <div class="glass">
         <h4 class="Table-title">ALL BUDGET LINES</h4>
@@ -21,7 +54,9 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
-                <p:ajax event="rowSelect" process="budgetLineTable" listener="#{budgetLineBean.onRowSelect}" update="tabView:budgetLineDetailsForm:budgetLineDetailsDialog" oncomplete="PF('budgetLineDetailsDialog').show(); console.log('Dialog shown, selected budgetLine:', #{budgetLineBean.selectedBudgetLine != null});"/>
+                <p:ajax event="rowSelect" process="budgetLineTable" listener="#{budgetLineBean.onRowSelect}"
+                        update="tabView:budgetLineDetailsForm:budgetLineDetailsDialog"
+                        oncomplete="PF('budgetLineDetailsDialog').show(); console.log('Dialog shown, selected budgetLine:', #{budgetLineBean.selectedBudgetLine != null});"/>
                 <p:column headerText="Names">
                     <h:outputText value="#{budgetLine.name}"/>
                 </p:column>
@@ -35,10 +70,14 @@
                     <h:outputText value="#{budgetLine.endDate}"/>
                 </p:column>
                 <p:column headerText="Intial Amount">
-                    <h:outputText value="#{budgetLine.amountDelegated}"/>
+                    <h:outputText value="#{budgetLine.amountDelegated}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Balance">
-                    <h:outputText value="#{budgetLine.balance}"/>
+                    <h:outputText value="#{budgetLine.balance}">
+                        <f:convertNumber pattern="#,###"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Status">
                     <h:outputText value="#{budgetLine.status}"
@@ -61,10 +100,13 @@
 
                         <h:panelGroup layout="block" styleClass="full-width-panel"
                                       rendered="#{budgetLineBean.selectedBudgetLine.status != 'rejected'}">
-                            <h:outputText styleClass="panel-header" value="Status"/>
-
+                            <h:outputText styleClass="panel-header" value="STATUS"/>
+                            <div class="pipeline">
+                                <p:steps model="#{budgetLineBean.stepModel}" activeIndex="#{budgetLineBean.activeIndex}"
+                                         styleClass="custom-steps "/>
+                            </div>
                         </h:panelGroup>
-                        <h:panelGrid columns="2" styleClass="BLDetails">
+                        <h:panelGrid columns="4" styleClass="ui-fluid" cellpadding="9">
                             <h:outputText value="Budget Line Name : "/>
                             <h:outputText
                                     value="#{budgetLineBean.selectedBudgetLine.name}"/>
@@ -94,10 +136,12 @@
 
                         </h:panelGrid>
                     </h:panelGroup>
-
-                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn">
+                    <div class="last">
+                    <p:commandButton value="Close" icon="pi pi-times" styleClass="closeBtn two" oncomplete="PF('budgetLineDetailsDialog').hide()"/>
+                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn one">
                         <p:printer target="budgetLineDetailsPanel"/>
                     </p:commandButton>
+                    </div>
 
                 </p:outputPanel>
             </p:dialog>
