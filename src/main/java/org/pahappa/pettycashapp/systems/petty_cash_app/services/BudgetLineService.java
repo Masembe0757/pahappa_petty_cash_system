@@ -43,6 +43,10 @@ public class BudgetLineService {
             error_message = "Start date can not be beyond end date";
         }else if (endDate.toInstant().isBefore(new Date().toInstant())) {
             error_message = "End date can be before current date";
+        }else if (startDate.toInstant().isBefore(new Date().toInstant())) {
+            error_message = "Start date can be before current date";
+        }else if (endDate.toInstant().isBefore(startDate.toInstant())) {
+            error_message = "End date can be before start date";
         } else {
             BudgetLine budgetLine = new BudgetLine();
             Category category = categoryDao.getCategoryOfId(categoryId);
@@ -69,6 +73,10 @@ public class BudgetLineService {
             error_message = "Start date can not be beyond end date";
         } else if (budgetLine.getEndDate().toInstant().isBefore(new Date().toInstant())) {
             error_message = "End date can be before current date";
+        } else if (budgetLine.getStartDate().toInstant().isBefore(new Date().toInstant())) {
+            error_message = "Start date can be before current date";
+        }else if (budgetLine.getEndDate().toInstant().isBefore(budgetLine.getStartDate().toInstant())) {
+            error_message = "End date can be before start date";
         } else {
             budgetLineDao.updateDrafted(budgetLine);
         }
