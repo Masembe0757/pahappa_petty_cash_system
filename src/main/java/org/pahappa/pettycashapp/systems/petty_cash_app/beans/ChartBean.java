@@ -40,6 +40,10 @@ public class ChartBean implements Serializable {
     private DonutChartModel donutModel;
     private DonutChartModel donutModel2;
 
+    private PieChartModel pieModel2;
+    private DonutChartModel donutModel3;
+
+
 
     @Autowired
     RequisitionService requisitionService;
@@ -55,6 +59,8 @@ public class ChartBean implements Serializable {
         createDonutModel();
         createPieModel();
         createDonutModel2();
+        createDonutModel3();
+        createPieModel2();
     }
 
     public void updateCharts() {
@@ -62,6 +68,24 @@ public class ChartBean implements Serializable {
         createDonutModel();
         createPieModel();
         createDonutModel2();
+        createDonutModel3();
+        createPieModel2();
+    }
+
+    public PieChartModel getPieModel2() {
+        return pieModel2;
+    }
+
+    public void setPieModel2(PieChartModel pieModel2) {
+        this.pieModel2 = pieModel2;
+    }
+
+    public DonutChartModel getDonutModel3() {
+        return donutModel3;
+    }
+
+    public void setDonutModel3(DonutChartModel donutModel3) {
+        this.donutModel3 = donutModel3;
     }
 
     public DonutChartModel getDonutModel2() {
@@ -336,6 +360,125 @@ public class ChartBean implements Serializable {
         options.setTitle(title);
         options.setCutout(75);
         donutModel2.setOptions(options);
+    }
+
+    //USER
+
+    private void createDonutModel3() {
+        donutModel3 = new DonutChartModel();
+        ChartData data = new ChartData();
+
+        // Create and configure a dataset for the donut chart
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(requisitionService.countAllRejectedRequisitionsForUser());
+        values.add(requisitionService.countAllApprovedRequisitionsForUser());
+        dataSet.setData(values);
+
+        // Set the background colors for each section of the donut
+        List<String> backgroundColors = new ArrayList<>();
+        // backgroundColors.add("#7a5195");  // Dark Cyan
+        backgroundColors.add("#f95d6a");  // Goldenrod
+        backgroundColors.add("#e9c46a");  // Coral
+        dataSet.setBackgroundColor(backgroundColors);
+
+        // Optionally set border colors for each section
+        List<String> borderColors = new ArrayList<>();
+        borderColors.add("rgba(255, 99, 132, 1)"); // Example border color for Requisitions
+        borderColors.add("rgba(54, 162, 235, 1)"); // Example border color for Budget Lines
+        borderColors.add("rgba(75, 192, 192, 1)"); // Example border color for Users
+        dataSet.setBorderColor(borderColors);
+
+        // Add the dataset to the chart data
+        data.addChartDataSet(dataSet);
+
+        // Set labels for each section
+        List<String> labels = new ArrayList<>();
+        labels.add("Rejected Requisitions");
+        labels.add("Approved Requisitions");
+        data.setLabels(labels);
+
+        // Set the chart data to the donut model
+        donutModel3.setData(data);
+
+        // Optional: Set additional options for the donut chart if required
+        DonutChartOptions options = new DonutChartOptions();
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setFontFamily("Arial");
+        title.setFontSize(16);
+        title.setFontColor("#000000");
+        title.setPadding(10);
+        title.setText("APPROVED REQUISITIONS VS REJECTED REQUISITIONS");
+        options.setTitle(title);
+        options.setCutout(75);
+        donutModel3.setOptions(options);
+    }
+    private void createPieModel2() {
+        pieModel2 = new PieChartModel();
+        ChartData data = new ChartData();
+
+        PieChartDataSet dataSet = new PieChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(requisitionService.countFulfilledRequisitionsForUser());
+        values.add(requisitionService.countRequisitionsWithRequestsForUser());
+        dataSet.setData(values);
+
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgb(255, 99, 132)");
+        bgColors.add("rgb(54, 162, 235)");
+        bgColors.add("rgb(75, 192, 192)");  // Teal
+        bgColors.add("rgb(255, 206, 86)");  // Yellow
+        dataSet.setBackgroundColor(bgColors);
+
+        data.addChartDataSet(dataSet);
+        List<String> labels = new ArrayList<>();
+        labels.add("Fulfilled requisitions");
+        labels.add("Requisitions for change");
+        data.setLabels(labels);
+        pieModel2.setData(data);
+        PieChartOptions options = new PieChartOptions();
+
+        //Title
+
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText("FULFILLED vs REQUEST CHANGES");
+        title.setFontFamily("Arial");
+        title.setFontSize(16);
+        title.setFontColor("#000000");
+        title.setPadding(10);
+        pieModel2.setOptions(options);
+        options.setAnimateRotate(true);
+
+        // Legend Configuration
+        Legend legend = new Legend();
+        legend.setDisplay(true);
+        legend.setPosition("top");
+        legend.setLabels(new LegendLabel() {{
+            setFontColor("#000000");
+            setFontSize(12);
+        }});
+        // Tooltip Configuration
+        Tooltip tooltip = new Tooltip();
+        tooltip.setEnabled(true);
+        tooltip.setBackgroundColor("rgba(0,0,0,0.7)");
+        tooltip.setBodyFontColor("#ffffff");
+        tooltip.setBodyFontFamily("Arial");
+        tooltip.setBodyFontSize(12);
+        tooltip.setTitleFontColor("#ffffff");
+        tooltip.setTitleFontFamily("Arial");
+        tooltip.setTitleFontSize(14);
+        tooltip.setCaretSize(5);
+        tooltip.setCornerRadius(3);
+
+
+        options.setTitle(title);
+        options.setTooltip(tooltip);
+        options.setLegend(legend);
+        pieModel2.setExtender("pieChartExtender");
+
+        pieModel2.setOptions(options);
     }
 
 

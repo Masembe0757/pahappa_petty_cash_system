@@ -28,34 +28,9 @@ public class UserBean implements Serializable {
     private String password2;
     private String email;
     private String role;
-    private String name;
-    private int userId;
-    private User selectedUser;
     private String searchName;
 
-    @Autowired
-    private UserDao userDao;
 
-    @PostConstruct
-    public void init() {
-        selectedUser = new User(); // Initialize with a new User object or fetch from a service
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getUsername() {
         return username;
@@ -121,17 +96,6 @@ public class UserBean implements Serializable {
         this.searchName = searchName;
     }
 
-    public User getSelectedUser() {
-        return selectedUser;
-    }
-
-    public void setSelectedUser(User selectedUser) {
-        this.selectedUser = selectedUser;
-    }
-
-    public void getSelectedUserForUpdate(User user) {
-        this.selectedUser = user;
-    }
 
     public User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -151,7 +115,7 @@ public class UserBean implements Serializable {
 
     }
 
-    public void updateUser(String username, String firstname, String lastname, String password1, String password2, String email, String role) {
+    public void updateUser() {
         String message = userService.updateUserOfUserName(username, firstname, lastname, password1, password2, email, role);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -179,9 +143,8 @@ public class UserBean implements Serializable {
         }
     }
 
-    public List<User> getUsersByName(String name) {
-
-        return userService.returnUserOfName(name);
+    public List<User> getUsersByName(String searchName) {
+        return userService.returnUserOfName(searchName);
     }
 
     public int countActiveUsers() {
@@ -193,15 +156,13 @@ public class UserBean implements Serializable {
     }
 
     public void resetDialog(){
-        this.username = null;
-        this.firstname = null;
-        this.lastname = null;
-        this.password1 = null;
-        this.password2 = null;
-        this.email = null;
-        this.role = null;
-        this.selectedUser = null;
-        this.userId = 0;
+        setUsername("");
+        setFirstname("");
+        setLastname("");
+        setPassword1("");
+        setPassword2("");
+        setRole("");
+        setSearchName("");
     }
 
 }

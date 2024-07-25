@@ -131,7 +131,10 @@ public class LoginBean {
                 FacesContext context = FacesContext.getCurrentInstance();
                 ExternalContext externalContext = context.getExternalContext();
                 externalContext.getSessionMap().put("currentUser", user);
+                setUsername("");
+                setPassword("");
                 return routes.getDashboard();
+
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password", null));

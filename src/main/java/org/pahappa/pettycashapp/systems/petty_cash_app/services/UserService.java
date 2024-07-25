@@ -199,10 +199,10 @@ public class UserService {
         return getAllUsers().size();
     }
 
-    public List<User> returnUserOfName(String name) {
+    public List<User> returnUserOfName(String searchName) {
         List<User> users = userDao.getAllUsers();
         List<User> returnedUsers = new ArrayList<>();
-        if (name.isEmpty()) {
+        if (searchName.isEmpty()) {
             for(User user : users) {
                 if(user.getId()!=getCurrentUser().getId()) {
                     returnedUsers.add(user);
@@ -212,11 +212,11 @@ public class UserService {
         } else {
             for(User u : users){
                 if(u.getId()!=getCurrentUser().getId()) {
-                    if (u.getUserName().toLowerCase().contains(name.toLowerCase())) {
+                    if (u.getUserName().toLowerCase().contains(searchName.toLowerCase())) {
                         returnedUsers.add(u);
-                    } else if (u.getFirstName().toLowerCase().contains(name.toLowerCase())) {
+                    } else if (u.getFirstName().toLowerCase().contains(searchName.toLowerCase())) {
                         returnedUsers.add(u);
-                    } else if (u.getLastName().toLowerCase().contains(name.toLowerCase())) {
+                    } else if (u.getLastName().toLowerCase().contains(searchName.toLowerCase())) {
                         returnedUsers.add(u);
                     }
                 }
