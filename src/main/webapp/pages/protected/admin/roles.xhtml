@@ -54,7 +54,8 @@
                 <div class="btn-sect">
                     <p:commandButton oncomplete="PF('rlg').show();" update=":userTabForm:UsersTab:roleSaveForm:rlg"
                                      styleClass="one"
-                                     value="Add Role"/>
+                                     value="Add Role"
+                                     actionListener="#{roleBean.resetDialog()}"/>
                     <p:commandButton action="#{roleBean.deleteAllRoles()}" styleClass="two"
                                      value="Delete All Roles"
                                      update=":userTabForm:UsersTab:roleForm:roleTable"/>
@@ -66,8 +67,11 @@
         <h:form id="roleSaveForm">
             <p:dialog header="Add Role" widgetVar="rlg" modal="true" id="rlg" dynamic="true" responsive="true"
                       resizable="true" width="1100">
+                <p:messages id="Umessages" showDetail="true" closable="true" >
+                    <p:autoUpdate/>
+                </p:messages>
 
-                <h:panelGrid columns="1"  cellpadding="2">
+                <h:panelGrid columns="1" cellpadding="2" id="Ucreate">
                     <h:outputLabel for="role_name" value="Role Name :"/>
                     <p:inputText id="role_name" value="#{roleBean.name}" required="true"
                                  requiredMessage="Role name is required!">
@@ -94,7 +98,7 @@
                                      styleClass="one"
                                      action="#{roleBean.saveRole(roleBean.name, roleBean.selectedPermissions)}"
                                      process="@form"
-                                     update=":userTabForm:UsersTab:roleForm:roleTable"
+                                     update=":userTabForm:UsersTab:roleForm:roleTable, Umessages, Ucreate"
                                      oncomplete="handleAddRole(xhr, status, args)"
                     />
                 </div>
@@ -115,11 +119,13 @@
         </div>
 
 
-        <h4 class="Table-title">USER ROLES</h4>
+        <h4 class="Table-title">EMPLOYEEE ROLES</h4>
         <h:form id="roleForm">
+
             <p:dataTable id="roleTable" value="#{roleBean.getRoleByName(roleBean.searchName)}" var="role"
                          emptyMessage="No roles available"
                          paginator="true"
+                         rowKey="role.id"
                          paginatorPosition="bottom"
                          paginatorAlwaysVisible="true"
                          pageLinks="4"
@@ -127,25 +133,22 @@
                          rows="9"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
             >
+
                 <p:column headerText="Role name">
                     <h:outputText value="#{role.name}"/>
                 </p:column>
                 <p:column headerText="Permissions" width="75%">
-                    <!--                    <h:outputLabel for="role_p_table"/>-->
-                    <!--                    <p:selectOneMenu id="role_p_table" value="#{roleBean.selectedPermissions}" required="true"-->
-                    <!--                                     requiredMessage="At least one role is required!">-->
-                    <!--                        <f:selectItem itemLabel="Role's permissions" itemValue="" noSelectionOption="true"/>-->
-                    <!--                        <f:selectItems value="#{roleBean.permissionsForRole(role.id)}" var="permission"-->
-                    <!--                                       noSelectionOption="true"-->
-                    <!--                                       itemLabel="#{permission.name}"/>-->
-                    <!--                    </p:selectOneMenu>-->
-                    <h:outputText value="#{roleBean.permsForRole(role.id)}"/>
-
+                    <h:outputText value="#{roleBean.shortPermsForRole(role.id)}" rendered="#{roleBean.showShortPermissions}"/>
+                    <h:outputText value="#{roleBean.permsForRole(role.id)}" rendered="#{!roleBean.showShortPermissions}"/>
+                    <p:commandButton styleClass="approve" value="#{roleBean.showShortPermissions ? 'See More' : 'See Less'}"
+                                     process="@this"
+                                     update=":userTabForm:UsersTab:roleForm:roleTable"
+                                     actionListener="#{roleBean.togglePermissionsDisplay()}"/>
                 </p:column>
 
                 <p:column headerText="Actions">
                     <ui:fragment rendered="#{roleBean.CanManageRoles()}">
-                        <p:commandButton icon="pi pi-pencil" oncomplete="PF('roleDialog').show();"
+                        <p:commandButton rendered="#{!(role.name.equals('admin'))}" icon="pi pi-pencil" oncomplete="PF('roleDialog').show();"
                                          styleClass="edit"
                                          process="@this"
                                          update=":userTabForm:UsersTab:updateRoleForm:roleDialog">
@@ -159,7 +162,8 @@
 
                     <p:growl id="message" showDetail="true"/>
                     <ui:fragment rendered="#{roleBean.CanManageRoles()}">
-                        <p:commandButton action="#{roleBean.deleteRoleOfId(role.id)}" process="@this"
+                        <p:commandButton rendered="#{!(role.name.equals('admin'))}" action="#{roleBean.deleteRoleOfId(role.id)}"
+                                         process="@this"
                                          update=":userTabForm:UsersTab:roleForm:roleTable"
                                          styleClass="delete" icon="pi pi-trash">
                             <p:confirm header="Confirmation" message="Do you want to delete this role?"
@@ -182,7 +186,10 @@
             <!-- ROLE UPDATE DIALOG -->
             <p:dialog id="roleDialog" widgetVar="roleDialog" header="Update Role" dynamic="true" modal="true"
                       resizable="false" responsive="true" width="1100">
-                <h:panelGrid columns="1" id="content" cellpadding="2">
+                <p:messages id="messages" showDetail="true" closable="true" >
+                    <p:autoUpdate/>
+                </p:messages>
+                <h:panelGrid columns="1" id="content" cellpadding="2" >
                     <h:outputLabel for="role_name1" value="Role Name:"/>
                     <p:inputText id="role_name1" value="#{roleBean.nameUp}" required="true"
                                  requiredMessage="Role name is required!">
@@ -205,7 +212,7 @@
                     <p:commandButton value="Save"
                                      styleClass="one"
                                      process="@form"
-                                     update=":userTabForm:UsersTab:roleForm:roleTable"
+                                     update=":userTabForm:UsersTab:roleForm:roleTable, messages, content"
                                      action="#{roleBean.updateRole(roleBean.nameUp, roleBean.selectedPermissionsUp,roleBean.role_id)}"
                                      oncomplete="handleUpdateRole(xhr, status, args)"
 

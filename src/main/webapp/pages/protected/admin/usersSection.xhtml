@@ -42,6 +42,7 @@
     </script>
 
     <div class="glass">
+        <p:growl id="growl" showDetail="true"/>
         <div class="first-layer-top">
             <h:form>
                 <div class="btn-sect">
@@ -51,6 +52,7 @@
                         <p:commandButton oncomplete="PF('dlgTwo').show();" process="@this" styleClass="one"
                                          update=":userTabForm:UsersTab:userRegForm:dlgTwo"
                                          icon="pi pi-user-plus"
+                                         actionListener="#{userBean.resetDialog()}"
                                          value="Add New"
                         />
                         <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="two"
@@ -74,9 +76,12 @@
         <h:form class="actns" id="userRegForm">
             <p:dialog header="Add New Employee" widgetVar="dlgTwo" modal="true" id="dlgTwo" responsive="true" dynamic="true"
                       resizable="false"     width="825px">
-                <p:growl id="messages" showDetail="true"/>
+                <p:messages id="messages" showDetail="true" closable="true" >
+                    <p:autoUpdate/>
+                </p:messages>
+
                 <h:panelGrid columns="4" cellpadding="7" width="-webkit-fill-available"
-                styleClass="ui-fluid">
+                styleClass="ui-fluid" id="userRegGrid">
                     <h:outputLabel for="u_n" value="User Name :"/>
                     <p:inputText id="u_n" value="#{userBean.username}" required="true"
                                  requiredMessage="Username is required!">
@@ -133,7 +138,7 @@
                                      styleClass="one"
                                      action="#{userBean.saveUser()}"
                                      oncomplete="handleAddUser(xhr, status, args)"
-                                     update=":userTabForm:UsersTab:userForm:userTable"
+                                     update=":userTabForm:UsersTab:userForm:userTable, userRegGrid, messages"
                     />
                 </div>
             </p:dialog>
@@ -228,7 +233,10 @@
 
             <p:dialog id="userDialog" widgetVar="userDialog" header="Update Employee Details" modal="true"
                       dynamic="true" width="525px" resizable="false" responsive="true">
-                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid">
+                <p:messages id="UserUmessages" showDetail="true" closable="true" >
+                    <p:autoUpdate/>
+                </p:messages>
+                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid" id="UserUGrid">
                     <h:outputLabel for="username" value="Username : "/>
                     <p:inputText id="username" value="#{userBean.username}"
                                  placeholder="Username" disabled="true"/>
@@ -286,7 +294,7 @@
                                  process="@form"
                                  action="#{userBean.updateUser(userBean.username,userBean.firstname,userBean.lastname,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
                                  oncomplete="handleUpdateUser(xhr, status, args)"
-                                 update=":userTabForm:UsersTab:userForm:userTable"
+                                 update=":userTabForm:UsersTab:userForm:userTable, UserUmessages, UserUGrid"
                 />
                 </div>
             </p:dialog>

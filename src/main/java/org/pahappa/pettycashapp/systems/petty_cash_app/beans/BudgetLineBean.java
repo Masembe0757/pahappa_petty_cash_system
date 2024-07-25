@@ -295,4 +295,12 @@ public class BudgetLineBean implements Serializable {
         }
     }
 
+    public void resetDialog(){
+        this.name = null;
+        this.startDate = null;
+        this.endDate = null;
+        this.amount = 0;
+        this.categoryId = 0;
+    }
+
 }

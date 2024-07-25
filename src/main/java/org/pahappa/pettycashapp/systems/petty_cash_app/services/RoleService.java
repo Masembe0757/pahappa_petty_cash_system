@@ -41,11 +41,14 @@ public class RoleService {
     }
 
     public String saveRole(String name, List<String> permissions) {
+        Role newRole = roleDao.getRoleOfname(name);
 
         String error_message = "";
         if(roleService.hasSpecialCharacters(name)){
             error_message ="Role name can not contain special characters";
-        } else if (hasDigits(name)) {
+        }else if (!(newRole == null )) {
+            error_message = "Role already exists Please Use another name";
+        }else if (hasDigits(name)) {
             error_message = "Role name can not contain digits";
         }else {
             try {

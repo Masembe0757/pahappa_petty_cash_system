@@ -90,4 +90,9 @@ public class CategoryBean implements Serializable {
         }
     }
 
+    public void resetDialog(){
+        this.name = null;
+        this.description = null;
+    }
+
 }

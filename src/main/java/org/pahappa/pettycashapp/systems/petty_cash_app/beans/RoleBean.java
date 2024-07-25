@@ -62,6 +62,7 @@ public class RoleBean implements Serializable {
     private String nameUp;
     private List<String> selectedPermissionsUp;
     private int role_id;
+    private boolean showShortPermissions = true;
 
     public int getRole_id() {
         return role_id;
@@ -119,6 +120,13 @@ public class RoleBean implements Serializable {
         this.name = name;
     }
 
+    public boolean isShowShortPermissions() {
+        return showShortPermissions;
+    }
+
+    public void setShowShortPermissions(boolean showShortPermissions) {
+        this.showShortPermissions = showShortPermissions;
+    }
 
     public void saveRole(String name, List<String> selectedPermissions) {
         String message = roleService.saveRole(name, selectedPermissions);
@@ -590,6 +598,31 @@ public class RoleBean implements Serializable {
             }
         }
         return allowed;
+    }
+
+    public void resetDialog(){
+        this.name = null;
+        this.selectedPermissions = null;
+        this.selectedPermissionsUp = null;
+        this.role_id = 0;
+    }
+
+
+
+    public void togglePermissionsDisplay() {
+        this.showShortPermissions = !showShortPermissions;
+    }
+
+    public List<String> shortPermsForRole(int roleId) {
+        List<String> perms = new ArrayList<>();
+        List<Permission> permissions = roleService.returnPermissionsForRole(roleId);
+
+        // Get the first 12 elements from the permissions list
+        for (int i = 0; i < Math.min(permissions.size(), 12); i++) {
+            perms.add(permissions.get(i).getName());
+        }
+
+        return perms;
     }
 
 }
