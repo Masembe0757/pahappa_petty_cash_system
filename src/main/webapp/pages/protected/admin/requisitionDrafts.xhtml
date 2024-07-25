@@ -133,11 +133,10 @@
                                  requiredMessage="Amount is required!">
                     </p:inputText>
                     <p:commandButton value="Update"
-                                     action="#{requisitionBean.updateRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
+                                     action="#{requisitionBean.updateRequisition()}"
                                      update=":requisitionTab:draftForm:draftTable, requisitionTab:allReqTable"
-                                     process="@form"
+                                     process="@form, @this"
                                      oncomplete="editDialog(xhr, status, args)"/>
-
                 </h:panelGrid>
             </p:dialog>
         </h:form>

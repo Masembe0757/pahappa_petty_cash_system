@@ -156,9 +156,9 @@
                 oncomplete="PF('editDraftedBL').hide()"/>
                 <p:commandButton value="Update"
                                  styleClass="one"
-                                 process="@form"
+                                 process="@form,@this"
                                  update=":tabView:draftForm:draftTable"
-                                 action="#{budgetLineBean.updateDraftedBL(budgetLineBean.name,budgetLineBean.categoryId,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.amount)}"
+                                 action="#{budgetLineBean.updateDraftedBL()}"
                                  oncomplete="editDraftedBL(xhr, status, args)"/>
                 </div>
             </p:dialog>

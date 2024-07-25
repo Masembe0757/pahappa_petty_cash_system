@@ -59,9 +59,9 @@ public class RequisitionService {
             error_message="Amount specified is more than what is on budget line";
         } else if (hasUnAccountedRequisitions) {
             error_message="User still has un accounted requisitions ";
-        } else if (dateNeeded.getYear() + 1900 > Calendar.getInstance().get(Calendar.YEAR)) {
-            error_message="Date needed is a past date";
-        } else if (description.length()<10) {
+        } else if (dateNeeded.toInstant().isBefore(new  Date().toInstant())) {
+            error_message = "Date need should not be before current date";
+        }else if (description.length()<10) {
             error_message = "Please provide more description";
         } else if (!budgetLine.getStatus().equals("approved")) {
             error_message = "Budget line not yet approved";
@@ -125,15 +125,12 @@ public class RequisitionService {
     public String updateRequisition(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
         String error_message = "";
         BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
-        Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
-            if (!requisition.getStatus().equals("drafted") || !requisition.getStatus().equals("change")) {
-                error_message = "Requistion can not be edited";
-            } else if (description.length() < 10) {
+             if (description.length() < 10) {
                 error_message = "Please provide more description";
             } else if (amount > budgetLine.getAmountDelegated()) {
                 error_message = "Amount specified is greater than amount on budget line";
-            } else if (!budgetLine.getStatus().equals("approved")) {
-                error_message = "Budget line not yet approved";
+            }else if (dateNeeded.toInstant().isBefore(new  Date().toInstant())) {
+                error_message = "Date need should not be before current date";
             } else {
                 requisitionDao.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLine);
             }
