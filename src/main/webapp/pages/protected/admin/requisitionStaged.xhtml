@@ -56,9 +56,9 @@
 
                         <p:commandButton styleClass="approve" icon="pi pi-check"
                                          action="#{requisitionBean.submitRequisition(draft)}"
-                                         process="@form"
+                                         process="@this"
                                          update=":requisitionTab:requestForm:requestTable, requisitionTab:allReqTable ,requisitionTab:pendingReqForm:pendingTable">
-                            <p:confirm header="Confirmation" message="Confirm You Want to submit this Requisition?"
+                            <p:confirm header="Confirmation" message="Confirm You Want to re-submit this Requisition?"
                                        icon="pi pi-info-circle"/>
 
                         </p:commandButton>
