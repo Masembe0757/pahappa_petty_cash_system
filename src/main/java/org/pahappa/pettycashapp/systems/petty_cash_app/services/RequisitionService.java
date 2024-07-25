@@ -3,12 +3,12 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.dao.*;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.*;
-@ApplicationScope
+@SessionScope
 @Service
 public class RequisitionService {
     @Autowired

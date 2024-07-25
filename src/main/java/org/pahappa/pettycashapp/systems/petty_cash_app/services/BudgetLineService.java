@@ -6,15 +6,13 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Category;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@SessionScope
 @Service
-@ApplicationScope
 public class BudgetLineService {
 
     @Autowired
