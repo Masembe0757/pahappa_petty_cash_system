@@ -57,4 +57,17 @@ public class ReviewService {
     public void deleteReview(int reviewId) {
         reviewDao.deleteReview(reviewId);
     }
+
+    public void saveRequisitionReviewForRequest(String information, Date date, Requisition requisition, User user) {
+        //Adding back the amount
+        int  balance = requisition.getBudgetLine().getBalance()+requisition.getAmount();
+        budgetLineDao.updateBudgetLIne(requisition.getBudgetLine().getId(),balance,requisition.getBudgetLine().getStatus());
+
+        Review review = new Review();
+        review.setRequisition(requisition);
+        review.setDescription(information);
+        review.setReviewedDate(date);
+        review.setUser(user);
+        reviewDao.saveRequisitionReview(review);
+    }
 }

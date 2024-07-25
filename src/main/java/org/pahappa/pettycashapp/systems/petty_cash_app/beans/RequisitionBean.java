@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
+import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -204,10 +205,6 @@ public class RequisitionBean implements Serializable {
         return requisitionService.getRejectedRequisitions();
     }
 
-    public void makeRequisitionChangeRequest(int requisitionId) {
-        requisitionService.makeRequisitionChangeRequest(requisitionId);
-    }
-
     public void completeRequisition(int requisitionId) {
         requisitionService.fulfillRequisition(requisitionId);
     }
@@ -216,7 +213,7 @@ public class RequisitionBean implements Serializable {
         requisitionService.submitRequisition(requisition);
     }
 
-    public void saveReview(String information, Requisition requisition, User user) {
+    public void saveReview( Requisition requisition, User user) {
         reviewService.saveRequisitionReview(information, new Date(), requisition, user);
     }
 
@@ -278,4 +275,8 @@ public class RequisitionBean implements Serializable {
     }
 
 
+    public void saveReviewForRequest(Requisition requisition, User user) {
+        requisitionService.makeRequisitionChangeRequest(requisition.getId());
+        reviewService.saveRequisitionReviewForRequest(information, new Date(), requisition, user);
+    }
 }
