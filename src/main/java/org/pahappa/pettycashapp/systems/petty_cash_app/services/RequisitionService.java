@@ -49,9 +49,11 @@ public class RequisitionService {
         BudgetLine budgetLine= budgetLineDao.returnBudgetLineofId(budgetLineId);
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
         for(Requisition requisition: requisitions){
-            Accountability accountability = accountabilityDao.getAccountabilityOnRequisition(requisition.getId());
-            if(accountability==null){
-                hasUnAccountedRequisitions = true;
+            if(requisition.getStatus().equals("fulfilled")) {
+                Accountability accountability = accountabilityDao.getAccountabilityOnRequisition(requisition.getId());
+                if (accountability == null) {
+                    hasUnAccountedRequisitions = true;
+                }
             }
 
         }
