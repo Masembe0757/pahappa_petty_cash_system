@@ -9,11 +9,9 @@ import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.MenuModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
-
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -21,7 +19,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Component
+@Service
 @SessionScope
 public class RequisitionBean implements Serializable {
     private static final long serialVersionUID = 5L;

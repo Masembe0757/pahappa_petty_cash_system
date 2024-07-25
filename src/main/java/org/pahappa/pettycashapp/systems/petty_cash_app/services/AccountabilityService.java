@@ -7,12 +7,12 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.List;
 import java.util.Random;
 
-@ApplicationScope
+@SessionScope
 @Service
 public class AccountabilityService {
     @Autowired

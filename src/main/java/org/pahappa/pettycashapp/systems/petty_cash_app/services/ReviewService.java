@@ -10,11 +10,11 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Review;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Date;
 import java.util.List;
-@ApplicationScope
+@SessionScope
 @Service
 public class ReviewService {
     @Autowired

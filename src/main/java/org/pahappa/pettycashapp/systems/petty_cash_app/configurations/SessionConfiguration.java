@@ -3,9 +3,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.context.annotation.SessionScope;
 
-@ApplicationScope
+@SessionScope
 @Service
 public class SessionConfiguration {
     private final  SessionFactory sessionFactory = buildSessionFactory();

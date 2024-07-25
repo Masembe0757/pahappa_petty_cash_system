@@ -7,7 +7,7 @@ import org.pahappa.pettycashapp.systems.petty_cash_app.models.Role;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.routes.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
 import javax.annotation.PostConstruct;
@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.*;
 
-@Component
+@Service
 @RequestScope
 public class LoginBean {
     @Autowired

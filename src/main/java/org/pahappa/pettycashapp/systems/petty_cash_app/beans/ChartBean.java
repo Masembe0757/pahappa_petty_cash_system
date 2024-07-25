@@ -21,6 +21,7 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 import org.primefaces.model.charts.donut.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Component
+@Service
 @SessionScope
 public class ChartBean implements Serializable {
     private static final long serialVersionUID = 3L;
