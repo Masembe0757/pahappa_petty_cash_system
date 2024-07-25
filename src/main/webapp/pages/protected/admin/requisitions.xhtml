@@ -49,13 +49,17 @@
                     <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
 
                         <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('createReq').show();"
-                                         process="@this" update="createReq"/>
+                                         process="@this" update="createReq"
+                        actionListener="#{requisitionBean.resetDialog()}"/>
 
                     </ui:fragment>
 
                     <p:dialog header="Create Requisition" widgetVar="createReq" modal="true" id="createReq" resizable="false"
                               width="515px">
-                        <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid" >
+                        <p:messages id="messages" showDetail="true" closable="true" >
+                            <p:autoUpdate/>
+                        </p:messages>
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid" id="reqGrid">
 
                             <h:outputLabel for="budgetLine" value="Budget Line:"/>
                                 <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
@@ -89,7 +93,7 @@
                             <p:commandButton value="Save"
                                              styleClass="one"
                                              action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
-                                             update="@all"
+                                             update="requisitionTab:allReqTable:requisitionTable, requisitionTab:draftForm:draftTable, reqGrid, message"
                                              process="@form"
                                              oncomplete="createReq(xhr, status, args)"/>
                         </div>

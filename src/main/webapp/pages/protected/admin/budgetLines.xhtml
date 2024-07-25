@@ -65,12 +65,10 @@
 
                 if (args.validationFailed || errorMessages.length > 0) {
                     // If there are validation errors or error messages, do not hide the dialog
-                    resizeDialog('dlg');
                     return;
                 }
 
-                // If no validation errors or error messages, hide the dialog
-                PF('dlg').hide();
+                PF('Catdlg').hide();
             }
 
             function createCat(xhr, status, args) {
@@ -82,11 +80,11 @@
                     return;
                 }
 
-                // Check for backend errors
-                if (xhr.getResponseHeader('javax.faces.source')) {
-                    // If there are backend errors, don't hide the dialog
-                    return;
-                }
+                // // Check for backend errors
+                // if (xhr.getResponseHeader('javax.faces.source')) {
+                //     // If there are backend errors, don't hide the dialog
+                //     return;
+                // }
 
                 PF('Catdlg').hide();
             }
@@ -99,23 +97,27 @@
                 <h3 class="money">GRAND EXPENDITURE ON BUDGETS: Shs. #{budgetLineBean.expenditureBudgetOnApprovedBudgetLines}</h3>
             </div>
             <p:growl id="message" showDetail="true"/>
+
             <div class="btn-sect">
                 <h:form>
                     <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
                         <p:commandButton styleClass="one" value="Create budget Line" oncomplete="PF('dlg').show();"
                                          process="@this"
+                                         actionListener="#{budgetLineBean.resetDialog()}"
                                          update="dlg"/>
                     </ui:fragment>
 
                     <p:dialog header="Create budget Line" widgetVar="dlg" modal="true" id="dlg" resizable="false"
                               width="450">
-                        <h:panelGrid styleClass="ui-fluid" columns="3" id="createBLGrid"
+                        <p:messages id="BlMessages" showDetail="true" closable="true">
+                            <p:autoUpdate/>
+                        </p:messages>
+                        <h:panelGrid styleClass="ui-fluid" columns="2" id="createBLGrid"
                                      cellpadding="5">
                             <h:outputLabel for="name" value="Name:"/>
                             <p:inputText id="name" value="#{budgetLineBean.name}" required="true"
                                          requiredMessage="Name is required!">
                             </p:inputText>
-                            <p:message for="name"/>
 
                             <h:outputLabel for="category" value="Category:"/>
                             <p:selectOneMenu id="category" value="#{budgetLineBean.categoryId}" required="true"
@@ -124,28 +126,24 @@
                                 <f:selectItems value="#{categoryBean.getCategories()}" var="category"
                                                itemLabel="#{category.name}" itemValue="#{category.id}"/>
                             </p:selectOneMenu>
-                            <p:message for="category"/>
 
                             <h:outputLabel for="startDate" value="Start Date:"/>
                             <p:calendar id="startDate" value="#{budgetLineBean.startDate}" pattern="dd/MM/yyyy"
                                         required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="Start Date is required!"/>
-                            <p:message for="startDate"/>
 
                             <h:outputLabel for="endDate" value="End Date:"/>
                             <p:calendar id="endDate" value="#{budgetLineBean.endDate}" pattern="dd/MM/yyyy"
                                         required="true" navigator="true"
                                         styleClass="custom-calendar"
                                         requiredMessage="End Date is required!"/>
-                            <p:message for="endDate"/>
 
 
                             <h:outputLabel for="amount" value="Amount:"/>
                             <p:inputNumber id="amount" value="#{budgetLineBean.amount}" required="true"
                                            requiredMessage="Amount is required!">
                             </p:inputNumber>
-                            <p:message for="amount"/>
 
                         </h:panelGrid>
 
@@ -155,9 +153,12 @@
 
                             <p:commandButton value="Save"
                                              styleClass="one"
-                                             action="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
+                                             process="@form"
+                                             actionListener="#{budgetLineBean.createBudgetLIne(budgetLineBean.amount,budgetLineBean.name,budgetLineBean.startDate,budgetLineBean.endDate,budgetLineBean.categoryId)}"
+                                             oncomplete="createBL"
                                              update="tabView, createBLGrid, message"
-                                             oncomplete="createBL(xhr, status, args)"/>
+
+                                            />
                         </div>
                     </p:dialog>
                 </h:form>
@@ -165,11 +166,15 @@
                     <ui:fragment rendered="#{roleBean.CanManageCategory()}">
                         <p:commandButton styleClass="three" value="Create Category" oncomplete="PF('Catdlg').show();"
                                          process="@this"
+                                         actionListener="#{categoryBean.resetDialog()}"
                                          update="Catdlg"/>
                     </ui:fragment>
 
                     <p:dialog header="Create Category For budget Line" widgetVar="Catdlg" modal="true" id="Catdlg"
                               resizable="false" width="500">
+                        <p:messages id="categoryMessages" showDetail="true" closable="true">
+                            <p:autoUpdate/>
+                        </p:messages>
                         <h:panelGrid id="catGrid"
                                      styleClass="ui-panelgrid-blank ui-fluid"
                                      style="border:0 none; background-color:transparent;">
@@ -177,12 +182,10 @@
                             <p:inputText id="categoryName" value="#{categoryBean.name}" required="true"
                                          requiredMessage="Name is required!">
                             </p:inputText>
-                            <p:message for="categoryName"/>
 
                             <h:outputLabel for="description" value="Description:"/>
                             <p:inputTextarea id="description" value="#{categoryBean.description}" rows="4" cols="50"
                                              required="true" requiredMessage="Description is required!"/>
-                            <p:message for="description"/>
 
                         </h:panelGrid>
 

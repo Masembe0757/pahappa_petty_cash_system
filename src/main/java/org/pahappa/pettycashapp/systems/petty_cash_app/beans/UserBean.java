@@ -192,5 +192,17 @@ public class UserBean implements Serializable {
         return userService.getDeletedUsers().size();
     }
 
+    public void resetDialog(){
+        this.username = null;
+        this.firstname = null;
+        this.lastname = null;
+        this.password1 = null;
+        this.password2 = null;
+        this.email = null;
+        this.role = null;
+        this.selectedUser = null;
+        this.userId = 0;
+    }
+
 }
 

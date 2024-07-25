@@ -103,8 +103,11 @@
             <p:dialog header="Update Requisition" widgetVar="editDialog" modal="true" id="editDialog"
                       dynamic="true"
                       resizable="false" width="500">
-                <h:panelGrid>
-                    <!-- Budget Line Dropdown -->
+                <p:messages id="messages" showDetail="true" closable="true" >
+                    <p:autoUpdate/>
+                </p:messages>
+                <h:panelGrid id="editReqGrid">
+
                     <h:outputLabel for="budgetLine" value="Budget Line:"/>
                     <p:selectOneMenu id="budgetLine" value="#{requisitionBean.budgetLineId}" required="true"
                                      requiredMessage="Budget Line is required!">
@@ -115,7 +118,6 @@
                         <p:ajax event="change" update="@this"/>
                     </p:selectOneMenu>
 
-                    <!-- Description -->
                     <h:outputLabel for="description" value="Description:"/>
                     <p:inputTextarea id="description" value="#{requisitionBean.description}" rows="4"
                                      cols="50"
