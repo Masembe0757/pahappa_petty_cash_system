@@ -169,7 +169,7 @@ public class RequisitionBean implements Serializable {
 
     }
 
-    public void updateRequisition( int amount, Date dateNeeded, String description, int budgetLineId) {
+    public void updateRequisition() {
         String message = requisitionService.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLineId);
         if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,

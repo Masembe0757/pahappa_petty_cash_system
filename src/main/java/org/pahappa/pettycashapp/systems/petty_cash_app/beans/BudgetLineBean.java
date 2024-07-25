@@ -167,7 +167,7 @@ public class BudgetLineBean implements Serializable {
     }
 
 
-    public String updateDraftedBL(String name, int categoryId, Date startDate, Date endDate, int amount) {
+    public String updateDraftedBL() {
         Category category = categoryDao.getCategoryOfId(categoryId);
         BudgetLine budgetLine = new BudgetLine();
         budgetLine.setName(name);
