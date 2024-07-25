@@ -139,7 +139,7 @@ public class RequisitionBean implements Serializable {
     public void makeRequisition(int amount, Date dateNeeded, String description, int budgetLineId) {
         String message = requisitionService.makeRequisition(amount, dateNeeded, description, budgetLineId);
 
-        if (message != null) {
+        if (message.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Requisition sent to drafts"));
         } else {
@@ -270,6 +270,13 @@ public class RequisitionBean implements Serializable {
             default:
                 return -1;
         }
+    }
+
+    public void resetDialog(){
+        this.budgetLineId = 0;
+        this.description = null;
+        this.dateNeeded = null;
+        this.amount = 0;
     }
 
 

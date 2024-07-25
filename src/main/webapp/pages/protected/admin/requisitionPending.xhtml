@@ -88,7 +88,10 @@
                     <p:dialog header="Enter reason for rejection" widgetVar="infoDialog" modal="true" id="infoDialog"
                               dynamic="true"
                               resizable="false" width="500">
-                        <p:panelGrid columns="1" border="0">
+                        <p:messages id="messages" showDetail="true" closable="true" >
+                            <p:autoUpdate/>
+                        </p:messages>
+                        <p:panelGrid columns="1" border="0" id="reviewGrid">
                             <p:outputLabel for="description" value="Reason:"/>
                             <p:inputTextarea id="description" value="#{requisitionBean.information}" rows="4" cols="50"
                                              required="true" requiredMessage="Information is required!"/>
@@ -114,7 +117,7 @@
                             <p:commandButton value="Comment"
                                              action="#{requisitionBean.saveReviewForRequest(draft,draft.user)}"
                                              process="@form"
-                                             update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm,requisitionTab:requestForm:requestTable "
+                                             update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm,requisitionTab:requestForm:requestTable, reviewGrid"
                                              oncomplete="infoDialog(xhr, status, args)"
                             />
 
