@@ -52,7 +52,7 @@
                         <p:commandButton oncomplete="PF('dlgTwo').show();" process="@this" styleClass="one"
                                          update=":userTabForm:UsersTab:userRegForm:dlgTwo"
                                          icon="pi pi-user-plus"
-                                         actionListener="#{userBean.resetDialog()}"
+                                         action="#{userBean.resetDialog()}"
                                          value="Add New"
                         />
                         <p:commandButton action="#{userBean.deleteAllUsers()}" styleClass="two"
@@ -146,7 +146,7 @@
 
 
         <div class="topOfTable" >
-            <h:form id="UserSearchForm">
+            <h:form id="SearchFormUser">
                 <p:inputText id="search" styleClass="search" value="#{userBean.searchName}"
                              icon="pi pi-search"
                              placeholder="Search By name">
@@ -292,7 +292,7 @@
                 <p:commandButton value="Save"
                                  styleClass="one"
                                  process="@form"
-                                 action="#{userBean.updateUser(userBean.username,userBean.firstname,userBean.lastname,userBean.password1,userBean.password2,userBean.email,userBean.role)}"
+                                 action="#{userBean.updateUser()}"
                                  oncomplete="handleUpdateUser(xhr, status, args)"
                                  update=":userTabForm:UsersTab:userForm:userTable, UserUmessages, UserUGrid"
                 />

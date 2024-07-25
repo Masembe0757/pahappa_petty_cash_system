@@ -262,6 +262,43 @@
         </div>
         </ui:fragment>
         <ui:fragment rendered="#{not roleBean.CanViewAdminDashboard()}">
+            <div class="top-cards">
+            <div class="card">
+            <div class="card-join">
+                <span class="card-icon f"><i class="pi pi-money-bill"></i></span>
+                <h3 class="card-header fi">Requisitions</h3>
+            </div>
+            <div class="grid overview-detail">
+            <div class="ui-grid-col-6">
+                <div class="overview-number">#{requisitionService.countRequisitionsWithRequestsForUser()}</div>
+                <div class="overview-subtext">Changes</div>
+            </div>
+            <div class="ui-grid-col-6 nxt">
+                <div class="overview-number">#{requisitionService.countFulfilledRequisitionsForUser()}</div>
+                <div class="overview-subtext">Fullfilled</div>
+            </div>
+                <div class="ui-grid-col-6 nxt">
+                    <div class="overview-number">#{requisitionService.countAllApprovedRequisitionsForUser()}</div>
+                    <div class="overview-subtext">Approved</div>
+                </div>
+                <div class="ui-grid-col-6 nxt">
+                    <div class="overview-number">#{requisitionService.countAllRejectedRequisitionsForUser()}</div>
+                    <div class="overview-subtext">Rejected</div>
+                </div>
+            </div>
+            </div>
+            </div>
+            <div class="lower-cards">
+                <div class="card-container">
+                    <f:event type="preRenderView" listener="#{chartBean.updateCharts()}" />
+                    <div class="glass one">
+                        <p:pieChart model="#{chartBean.pieModel2}" styleClass="piechart" />
+                    </div>
+                    <div class="glass two">
+                        <p:donutChart model="#{chartBean.donutModel3}" styleClass="donutchart"/>
+                    </div>
+                </div>
+            </div>
         <!-- normal user dashboard-->
         </ui:fragment>
 

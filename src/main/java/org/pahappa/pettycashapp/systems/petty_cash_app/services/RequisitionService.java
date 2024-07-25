@@ -193,4 +193,48 @@ public class RequisitionService {
     public Number countAllApprovedRequisitions() {
         return requisitionDao.getApprovedRequisitions("approved").size();
     }
+
+    public Number countAllRejectedRequisitionsForUser() {
+        int rejs = 0;
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        for(Requisition requisition : requisitions){
+            if(requisition.getStatus().equals("rejected")){
+                rejs++;
+            }
+        }
+        return  rejs;
+    }
+
+    public Number countAllApprovedRequisitionsForUser() {
+        int apps = 0;
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        for(Requisition requisition : requisitions){
+            if(requisition.getStatus().equals("approved")){
+                apps++;
+            }
+        }
+        return  apps;
+    }
+
+    public Number countFulfilledRequisitionsForUser() {
+        int full = 0;
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        for(Requisition requisition : requisitions){
+            if(requisition.getStatus().equals("fulfilled")){
+                full++;
+            }
+        }
+        return  full;
+    }
+
+    public Number countRequisitionsWithRequestsForUser() {
+        int change = 0;
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        for(Requisition requisition : requisitions){
+            if(requisition.getStatus().equals("change")){
+                change++;
+            }
+        }
+        return  change;
+    }
 }
