@@ -104,7 +104,7 @@
                              rows="9"
                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
                 >
-                    <p:ajax event="rowSelect" process="requisitionTable" listener="#{requisitionBean.onRowSelect}" update="requisitionTab:requisitionDetailsForm:requisitionDetailsDialog" oncomplete="PF('requisitionDetailsDialog').show(); console.log('Dialog shown, selected requisition:', #{requisitionBean.selectedRequisition != null});"/>
+                    <p:ajax event="rowSelect" process="requisitionTable2" listener="#{requisitionBean.onRowSelect}" update="requisitionTab:requisitionDetailsForm:requisitionDetailsDialog" oncomplete="PF('requisitionDetailsDialog').show(); console.log('Dialog shown, selected requisition:', #{requisitionBean.selectedRequisition != null});"/>
                     <p:column headerText="Reference Number" style="width: 200px;">
                         <h:outputText value="#{requisition.referenceNumber}"/>
                     </p:column>
