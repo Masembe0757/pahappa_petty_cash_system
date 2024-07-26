@@ -160,7 +160,7 @@
                 <p:commandButton value="Update"
                                  styleClass="one"
                                  process="@form,@this"
-                                 update=":tabView:draftForm:draftTable"
+                                 update=":tabView:draftForm:draftTable, tabView:budgetLineForm:budgetLineTable"
                                  action="#{budgetLineBean.updateDraftedBL()}"
                                  oncomplete="editDraftedBL(xhr, status, args)"/>
                 </div>
