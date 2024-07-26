@@ -161,11 +161,11 @@
                             <h:outputText value="#{accountabilityBean.selectedAccountability.description}"/>
 
                             <h:panelGroup styleClass="image-section" >
-                                <h:outputText value="Image: "/>
 
                                 <div class="btn-sect">
-                                    <p:commandButton value="View Image" oncomplete="PF('imageDialog').show()"/>
+                                    <p:commandButton value="View Image" oncomplete="PF('imageDialog').show()" styleClass="three"/>
                                     <p:commandButton id="accountabilityImageView" value="Download Image"
+                                                     styleClass="three"
                                                      ajax="false"
                                                      onclick='PrimeFaces.monitorDownload(start, stop);'
                                                      icon="pi pi-download"
@@ -178,7 +178,7 @@
                         </h:panelGrid>
                     </h:panelGroup>
 
-                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn">
+                    <p:commandButton value="Print" type="button" icon="pi pi-print" styleClass="printBtn one">
                         <p:printer target="accountabilityDetailsPanel"/>
                     </p:commandButton>
 

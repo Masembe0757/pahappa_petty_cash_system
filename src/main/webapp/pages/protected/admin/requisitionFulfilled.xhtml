@@ -6,6 +6,7 @@
     <div class="glass">
         <h4 class="Table-title">PAID OUT REQUISITIONS</h4>
 
+        <p:growl id="message" showDetail="true"/>
         <h:form id="accountabilityForm">
             <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
             <p:dataTable id="draftTable" value="#{requisitionBean.returnFulfilledRequisitions()}" var="draft"
@@ -117,7 +118,9 @@
         <h:form id="createAccForm" enctype="multipart/form-data">
             <p:dialog header="Add Accountability" resizable="true" width="600" widgetVar="acc" id="acc" modal="true"
                       dynamic="true" responsive="true">
-                <p:growl id="message" showDetail="true"/>
+                <p:messages id="AccMessages" showDetail="true" closable="true" >
+                    <p:autoUpdate/>
+                </p:messages>
 
                 <h:panelGrid columns="2" cellpadding="5" styleClass="ui-fluid">
                 <h:outputLabel for="requisition" value="Requisition Number:"/>
@@ -149,7 +152,7 @@
                 <p:commandButton value="Submit"
                                  styleClass="one"
                                  process="@form"
-                                 update=":requisitionTab:createAccForm:acc"
+                                 update=":requisitionTab:createAccForm:acc, AccMessages, message, requisitionTab:accountabilityForm:draftTable, requisitionTab:accTable:accountabilityTable"
                                  action="#{accountabilityBean.addAccountability()}"
                                  oncomplete="PF('acc').hide();"
                 >
