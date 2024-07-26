@@ -140,7 +140,7 @@
                 <p:column headerText="Permissions" width="75%">
                     <h:outputText value="#{roleBean.shortPermsForRole(role.id)}" rendered="#{roleBean.showShortPermissions}"/>
                     <h:outputText value="#{roleBean.permsForRole(role.id)}" rendered="#{!roleBean.showShortPermissions}"/>
-                    <p:commandButton styleClass="approve" value="#{roleBean.showShortPermissions ? 'See More' : 'See Less'}"
+                    <p:commandButton rendered="#{(roleBean.permsForRole(role.id).size())>12}" styleClass="edit" value="#{roleBean.showShortPermissions ? 'See More' : 'See Less'}"
                                      process="@this"
                                      update=":userTabForm:UsersTab:roleForm:roleTable"
                                      actionListener="#{roleBean.togglePermissionsDisplay()}"/>
