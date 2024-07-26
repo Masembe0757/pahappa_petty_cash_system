@@ -41,13 +41,13 @@
                         </ui:fragment>
 
                     </p:column>
+                    <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
                     <p:column headerText="Budget line ">
 
-                        <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
                             <h:outputText value="#{review.budgetLine.name}"/>
-                        </ui:fragment>
 
                     </p:column>
+                    </ui:fragment>
                     <p:column headerText="Actions">
                         <div class="btn-sect">
 

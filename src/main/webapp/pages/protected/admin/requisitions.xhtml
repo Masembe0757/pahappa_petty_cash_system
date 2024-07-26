@@ -122,13 +122,12 @@
                     <ui:include src="requisitionPending.xhtml"/>
                 </ui:fragment>
             </p:tab>
-
+            <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
             <p:tab id="reqApproved" title="Approved">
-                <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
-                    <ui:include src="requisitionApproved.xhtml"/>
-                </ui:fragment>
-            </p:tab>
 
+                    <ui:include src="requisitionApproved.xhtml"/>
+            </p:tab>
+            </ui:fragment>
 
             <p:tab id="reqStaged" title="Change Requests">
                 <ui:fragment rendered="#{roleBean.CanViewStagedRequisitions()}">

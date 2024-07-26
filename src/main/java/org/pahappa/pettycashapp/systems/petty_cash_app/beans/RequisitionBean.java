@@ -211,8 +211,8 @@ public class RequisitionBean implements Serializable {
         requisitionService.submitRequisition(requisition);
     }
 
-    public void saveReview( Requisition requisition, User user) {
-        reviewService.saveRequisitionReview(information, new Date(), requisition, user);
+    public void saveReview( Requisition requisition) {
+        reviewService.saveRequisitionReview(information, new Date(), requisition, currentUser());
     }
 
     public void approveBudgetLine(int budgetLineId) {
@@ -280,8 +280,8 @@ public class RequisitionBean implements Serializable {
     }
 
 
-    public void saveReviewForRequest(Requisition requisition, User user) {
+    public void saveReviewForRequest(Requisition requisition) {
         requisitionService.makeRequisitionChangeRequest(requisition.getId());
-        reviewService.saveRequisitionReviewForRequest(information, new Date(), requisition, user);
+        reviewService.saveRequisitionReviewForRequest(information, new Date(), requisition, currentUser());
     }
 }

@@ -267,7 +267,7 @@ public class RequisitionDao {
     }
 
     public List<Requisition> getRequisitionsWithReqs(String change) {
-        List<Requisition> requisitions = null;
+        List<Requisition> requisitions = new ArrayList<>();
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -284,7 +284,7 @@ public class RequisitionDao {
     }
 
     public List<Requisition> getRequisitionsForUser(int userId) {
-        List<Requisition> requisitions = null;
+        List<Requisition> requisitions = new ArrayList<>();
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();

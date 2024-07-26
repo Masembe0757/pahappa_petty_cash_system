@@ -111,7 +111,7 @@
                     <p:commandButton value="No" process="@this" update="@form" onclick="PF('conf').hide();" type="button"
                                      styleClass="ui-confirmdialog-no ui-button-flat"/>
                     <p:commandButton
-                            action="#{userBean.updateUser(userBean.currentUser.firstName,userBean.currentUser.lastName,userBean.currentUser.userName,userBean.currentUser.password,userBean.currentUser.password,userBean.currentUser.email,userBean.currentUser.role)}"
+                            action="#{userBean.updateProfile(userBean.currentUser.firstName,userBean.currentUser.lastName,userBean.currentUser.userName,userBean.currentUser.password,userBean.currentUser.password,userBean.currentUser.email,userBean.currentUser.role)}"
                             value="Yes" styleClass="ui-confirmdialog-yes"
                             process="@this"
                             update="@form"
