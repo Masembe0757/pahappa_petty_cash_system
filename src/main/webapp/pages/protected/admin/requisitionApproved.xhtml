@@ -86,18 +86,7 @@
                             <f:convertNumber pattern="#,###"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Actions">
 
-                        <p:commandButton icon="pi pi-thumbs-up-fill" styleClass="edit"
-                                         action="#{requisitionBean.completeRequisition(draft.id)}"
-                                         process="@this"
-                                         update="@form, requisitionTab:allReqTable, requisitionTab:accountabilityForm:draftTable">
-                            <p:confirm header="Confirmation" message="Has Requisition been paid Out?"
-                                       icon="pi pi-info-circle"/>
-                        </p:commandButton>
-
-
-                    </p:column>
                 </p:dataTable>
 
             </ui:fragment>

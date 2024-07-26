@@ -30,22 +30,7 @@ public class AccountabilityDao {
             sessionConfiguration.shutdown();
         }
     }
-    public List<Accountability> getAccountabilitiesOfUser(int userId) {
-        List<Accountability> accountabilities = new ArrayList<>();
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Accountability where user_id = :userId");
-            qry.setParameter("userId", userId);
-            accountabilities = qry.list();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-            sessionConfiguration.shutdown();
-        }
-        return accountabilities;
-    }
+
     public List<Accountability> getAllAccountabilities() {
         List<Accountability> accountabilities = new ArrayList<>();
         try {

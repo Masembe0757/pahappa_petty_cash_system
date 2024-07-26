@@ -93,7 +93,7 @@
                             <p:commandButton value="Save"
                                              styleClass="one"
                                              action="#{requisitionBean.makeRequisition(requisitionBean.amount,requisitionBean.dateNeeded,requisitionBean.description,requisitionBean.budgetLineId)}"
-                                             update="requisitionTab:allReqTable:requisitionTable, requisitionTab:draftForm:draftTable, reqGrid, message"
+                                             update="requisitionTab:allReqTable:requisitionTable, requisitionTab:draftForm:draftTable, reqGrid, message, requisitionTab:allReqTable:requisitionTable2, requisitionTab:draftForm:draftTable2"
                                              process="@form"
                                              oncomplete="createReq(xhr, status, args)"/>
                         </div>
@@ -122,12 +122,14 @@
                     <ui:include src="requisitionPending.xhtml"/>
                 </ui:fragment>
             </p:tab>
-            <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
-            <p:tab id="reqApproved" title="Approved">
 
+
+            <p:tab id="reqApproved" title="Approved">
+                <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
                     <ui:include src="requisitionApproved.xhtml"/>
+                </ui:fragment>
             </p:tab>
-            </ui:fragment>
+
 
             <p:tab id="reqStaged" title="Change Requests">
                 <ui:fragment rendered="#{roleBean.CanViewStagedRequisitions()}">

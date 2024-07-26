@@ -67,9 +67,7 @@ public class AccountabilityService {
         return error_message;
     }
 
-    public List<Accountability> getAccountabilitiesOfUser(int id) {
-        return  accountabilityDao.getAccountabilitiesOfUser(id);
-    }
+
     public List<Accountability> getAllAccountabilities() {
         return  accountabilityDao.getAllAccountabilities();
     }

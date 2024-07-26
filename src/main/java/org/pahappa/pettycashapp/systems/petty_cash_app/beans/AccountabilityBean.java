@@ -1,9 +1,11 @@
 package org.pahappa.pettycashapp.systems.petty_cash_app.beans;
 
+import org.pahappa.pettycashapp.systems.petty_cash_app.dao.AccountabilityDao;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Accountability;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.Requisition;
 import org.pahappa.pettycashapp.systems.petty_cash_app.models.User;
 import org.pahappa.pettycashapp.systems.petty_cash_app.services.AccountabilityService;
+import org.pahappa.pettycashapp.systems.petty_cash_app.services.RequisitionService;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -19,6 +21,7 @@ import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +39,10 @@ public class AccountabilityBean implements Serializable {
     private UploadedFile imageUploaded;
     private Requisition requisition;
     private Accountability selectedAccountability;
+    @Autowired
+    private RequisitionService requisitionService;
+    @Autowired
+    private AccountabilityDao accountabilityDao;
 
     public Requisition getRequisition() {
         return requisition;
@@ -104,7 +111,15 @@ public class AccountabilityBean implements Serializable {
     }
 
     public List<Accountability> getAccountabilitiesOfUser() {
-        return accountabilityService.getAccountabilitiesOfUser(getCurrentUser().getId());
+        List<Requisition> requisitions = requisitionService.returnAllRequisitionsForUser();
+        List<Accountability> accountabilities = new ArrayList<>();
+        for(Requisition requisition1 : requisitions) {
+            Accountability accountability1 = accountabilityDao.getAccountabilityOnRequisition(requisition1.getId());
+            if(accountability1 != null) {
+                accountabilities.add(accountability1);
+            }
+        }
+        return accountabilities;
     }
 
     public List<Accountability> getAllAccountabilities() {
@@ -171,7 +186,5 @@ public class AccountabilityBean implements Serializable {
 
     //USER LOGIC
 
-    public List<Accountability> returnAccountabilitiesForUser(){
-        return accountabilityService.getAccountabilitiesOfUser(getCurrentUser().getId());
-    }
+
 }
