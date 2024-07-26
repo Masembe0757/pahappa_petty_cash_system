@@ -97,7 +97,7 @@
                                              required="true" requiredMessage="Information is required!"/>
 
                             <p:commandButton value="Comment"
-                                             action="#{requisitionBean.saveReview(draft,draft.user)}"
+                                             action="#{requisitionBean.saveReview(draft)}"
                                              process="@form"
                                              update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm"
                                              oncomplete="infoDialog(xhr, status, args)"
@@ -115,7 +115,7 @@
                                              required="true" requiredMessage="Information is required!"/>
 
                             <p:commandButton value="Comment"
-                                             action="#{requisitionBean.saveReviewForRequest(draft,draft.user)}"
+                                             action="#{requisitionBean.saveReviewForRequest(draft)}"
                                              process="@form"
                                              update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm,requisitionTab:requestForm:requestTable, reviewGrid"
                                              oncomplete="infoDialog(xhr, status, args)"
