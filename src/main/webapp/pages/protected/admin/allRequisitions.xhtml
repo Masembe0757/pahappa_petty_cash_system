@@ -42,6 +42,7 @@
     <div class="glass">
         <h4 class="Table-title">ALL REQUISITIONS</h4>
         <h:form id="allReqTable">
+            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
             <p:dataTable id="requisitionTable" var="requisition"
                          value="#{requisitionBean.getAllRequisitions()}"
                          emptyMessage="No requisitions available"
@@ -87,6 +88,54 @@
                 <p:growl id="message" showDetail="true"/>
 
             </p:dataTable>
+            </ui:fragment>
+            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+                <p:dataTable id="requisitionTable2" var="requisition"
+                             value="#{requisitionBean.returnAllRequisitionsForUser()}"
+                             emptyMessage="No requisitions available"
+                             selectionMode="single"
+                             rowKey="#{requisition.id}"
+                             selection="#{requisitionBean.selectedRequisition}"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             paginatorAlwaysVisible="true"
+                             pageLinks="4"
+                             rowHover="true"
+                             rows="9"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+                >
+                    <p:ajax event="rowSelect" process="requisitionTable" listener="#{requisitionBean.onRowSelect}" update="requisitionTab:requisitionDetailsForm:requisitionDetailsDialog" oncomplete="PF('requisitionDetailsDialog').show(); console.log('Dialog shown, selected requisition:', #{requisitionBean.selectedRequisition != null});"/>
+                    <p:column headerText="Reference Number" style="width: 200px;">
+                        <h:outputText value="#{requisition.referenceNumber}"/>
+                    </p:column>
+                    <p:column headerText="Requisitor">
+                        <h:outputText value="#{requisition.user.firstName }"/>
+                    </p:column>
+                    <p:column headerText="Budget Line">
+                        <h:outputText value="#{requisition.budgetLine.name}"/>
+                    </p:column>
+                    <p:column headerText="Amount">
+                        <h:outputText value="#{requisition.amount}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Date created">
+                        <h:outputText value="#{requisition.dateCreated}"/>
+                    </p:column>
+                    <p:column headerText="Date needed">
+                        <h:outputText value="#{requisition.dateNeeded}"/>
+                    </p:column>
+                    <p:column headerText="Status">
+                        <h:outputText value="#{requisition.status}"
+                                      style="#{requisition.status eq 'drafted' ? 'background: #f1b8ff' : (requisition.status eq 'pending' ? 'background: #fff4a9' : (requisition.status eq 'approved' ? 'background: #bee0fc;' : (requisition.status eq 'fulfilled' ? 'background: #ccffcc' : (requisition.status eq 'change' ? 'background: cyan' : (requisition.status eq 'rejected' ? 'background: #f72b2b96' : '')))))}; padding:.3em;"/>
+
+                    </p:column>
+
+                    <p:growl id="message2" showDetail="true"/>
+
+                </p:dataTable>
+            </ui:fragment>
         </h:form>
 
         <h:form id="requisitionDetailsForm">

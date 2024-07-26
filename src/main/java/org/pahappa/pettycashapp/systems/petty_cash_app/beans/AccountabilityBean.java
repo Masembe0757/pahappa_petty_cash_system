@@ -168,4 +168,10 @@ public class AccountabilityBean implements Serializable {
 
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+
+    //USER LOGIC
+
+    public List<Accountability> returnAccountabilitiesForUser(){
+        return accountabilityService.getAccountabilitiesOfUser(getCurrentUser().getId());
+    }
 }

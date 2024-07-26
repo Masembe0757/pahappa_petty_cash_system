@@ -284,4 +284,30 @@ public class RequisitionBean implements Serializable {
         requisitionService.makeRequisitionChangeRequest(requisition.getId());
         reviewService.saveRequisitionReviewForRequest(information, new Date(), requisition, currentUser());
     }
+
+    public List<Requisition> returnApprovedRequisitionsForUser(){
+        return requisitionService.returnApprovedRequisitionsForUser();
+    }
+    public List<Requisition> returnDraftedRequisitionsForUser(){
+        return requisitionService.returnDraftedRequisitionsForUser();
+    }
+    public List<Requisition> returnFulfilledRequisitionsForUser(){
+        return requisitionService.returnFulfilledRequisitionsForUser();
+    }
+    public List<Requisition> returnPendingRequisitionsForUser(){
+        return requisitionService.returnPendingRequisitionsForUser();
+    }
+    public List<Requisition> returnRejectedRequisitionsForUser(){
+        return requisitionService.returnRejectedRequisitionsForUser();
+    }
+    public List<Requisition> returnAllRequisitionsForUser(){
+        return requisitionService.returnAllRequisitionsForUser();
+    }
+    public List<Requisition> returnChangeRequisitionsForUser(){
+        return requisitionService.returnChangeRequisitionsForUser();
+    }
+
+
+
+
 }

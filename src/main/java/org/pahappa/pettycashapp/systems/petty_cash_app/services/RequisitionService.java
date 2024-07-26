@@ -205,6 +205,11 @@ public class RequisitionService {
         return  rejs;
     }
 
+
+
+    //USER LOGIC
+
+
     public Number countAllApprovedRequisitionsForUser() {
         int apps = 0;
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
@@ -237,4 +242,71 @@ public class RequisitionService {
         }
         return  change;
     }
+
+    public List<Requisition> returnAllRequisitionsForUser(){
+        return requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+    }
+    public List<Requisition> returnDraftedRequisitionsForUser(){
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        List<Requisition> requisitions1 = new ArrayList<>();
+        for (Requisition requisition: requisitions){
+            if(requisition.getStatus().equals("drafted")){
+                requisitions1.add(requisition);
+            }
+        }
+        return  requisitions1;
+    }
+    public List<Requisition> returnRejectedRequisitionsForUser(){
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        List<Requisition> requisitions1 = new ArrayList<>();
+        for (Requisition requisition: requisitions){
+            if(requisition.getStatus().equals("rejected")){
+                requisitions1.add(requisition);
+            }
+        }
+        return  requisitions1;
+    }
+    public List<Requisition> returnFulfilledRequisitionsForUser(){
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        List<Requisition> requisitions1 = new ArrayList<>();
+        for (Requisition requisition: requisitions){
+            if(requisition.getStatus().equals("rejected")){
+                requisitions1.add(requisition);
+            }
+        }
+        return  requisitions1;
+    }
+    public List<Requisition> returnChangeRequisitionsForUser(){
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        List<Requisition> requisitions1 = new ArrayList<>();
+        for (Requisition requisition: requisitions){
+            if(requisition.getStatus().equals("change")){
+                requisitions1.add(requisition);
+            }
+        }
+        return  requisitions1;
+    }
+    public List<Requisition> returnApprovedRequisitionsForUser(){
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        List<Requisition> requisitions1 = new ArrayList<>();
+        for (Requisition requisition: requisitions){
+            if(requisition.getStatus().equals("approved")){
+                requisitions1.add(requisition);
+            }
+        }
+        return  requisitions1;
+    }
+    public List<Requisition> returnPendingRequisitionsForUser(){
+        List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
+        List<Requisition> requisitions1 = new ArrayList<>();
+        for (Requisition requisition: requisitions){
+            if(requisition.getStatus().equals("pending")){
+                requisitions1.add(requisition);
+            }
+        }
+        return  requisitions1;
+    }
+
+
+
 }
