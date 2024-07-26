@@ -109,7 +109,10 @@
                     <p:dialog header="Enter description for clarity inquiry" widgetVar="requestDialog" modal="true" id="requestDialog"
                               dynamic="true"
                               resizable="false" width="500">
-                        <p:panelGrid columns="1" border="0">
+                        <p:messages id="decM" showDetail="true" closable="true" >
+                            <p:autoUpdate/>
+                        </p:messages>
+                        <p:panelGrid columns="1" border="0" id="reviewGrid2">
                             <p:outputLabel for="description1" value="Reason:"/>
                             <p:inputTextarea id="description1" value="#{requisitionBean.information}" rows="4" cols="50"
                                              required="true" requiredMessage="Information is required!"/>
@@ -117,7 +120,7 @@
                             <p:commandButton value="Comment"
                                              action="#{requisitionBean.saveReviewForRequest(draft)}"
                                              process="@form"
-                                             update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm,requisitionTab:requestForm:requestTable, reviewGrid"
+                                             update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm, requisitionTab:pendingReqForm:pendingTable, requisitionTab:requestForm:requestTable, reviewGrid2, decM"
                                              oncomplete="infoDialog(xhr, status, args)"
                             />
 
