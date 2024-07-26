@@ -64,12 +64,19 @@
                                          icon="pi pi-check"
                                          action="#{requisitionBean.approveRequisition(draft.id)}"
                                          process="@this"
-                                         update="@form, requisitionTab:allReqTable, requisitionTab:approvedReqForm:draftTable"
+                                         update="@form, requisitionTab:allReqTable, requisitionTab:approvedReqForm:draftTable, "
                                          >
                             <p:confirm header="Confirmation" message="Are you sure you want to approve this Requisition?"
                                        icon="pi pi-info-circle"/>
                         </p:commandButton>
                     </ui:fragment>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                     width="350">
+                        <p:commandButton value="No" type="button"
+                                         styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                    </p:confirmDialog>
 
 
                     <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
@@ -113,7 +120,7 @@
                         <p:messages id="decM" showDetail="true" closable="true" >
                             <p:autoUpdate/>
                         </p:messages>
-                        <p:panelGrid columns="1" border="0" id="reviewGrid2">
+                        <p:panelGrid columns="1" border="0" id="reviewGrid3">
                             <p:outputLabel for="description1" value="Reason:"/>
                             <p:inputTextarea id="description1" value="#{requisitionBean.information}" rows="4" cols="50"
                                              required="true" requiredMessage="Information is required!"/>
@@ -121,7 +128,7 @@
                             <p:commandButton value="Comment"
                                              action="#{requisitionBean.saveReviewForRequest(draft)}"
                                              process="@form"
-                                             update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm, requisitionTab:pendingReqForm:pendingTable, requisitionTab:requestForm:requestTable, reviewGrid2, decM"
+                                             update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm, requisitionTab:pendingReqForm:pendingTable, requisitionTab:requestForm:requestTable, reviewGrid3, decM"
                                              oncomplete="infoDialog(xhr, status, args)"
                             />
 
@@ -162,81 +169,6 @@
                         <h:outputText value="#{draft.amount}">
                             <f:convertNumber pattern="#,###"/>
                         </h:outputText>
-                    </p:column>
-
-                    <p:column headerText="Actions" style="width:200px">
-
-                        <!-- CONDITION FOR USER OR FINANCE-->
-
-                        <p:growl id="message2" showDetail="true"/>
-
-                        <ui:fragment rendered="#{roleBean.canApproveRequisitions()}">
-                            <p:commandButton styleClass="edit"
-                                             icon="pi pi-check"
-                                             action="#{requisitionBean.approveRequisition(draft.id)}"
-                                             process="@this"
-                                             update="@form, requisitionTab:allReqTable, requisitionTab:approvedReqForm:draftTable"
-                            >
-                                <p:confirm header="Confirmation" message="Are you sure you want to approve this Requisition?"
-                                           icon="pi pi-info-circle"/>
-                            </p:commandButton>
-                        </ui:fragment>
-
-
-                        <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
-                            <p:commandButton styleClass="approve"
-                                             icon="pi pi-question-circle"
-                                             oncomplete="PF('requestDialog').show();"
-                                             update=":requisitionTab:pendingReqForm:pendingTable:requestDialog"/>
-
-                        </ui:fragment>
-
-                        <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
-                            <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();"
-                                             update="infoDialog">
-                            </p:commandButton>
-                        </ui:fragment>
-
-                        <p:dialog header="Enter reason for rejection" widgetVar="infoDialog" modal="true" id="infoDialog2"
-                                  dynamic="true"
-                                  resizable="false" width="500">
-                            <p:messages id="messages2" showDetail="true" closable="true" >
-                                <p:autoUpdate/>
-                            </p:messages>
-                            <p:panelGrid columns="1" border="0" id="reviewGrid2">
-                                <p:outputLabel for="description" value="Reason:"/>
-                                <p:inputTextarea id="description2" value="#{requisitionBean.information}" rows="4" cols="50"
-                                                 required="true" requiredMessage="Information is required!"/>
-
-                                <p:commandButton value="Comment"
-                                                 action="#{requisitionBean.saveReview(draft)}"
-                                                 process="@form"
-                                                 update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm"
-                                                 oncomplete="infoDialog(xhr, status, args)"
-                                />
-
-                            </p:panelGrid>
-                        </p:dialog>
-
-                        <p:dialog header="Enter description for clarity inquiry" widgetVar="requestDialog" modal="true" id="requestDialog2"
-                                  dynamic="true"
-                                  resizable="false" width="500">
-                            <p:panelGrid columns="1" border="0">
-                                <p:outputLabel for="description11" value="Reason:"/>
-                                <p:inputTextarea id="description11" value="#{requisitionBean.information}" rows="4" cols="50"
-                                                 required="true" requiredMessage="Information is required!"/>
-
-                                <p:commandButton value="Comment"
-                                                 action="#{requisitionBean.saveReviewForRequest(draft)}"
-                                                 process="@form"
-                                                 update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm,requisitionTab:requestForm:requestTable, reviewGrid"
-                                                 oncomplete="infoDialog(xhr, status, args)"
-                                />
-
-                            </p:panelGrid>
-                        </p:dialog>
-
-
                     </p:column>
 
                 </p:dataTable>

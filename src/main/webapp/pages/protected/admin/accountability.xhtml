@@ -78,7 +78,7 @@
                              rows="9"
                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
                 >
-                    <p:ajax event="rowSelect" process="accountabilityTable" listener="#{accountabilityBean.onRowSelect}"
+                    <p:ajax event="rowSelect" process="accountabilityTable2" listener="#{accountabilityBean.onRowSelect}"
                             update="requisitionTab:accountabilityDetailsForm:accountabilityDetailsDialog"
                             oncomplete="PF('accountabilityDetailsDialog').show(); console.log('Dialog shown, selected accountabililty:', #{accountabilityBean.selectedAccountability != null});"/>
 
