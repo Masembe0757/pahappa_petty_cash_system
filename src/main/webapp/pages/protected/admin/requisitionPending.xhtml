@@ -22,6 +22,7 @@
         <h4 class="Table-title">PENDING REQUISITIONS</h4>
 
         <h:form id="pendingReqForm">
+            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
             <p:dataTable id="pendingTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
                          emptyMessage="No Pending Requisitions"
                          paginator="true"
@@ -128,6 +129,115 @@
                 </p:column>
 
             </p:dataTable>
+            </ui:fragment>
+            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+                <p:dataTable id="pendingTable2" value="#{requisitionBean.returnPendingRequisitionsForUser()}" var="draft"
+                             emptyMessage="No Pending Requisitions"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             paginatorAlwaysVisible="true"
+                             pageLinks="4"
+                             rowHover="true"
+                             rows="9"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {customNextPageLink} {LastPageLink}"
+                >
+                    <p:column headerText="User">
+                        <h:outputText value="#{draft.user.userName}"/>
+                    </p:column>
+                    <p:column headerText="Budget Line">
+                        <h:outputText value="#{draft.budgetLine.name}"/>
+                    </p:column>
+                    <p:column headerText="Description">
+                        <h:outputText value="#{draft.description}"/>
+                    </p:column>
+                    <p:column headerText="Date Needed">
+                        <h:outputText value="#{draft.dateNeeded}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Amount">
+                        <h:outputText value="#{draft.amount}">
+                            <f:convertNumber pattern="#,###"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Actions" style="width:200px">
+
+                        <!-- CONDITION FOR USER OR FINANCE-->
+
+                        <p:growl id="message2" showDetail="true"/>
+
+                        <ui:fragment rendered="#{roleBean.canApproveRequisitions()}">
+                            <p:commandButton styleClass="edit"
+                                             icon="pi pi-check"
+                                             action="#{requisitionBean.approveRequisition(draft.id)}"
+                                             process="@this"
+                                             update="@form, requisitionTab:allReqTable, requisitionTab:approvedReqForm:draftTable"
+                            >
+                                <p:confirm header="Confirmation" message="Are you sure you want to approve this Requisition?"
+                                           icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                        </ui:fragment>
+
+
+                        <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
+                            <p:commandButton styleClass="approve"
+                                             icon="pi pi-question-circle"
+                                             oncomplete="PF('requestDialog').show();"
+                                             update=":requisitionTab:pendingReqForm:pendingTable:requestDialog"/>
+
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
+                            <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();"
+                                             update="infoDialog">
+                            </p:commandButton>
+                        </ui:fragment>
+
+                        <p:dialog header="Enter reason for rejection" widgetVar="infoDialog" modal="true" id="infoDialog2"
+                                  dynamic="true"
+                                  resizable="false" width="500">
+                            <p:messages id="messages2" showDetail="true" closable="true" >
+                                <p:autoUpdate/>
+                            </p:messages>
+                            <p:panelGrid columns="1" border="0" id="reviewGrid2">
+                                <p:outputLabel for="description" value="Reason:"/>
+                                <p:inputTextarea id="description2" value="#{requisitionBean.information}" rows="4" cols="50"
+                                                 required="true" requiredMessage="Information is required!"/>
+
+                                <p:commandButton value="Comment"
+                                                 action="#{requisitionBean.saveReview(draft)}"
+                                                 process="@form"
+                                                 update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm"
+                                                 oncomplete="infoDialog(xhr, status, args)"
+                                />
+
+                            </p:panelGrid>
+                        </p:dialog>
+
+                        <p:dialog header="Enter description for clarity inquiry" widgetVar="requestDialog" modal="true" id="requestDialog2"
+                                  dynamic="true"
+                                  resizable="false" width="500">
+                            <p:panelGrid columns="1" border="0">
+                                <p:outputLabel for="description11" value="Reason:"/>
+                                <p:inputTextarea id="description11" value="#{requisitionBean.information}" rows="4" cols="50"
+                                                 required="true" requiredMessage="Information is required!"/>
+
+                                <p:commandButton value="Comment"
+                                                 action="#{requisitionBean.saveReviewForRequest(draft)}"
+                                                 process="@form"
+                                                 update=":requisitionTab:allReqTable, requisitionTab:rejectedReqForm,requisitionTab:requestForm:requestTable, reviewGrid"
+                                                 oncomplete="infoDialog(xhr, status, args)"
+                                />
+
+                            </p:panelGrid>
+                        </p:dialog>
+
+
+                    </p:column>
+
+                </p:dataTable>
+            </ui:fragment>
         </h:form>
     </div>
 </ui:composition>
