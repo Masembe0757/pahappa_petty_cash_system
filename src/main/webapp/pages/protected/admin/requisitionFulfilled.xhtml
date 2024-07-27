@@ -8,7 +8,7 @@
 
         <p:growl id="message" showDetail="true"/>
         <h:form id="accountabilityForm">
-            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
             <p:dataTable id="draftTable" value="#{requisitionBean.returnFulfilledRequisitions()}" var="draft"
                          emptyMessage="No Paid Out Requisitions"
                          paginator="true"
@@ -61,7 +61,7 @@
                 </p:column>
             </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="draftTable2" value="#{requisitionBean.returnFulfilledRequisitionsForUser()}" var="draft"
                              emptyMessage="No Paid Out Requisitions"
                              paginator="true"

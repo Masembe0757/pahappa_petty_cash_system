@@ -166,7 +166,7 @@
 
         </style>
 
-        <ui:fragment rendered="#{roleBean.CanViewAdminDashboard()}">
+        <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
 
         <div class="top-cards">
             <div class="card">
@@ -261,7 +261,7 @@
 
         </div>
         </ui:fragment>
-        <ui:fragment rendered="#{not roleBean.CanViewAdminDashboard()}">
+        <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
             <div class="top-cards">
             <div class="card">
             <div class="card-join">

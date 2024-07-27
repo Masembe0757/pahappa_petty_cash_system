@@ -22,7 +22,7 @@
         <h4 class="Table-title">PENDING REQUISITIONS</h4>
 
         <h:form id="pendingReqForm">
-            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
             <p:dataTable id="pendingTable" value="#{requisitionBean.returnPendingRequisitions()}" var="draft"
                          emptyMessage="No Pending Requisitions"
                          paginator="true"
@@ -79,7 +79,7 @@
                     </p:confirmDialog>
 
 
-                    <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
+                    <ui:fragment rendered="#{roleBean.canMakeRequisition()}">
                         <p:commandButton styleClass="approve"
                                          icon="pi pi-question-circle"
                                          oncomplete="PF('requestDialog').show();"
@@ -87,7 +87,7 @@
 
                     </ui:fragment>
 
-                    <ui:fragment rendered="#{roleBean.CanReviewRequisitions()}">
+                    <ui:fragment rendered="#{roleBean.canReviewRequisitions()}">
                         <p:commandButton icon="pi pi-times" styleClass="delete" oncomplete="PF('infoDialog').show();"
                                          update="infoDialog">
                         </p:commandButton>
@@ -140,7 +140,7 @@
 
             </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="pendingTable2" value="#{requisitionBean.returnPendingRequisitionsForUser()}" var="draft"
                              emptyMessage="No Pending Requisitions"
                              paginator="true"

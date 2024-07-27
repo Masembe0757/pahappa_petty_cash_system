@@ -68,56 +68,6 @@ public class RequisitionDao {
         return requisitions;
     }
 
-    public void submitRequisition(int requisitionId, String pending) {
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :pending where id = :requisitionId");
-            qry.setParameter("pending", pending);
-            qry.setParameter("requisitionId", requisitionId);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-            sessionConfiguration.shutdown();
-        }
-
-    }
-
-    public void setRejectionStatus(int id) {
-        String status = "rejected";
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :status where id = :id");
-            qry.setParameter("id", id);
-            qry.setParameter("status", status);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-            sessionConfiguration.shutdown();
-        }
-    }
-
-    public void fulfillRequisition(int requisitionId, String fulfilled) {
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :fulfilled where id = :requisitionId");
-            qry.setParameter("requisitionId", requisitionId);
-            qry.setParameter("fulfilled", fulfilled);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-            sessionConfiguration.shutdown();
-        }
-    }
-
     public List<Requisition> getApprovedRequisitions(String status) {
         List<Requisition> requisitions = new ArrayList<>();
         try {
@@ -168,46 +118,15 @@ public class RequisitionDao {
         }
         return requisitions;
     }
-    public void approveRequisitionRequest(int requisitonId,Date date, String drafted) {
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :drafted, dateApproved =:date where id = :requisitonId");
-            qry.setParameter("requisitonId", requisitonId);
-            qry.setParameter("date",date);
-            qry.setParameter("drafted", drafted);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-            sessionConfiguration.shutdown();
-        }
-    }
-    public  void updateRequisistion(int requisitonId){
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Requisition requisition = (Requisition) session.get(Requisition.class, requisitonId);
-            requisition.setStatus("approved");
-            requisition.setDateApproved(new Date());
-            session.update(requisition);
-            trs.commit();
-            sessionConfiguration.shutdown();
-        } catch (Exception e) {
-        sessionConfiguration.shutdown();
-    }
-    }
 
-    public void makeRequisitionChangeRequest(int requisitionId, String change) {
+    public void changeRequisitionStatus(int requisitionId, String status) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE Requisition set status = :change where id = :requisitionId");
+            Query qry = session.createQuery("UPDATE Requisition set status = :status where id = :requisitionId");
             qry.setParameter("requisitionId", requisitionId);
-            qry.setParameter("change", change);
+            qry.setParameter("status", status);
             qry.executeUpdate();
             trs.commit();
             sessionConfiguration.shutdown();
@@ -216,7 +135,7 @@ public class RequisitionDao {
         }
     }
 
-    public void updateRequisition(int requisitionId, int amount, Date dateNeeded, String description, BudgetLine budgetLine) {
+    public void updateRequisition(int requisitionId, int amount, Date dateNeeded, String description, BudgetLine budgetLine,Date dateApproved, String status) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -226,6 +145,8 @@ public class RequisitionDao {
             requisition.setDateNeeded(dateNeeded);
             requisition.setDescription(description);
             requisition.setBudgetLine(budgetLine);
+            requisition.setDateApproved(dateApproved);
+            requisition.setStatus(status);
             session.update(requisition);
             trs.commit();
             sessionConfiguration.shutdown();

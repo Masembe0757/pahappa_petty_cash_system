@@ -38,7 +38,7 @@
             </p:tab>
 
             <p:tab id="userRoles" title="Employee Roles">
-                <ui:fragment rendered="#{roleBean.canViewRoles()}">
+                <ui:fragment rendered="#{roleBean.canViewRolesTab()}">
                 <ui:include src="roles.xhtml"/>
                 </ui:fragment>
             </p:tab>

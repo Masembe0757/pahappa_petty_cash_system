@@ -22,7 +22,7 @@
         <h4 class="Table-title">REQUISITION DRAFTS</h4>
 
         <h:form id="draftForm">
-            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
             <p:dataTable id="draftTable" value="#{requisitionBean.returnDraftedRequisitions()}" var="draft"
                          emptyMessage="No drafts available"
                          paginator="true"
@@ -54,7 +54,7 @@
                 </p:column>
                 <p:column headerText="Actions" style="width:200px">
 
-                    <ui:fragment rendered="#{roleBean.CanManageRequisition()}">
+                    <ui:fragment rendered="#{roleBean.canManageRequisition()}">
 
                         <p:commandButton icon="pi pi-pencil" styleClass="edit"
                                          oncomplete="PF('editDialog').show();"
@@ -92,7 +92,7 @@
                 </p:column>
             </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="draftTable2" value="#{requisitionBean.returnDraftedRequisitionsForUser()}" var="draft"
                              emptyMessage="No drafts available"
                              paginator="true"
@@ -124,7 +124,7 @@
                     </p:column>
                     <p:column headerText="Actions" style="width:200px">
 
-                        <ui:fragment rendered="#{roleBean.CanManageRequisition()}">
+                        <ui:fragment rendered="#{roleBean.canManageRequisition()}">
 
                             <p:commandButton icon="pi pi-pencil" styleClass="edit"
                                              oncomplete="PF('editDialog').show();"

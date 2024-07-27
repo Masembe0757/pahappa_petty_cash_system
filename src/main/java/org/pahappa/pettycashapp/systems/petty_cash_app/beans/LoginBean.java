@@ -67,35 +67,37 @@ public class LoginBean {
             Role role = new Role();
             role.setName("admin");
             List<String> permissions = (Arrays.asList(
-                    "MANAGE_CATEGORIES",
-                    "APPROVE_BUDGET_LINE",
-                    "MAKE_REQUISITION",
-                    "REVIEW_REQUISITION",
-                    "APPROVE_REQUISITION",
-                    "PROVIDE_ACCOUNTABILITY",
-                    "MANAGE_USERS",
-                    "VIEW_USERS",
-                    "VIEW_ROLES",
-                    "MANAGE_ROLES",
-                    "VIEW_REVIEW",
                     "VIEW_ADMIN_DASHBOARD",
-                    "MANAGE_BUDGET_LINES",
+                    "VIEW_REQUISITION_TAB",
+                    "MAKE_REQUISITION",
+                    "MANAGE_REQUISITION",
+                    "APPROVE_REQUISITION",
+                    "REVIEW_REQUISITION",
                     "VIEW_STAGED_REQUISITIONS",
                     "VIEW_PENDING_REQUISITIONS",
                     "VIEW_DRAFTED_REQUISITIONS",
                     "VIEW_FULFILLED_REQUISITIONS",
                     "VIEW_APPROVED_REQUISITIONS",
-                    "VIEW_ACCOUNTABILITY",
+                    "VIEW_REJECTED_REQUISITIONS",
+                    "VIEW_BUDGET_LINE_TAB",
                     "VIEW_PENDING_BUDGET_LINES",
                     "VIEW_DRAFTED_BUDGET_LINES",
                     "VIEW_APPROVED_BUDGET_LINES",
-                    "VIEW_ADMIN_LOGO",
-                    "VIEW_BUDGET_LINE",
-                    "VIEW_REQUISITION",
-                    "VIEW_CATEGORIES",
+                    "APPROVE_BUDGET_LINE",
                     "VIEW_EXPIRED_BUDGET_LINES",
-                    "VIEW_REJECTED_REQUISITIONS",
-                    "MANAGE_REQUISITION"
+                    "MANAGE_BUDGET_LINES",
+                    "VIEW_USERS_TAB",
+                    "MANAGE_USERS",
+                    "VIEW_ROLES_TAB",
+                    "MANAGE_ROLES",
+                    "VIEW_CATEGORIES_TAB",
+                    "MANAGE_CATEGORIES",
+                    "VIEW_REVIEW_TAB",
+                    "MANAGE_REVIEWS",
+                    "VIEW_ACCOUNTABILITY_TAB",
+                    "MANAGE_ACCOUNTABILITIES",
+                    "VIEW_CATEGORIES_TAB",
+                    "MANAGE_CATEGORIES"
             ));
             for (String s : permissions) {
                 Permission permission = new Permission();
@@ -131,8 +133,6 @@ public class LoginBean {
                 FacesContext context = FacesContext.getCurrentInstance();
                 ExternalContext externalContext = context.getExternalContext();
                 externalContext.getSessionMap().put("currentUser", user);
-                setUsername("");
-                setPassword("");
                 return routes.getDashboard();
 
             } else {

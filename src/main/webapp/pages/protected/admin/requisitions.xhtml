@@ -46,7 +46,7 @@
 
             <h:form>
                 <div class="btn-sect">
-                    <ui:fragment rendered="#{roleBean.CanMakeRequisition()}">
+                    <ui:fragment rendered="#{roleBean.canMakeRequisition()}">
 
                         <p:commandButton styleClass="one" value="Create Requisition" oncomplete="PF('createReq').show();"
                                          process="@this" update="createReq"
@@ -112,34 +112,34 @@
             </p:tab>
 
             <p:tab id="reqDrafts" title="Drafts">
-                <ui:fragment rendered="#{roleBean.CanViewDraftedRequisitions()}">
+                <ui:fragment rendered="#{roleBean.canViewDraftedRequisitions()}">
                     <ui:include src="requisitionDrafts.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
             <p:tab id="reqPending" title="Pending">
-                <ui:fragment rendered="#{roleBean.CanViewPendingRequisitions()}">
+                <ui:fragment rendered="#{roleBean.canViewPendingRequisitions()}">
                     <ui:include src="requisitionPending.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="reqApproved" title="Approved">
-                <ui:fragment rendered="#{roleBean.CanViewApprovedRequisitions()}">
+                <ui:fragment rendered="#{roleBean.canViewApprovedRequisitions()}">
                     <ui:include src="requisitionApproved.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="reqStaged" title="Change Requests">
-                <ui:fragment rendered="#{roleBean.CanViewStagedRequisitions()}">
+                <ui:fragment rendered="#{roleBean.canViewStagedRequisitions()}">
                     <ui:include src="requisitionStaged.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="reqFulfilled" title="Fulfilled">
-                <ui:fragment rendered="#{roleBean.CanViewFulfilledRequisitions()}">
+                <ui:fragment rendered="#{roleBean.canViewFulfilledRequisitions()}">
                     <ui:include src="requisitionFulfilled.xhtml"/>
                 </ui:fragment>
             </p:tab>
@@ -153,7 +153,7 @@
 
 
             <p:tab id="accountability" title="Accountability">
-                <ui:fragment rendered="#{roleBean.CanViewAccountability()}">
+                <ui:fragment rendered="#{roleBean.canViewAccountabilityTab()}">
                     <ui:include src="accountability.xhtml"/>
                 </ui:fragment>
             </p:tab>

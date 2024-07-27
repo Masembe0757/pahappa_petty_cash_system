@@ -68,7 +68,7 @@
             </p:column>
 
             <p:column headerText="Actions">
-            <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
+            <ui:fragment rendered="#{roleBean.canManageBudgetLines()}">
                         <p:commandButton icon="pi pi-arrow-circle-up"
                                          styleClass="approve"
                                          action="#{budgetLineBean.submitBudgetLine(draftLine.id)}"
@@ -80,7 +80,7 @@
             </ui:fragment>
 
 
-            <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
+            <ui:fragment rendered="#{roleBean.canManageBudgetLines()}">
                         <p:commandButton icon="pi pi-pencil"
                                          styleClass="edit"
                                          oncomplete="PF('editDraftedBL').show();"

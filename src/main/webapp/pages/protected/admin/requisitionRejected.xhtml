@@ -8,7 +8,7 @@
         <h4 class="Table-title">REJECTED REQUISITIONS</h4>
 
         <h:form id="rejectedReqForm">
-            <ui:fragment rendered="#{ roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{ roleBean.canViewAdminDashboard()}">
         <p:dataTable id="draftTable" value="#{requisitionBean.returnRejectedRequisitions()}" var="draft"
                      emptyMessage="No rejected Requisitions"
                      paginator="true"
@@ -55,7 +55,7 @@
             </p:column>
         </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="draftTable2" value="#{requisitionBean.returnRejectedRequisitionsForUser()}" var="draft"
                              emptyMessage="No rejected Requisitions"
                              paginator="true"

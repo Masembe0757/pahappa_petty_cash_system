@@ -147,7 +147,7 @@
                 </p:column>
 
                 <p:column headerText="Actions">
-                    <ui:fragment rendered="#{roleBean.CanManageRoles()}">
+                    <ui:fragment rendered="#{roleBean.canManageRoles()}">
                         <p:commandButton rendered="#{!(role.name.equals('admin'))}" icon="pi pi-pencil" oncomplete="PF('roleDialog').show();"
                                          styleClass="edit"
                                          process="@this"
@@ -161,7 +161,7 @@
 
 
                     <p:growl id="message" showDetail="true"/>
-                    <ui:fragment rendered="#{roleBean.CanManageRoles()}">
+                    <ui:fragment rendered="#{roleBean.canManageRoles()}">
                         <p:commandButton rendered="#{!(role.name.equals('admin'))}" action="#{roleBean.deleteRoleOfId(role.id)}"
                                          process="@this"
                                          update=":userTabForm:UsersTab:roleForm:roleTable"

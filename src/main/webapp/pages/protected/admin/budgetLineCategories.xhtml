@@ -40,6 +40,7 @@
                     <h:outputText value="#{category.description}"/>
                 </p:column>
                 <p:column headerText="Actions">
+                    <ui:fragment rendered="#{roleBean.canManageCategories()}">
                     <div class="btn-sect">
 
                         <p:commandButton styleClass="edit" icon="pi pi-pencil" oncomplete="PF('editCategory').show();"
@@ -85,6 +86,7 @@
                         </p:confirmDialog>
 
                     </div>
+                    </ui:fragment>
                 </p:column>
             </p:dataTable>
         </h:form>
