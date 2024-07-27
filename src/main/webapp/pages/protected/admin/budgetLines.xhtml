@@ -100,7 +100,7 @@
 
             <div class="btn-sect">
                 <h:form>
-                    <ui:fragment rendered="#{roleBean.CanManageBudgetLines()}">
+                    <ui:fragment rendered="#{roleBean.canManageBudgetLines()}">
                         <p:commandButton styleClass="one" value="Create budget Line" oncomplete="PF('dlg').show();"
                                          process="@this"
                                          actionListener="#{budgetLineBean.resetDialog()}"
@@ -163,7 +163,7 @@
                     </p:dialog>
                 </h:form>
                 <h:form>
-                    <ui:fragment rendered="#{roleBean.CanManageCategory()}">
+                    <ui:fragment rendered="#{roleBean.canManageCategory()}">
                         <p:commandButton styleClass="three" value="Create Category" oncomplete="PF('Catdlg').show();"
                                          process="@this"
                                          actionListener="#{categoryBean.resetDialog()}"
@@ -207,20 +207,20 @@
             </p:tab>
 
             <p:tab id="draftsBL" title="Drafted">
-                <ui:fragment rendered="#{roleBean.CanViewDraftedBudgetLines()}">
+                <ui:fragment rendered="#{roleBean.canViewDraftedBudgetLines()}">
                     <ui:include src="budgetLineDrafts.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
             <p:tab id="pendingBL" title="Pending">
-                <ui:fragment rendered="#{roleBean.CanViewPendingBudgetLines()}">
+                <ui:fragment rendered="#{roleBean.canViewPendingBudgetLines()}">
                     <ui:include src="pendingBudgetLines.xhtml"/>
                 </ui:fragment>
             </p:tab>
 
 
             <p:tab id="approvedBL" title="Approved">
-                <ui:fragment rendered="#{roleBean.CanViewApprovedBudgetLines()}">
+                <ui:fragment rendered="#{roleBean.canViewApprovedBudgetLines()}">
                     <ui:include src="approvedBudgetLines.xhtml"/>
                 </ui:fragment>
             </p:tab>
@@ -240,7 +240,7 @@
             </p:tab>
 
             <p:tab id="categoriesBL" title="Budget Line Categories">
-                <ui:fragment rendered="#{roleBean.canViewCategories()}">
+                <ui:fragment rendered="#{roleBean.canViewCategoriesTab()}">
                     <ui:include src="budgetLineCategories.xhtml"/>
                 </ui:fragment>
             </p:tab>

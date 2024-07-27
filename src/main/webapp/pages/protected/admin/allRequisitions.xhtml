@@ -42,7 +42,7 @@
     <div class="glass">
         <h4 class="Table-title">ALL REQUISITIONS</h4>
         <h:form id="allReqTable">
-            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
             <p:dataTable id="requisitionTable" var="requisition"
                          value="#{requisitionBean.getAllRequisitions()}"
                          emptyMessage="No requisitions available"
@@ -89,7 +89,7 @@
 
             </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="requisitionTable2" var="requisition"
                              value="#{requisitionBean.returnAllRequisitionsForUser()}"
                              emptyMessage="No requisitions available"

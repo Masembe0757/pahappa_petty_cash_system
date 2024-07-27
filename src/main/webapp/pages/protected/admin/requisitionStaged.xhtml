@@ -7,7 +7,7 @@
         <h4 class="Table-title">REQUESTED REQUISITION CHANGES</h4>
 
         <h:form id="requestForm">
-            <ui:fragment rendered="#{ roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{ roleBean.canViewAdminDashboard()}">
             <p:dataTable id="requestTable" value="#{requisitionBean.returnRequisitionsWithReqs()}" var="draft"
                          emptyMessage="No Staged Requisitions"
                          paginator="true"
@@ -39,7 +39,7 @@
                 </p:column>
                 <p:column headerText="Actions" style="width:100px">
 
-                    <ui:fragment rendered="#{roleBean.CanManageRequisition()}">
+                    <ui:fragment rendered="#{roleBean.canManageRequisition()}">
 
                         <p:commandButton icon="pi pi-pencil" styleClass="edit"
                                          oncomplete="PF('editDialog').show();"
@@ -77,7 +77,7 @@
                 </p:column>
             </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="requestTable2" value="#{requisitionBean.returnChangeRequisitionsForUser()}" var="draft"
                              emptyMessage="No Staged Requisitions"
                              paginator="true"
@@ -109,7 +109,7 @@
                     </p:column>
                     <p:column headerText="Actions" style="width:100px">
 
-                        <ui:fragment rendered="#{roleBean.CanManageRequisition()}">
+                        <ui:fragment rendered="#{roleBean.canManageRequisition()}">
 
                             <p:commandButton icon="pi pi-pencil" styleClass="edit"
                                              oncomplete="PF('editDialog').show();"

@@ -94,7 +94,7 @@ public class BudgetLineService {
 
     //CEO approval
     public void approveBudgetLine(int budgetLneId) {
-        budgetLineDao.approveBudgetLine(budgetLneId, "approved");
+        budgetLineDao.changeBudgetLineStatus(budgetLneId, "approved");
     }
     //Reviewied by HR awaiting CEO approval
 
@@ -148,7 +148,7 @@ public class BudgetLineService {
     }
 
     public void submitBudgetLine(int budgetLineId){
-        budgetLineDao.submitBudgetLine(budgetLineId,"pending");
+        budgetLineDao.changeBudgetLineStatus(budgetLineId,"pending");
     }
 
     public List<BudgetLine> getPendingBudgetLInes() {
@@ -160,7 +160,7 @@ public class BudgetLineService {
     }
 
     public void setRejectionStatus(int budgetLineId) {
-        budgetLineDao.setBudgetLineRejectionStatus(budgetLineId);
+        budgetLineDao.changeBudgetLineStatus(budgetLineId,"rejected");
     }
     public List<BudgetLine> getRejectedBudgetLines() {
         return  budgetLineDao.getRejectedBudgetLines();

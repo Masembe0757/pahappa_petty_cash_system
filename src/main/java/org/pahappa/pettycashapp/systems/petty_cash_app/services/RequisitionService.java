@@ -89,7 +89,7 @@ public class RequisitionService {
     }
     //Finance issuing out money
     public void fulfillRequisition(int requisitionId){
-        requisitionDao.fulfillRequisition(requisitionId,"fulfilled");
+        requisitionDao.changeRequisitionStatus(requisitionId,"fulfilled");
     }
     //For finance
     public List<Requisition> getApprovedRequisitions(){
@@ -111,17 +111,13 @@ public class RequisitionService {
     public List<Requisition> getDraftedRequisitions(){
         return requisitionDao.getDraftedRequisitions("drafted");
     }
-    public void approveRequisitionRequest(int requisitionId){
-
-        requisitionDao.approveRequisitionRequest(requisitionId,new Date(),"drafted");
-
-    }
     //CEO approval
     public void approveRequisition(int requisitionId){
-        requisitionDao.updateRequisistion(requisitionId);
+        Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
+        requisitionDao.updateRequisition(requisition.getId(),requisition.getAmount(),requisition.getDateNeeded(),requisition.getDescription(),requisition.getBudgetLine(),new Date(),"approved");
     }
     public void makeRequisitionChangeRequest(int requisitionId){
-        requisitionDao.makeRequisitionChangeRequest(requisitionId,"change");
+        requisitionDao.changeRequisitionStatus(requisitionId,"change");
     }
 
     public String updateRequisition(int requisitionId, int amount,Date dateNeeded,String description,int budgetLineId){
@@ -134,15 +130,16 @@ public class RequisitionService {
             }else if (dateNeeded.toInstant().isBefore(new  Date().toInstant())) {
                 error_message = "Date need should not be before current date";
             } else {
-                requisitionDao.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLine);
+                 Requisition requisition = requisitionDao.getRequisitionOfId(requisitionId);
+                requisitionDao.updateRequisition(requisitionId, amount, dateNeeded, description, budgetLine,requisition.getDateApproved(),requisition.getStatus());
             }
 
         return error_message;
     }
 
-    public void setRejectionStatus(int id) {
+    public void setRejectionStatus(int requisitionId) {
 
-        requisitionDao.setRejectionStatus(id);
+        requisitionDao.changeRequisitionStatus(requisitionId,"rejected");
     }
 
     public int countRejectedRequisitions(){
@@ -176,7 +173,7 @@ public class RequisitionService {
     }
 
     public void submitRequisition(Requisition requisition ) {
-        requisitionDao.submitRequisition(requisition.getId(),"pending");
+        requisitionDao.changeRequisitionStatus(requisition.getId(),"pending");
 
         //Securing required  money
         int balance = requisition.getBudgetLine().getBalance()-requisition.getAmount();

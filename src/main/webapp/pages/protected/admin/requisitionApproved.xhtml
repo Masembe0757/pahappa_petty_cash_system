@@ -8,7 +8,7 @@
 
         <h:form id="approvedReqForm">
 
-            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
 
 
             <p:dataTable id="draftTable" value="#{requisitionBean.returnApprovedRequisitions()}" var="draft"
@@ -55,7 +55,7 @@
             </p:dataTable>
 
             </ui:fragment>
-            <ui:fragment rendered="#{ not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{ not roleBean.canViewAdminDashboard()}">
 
                 <p:dataTable id="draftTable2" value="#{requisitionBean.returnApprovedRequisitionsForUser()}" var="draft"
                              emptyMessage="No drafts available"

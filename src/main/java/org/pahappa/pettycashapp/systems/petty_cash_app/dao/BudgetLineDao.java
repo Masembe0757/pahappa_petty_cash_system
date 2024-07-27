@@ -71,7 +71,7 @@ public class BudgetLineDao {
         }
     }
 
-    public void approveBudgetLine(int budgetLineId,String status) {
+    public void changeBudgetLineStatus(int budgetLineId,String status) {
         try {
             SessionFactory sf = sessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -177,24 +177,6 @@ public class BudgetLineDao {
     }
 
 
-
-    public void setBudgetLineRejectionStatus(int budgetLineId) {
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("UPDATE BudgetLine set status = :status where id = :budgetLineId");
-            qry.setParameter("status", "rejected");
-            qry.setParameter("budgetLineId",budgetLineId);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            sessionConfiguration.shutdown();
-        }
-    }
-
     public BudgetLine returnBudgetLineofId(int budgetLineId) {
         BudgetLine budgetLine = new BudgetLine();
         try {
@@ -213,22 +195,6 @@ public class BudgetLineDao {
         return budgetLine;
     }
 
-    public void submitBudgetLine(int budgetLineId,String pending) {
-        try {
-            SessionFactory sf = sessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update BudgetLine set status = :pending where id = :budgetLineId");
-            qry.setParameter("budgetLineId", budgetLineId);
-            qry.setParameter("pending", pending);
-            qry.executeUpdate();
-            trs.commit();
-            sessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            sessionConfiguration.shutdown();
-        }
-    }
 
     public void updateDrafted(BudgetLine budgetLine) {
         try {

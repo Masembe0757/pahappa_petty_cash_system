@@ -412,13 +412,13 @@
                     <h1 class="limelight-regular">Pahappa</h1>
                     <span class="limited">Limited</span>
                 </div>
-                <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+                <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
                     <div class="admin-sect">
                         <p:graphicImage library="images" name="icons8-admin-96.png" styleClass="admin-image"/>
                         <h2 class="admin">ADMIN</h2>
                     </div>
                 </ui:fragment>
-                <ui:fragment rendered="#{not roleBean.CanViewAdminLogo()}">
+                <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                     <div class="admin-sect">
                         <p:graphicImage library="images" name="icons8-user-96 (1).png" styleClass="admin-image"/>
                         <h2 class="admin">USER</h2>
@@ -434,7 +434,7 @@
                                 <h:outputText value="Dashboard"/>
                             </h:link>
                         </li>
-                        <ui:fragment rendered="#{roleBean.canViewRequisitions()}">
+                        <ui:fragment rendered="#{roleBean.canViewRequisitionsTab()}">
                             <li class="listItem">
                                 <h:link outcome="/pages/protected/admin/requisitions.xhtml"
                                         styleClass="listLink #{navigationBean.activePage == 'requisitions' ? 'active' : ''}">
@@ -444,7 +444,7 @@
                             </li>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{roleBean.CanViewBudgetLines()}">
+                        <ui:fragment rendered="#{roleBean.canViewBudgetLinesTab()}">
                             <li class="listItem">
                                 <h:link outcome="/pages/protected/admin/budgetLines.xhtml"
                                         styleClass="listLink #{navigationBean.activePage == 'budgetLines' ? 'active' : ''}">
@@ -454,7 +454,7 @@
                             </li>
                         </ui:fragment>
 
-                        <ui:fragment rendered="#{roleBean.CanViewReview()}">
+                        <ui:fragment rendered="#{roleBean.canViewReviewTab()}">
                             <li class="listItem">
                                 <h:link outcome="/pages/protected/admin/reviews.xhtml"
                                         styleClass="listLink #{navigationBean.activePage == 'reviews' ? 'active' : ''}">
@@ -465,7 +465,7 @@
                         </ui:fragment>
 
 
-                        <ui:fragment rendered="#{roleBean.canViewUsers()}">
+                        <ui:fragment rendered="#{roleBean.canViewUsersTab()}">
                             <li class="listItem">
                                 <h:link outcome="/pages/protected/admin/users.xhtml"
                                         styleClass="listLink #{navigationBean.activePage == 'users' ? 'active' : ''}">

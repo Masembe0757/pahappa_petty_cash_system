@@ -10,7 +10,7 @@
         <h4 class="Table-title">ACCOUNTABILITY</h4>
         <h:form id="accTable">
 
-            <ui:fragment rendered="#{roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
 
             <p:dataTable id="accountabilityTable" value="#{accountabilityBean.getAllAccountabilities()}"
                          var="accountabililty"
@@ -63,7 +63,7 @@
                 </p:column>
             </p:dataTable>
             </ui:fragment>
-            <ui:fragment rendered="#{  not roleBean.CanViewAdminLogo()}">
+            <ui:fragment rendered="#{  not roleBean.canViewAdminDashboard()}">
                 <p:dataTable id="accountabilityTable2" value="#{accountabilityBean.getAccountabilitiesOfUser()}"
                              var="accountabililty"
                              emptyMessage="No Accountabilities available"
@@ -103,7 +103,7 @@
                     </p:column>
                     <p:column headerText="Actions">
                         <p:growl id="message2" showDetail="true"/>
-
+                        <ui:fragment rendered="#{roleBean.canManageAccountabilities()}">
 
                         <p:commandButton action="#{accountabilityBean.deleteAccountability(accountabililty.id)}"
                                          process="@this"
@@ -112,6 +112,7 @@
                             <p:confirm header="Confirmation" message="Are you sure you want to delete this accountability?"
                                        icon="pi pi-info-circle"/>
                         </p:commandButton>
+                        </ui:fragment>
                     </p:column>
                 </p:dataTable>
             </ui:fragment>
