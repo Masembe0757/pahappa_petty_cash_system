@@ -219,7 +219,7 @@ public class RoleBean implements Serializable {
     // PERMISSIONS CHECK FOR UI RENDERING
 
 
-    private User getCurrentUser() {
+    public User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
