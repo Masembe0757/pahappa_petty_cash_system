@@ -96,13 +96,6 @@ public class AccountabilityBean implements Serializable {
     public void init() {
         accountability = new Accountability();
     }
-
-    private User getCurrentUser() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        return (User) externalContext.getSessionMap().get("currentUser");
-    }
-
     public void addAccountability() {
         handleFileUpload();
         String message = accountabilityService.provideAccountability(accountability, accountedAmount, description, requisition);

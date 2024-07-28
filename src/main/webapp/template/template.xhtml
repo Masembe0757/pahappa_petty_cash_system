@@ -162,7 +162,7 @@
         }
 
         h2.admin {
-            font-size: 1.5em;
+            font-size: 1.1em;
             margin-top: 25px;
             font-weight: 600;
             margin-left: .5em;
@@ -415,13 +415,13 @@
                 <ui:fragment rendered="#{roleBean.canViewAdminDashboard()}">
                     <div class="admin-sect">
                         <p:graphicImage library="images" name="icons8-admin-96.png" styleClass="admin-image"/>
-                        <h2 class="admin">ADMIN</h2>
+                        <h2 class="admin">ADMIN #{roleBean.getCurrentUser().userName}</h2>
                     </div>
                 </ui:fragment>
                 <ui:fragment rendered="#{not roleBean.canViewAdminDashboard()}">
                     <div class="admin-sect">
                         <p:graphicImage library="images" name="icons8-user-96 (1).png" styleClass="admin-image"/>
-                        <h2 class="admin">USER</h2>
+                        <h2 class="admin">USER #{roleBean.getCurrentUser().userName}</h2>
                     </div>
                 </ui:fragment>
                 <h:form>
