@@ -217,7 +217,6 @@ public class RequisitionService {
         }
         return  apps;
     }
-
     public Number countFulfilledRequisitionsForUser() {
         int full = 0;
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
@@ -227,9 +226,7 @@ public class RequisitionService {
             }
         }
         return  full;
-
     }
-
     public Number countRequisitionsWithRequestsForUser() {
         int change = 0;
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
