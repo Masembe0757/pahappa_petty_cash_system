@@ -99,8 +99,15 @@ public class AccountabilityBean implements Serializable {
     public void addAccountability() {
         handleFileUpload();
         String message = accountabilityService.provideAccountability(accountability, accountedAmount, description, requisition);
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        if(message.isEmpty()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Accountability added successfully"));
+
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+
     }
 
     public List<Accountability> getAccountabilitiesOfUser() {
@@ -120,6 +127,7 @@ public class AccountabilityBean implements Serializable {
     }
 
     public void deleteAccountability(int accId) {
+        accountabilityService.deleteAccountability(accId);
     }
 
     public void handleFileUpload() {

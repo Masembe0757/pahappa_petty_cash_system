@@ -111,51 +111,37 @@
                 <ui:include src="allRequisitions.xhtml"/>
             </p:tab>
 
-            <p:tab id="reqDrafts" title="Drafts">
-                <ui:fragment rendered="#{roleBean.canViewDraftedRequisitions()}">
+            <p:tab id="reqDrafts" title="Drafts" rendered="#{roleBean.canViewDraftedRequisitions()}">
                     <ui:include src="requisitionDrafts.xhtml"/>
-                </ui:fragment>
             </p:tab>
 
-            <p:tab id="reqPending" title="Pending">
-                <ui:fragment rendered="#{roleBean.canViewPendingRequisitions()}">
+            <p:tab id="reqPending" title="Pending" rendered="#{roleBean.canViewPendingRequisitions()}">
                     <ui:include src="requisitionPending.xhtml"/>
-                </ui:fragment>
             </p:tab>
 
 
-            <p:tab id="reqApproved" title="Approved">
-                <ui:fragment rendered="#{roleBean.canViewApprovedRequisitions()}">
+            <p:tab id="reqApproved" title="Approved" rendered="#{roleBean.canViewApprovedRequisitions()}">
                     <ui:include src="requisitionApproved.xhtml"/>
-                </ui:fragment>
             </p:tab>
 
 
-            <p:tab id="reqStaged" title="Change Requests">
-                <ui:fragment rendered="#{roleBean.canViewStagedRequisitions()}">
+            <p:tab id="reqStaged" title="Change Requests" rendered="#{roleBean.canViewStagedRequisitions()}">
                     <ui:include src="requisitionStaged.xhtml"/>
-                </ui:fragment>
             </p:tab>
 
 
-            <p:tab id="reqFulfilled" title="Fulfilled">
-                <ui:fragment rendered="#{roleBean.canViewFulfilledRequisitions()}">
+            <p:tab id="reqFulfilled" title="Fulfilled" rendered="#{roleBean.canViewFulfilledRequisitions()}">
                     <ui:include src="requisitionFulfilled.xhtml"/>
-                </ui:fragment>
             </p:tab>
 
 
-            <p:tab id="reqRejected" title="Rejected">
-                <ui:fragment rendered="#{roleBean.canViewRejectedBudgetLines()}">
+            <p:tab id="reqRejected" title="Rejected" rendered="#{roleBean.canViewRejectedBudgetLines()}">
                     <ui:include src="requisitionRejected.xhtml"/>
-                </ui:fragment>
             </p:tab>
 
 
-            <p:tab id="accountability" title="Accountability">
-                <ui:fragment rendered="#{roleBean.canViewAccountabilityTab()}">
+            <p:tab id="accountability" title="Accountability" rendered="#{roleBean.canViewAccountabilityTab()}">
                     <ui:include src="accountability.xhtml"/>
-                </ui:fragment>
             </p:tab>
         </p:tabView>
 
