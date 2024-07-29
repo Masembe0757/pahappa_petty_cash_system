@@ -164,7 +164,7 @@
                             <h:panelGroup styleClass="image-section" >
 
                                 <div class="btn-sect">
-                                    <p:commandButton value="View Image" oncomplete="PF('imageDialog').show()" styleClass="three"/>
+                                    <p:commandButton value="View Image" oncomplete="PF('imageDialog').show()" update="requisitionTab:accountabilityDetailsForm:imageDialog" styleClass="three"/>
                                     <p:commandButton id="accountabilityImageView" value="Download Image"
                                                      styleClass="three"
                                                      ajax="false"
