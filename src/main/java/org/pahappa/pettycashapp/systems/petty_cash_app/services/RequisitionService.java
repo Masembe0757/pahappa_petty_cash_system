@@ -227,6 +227,7 @@ public class RequisitionService {
             }
         }
         return  full;
+
     }
 
     public Number countRequisitionsWithRequestsForUser() {
