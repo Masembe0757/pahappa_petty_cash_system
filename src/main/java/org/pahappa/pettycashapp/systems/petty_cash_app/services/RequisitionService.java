@@ -60,7 +60,7 @@ public class RequisitionService {
         if(budgetLine.getBalance()<amount){
             error_message="Amount specified is more than what is on budget line";
         } else if (hasUnAccountedRequisitions) {
-            error_message="User still has un accounted requisitions ";
+            error_message="User still has paid out but un accounted requisitions ";
         } else if (dateNeeded.toInstant().isBefore(new  Date().toInstant())) {
             error_message = "Date need should not be before current date";
         }else if (description.length()<10) {
@@ -217,7 +217,6 @@ public class RequisitionService {
         }
         return  apps;
     }
-
     public Number countFulfilledRequisitionsForUser() {
         int full = 0;
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
@@ -228,7 +227,6 @@ public class RequisitionService {
         }
         return  full;
     }
-
     public Number countRequisitionsWithRequestsForUser() {
         int change = 0;
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
@@ -267,7 +265,7 @@ public class RequisitionService {
         List<Requisition> requisitions = requisitionDao.getRequisitionsForUser(getCurrentUser().getId());
         List<Requisition> requisitions1 = new ArrayList<>();
         for (Requisition requisition: requisitions){
-            if(requisition.getStatus().equals("rejected")){
+            if(requisition.getStatus().equals("fulfilled")){
                 requisitions1.add(requisition);
             }
         }

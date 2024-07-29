@@ -306,8 +306,4 @@ public class RequisitionBean implements Serializable {
     public List<Requisition> returnChangeRequisitionsForUser(){
         return requisitionService.returnChangeRequisitionsForUser();
     }
-
-
-
-
 }
