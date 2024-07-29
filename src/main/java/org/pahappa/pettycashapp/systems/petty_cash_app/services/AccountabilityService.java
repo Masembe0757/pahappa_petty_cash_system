@@ -74,4 +74,8 @@ public class AccountabilityService {
     public Accountability getAccountabilityOnRequisition(int requistionId){
         return accountabilityDao.getAccountabilityOnRequisition(requistionId);
     }
+
+    public void deleteAccountability(int accId) {
+        accountabilityDao.deleteAccountability(accId);
+    }
 }

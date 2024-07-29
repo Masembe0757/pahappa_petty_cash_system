@@ -63,4 +63,19 @@ public class AccountabilityDao {
         }
         return accountability;
     }
+
+    public void deleteAccountability(int accId) {
+        try {
+            SessionFactory sf = sessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("delete from Accountability where id = :accId");
+            qry.setParameter("accId", accId);
+            qry.executeUpdate();
+            trs.commit();
+            sessionConfiguration.shutdown();
+        } catch (Exception e) {
+            sessionConfiguration.shutdown();
+        }
+    }
 }
