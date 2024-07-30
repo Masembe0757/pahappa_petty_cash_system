@@ -25,14 +25,10 @@ public class NavigationBean implements Serializable {
 
     public void updateActivePage(ComponentSystemEvent event){
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        String activePageParam = facesContext.getExternalContext().getRequestParameterMap().get("activePage");
-        if(activePageParam != null){
-            activePage = activePageParam;
-        } else {
+
             String viewId = facesContext.getViewRoot().getViewId();
             if (viewId != null) {
                 activePage = viewId.substring(viewId.lastIndexOf('/') + 1, viewId.lastIndexOf('.'));
-            }
         }
     }
 

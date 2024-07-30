@@ -60,6 +60,13 @@
                             <p:confirm header="Confirmation" message="Are you sure you want to approve this Budget line?"
                                        icon="pi pi-info-circle"/>
                         </p:commandButton>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                         width="350">
+                            <p:commandButton value="No" type="button"
+                                             styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"/>
+                        </p:confirmDialog>
                     </ui:fragment>
 
 

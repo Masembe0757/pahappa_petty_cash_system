@@ -208,7 +208,14 @@ public class RequisitionBean implements Serializable {
     }
 
     public void submitRequisition(Requisition requisition) {
-        requisitionService.submitRequisition(requisition);
+       try{ requisitionService.submitRequisition(requisition);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Requisition submitted"));
+       } catch(Exception e){
+           FacesContext.getCurrentInstance().addMessage(null,
+                   new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAILURE", null));
+       }
+
     }
 
     public void saveReview( Requisition requisition) {
