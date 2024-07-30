@@ -46,14 +46,12 @@ public class RoleBean implements Serializable {
                     "MANAGE_USERS",
                     "VIEW_ROLES_TAB",
                     "MANAGE_ROLES",
-                    "VIEW_CATEGORIES_TAB",
                     "MANAGE_CATEGORIES",
                     "VIEW_REVIEW_TAB",
                     "MANAGE_REVIEWS",
                     "VIEW_ACCOUNTABILITY_TAB",
                     "MANAGE_ACCOUNTABILITIES",
                     "VIEW_CATEGORIES_TAB",
-                    "MANAGE_CATEGORIES",
                     "PROVIDE_ACCOUNTABILITY"
 
             ));
