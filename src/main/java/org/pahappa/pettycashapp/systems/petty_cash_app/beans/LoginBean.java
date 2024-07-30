@@ -96,8 +96,6 @@ public class LoginBean {
                     "MANAGE_REVIEWS",
                     "VIEW_ACCOUNTABILITY_TAB",
                     "MANAGE_ACCOUNTABILITIES",
-                    "VIEW_CATEGORIES_TAB",
-                    "MANAGE_CATEGORIES",
                     "PROVIDE_ACCOUNTABILITY"
             ));
             for (String s : permissions) {
